@@ -17,6 +17,9 @@ subroutine OpenErrorFile(error_file)
 end subroutine OpenErrorFile
 
 
+! The filename "LesHouches.in" is hard coded into the LesHouches_Input
+! subroutine, so specifying the input_file parameter of this subroutine
+! is currently redundant.
 subroutine ReadData(input_file)
   use Control
   use InputOutput
@@ -27,6 +30,12 @@ subroutine ReadData(input_file)
   Iname = Iname + 1
   NameOfUnit(Iname) = "ReadData"
 
+  ! Calling the LesHouches_Input subroutine will open "Messages.out" as unit
+  ! number ErrCan unless l_open is false. Since we use ErrCan in our own
+  ! OpenErrorFile subroutine, we set l_open to false.
+  l_open = .false.
+
+  !call LesHouches_Input
 end subroutine ReadData
 
 
