@@ -16,9 +16,9 @@ MODPATH = -module $(SPHENO_MODPATH)
 
 DEFINES = 
 
-SOURCES = fitting.f90
-OBJECTS = fitting.o
-TARGET  = fitting
+SOURCES = ChiSquare.f90
+OBJECTS = ChiSquare.o
+TARGET  = chisquare
 
 all: spheno $(TARGET)
 
