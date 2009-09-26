@@ -1,13 +1,37 @@
 program Fitting
-  ! Load required SPheno modules.
+  call OpenErrorFile("Messages.out")
+  call ReadData("LesHouches.in")
+end program Fitting
+
+
+subroutine OpenErrorFile(error_file)
   use Control
 
-  ! Initialize SPheno's control system.
-  !Open(ErrCan, file="Messages.out")
+  implicit none
+  character(len=*), intent(in) :: error_file
 
-!  call PrepareIO(input_file)
-  call ReadData
-end program Fitting
+  Iname = Iname + 1
+  NameOfUnit(Iname) = "OpenErrorFile"
+
+  open(unit=ErrCan, file=error_file, status="replace")
+end subroutine OpenErrorFile
+
+
+subroutine ReadData(input_file)
+  use Control
+  use InputOutput
+
+  implicit none
+  character(len=*), intent(in) :: input_file
+
+  Iname = Iname + 1
+  NameOfUnit(Iname) = "ReadData"
+
+end subroutine ReadData
+
+
+
+
 
 
 !subroutine PrepareIO(input_file, error_file)
@@ -16,39 +40,39 @@ end program Fitting
 !
 !
 !end subroutine PrepareIO
-
-
-subroutine ReadData
-  ! Load required SPheno modules.
-  use Control
-  use InputOutput
-
-  implicit none
-  integer :: kont = -123456
-  character(len=128) :: file_name
-  logical :: file_exists = .false.
-
-  Iname = Iname + 1
-  NameOfUnit(Iname) = "ReadData"
-
-  ! Set file_name to the first command line argument or to "LesHouches.in"
-  ! if no command line argument was given.
-  call get_command_argument(1, file_name)
-  if (len_trim(file_name) == 0) then
-    file_name = "LesHouches.in"
-  end if
-
-  ! Now check if file file_name exists and abort if not.
-  inquire(file=trim(file_name), exist=file_exists)
-  if (file_exists == .false.) then
-    write(*,*) "File '", trim(file_name), "' does not exist. Please ", &
-      & "provide an input file."
-    call TerminateProgram
-  end if
-
-  ! SLHA file exists so set kont to 1.
-  kont = 1
-
-end subroutine ReadData
+!
+!
+!subroutine ReadData
+!  ! Load required SPheno modules.
+!  use Control
+!  use InputOutput
+!
+!  implicit none
+!  integer :: kont = -123456
+!  character(len=128) :: file_name
+!  logical :: file_exists = .false.
+!
+!  Iname = Iname + 1
+!  NameOfUnit(Iname) = "ReadData"
+!
+!  ! Set file_name to the first command line argument or to "LesHouches.in"
+!  ! if no command line argument was given.
+!  call get_command_argument(1, file_name)
+!  if (len_trim(file_name) == 0) then
+!    file_name = "LesHouches.in"
+!  end if
+!
+!  ! Now check if file file_name exists and abort if not.
+!  inquire(file=trim(file_name), exist=file_exists)
+!  if (file_exists == .false.) then
+!    write(*,*) "File '", trim(file_name), "' does not exist. Please ", &
+!      & "provide an input file."
+!    call TerminateProgram
+!  end if
+!
+!  ! SLHA file exists so set kont to 1.
+!  kont = 1
+!
+!end subroutine ReadData
 
 ! vim: sw=2 tw=78
