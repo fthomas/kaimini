@@ -4,18 +4,6 @@ program Fitting
 end program Fitting
 
 
-! This is a auxiliary function that should be part of the Control module that
-! adds unit_name to the NameOfUnit array.
-subroutine RecordUnitName(unit_name)
-  use Control
-
-  character(len=*), intent(in) :: unit_name
-
-  Iname = Iname + 1
-  NameOfUnit(Iname) = unit_name
-end subroutine RecordUnitName
-
-
 ! This subroutine is currently not applicable since the file with unit number
 ! ErrCan will be opened in the LesHouches_Input subroutine and its name,
 ! "Messages.out", is also hard coded there.

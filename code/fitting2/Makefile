@@ -16,8 +16,10 @@ MODPATH = -module $(SPHENO_MODPATH)
 
 DEFINES = 
 
-SOURCES = ChiSquare.f90
-OBJECTS = ChiSquare.o
+SOURCES = Auxiliary.f90 \
+          ChiSquare.f90
+OBJECTS = Auxiliary.o \
+          ChiSquare.o
 TARGET  = chisquare
 
 all: spheno $(TARGET)
