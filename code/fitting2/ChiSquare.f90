@@ -4,6 +4,18 @@ program Fitting
 end program Fitting
 
 
+! This is a auxiliary function that should be part of the Control module that
+! adds unit_name to the NameOfUnit array.
+subroutine RecordUnitName(unit_name)
+  use Control
+
+  character(len=*), intent(in) :: unit_name
+
+  Iname = Iname + 1
+  NameOfUnit(Iname) = unit_name
+end subroutine RecordUnitName
+
+
 ! This subroutine is currently not applicable since the file with unit number
 ! ErrCan will be opened in the LesHouches_Input subroutine and its name,
 ! "Messages.out", is also hard coded there.
@@ -13,8 +25,7 @@ subroutine OpenErrorFile(error_file)
   implicit none
   character(len=*), intent(in) :: error_file
 
-  Iname = Iname + 1
-  NameOfUnit(Iname) = "OpenErrorFile"
+  call RecordUnitName("OpenErrorFile")
 
   open(unit=ErrCan, file=error_file, status="replace")
 end subroutine OpenErrorFile
@@ -24,16 +35,20 @@ end subroutine OpenErrorFile
 ! subroutine, so specifying the input_file parameter of this subroutine
 ! is currently redundant.
 subroutine ReadData(input_file)
-  use Control
   use InputOutput
 
   implicit none
   character(len=*), intent(in) :: input_file
 
-  Iname = Iname + 1
-  NameOfUnit(Iname) = "ReadData"
+  integer :: kont = -123456
+  ! The following are intent(out) parameters of LesHouches_Input:
+  character(len=15) :: high_scale_model
+  real(dp) :: Ecms(100), Pm(100), Pp(100), Fgmsb
+  logical :: l_ISR(100) = .false.
 
-  !call LesHouches_Input()
+  call RecordUnitName("ReadData")
+
+  call LesHouches_Input(kont, high_scale_model, Ecms, Pm, Pp, l_ISR, Fgmsb)
 end subroutine ReadData
 
 ! vim: sw=2 tw=78
