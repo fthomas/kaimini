@@ -27,10 +27,12 @@ DEFINES =
 
 SOURCES = Auxiliary.f90 \
           ChiSquare.f90 \
+          MimicSPheno.f90 \
           Test.f90 \
           main.cpp
 OBJECTS = Auxiliary.o \
           ChiSquare.o \
+          MimicSPheno.o \
           Test.o \
           main.o
 TARGET  = chisquare
