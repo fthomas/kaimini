@@ -1,18 +1,13 @@
-
 extern "C" {
-  extern int test_mp_i_;
-  void mimic_spheno_mp_run_till_model_bilinear_rparity_(void);
+  void mimicspheno_mp_runtill_model_bilinear_rparity_(void);
+  void mimicspheno_mp_runtillend_(void);
 }
-
-#include <iostream>
 
 int main(int argc, char *argv[])
 {
-
-    mimic_spheno_mp_run_till_model_bilinear_rparity_();
-    //std::cout << test_mp_i_ << std::endl;
-    //test_mp_ci_();
-    //test_mp_i_++;
-    //std::cout << test_mp_i_ << std::endl;
-    return 0;
+  mimicspheno_mp_runtill_model_bilinear_rparity_();
+  mimicspheno_mp_runtillend_();
+  return 0;
 }
+
+// vim: sw=2 tw=78

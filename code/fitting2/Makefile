@@ -66,4 +66,7 @@ $(TARGET): $(OBJECTS)
 clean:
 	rm -f $(OBJECTS)
 
-.PHONY: all spheno spheno_clean clean
+cleanall: clean
+	rm -f $(TARGET) Messages.out SPheno.out SPheno.spc
+
+.PHONY: all spheno spheno_clean clean cleanall

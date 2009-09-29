@@ -12,7 +12,7 @@
 !     the email above, if possible with a copy of the screen output 
 ! written by Werner Porod
 !-----------------------------------------------------------------
-Program SPheno
+Module MimicSPheno
 
 !---------------------------------
 ! loading necessary modules
@@ -63,6 +63,10 @@ Use SugraRuns
  Integer :: kont, i1, i_min(3)
  Real(dp) :: m_Gut, ratioWoM
 
+
+Contains
+
+ Subroutine RunTill_Model_bilinear_Rparity
  !--------------------------------------------------------------------------
  ! set all parameters to zero
  !--------------------------------------------------------------------------
@@ -180,6 +184,10 @@ Use SugraRuns
 
  End If
 
+ End Subroutine RunTill_Model_bilinear_Rparity
+
+
+ Subroutine RunTillEnd
  If ((kont.Eq.0).And.(HighScaleModel.Ne."NMSSM")) Then
 
   Call CalculateLowEnergyConstraints(gauge, Y_l, Y_d, Y_u      &
@@ -233,8 +241,7 @@ Use SugraRuns
 
  Call closing() ! closes the files
 
-
-Contains
+ End Subroutine RunTillEnd
 
 
  Subroutine CalculateLowEnergyConstraints(gauge, Y_l, Y_d, Y_u, mSpm2, RSpm   &
@@ -1360,5 +1367,5 @@ Contains
 
  End Subroutine ReadingData
 
-End Program SPheno
+End Module MimicSPheno
 
