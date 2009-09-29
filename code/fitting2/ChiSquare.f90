@@ -1,7 +1,7 @@
-program Fitting
+!program Fitting
   !call OpenErrorFile("Messages.out")
-  call ReadData("LesHouches.in")
-end program Fitting
+!  call ReadData("LesHouches.in")
+!end program Fitting
 
 
 ! This subroutine is currently not applicable since the file with unit number
