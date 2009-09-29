@@ -4,15 +4,18 @@ SPHENO_DIR = $(HOME)/susy/code/spheno/trunk
 SPHENO_MODPATH = $(SPHENO_DIR)/include
 SPHENO_LIB = $(SPHENO_DIR)/lib/libSPheno.a
 
-# Use ifort for compilation:
-F90     = ifort
-FFLAGS  = -debug -warn all -warn errors
-MODPATH = -module $(SPHENO_MODPATH)
+F90 = ifort
+#F90 = gfortran
 
-# Use gfortran for compilation:
-#F90     = gfortran
-#FFLAGS  = -g -Wall
-#MODPATH = -J$(SPHENO_MODPATH)
+# Set compiler flags for ifort.
+ifneq (,$(findstring ifort,$(F90)))
+  FFLAGS  = -debug -warn all -warn errors
+  MODPATH = -module $(SPHENO_MODPATH)
+# Set compiler flags for gfortran.
+else ifneq (,$(findstring gfortran,$(F90)))
+  FFLAGS  = -g -Wall
+  MODPATH = -J$(SPHENO_MODPATH)
+endif
 
 DEFINES = 
 
