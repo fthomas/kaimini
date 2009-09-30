@@ -15,7 +15,7 @@ ifneq (,$(findstring ifort,$(F90)))
   FFLAGS   = -debug -warn all -warn errors
   MODPATH  = -module $(SPHENO_MODPATH)
   FORTLIBS = -lifcore -limf -lm -lintlc -ldl \
-             -Wl,-rpath=/opt/intel/Compiler/11.1/046/lib/intel64
+             -Wl,-rpath=/opt/intel/Compiler/11.1/056/lib/intel64
 
 else ifneq (,$(findstring gfortran,$(F90)))
   # Set compiler flags for gfortran.
@@ -26,13 +26,9 @@ endif
 
 DEFINES = 
 
-SOURCES = Auxiliary.f90 \
-          ChiSquare.f90 \
-          MimicSPheno.f90 \
+SOURCES = MimicSPheno.f90 \
           main.cpp
-OBJECTS = Auxiliary.o \
-          ChiSquare.o \
-          MimicSPheno.o \
+OBJECTS = MimicSPheno.o \
           main.o
 TARGET  = chisquare
 
