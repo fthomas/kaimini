@@ -32,7 +32,7 @@ OBJECTS = MimicSPheno.o \
           main.o
 TARGET  = chisquare
 
-all: spheno $(TARGET)
+all: $(TARGET)
 
 ### Implicit rules:
 
@@ -55,7 +55,7 @@ spheno:
 spheno_clean:
 	$(MAKE) -C $(SPHENO_DIR) cleanall
 
-$(TARGET): $(OBJECTS)
+$(TARGET): spheno $(OBJECTS)
 	$(CXX) $(FORTLIBS) -o $(TARGET) $(OBJECTS) $(SPHENO_LIB)
 
 clean:

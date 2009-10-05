@@ -112,6 +112,7 @@ Contains
 
  Elseif ((HighScaleModel.Eq."RPexplicit").Or.(Add_Rparity)) Then ! bilinear RP
 
+  Write(*,*) "Call Model_bilinear_Rparity"
   Call Model_bilinear_Rparity(add_Rparity, HighScaleModel, delta_mass, epsI     &
        & , deltaM, ratioWoM, m32, grav_fac, CalcTBD, Ecms, Pm, Pp, ISR, Beam    &
        & , SigSup , SigSdown, SigC, SigChi0, SigS0, SigSP, SigHp, M_GUT, kont)
