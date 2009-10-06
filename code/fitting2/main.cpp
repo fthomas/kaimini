@@ -16,8 +16,9 @@ int main(int argc, char *argv[])
 {
   mimicspheno_mp_runtill_model_bilinear_rparity_();
 
-  rptools_mp_chisquare_(&inputoutput_mp_add_rparity_, &control_mp_delta_mass_, &mimicspheno_mp_m_gut_,
-                        &mimicspheno_mp_kont_);
+  rptools_mp_chisquare_(&inputoutput_mp_add_rparity_, &control_mp_delta_mass_, &mimicspheno_mp_m_gut_, &mimicspheno_mp_kont_);
+  rptools_mp_chisquare_(&inputoutput_mp_add_rparity_, &control_mp_delta_mass_, &mimicspheno_mp_m_gut_, &mimicspheno_mp_kont_);
+  rptools_mp_chisquare_(&inputoutput_mp_add_rparity_, &control_mp_delta_mass_, &mimicspheno_mp_m_gut_, &mimicspheno_mp_kont_);
 
   mimicspheno_mp_runtillend_();
   return 0;
