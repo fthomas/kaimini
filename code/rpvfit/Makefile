@@ -1,8 +1,13 @@
-# Path to the SPheno source code, modules, and library. You probably need to
-# adjust SPHENO_DIR.
+#
+#  Makefile for RPVfit
+#
+
+INTEL_LIBS     = /opt/intel/Compiler/11.1/056/lib/intel64
 SPHENO_DIR     = $(HOME)/susy/code/spheno/trunk
+
 SPHENO_MODPATH = $(SPHENO_DIR)/include
 SPHENO_LIB     = $(SPHENO_DIR)/lib/libSPheno.a
+
 
 CXX = g++
 F90 = ifort
@@ -11,28 +16,25 @@ F90 = ifort
 CXXFLAGS = -g -Wall -Wextra
 
 ifneq (,$(findstring ifort,$(F90)))
-  # Set compiler flags for ifort.
   F90FLAGS = -debug -warn all -warn errors
+  F90LIBS  = -lifcore -limf -lm -lintlc -ldl -Wl,-rpath=$(INTEL_LIBS)
   MODPATH  = -module $(SPHENO_MODPATH)
-  FORTLIBS = -lifcore -limf -lm -lintlc -ldl \
-             -Wl,-rpath=/opt/intel/Compiler/11.1/056/lib/intel64
-
 else ifneq (,$(findstring gfortran,$(F90)))
-  # Set compiler flags for gfortran.
   F90FLAGS = -g -Wall
+  F90LIBS  = -lgfortran
   MODPATH  = -J$(SPHENO_MODPATH)
-  FORTLIBS = -lgfortran
 endif
 
 DEFINES = 
 
-SOURCES = MimicSPheno.f90 \
+SOURCES = SPhenoDouble.f90 \
           main.cpp
-OBJECTS = MimicSPheno.o \
+OBJECTS = SPhenoDouble.o \
           main.o
-TARGET  = chisquare
+TARGET  = rpvfit
 
 all: $(TARGET)
+
 
 ### Implicit rules:
 
@@ -47,6 +49,7 @@ all: $(TARGET)
 .F90.o:
 	$(F90) -c $(F90FLAGS) $(MODPATH) $(DEFINES) -o "$@" "$<"
 
+
 ### Build and clean rules:
 
 spheno:
@@ -55,13 +58,16 @@ spheno:
 spheno_clean:
 	$(MAKE) -C $(SPHENO_DIR) cleanall
 
+spheno_diff:
+	diff -au $(SPHENO_DIR)/src/SPheno3.f90 SPhenoDouble.f90 | colordiff
+
 $(TARGET): spheno $(OBJECTS)
-	$(CXX) $(FORTLIBS) -o $(TARGET) $(OBJECTS) $(SPHENO_LIB)
+	$(CXX) $(F90LIBS) -o $(TARGET) $(OBJECTS) $(SPHENO_LIB)
 
 clean:
 	rm -f $(OBJECTS)
 
 cleanall: clean
-	rm -f $(TARGET) Messages.out SPheno.out SPheno.spc
+	rm -f $(TARGET) Messages.out SPheno*.out SPheno.spc
 
 .PHONY: all spheno spheno_clean clean cleanall

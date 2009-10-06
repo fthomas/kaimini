@@ -12,7 +12,7 @@
 !     the email above, if possible with a copy of the screen output 
 ! written by Werner Porod
 !-----------------------------------------------------------------
-Module MimicSPheno
+Module SPhenoDouble
 
 !---------------------------------
 ! loading necessary modules
@@ -112,7 +112,6 @@ Contains
 
  Elseif ((HighScaleModel.Eq."RPexplicit").Or.(Add_Rparity)) Then ! bilinear RP
 
-  Write(*,*) "Call Model_bilinear_Rparity"
   Call Model_bilinear_Rparity(add_Rparity, HighScaleModel, delta_mass, epsI     &
        & , deltaM, ratioWoM, m32, grav_fac, CalcTBD, Ecms, Pm, Pp, ISR, Beam    &
        & , SigSup , SigSdown, SigC, SigChi0, SigS0, SigSP, SigHp, M_GUT, kont)
@@ -188,7 +187,7 @@ Contains
  End Subroutine RunTill_Model_bilinear_Rparity
 
 
- Subroutine RunTillEnd
+ Subroutine RunTill_End
  If ((kont.Eq.0).And.(HighScaleModel.Ne."NMSSM")) Then
 
   Call CalculateLowEnergyConstraints(gauge, Y_l, Y_d, Y_u      &
@@ -242,7 +241,7 @@ Contains
 
  Call closing() ! closes the files
 
- End Subroutine RunTillEnd
+ End Subroutine RunTill_End
 
 
  Subroutine CalculateLowEnergyConstraints(gauge, Y_l, Y_d, Y_u, mSpm2, RSpm   &
@@ -1368,5 +1367,5 @@ Contains
 
  End Subroutine ReadingData
 
-End Module MimicSPheno
+End Module SPhenoDouble
 
