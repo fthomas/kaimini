@@ -12,14 +12,14 @@ CXXFLAGS = -g -Wall -Wextra
 
 ifneq (,$(findstring ifort,$(F90)))
   # Set compiler flags for ifort.
-  FFLAGS   = -debug -warn all -warn errors
+  F90FLAGS = -debug -warn all -warn errors
   MODPATH  = -module $(SPHENO_MODPATH)
   FORTLIBS = -lifcore -limf -lm -lintlc -ldl \
              -Wl,-rpath=/opt/intel/Compiler/11.1/056/lib/intel64
 
 else ifneq (,$(findstring gfortran,$(F90)))
   # Set compiler flags for gfortran.
-  FFLAGS   = -g -Wall
+  F90FLAGS = -g -Wall
   MODPATH  = -J$(SPHENO_MODPATH)
   FORTLIBS = -lgfortran
 endif
@@ -42,10 +42,10 @@ all: $(TARGET)
 	$(CXX) -c $(CXXFLAGS) $(DEFINES) -o "$@" "$<"
 
 .f90.o:
-	$(F90) -c $(FFLAGS) $(MODPATH) -o "$@" "$<"
+	$(F90) -c $(F90FLAGS) $(MODPATH) -o "$@" "$<"
 
 .F90.o:
-	$(F90) -c $(FFLAGS) $(MODPATH) $(DEFINES) -o "$@" "$<"
+	$(F90) -c $(F90FLAGS) $(MODPATH) $(DEFINES) -o "$@" "$<"
 
 ### Build and clean rules:
 
