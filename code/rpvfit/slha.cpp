@@ -1,14 +1,23 @@
-#include <cctype>
 #include <string>
+
+#include <boost/algorithm/string.hpp>
+
 #include "slha.h"
 
 using namespace std;
+using namespace boost::algorithm;
 
 void Slha::read(istream& is)
 {
   string line;
 
   while (getline(is, line)) {
+    trim(line);
+
+    cout << line << endl;
+  }
+
+/*
     // Iterate over line up to the first non-whitespace character.
     string::const_iterator p = line.begin();
     for (; p < line.end() && isspace((unsigned char) *p); p++) {}
@@ -32,6 +41,7 @@ void Slha::read(istream& is)
 
     this->parseLine(line);
   }
+*/
 }
 
 void Slha::parseLine(string& line)
