@@ -11,107 +11,54 @@ void Slha::read(istream& is)
   while (getline(is, line)) {
     // Iterate over line up to the first non-whitespace character.
     string::const_iterator p = line.begin();
-    for (; p < line.end() && isspace(*p); p++) {}
+    for (; p < line.end() && isspace((unsigned char) *p); p++) {}
 
     // Ignore empty lines.
     if (p == line.end()) {
       continue;
     }
 
-    // Ignore lines whose first non-whitespace character matches (#|[^BbDd\d]).
-    char c = tolower(*p);
-    if (c == '#' || (c != 'b' && c != 'd' && !isdigit(c))) {
+    // Ignore comment-only lines.
+    if (*p == '#') {
       continue;
     }
 
-    cout << line << endl;
-  }
-/*
-    for (p = line.begin(); p < line.end(); p++) {
-      // Ignore leading white space.
-      if (isspace(*p)) {
-        continue;
-      }
-
-      // Don't parse comment-only lines.
-      if (*p == '#') {
-        parse_line = false;
-        break;
-      }
-
-      char c = tolower(*p);
-      if (c != 'b' && c != 'd' && !isdigit(c)) {
-        cout << c;
-        parse_line = false;
-      }
-        break;
-    }
-    //cout << line;
-    //cout << parse_line;
-
-  }
-*/
-
-
-/*
-  char c;
-  string line;
-  bool ignore_line = false;
-
-  while(is.get(c)) {
-    line += c;
-
-    // ignoriere whitespace
-    //   beginnt zeile mit # oder irgendwas das nicht zahl und auch nicht b
-    //   und d ist, ignoriere zeile ... ansonsten lese zeile
-
-    if (!ignore_line && !isspace(c)) {
-      if (c == '#')
-        ignore_line = true;
+    // Ignore lines whose first non-whitespace character matches [^BbDd\d].
+    unsigned char c = tolower((unsigned char) *p);
+    if (c != 'b' && c != 'd' && !isdigit(c)) {
+      // This is an error in the SLHA file, should we throw an exception?
+      continue;
     }
 
-    if (c == '\n') {
-      cout << line;
-      line.clear();
-    }
+    this->parseLine(line);
   }
-*/
-/*
-  string line;
+}
 
-  while (!is.eof()) {
-    getline(is, line);
-
-    if (line.empty()) continue;
-
-    bool parse_line = true;
-
-    string::const_iterator p;
-    for (p = line.begin(); p < line.end(); p++) {
-      if (isspace(*p)) continue;
-
-      // Ignore comment-only lines.
-      if (*p == '#') {
-        parse_line = false;
-        break;
-      }
-
-      char c = tolower(*p);
-      if (!isalnum(c) || c != 'b' || c != 'd') {
-        parse_line = false;
-        //break;
-      }
-      cout << *p;
-    }
-
-    if (!parse_line) continue;
-
-    //char fc = tolower(line.at(0));
-    //if (fc == '#' || fc != 'b')
-    //  continue;
-    //std::cout << line << std::endl;
+void Slha::parseLine(string& line)
+{
+  // Create a copy of line with all characters converted to uppercase.
+  string line_uc = line;
+  for (string::iterator p = line_uc.begin(); p < line_uc.end(); p++) {
+    *p = toupper((unsigned char) *p);
   }
-*/
+
+  // Remove comment from line_uc.
+  size_t comment_begin = line_uc.find("#");
+  cout << line_uc.substr(0, comment_begin) << endl;
+
+  size_t pos = line_uc.find("BLOCK");
+  if (pos != string::npos) {
+    //pos = line_uc.find
+    cout <<  line.substr(pos) << endl;
+  }
+
+  /*
+    sind wir im block statement? oder nicht
+     - ja: setze block namen
+
+    ansonsten
+  */
+ // cout << line_uc << endl;
 }
 
 // vim: sw=2 tw=78

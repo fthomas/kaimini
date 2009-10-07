@@ -7,6 +7,9 @@ class Slha
 {
 public:
   void read(std::istream& is);
+
+private:
+  void parseLine(std::string& s);
 };
 
 #endif // RPVFIT_SLHA_H
