@@ -1,13 +1,13 @@
 #
-#  Makefile for RPVfit
+# Makefile for RPVfit
 #
 
+#
 INTEL_LIBS     = /opt/intel/Compiler/11.1/056/lib/intel64
 SPHENO_DIR     = $(HOME)/susy/code/spheno/trunk
 
 SPHENO_MODPATH = $(SPHENO_DIR)/include
 SPHENO_LIB     = $(SPHENO_DIR)/lib/libSPheno.a
-
 
 CXX = g++
 F90 = ifort
@@ -26,11 +26,8 @@ else ifneq (,$(findstring gfortran,$(F90)))
 endif
 
 DEFINES = 
-
-SOURCES = SPhenoDouble.f90 \
-          main.cpp
-OBJECTS = SPhenoDouble.o \
-          main.o
+SOURCES = main.cpp slha.cpp spheno.f90
+OBJECTS = main.o   slha.o   spheno.o
 TARGET  = rpvfit
 
 all: $(TARGET)
@@ -59,7 +56,7 @@ spheno_clean:
 	$(MAKE) -C $(SPHENO_DIR) cleanall
 
 spheno_diff:
-	diff -au $(SPHENO_DIR)/src/SPheno3.f90 SPhenoDouble.f90 | colordiff
+	diff -au $(SPHENO_DIR)/src/SPheno3.f90 spheno.f90 | colordiff
 
 $(TARGET): spheno $(OBJECTS)
 	$(CXX) $(F90LIBS) -o $(TARGET) $(OBJECTS) $(SPHENO_LIB)
@@ -70,4 +67,4 @@ clean:
 cleanall: clean
 	rm -f $(TARGET) Messages.out SPheno*.out SPheno.spc
 
-.PHONY: all spheno spheno_clean clean cleanall
+.PHONY: all spheno spheno_clean spheno_diff clean cleanall
