@@ -9,7 +9,9 @@ public:
   void read(std::istream& is);
 
 private:
-  void parseLine(std::string& s);
+  std::string mCurrentBlockName;
+
+  void parseLine(std::string& line);
 };
 
 #endif // RPVFIT_SLHA_H

@@ -26,8 +26,12 @@ else ifneq (,$(findstring gfortran,$(F90)))
 endif
 
 DEFINES = 
-SOURCES = main.cpp slha.cpp spheno.f90
-OBJECTS = main.o   slha.o   spheno.o
+SOURCES = main.cpp \
+          slha.cpp \
+          spheno.f90
+OBJECTS = main.o \
+          slha.o \
+          spheno.o
 TARGET  = rpvfit
 
 all: $(TARGET)

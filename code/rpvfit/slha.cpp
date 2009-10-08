@@ -1,11 +1,9 @@
 #include <string>
-
 #include <boost/algorithm/string.hpp>
-
 #include "slha.h"
 
 using namespace std;
-using namespace boost::algorithm;
+using namespace boost;
 
 void Slha::read(istream& is)
 {
@@ -14,61 +12,53 @@ void Slha::read(istream& is)
   while (getline(is, line)) {
     trim(line);
 
-    cout << line << endl;
+    if (line.empty()) {
+      continue;
+    }
+
+    unsigned char c = toupper((unsigned char) line[0]);
+    if (c == '#') {
+      continue;
+    }
+    if (c != 'B' && c != 'D' && !isdigit(c)) {
+      cerr << "Warning (SLHA): invalid line in input: " << line << endl;
+      continue;
+    }
+
+    parseLine(line);
   }
 
-/*
-    // Iterate over line up to the first non-whitespace character.
-    string::const_iterator p = line.begin();
-    for (; p < line.end() && isspace((unsigned char) *p); p++) {}
-
-    // Ignore empty lines.
-    if (p == line.end()) {
-      continue;
-    }
-
-    // Ignore comment-only lines.
-    if (*p == '#') {
-      continue;
-    }
-
-    // Ignore lines whose first non-whitespace character matches [^BbDd\d].
-    unsigned char c = tolower((unsigned char) *p);
-    if (c != 'b' && c != 'd' && !isdigit(c)) {
-      // This is an error in the SLHA file, should we throw an exception?
-      continue;
-    }
-
-    this->parseLine(line);
-  }
-*/
+  mCurrentBlockName.clear();
 }
 
 void Slha::parseLine(string& line)
 {
-  // Create a copy of line with all characters converted to uppercase.
-  string line_uc = line;
-  for (string::iterator p = line_uc.begin(); p < line_uc.end(); p++) {
-    *p = toupper((unsigned char) *p);
-  }
+  string line_uc = to_upper_copy(line);
 
-  // Remove comment from line_uc.
   size_t comment_begin = line_uc.find("#");
-  cout << line_uc.substr(0, comment_begin) << endl;
+  line_uc = trim_right_copy(line_uc.substr(0, comment_begin));
 
-  size_t pos = line_uc.find("BLOCK");
-  if (pos != string::npos) {
-    //pos = line_uc.find
-    cout <<  line.substr(pos) << endl;
+  if (isdigit((unsigned char) line[0])) {
+    if (mCurrentBlockName.empty()) {
+      cerr << "Warning (SLHA): data line outside a (valid) block: "
+           << line << endl;
+      return;
+    }
+
+    // ?
   }
+  else if (line_uc.substr(0,6) == "BLOCK ") {
+    mCurrentBlockName.clear();
+    string block_name = trim_left_copy(line.substr(6, line_uc.length()-6));
 
-  /*
-    sind wir im block statement? oder nicht
-     - ja: setze block namen
+    if (block_name.find_first_of(" \t\n\v\f\r") != string::npos) {
+      cerr << "Warning (SLHA): block name contains whitespace: "
+           << block_name << endl;
+      return;
+    }
 
-    ansonsten
-  */
- // cout << line_uc << endl;
+    mCurrentBlockName = block_name;
+  }
 }
 
 // vim: sw=2 tw=78
