@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #include <boost/algorithm/string.hpp>
 #include "slha.h"
 
@@ -45,6 +46,13 @@ void Slha::parseLine(string& line)
       return;
     }
 
+    string line_wo_comment = trim_right_copy(line.substr(0, comment_begin));
+
+    vector<string> parts;
+    split(parts, line_wo_comment, is_space(), token_compress_on);
+    parts.insert(parts.begin(), line);
+    parts.push_back(line.substr(comment_begin));
+
     // ?
   }
   else if (line_uc.substr(0,6) == "BLOCK ")
@@ -52,10 +60,10 @@ void Slha::parseLine(string& line)
     mCurrentBlockName.clear();
     string block_name = trim_left_copy(line.substr(6, line_uc.length()-6));
 
-    if (block_name.find_first_of(" \t\n\v\f\r") != string::npos)
+    if (!all(block_name, is_alnum()))
     {
-      cerr << "Warning (SLHA): block name contains whitespace: "
-           << block_name << endl;
+      cerr << "Warning (SLHA): block name contains non-alphanumeric "
+           << "characters: " << block_name << endl;
       return;
     }
 
