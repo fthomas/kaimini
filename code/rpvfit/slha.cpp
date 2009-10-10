@@ -71,4 +71,16 @@ void Slha::parseLine(string& line)
   }
 }
 
+SlhaLine& SlhaLine::fromString(const string& line)
+{
+  size_t comment_begin = line.find("#");
+  string line_wo_comment = trim_right_copy(line.substr(0, comment_begin));
+
+  split(this&, line_wo_comment, is_space(), token_compress_on);
+  insert(begin(), line);
+  push_back(line.substr(comment_begin));
+
+  return *this;
+}
+
 // vim: sw=2 tw=78

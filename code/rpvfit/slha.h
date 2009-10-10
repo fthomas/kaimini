@@ -2,6 +2,8 @@
 #define RPVFIT_SLHA_H
 
 #include <iostream>
+#include <string>
+#include <vector>
 
 class Slha
 {
@@ -12,6 +14,16 @@ private:
   std::string mCurrentBlockName;
 
   void parseLine(std::string& line);
+};
+
+class SlhaBlock // list<SlhaDataLine>
+{
+};
+
+class SlhaLine : public std::vector<std::string>
+{
+public:
+  SlhaLine& fromString(const std::string& line);
 };
 
 #endif // RPVFIT_SLHA_H
