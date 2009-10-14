@@ -2,17 +2,17 @@
 #define RPVFIT_SPHENO_H
 
 extern "C" {
-  /* Control module */
+  // Control module
   extern double control_mp_delta_mass_;
 
-  /* InputOutput module*/
+  // InputOutput module
   extern bool   inputoutput_mp_add_rparity_;
 
-  /* RPtools module */
-  void  rptools_mp_chisquare_(bool *add_rparity, double *delta, double *M_GUT,
-                              int *kont);
+  // RPtools module
+  void  rptools_mp_chisquare_(bool* add_rparity, double* delta, double* M_GUT,
+                              int* kont);
 
-  /* SPhenoDouble module */
+  // SPhenoDouble module
   extern int    sphenodouble_mp_kont_;
   extern double sphenodouble_mp_m_gut_;
 
