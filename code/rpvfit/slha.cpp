@@ -26,6 +26,9 @@
 using namespace std;
 using namespace boost;
 
+const int SlhaBlock::no_index = std::numeric_limits<int>::max();
+
+
 SlhaBlock& Slha::operator()(const string& blockName)
 {
   string block_name = to_upper_copy(blockName);

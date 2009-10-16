@@ -23,8 +23,6 @@
 #include <string>
 #include <vector>
 
-const int no_index = std::numeric_limits<int>::max();
-
 class SlhaLine;
 class SlhaBlock;
 
@@ -52,6 +50,9 @@ public:
                        const std::string& sl = "");
   SlhaLine& operator()(const int i,            const int j = no_index,
                        const int k = no_index, const int l = no_index);
+
+private:
+  const static int no_index;
 };
 
 
