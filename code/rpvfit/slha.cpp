@@ -85,7 +85,7 @@ Slha& Slha::readFile(const string& fileName)
     cerr << "Error (SLHA): readFile(\"" << fileName << "\") failed" << endl;
     return *this;
   }
-  else return read(fs);
+  return read(fs);
 }
 
 
