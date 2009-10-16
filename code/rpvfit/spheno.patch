@@ -1,4 +1,4 @@
---- spheno.f90	2009-10-15 13:01:57.000000000 +0200
+--- SPheno3.f90	2009-10-15 13:01:57.000000000 +0200
 +++ spheno.f90	2009-10-15 13:04:28.000000000 +0200
 @@ -12,7 +12,7 @@
  !     the email above, if possible with a copy of the screen output 

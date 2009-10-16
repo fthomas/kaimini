@@ -30,8 +30,8 @@ Block RPVFitUpar    #
  5    0    2.0          # v_L2
  6    0    2.0          # v_L3
 Block RPVFitObserv  #
- 7    2.43E-03  0.13E-03    # m^2_atm [eV^2]
- 8    7.59E-05  0.20E-03    # m^2_sol [eV^2]
+ 7    2.43E-03    0.13E-03  # m^2_atm [eV^2]
+ 8    7.59E-05    0.20E-03  # m^2_sol [eV^2]
 Block SPhenoInput   # SPheno specific input
  1   -1                 # error level
  2    1                 # SPA conventions

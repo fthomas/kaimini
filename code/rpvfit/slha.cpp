@@ -26,6 +26,7 @@
 using namespace std;
 using namespace boost;
 
+/* static */
 const int SlhaBlock::no_index = std::numeric_limits<int>::max();
 
 
@@ -86,6 +87,13 @@ Slha& Slha::readFile(const string& fileName)
     return *this;
   }
   return read(fs);
+}
+
+
+/* static */
+double Slha::to_double(const string& str)
+{
+  return lexical_cast<double>(str);
 }
 
 

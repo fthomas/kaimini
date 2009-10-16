@@ -33,6 +33,7 @@ public:
   SlhaBlock& operator()(const std::string& blockName);
   Slha& read(std::istream& is);
   Slha& readFile(const std::string& fileName);
+  static double to_double(const std::string& str);
 };
 
 
@@ -52,7 +53,7 @@ public:
                        const int k = no_index, const int l = no_index);
 
 private:
-  const static int no_index;
+  static const int no_index;
 };
 
 
