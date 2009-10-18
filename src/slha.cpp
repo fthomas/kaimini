@@ -90,13 +90,6 @@ Slha& Slha::readFile(const string& fileName)
 }
 
 
-/* static */
-double Slha::to_double(const string& str)
-{
-  return lexical_cast<double>(str);
-}
-
-
 SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
                                 const string& sk, const string& sl)
 {
@@ -190,6 +183,11 @@ ostream& operator<<(ostream& os, const SlhaBlock& block)
 ostream& operator<<(ostream& os, const SlhaLine& line)
 {
   return os << line.at(0);
+}
+
+double to_double(const string& str)
+{
+  return lexical_cast<double>(str);
 }
 
 // vim: sw=2 tw=78

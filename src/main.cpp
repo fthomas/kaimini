@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
   Slha s;
   s.readFile("LesHouches.in");
   cout << lexical_cast<double>( s("RPVFitObserv")(7)[2] )  << endl;
-  cout << Slha::to_double( s("RPVFitObserv")(7)[2] ) << endl ;
+  cout << to_double( s("RPVFitObserv")(7)[2] ) << endl ;
 
   sphenodouble_mp_runtill_model_bilinear_rparity_();
 

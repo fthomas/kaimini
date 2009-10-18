@@ -33,7 +33,6 @@ public:
   SlhaBlock& operator()(const std::string& blockName);
   Slha& read(std::istream& is);
   Slha& readFile(const std::string& fileName);
-  static double to_double(const std::string& str);
 };
 
 
@@ -71,6 +70,8 @@ public:
 std::ostream& operator<<(std::ostream& os, const Slha& slha);
 std::ostream& operator<<(std::ostream& os, const SlhaBlock& block);
 std::ostream& operator<<(std::ostream& os, const SlhaLine& line);
+
+double to_double(const std::string& str);
 
 #endif // RPVFIT_SLHA_H
 
