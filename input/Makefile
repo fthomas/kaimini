@@ -1,3 +1,6 @@
+rpvfit:
+	$(MAKE) -C ..
+
 clean:
 	rm -f Messages.out SPheno*.out SPheno.spc
 
@@ -10,4 +13,4 @@ switch:
 	  ln -s input.MSSM   LesHouches.in; \
 	fi
 
-.PHONY: clean
+.PHONY: rpvfit clean switch

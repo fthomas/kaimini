@@ -26,13 +26,13 @@ else ifneq (,$(findstring gfortran,$(F90)))
 endif
 
 DEFINES = 
-SOURCES = main.cpp \
-          slha.cpp \
-          spheno.f90
-OBJECTS = main.o \
-          slha.o \
-          spheno.o
-TARGET  = rpvfit
+SOURCES = src/main.cpp \
+          src/slha.cpp \
+          src/spheno.f90
+OBJECTS = src/main.o \
+          src/slha.o \
+          src/spheno.o
+TARGET  = input/rpvfit
 
 all: $(TARGET)
 
@@ -60,7 +60,7 @@ spheno_clean:
 	$(MAKE) -C $(SPHENO_DIR) cleanall
 
 spheno_diff:
-	diff -au $(SPHENO_DIR)/src/SPheno3.f90 spheno.f90 | colordiff
+	diff -au $(SPHENO_DIR)/src/SPheno3.f90 src/spheno.f90 | colordiff
 
 $(TARGET): spheno $(OBJECTS)
 	$(CXX) $(F90LIBS) -o $(TARGET) $(OBJECTS) $(SPHENO_LIB)
