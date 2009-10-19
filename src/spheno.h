@@ -1,24 +1,33 @@
 #ifndef RPVFIT_SPHENO_H
 #define RPVFIT_SPHENO_H
 
+#ifdef __cplusplus
 extern "C" {
-  // Control module
-  extern double control_mp_delta_mass_;
+#endif
 
-  // InputOutput module
-  extern bool   inputoutput_mp_add_rparity_;
+// Control module
+extern double control_mp_delta_mass_;
 
-  // RPtools module
-  void  rptools_mp_chisquare_(bool* add_rparity, double* delta, double* M_GUT,
-                              int* kont);
+// InputOutput module
+extern bool inputoutput_mp_add_rparity_;
 
-  // SPhenoDouble module
-  extern int    sphenodouble_mp_kont_;
-  extern double sphenodouble_mp_m_gut_;
+// Model_Data module
+extern struct { double re; double im; } model_data_mp_eps_[3];
 
-  void  sphenodouble_mp_runtill_model_bilinear_rparity_(void);
-  void  sphenodouble_mp_runtill_end_(void);
+// RPtools module
+void rptools_mp_chisquare_(double* observ, double* sigma, double* chisq,
+       bool* add_rparity, double* delta, double* m_gut, int* kont);
+
+// SPhenoDouble module
+extern int    sphenodouble_mp_kont_;
+extern double sphenodouble_mp_m_gut_;
+
+void sphenodouble_mp_runtill_model_bilinear_rparity_(void);
+void sphenodouble_mp_runtill_end_(void);
+
+#ifdef __cplusplus
 }
+#endif
 
 #endif // RPVFIT_SPHENO_H
 
