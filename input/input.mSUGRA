@@ -15,20 +15,20 @@ Block MINPAR        # Input parameters
  4    1                 # sign(mu)
  5   -3.000000E+02      # A0
 Block RVSNVEVIN     # sneutrino vevs
- 1    1.00000000E-02    # v_L1
- 2    2.00000000E-02    # v_L2
- 3    3.00000000E-02    # v_L3
+ 1    1.00000000E-05    # v_L1
+ 2    1.00000000E-10    # v_L2
+ 3    1.00000000E-10    # v_L3
 Block RVKAPPAIN     # bilinear RP parameters
- 1    4.00000000E-02    # epsilon_1
- 2    5.00000000E-02    # epsilon_2
- 3    6.00000000E-02    # epsilon_3
+ 1    1.00000000E-05    # epsilon_1
+ 2    1.00000000E-10    # epsilon_2
+ 3    1.00000000E-10    # epsilon_3
 Block RPVFitUpar    #
- 1    1    1.0          # epsilon_1
- 2    0    1.0          # epsilon_2
- 3    0    1.0          # epsilon_3
- 4    1    2.0          # v_L1
- 5    0    2.0          # v_L2
- 6    0    2.0          # v_L3
+ 1    1     # epsilon_1
+ 2    0     # epsilon_2
+ 3    0     # epsilon_3
+ 4    1     # v_L1
+ 5    0     # v_L2
+ 6    0     # v_L3
 Block RPVFitObserv  #
  7    2.43E-03    0.13E-03  # m^2_atm [eV^2]
  8    7.59E-05    0.20E-03  # m^2_sol [eV^2]
