@@ -42,6 +42,18 @@ SlhaBlock& Slha::operator()(const string& blockName)
 }
 
 
+SlhaBlock Slha::operator()(const string& blockName) const
+{
+  string block_name = to_upper_copy(blockName);
+
+  for (Slha::const_iterator it = begin(); it != end(); it++)
+    if (block_name == to_upper_copy(it->name)) return *it;
+
+  throw out_of_range(
+    "Slha::operator()(\""+ blockName +"\")");
+}
+
+
 Slha& Slha::read(istream& is)
 {
   string line;

@@ -13,8 +13,8 @@ public:
   double Up() const;
 
   ROOT::Minuit2::MnUserParameters upar;
-  void setUserParameters(Slha& input);
-  void setFixedParameters(Slha& input) const;
+  void setUserParameters(const Slha& input);
+  void setFixedParameters(const Slha& input) const;
 };
 
 #endif // RPVFIT_FCN_H

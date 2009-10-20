@@ -34,7 +34,7 @@ double Fcn::Up() const
 }
 
 
-void Fcn::setUserParameters(Slha& input)
+void Fcn::setUserParameters(const Slha& input)
 {
   upar.Add("epsilon_1", to_double(input("RVKAPPAIN")(1)[2]), 1.e-16);
   upar.Add("epsilon_2", to_double(input("RVKAPPAIN")(2)[2]), 1.e-16);
@@ -54,7 +54,7 @@ void Fcn::setUserParameters(Slha& input)
 }
 
 
-void Fcn::setFixedParameters(Slha& input) const
+void Fcn::setFixedParameters(const Slha& input) const
 {
   Fcn_observExp[0] = to_double(input("RPVFitObserv")(7)[2]);
   Fcn_observExp[1] = to_double(input("RPVFitObserv")(8)[2]);
