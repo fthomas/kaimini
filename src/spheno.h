@@ -13,10 +13,11 @@ extern bool inputoutput_mp_add_rparity_;
 
 // Model_Data module
 extern struct { double re; double im; } model_data_mp_eps_[3];
+extern double model_data_mp_vevl_[3];
 
 // RPtools module
-void rptools_mp_chisquare_(double* observ, double* sigma, double* chisq,
-       bool* add_rparity, double* delta, double* m_gut, int* kont);
+void rptools_mp_chisquare_(double* observExp, double* sigma, double* chiSq,
+       bool* Add_Rparity, double* delta, double* M_GUT, int* kont);
 
 // SPhenoDouble module
 extern int    sphenodouble_mp_kont_;
