@@ -26,7 +26,7 @@ Block RPVFitUpar    #
  1    1     # epsilon_1
  2    0     # epsilon_2
  3    0     # epsilon_3
- 4    1     # v_L1
+ 4    0     # v_L1
  5    0     # v_L2
  6    0     # v_L3
 Block RPVFitObserv  #

@@ -1,23 +1,30 @@
-#include <boost/lexical_cast.hpp>
+#include <Minuit2/FunctionMinimum.h>
+#include <Minuit2/MnMinimize.h>
+#include <Minuit2/MnPrint.h>
+#include "fcn.h"
 #include "slha.h"
 #include "spheno.h"
 
 using namespace std;
-using namespace boost;
+using namespace ROOT::Minuit2;
 
 int main(int argc, char *argv[])
 {
   Slha s;
   s.readFile("LesHouches.in");
-  cout << lexical_cast<double>( s("RPVFitObserv")(7)[2] )  << endl;
-  cout << to_double( s("RPVFitObserv")(7)[2] ) << endl ;
+
+  Fcn fcn;
+  fcn.setUserParameters(s);
+  fcn.setFixedParameters(s);
 
   sphenodouble_mp_runtill_model_bilinear_rparity_();
 
-  rptools_mp_chisquare_(&inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
-                        &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
+  MnMinimize minimizer(fcn, fcn.upar);
+  FunctionMinimum m = minimizer();
 
   sphenodouble_mp_runtill_end_();
+
+  cout << m << endl;
 
   return 0;
 }

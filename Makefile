@@ -30,9 +30,11 @@ else ifneq (,$(findstring gfortran,$(F90)))
 endif
 
 SOURCES = src/main.cpp \
+          src/fcn.cpp \
           src/slha.cpp \
           src/spheno.f90
 OBJECTS = src/main.o \
+          src/fcn.o \
           src/slha.o \
           src/spheno.o
 TARGET  = input/rpvfit
