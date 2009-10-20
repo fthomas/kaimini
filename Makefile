@@ -1,9 +1,10 @@
 #
-# Makefile for RPVfit
+# Makefile for RPVFit
 #
 
-#
 INTEL_LIBS     = /opt/intel/Compiler/11.1/056/lib/intel64
+MINUIT_INCPATH = /usr/include/root
+MINUIT_LIBS    = /usr/lib/root/5.18
 SPHENO_DIR     = $(HOME)/susy/code/spheno/trunk
 
 SPHENO_MODPATH = $(SPHENO_DIR)/include
@@ -14,18 +15,20 @@ F90 = ifort
 #F90 = gfortran
 
 CXXFLAGS = -g -Wall -Wextra
+INCPATH  = -I$(MINUIT_INCPATH)
+LIBS     = -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS) $(SPHENO_LIB)
+DEFINES  = 
 
 ifneq (,$(findstring ifort,$(F90)))
   F90FLAGS = -debug -warn all -warn errors
-  F90LIBS  = -lifcore -limf -lm -lintlc -ldl -Wl,-rpath=$(INTEL_LIBS)
+  LIBS    += -lifcore -limf -lm -lintlc -ldl -Wl,-rpath=$(INTEL_LIBS)
   MODPATH  = -module $(SPHENO_MODPATH)
 else ifneq (,$(findstring gfortran,$(F90)))
   F90FLAGS = -g -Wall
-  F90LIBS  = -lgfortran
+  LIBS    += -lgfortran
   MODPATH  = -J$(SPHENO_MODPATH)
 endif
 
-DEFINES = 
 SOURCES = src/main.cpp \
           src/slha.cpp \
           src/spheno.f90
@@ -42,7 +45,7 @@ all: $(TARGET)
 .SUFFIXES: .o .cpp .f90 .F90
 
 .cpp.o:
-	$(CXX) -c $(CXXFLAGS) $(DEFINES) -o "$@" "$<"
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) $(DEFINES) -o "$@" "$<"
 
 .f90.o:
 	$(F90) -c $(F90FLAGS) $(MODPATH) -o "$@" "$<"
@@ -63,12 +66,13 @@ spheno_diff:
 	diff -au $(SPHENO_DIR)/src/SPheno3.f90 src/spheno.f90 | colordiff
 
 $(TARGET): spheno $(OBJECTS)
-	$(CXX) $(F90LIBS) -o $(TARGET) $(OBJECTS) $(SPHENO_LIB)
+	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
 
 clean:
 	rm -f $(OBJECTS)
 
 cleanall: clean
 	rm -f $(TARGET) Messages.out SPheno*.out SPheno.spc
+	$(MAKE) -C input/ clean
 
 .PHONY: all spheno spheno_clean spheno_diff clean cleanall
