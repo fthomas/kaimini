@@ -1,4 +1,3 @@
-
 set(SPheno_POSSIBLE_DIRS
     ~/susy/code/spheno/trunk
     ~/SPheno

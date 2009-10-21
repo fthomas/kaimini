@@ -8,8 +8,9 @@ project(RPVFit CXX Fortran)
 get_filename_component(Fortran_COMPILER ${CMAKE_Fortran_COMPILER} NAME)
 
 find_program(MAKE NAMES make gmake)
-find_package(SPheno REQUIRED)
 find_package(Boost REQUIRED)
+find_package(Minuit2 REQUIRED)
+find_package(SPheno REQUIRED)
 
 add_custom_target(spheno ${MAKE}
     WORKING_DIRECTORY ${SPheno_ROOT_DIR}/src)
