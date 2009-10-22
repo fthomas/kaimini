@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <getopt.h>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnPrint.h>
@@ -8,14 +10,52 @@
 using namespace std;
 using namespace ROOT::Minuit2;
 
-int main(int argc, char *argv[])
+void parse_command_line(int argc, char** argv, string* inputFileName,
+                        string* outputFileName)
 {
-  Slha s;
-  s.readFile("LesHouches.in");
+  int c;
+  int option_index = 0;
+  struct option long_options[] =
+    {
+      {"input",  required_argument, 0, 'i'},
+      {"output", required_argument, 0, 'o'},
+      {0, 0, 0, 0}
+    };
+
+  while (1)
+  {
+    c = getopt_long(argc, argv, "i:o:", long_options, &option_index);
+    if (-1 == c) break;
+
+    switch (c)
+    {
+      case 'i':
+        inputFileName->assign(optarg);
+        break;
+
+      case 'o':
+        outputFileName->assign(optarg);
+        break;
+
+      default:
+        abort();
+    }
+  }
+}
+
+
+int main(int argc, char* argv[])
+{
+  string input_file  = "LesHouches.in";
+  string output_file = "SPheno.spc";
+  parse_command_line(argc, argv, &input_file, &output_file);
+
+  Slha slha_input;
+  slha_input.readFile(input_file);
 
   Fcn fcn;
-  fcn.setUserParameters(s);
-  fcn.setFixedParameters(s);
+  fcn.setUserParameters(slha_input);
+  fcn.setFixedParameters(slha_input);
 
   sphenodouble_mp_runtill_model_bilinear_rparity_();
 
