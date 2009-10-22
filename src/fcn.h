@@ -5,6 +5,10 @@
 #include <Minuit2/FCNBase.h>
 #include <Minuit2/MnUserParameters.h>
 #include "slha.h"
+
+extern double Fcn_observExp[2];
+extern double Fcn_sigma[2];
+
  
 class Fcn : public ROOT::Minuit2::FCNBase
 {

@@ -27,7 +27,7 @@ using namespace std;
 using namespace boost;
 
 /* static */
-const int SlhaBlock::no_index = std::numeric_limits<int>::max();
+const int SlhaBlock::m_noIndex = std::numeric_limits<int>::max();
 
 
 SlhaBlock& Slha::operator()(const string& blockName)
@@ -148,15 +148,15 @@ SlhaLine& SlhaBlock::operator()(const int i, const int j, const int k,
   string sk = lexical_cast<string>(k);
   string sl = lexical_cast<string>(l);
 
-  if (no_index == i)
+  if (m_noIndex == i)
   {
     push_back(SlhaLine());
     return back();
   }
-  else if (no_index == j) return (*this)(si);
-  else if (no_index == k) return (*this)(si, sj);
-  else if (no_index == l) return (*this)(si, sj, sk);
-  else                    return (*this)(si, sj, sk, sl);
+  else if (m_noIndex == j) return (*this)(si);
+  else if (m_noIndex == k) return (*this)(si, sj);
+  else if (m_noIndex == l) return (*this)(si, sj, sk);
+  else                     return (*this)(si, sj, sk, sl);
 }
 
 
