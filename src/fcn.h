@@ -9,10 +9,10 @@
 class Fcn : public ROOT::Minuit2::FCNBase
 {
 public:
+  ROOT::Minuit2::MnUserParameters upar;
+
   double operator()(const std::vector<double>& par) const;
   double Up() const;
-
-  ROOT::Minuit2::MnUserParameters upar;
   void setUserParameters(const Slha& input);
   void setFixedParameters(const Slha& input) const;
 };

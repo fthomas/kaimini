@@ -28,10 +28,7 @@ double Fcn::operator()(const vector<double>& par) const
 }
 
 
-double Fcn::Up() const
-{
-  return 1.;
-}
+double Fcn::Up() const { return 1.; }
 
 
 void Fcn::setUserParameters(const Slha& input)
@@ -39,15 +36,13 @@ void Fcn::setUserParameters(const Slha& input)
   upar.Add("epsilon_1", to_double(input("RVKAPPAIN")(1)[2]), 1.e-16);
   upar.Add("epsilon_2", to_double(input("RVKAPPAIN")(2)[2]), 1.e-16);
   upar.Add("epsilon_3", to_double(input("RVKAPPAIN")(3)[2]), 1.e-16);
-
-  if ("0" == input("RPVFitUpar")(1)[2]) upar.Fix("epsilon_1");
-  if ("0" == input("RPVFitUpar")(2)[2]) upar.Fix("epsilon_2");
-  if ("0" == input("RPVFitUpar")(3)[2]) upar.Fix("epsilon_3");
-
   upar.Add("v_L1", to_double(input("RVSNVEVIN")(1)[2]), 1.e-16);
   upar.Add("v_L2", to_double(input("RVSNVEVIN")(2)[2]), 1.e-16);
   upar.Add("v_L3", to_double(input("RVSNVEVIN")(3)[2]), 1.e-16);
 
+  if ("0" == input("RPVFitUpar")(1)[2]) upar.Fix("epsilon_1");
+  if ("0" == input("RPVFitUpar")(2)[2]) upar.Fix("epsilon_2");
+  if ("0" == input("RPVFitUpar")(3)[2]) upar.Fix("epsilon_3");
   if ("0" == input("RPVFitUpar")(4)[2]) upar.Fix("v_L1");
   if ("0" == input("RPVFitUpar")(5)[2]) upar.Fix("v_L2");
   if ("0" == input("RPVFitUpar")(6)[2]) upar.Fix("v_L3");
@@ -58,7 +53,6 @@ void Fcn::setFixedParameters(const Slha& input) const
 {
   Fcn_observExp[0] = to_double(input("RPVFitObserv")(7)[2]);
   Fcn_observExp[1] = to_double(input("RPVFitObserv")(8)[2]);
-
   Fcn_sigma[0] = to_double(input("RPVFitObserv")(7)[3]);
   Fcn_sigma[1] = to_double(input("RPVFitObserv")(8)[3]);
 }

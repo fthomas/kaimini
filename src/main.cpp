@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 
   MnMinimize minimizer(fcn, fcn.upar);
   FunctionMinimum m = minimizer();
+  fcn(m.UserParameters().Params());
 
   sphenodouble_mp_runtill_end_();
 
