@@ -46,9 +46,15 @@ void parse_command_line(int argc, char** argv, string* inputFileName,
 
 int main(int argc, char* argv[])
 {
+  // Use SPheno's defaul input/output filenames as our own default filenames.
   string input_file  = "LesHouches.in";
   string output_file = "SPheno.spc";
   parse_command_line(argc, argv, &input_file, &output_file);
+
+  if (input_file.size() < sizeof(inputoutput_mp_leshouches_file_))
+    strcpy(inputoutput_mp_leshouches_file_, input_file.c_str());
+  else cerr << "Warning: input filename too long. SPheno will use its "
+            << "default input filename." << endl;
 
   Slha slha_input;
   slha_input.readFile(input_file);
