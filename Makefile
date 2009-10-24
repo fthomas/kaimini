@@ -16,7 +16,8 @@ F90 = ifort
 
 CXXFLAGS = -g -Wall -Wextra
 INCPATH  = -I$(MINUIT_INCPATH)
-LIBS     = -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS) $(SPHENO_LIB)
+LIBS     = -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS) \
+            $(SPHENO_LIB) -lgsl -lgslcblas -lm
 DEFINES  = 
 
 ifneq (,$(findstring ifort,$(F90)))

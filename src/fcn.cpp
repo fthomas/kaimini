@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
+#include <gsl/gsl_vector.h>
 #include <Minuit2/MnUserParameters.h>
 #include "fcn.h"
 #include "slha.h"
@@ -23,25 +24,44 @@
 using namespace std;
 using namespace ROOT::Minuit2;
 
-double Fcn_observExp[2];
-double Fcn_sigma[2];
+/* static */ double Fcn::observExp[2];
+/* static */ double Fcn::sigma[2];
 
- 
-double Fcn::operator()(const vector<double>& par) const
+
+/* static */
+double Fcn::chiSquare(const vector<double>& par)
 {
-    double chiSq = 0;
+  size_t size = par.size();
 
-    for (int i = 0; i < 3; i++)
-      model_data_mp_eps_[i].re = par.at(i);
+  for (size_t i = 0; i < 3 && i < size; i++)
+    model_data_mp_eps_[i].re = par.at(i);
 
-    for (int i = 3; i < 6; i++)
-      model_data_mp_vevl_[i] = par.at(i);
+  for (size_t i = 3; i < 6 && i < size; i++)
+    model_data_mp_vevl_[i] = par.at(i);
 
-    rptools_mp_chisquare_(Fcn_observExp, Fcn_sigma, &chiSq,
-      &inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
-      &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
-    return chiSq;
+  double chiSq = 0;
+
+  rptools_mp_chisquare_(observExp, sigma, &chiSq,
+    &inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
+    &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
+
+  return chiSq;
 }
+
+
+/* static */
+double Fcn::chiSquare(const gsl_vector* v, void* params)
+{
+  vector<double> par(v->size);
+  for (size_t i = 0; i < v->size; i++)
+    par[i] = gsl_vector_get(v, i);
+
+  return chiSquare(par);
+}
+
+
+double Fcn::operator()(const vector<double>& par) const
+{ return chiSquare(par); }
 
 
 double Fcn::Up() const { return 1.; }
@@ -71,12 +91,13 @@ void Fcn::setUserParameters(const Slha& input)
 }
 
 
-void Fcn::setFixedParameters(const Slha& input) const
+/* static */
+void Fcn::setFixedParameters(const Slha& input)
 {
-  Fcn_observExp[0] = to_double(input("RPVFitObserv")(7)[2]);
-  Fcn_observExp[1] = to_double(input("RPVFitObserv")(8)[2]);
-  Fcn_sigma[0] = to_double(input("RPVFitObserv")(7)[3]);
-  Fcn_sigma[1] = to_double(input("RPVFitObserv")(8)[3]);
+  observExp[0] = to_double(input("RPVFitObserv")(7)[2]);
+  observExp[1] = to_double(input("RPVFitObserv")(8)[2]);
+  sigma[0] = to_double(input("RPVFitObserv")(7)[3]);
+  sigma[1] = to_double(input("RPVFitObserv")(8)[3]);
 }
 
 // vim: sw=2 tw=78

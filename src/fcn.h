@@ -18,23 +18,27 @@
 #define RPVFIT_FCN_H
 
 #include <vector>
+#include <gsl/gsl_vector.h>
 #include <Minuit2/FCNBase.h>
 #include <Minuit2/MnUserParameters.h>
 #include "slha.h"
-
-extern double Fcn_observExp[2];
-extern double Fcn_sigma[2];
-
  
 class Fcn : public ROOT::Minuit2::FCNBase
 {
 public:
   ROOT::Minuit2::MnUserParameters upar;
 
+  static double observExp[2];
+  static double sigma[2];
+
+  static double chiSquare(const std::vector<double>& par);
+  static double chiSquare(const gsl_vector* v, void* params);
+
   double operator()(const std::vector<double>& par) const;
   double Up() const;
+
   void setUserParameters(const Slha& input);
-  void setFixedParameters(const Slha& input) const;
+  static void setFixedParameters(const Slha& input);
 };
 
 #endif // RPVFIT_FCN_H
