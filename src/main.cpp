@@ -69,10 +69,16 @@ int main(int argc, char* argv[])
   string output_file = "SPheno.spc";
   parse_command_line(argc, argv, &input_file, &output_file);
 
-  if (input_file.size() < sizeof(inputoutput_mp_leshouches_file_))
-    strcpy(inputoutput_mp_leshouches_file_, input_file.c_str());
+  // Set our (user-supplied) i/o filenames as SPheno's i/o filenames.
+  if (input_file.size() < sizeof(inputoutput_mp_leshouches_inputfile_))
+    strcpy(inputoutput_mp_leshouches_inputfile_, input_file.c_str());
   else cerr << "Warning: input filename too long. SPheno will use its "
             << "default input filename." << endl;
+
+  if (output_file.size() < sizeof(inputoutput_mp_leshouches_outputfile_))
+    strcpy(inputoutput_mp_leshouches_outputfile_, output_file.c_str());
+  else cerr << "Warning: output filename too long. SPheno will use its "
+            << "default output filename." << endl;
 
   Slha slha_input;
   slha_input.readFile(input_file);

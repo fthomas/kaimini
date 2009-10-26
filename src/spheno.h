@@ -9,7 +9,8 @@ extern "C" {
 extern double control_mp_delta_mass_;
 
 // InputOutput module
-extern char inputoutput_mp_leshouches_file_[256];
+extern char inputoutput_mp_leshouches_inputfile_[256];
+extern char inputoutput_mp_leshouches_outputfile_[256];
 extern bool inputoutput_mp_add_rparity_;
 
 // Model_Data module
