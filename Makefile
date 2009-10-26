@@ -4,7 +4,7 @@
 
 INTEL_LIBS     = /opt/intel/Compiler/11.1/056/lib/intel64
 MINUIT_INCPATH = /usr/include/root
-MINUIT_LIBS    = /usr/lib/root/5.18
+MINUIT_LIBS    = /usr/lib/root/5.24
 SPHENO_DIR     = $(HOME)/susy/code/spheno/trunk
 
 SPHENO_MODPATH = $(SPHENO_DIR)/include
@@ -18,7 +18,7 @@ CXXFLAGS = -g -Wall -Wextra
 INCPATH  = -I$(MINUIT_INCPATH)
 LIBS     = -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS) \
             $(SPHENO_LIB) -lgsl -lgslcblas -lm
-DEFINES  = 
+DEFINES  = -DDEBUG
 
 ifneq (,$(findstring ifort,$(F90)))
   F90FLAGS = -debug -warn all -warn errors

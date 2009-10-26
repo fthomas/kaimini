@@ -45,6 +45,12 @@ double Fcn::chiSquare(const vector<double>& par)
     &inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
     &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
 
+#ifdef DEBUG
+  cout.setf(ios::scientific);
+  cout.precision(8);
+  cout << chiSq << endl;
+#endif
+
   return chiSq;
 }
 
