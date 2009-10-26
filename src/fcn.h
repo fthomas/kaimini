@@ -22,14 +22,15 @@
 #include <Minuit2/FCNBase.h>
 #include <Minuit2/MnUserParameters.h>
 #include "slha.h"
- 
+
 class Fcn : public ROOT::Minuit2::FCNBase
 {
 public:
   ROOT::Minuit2::MnUserParameters upar;
 
-  static double observExp[2];
-  static double sigma[2];
+  static    int observInclude[4];
+  static double observExpected[4];
+  static double observSigma[4];
 
   static double chiSquare(const std::vector<double>& par);
   static double chiSquare(const gsl_vector* v, void* params);

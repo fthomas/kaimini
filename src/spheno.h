@@ -9,7 +9,7 @@ extern "C" {
 extern double control_mp_delta_mass_;
 
 // InputOutput module
-extern char inputoutput_mp_leshouches_file_[128];
+extern char inputoutput_mp_leshouches_file_[256];
 extern bool inputoutput_mp_add_rparity_;
 
 // Model_Data module
@@ -17,8 +17,9 @@ extern struct { double re; double im; } model_data_mp_eps_[3];
 extern double model_data_mp_vevl_[3];
 
 // RPtools module
-void rptools_mp_chisquare_(double* observExp, double* sigma, double* chiSq,
-       bool* Add_Rparity, double* delta, double* M_GUT, int* kont);
+void rptools_mp_chisquare_(int* observInclude, double* observExpected,
+       double* observSigma, double* chiSq, bool* Add_Rparity, double* delta,
+       double* M_GUT, int* kont);
 
 // SPhenoDouble module
 extern int    sphenodouble_mp_kont_;

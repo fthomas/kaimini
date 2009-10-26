@@ -24,8 +24,9 @@
 using namespace std;
 using namespace ROOT::Minuit2;
 
-/* static */ double Fcn::observExp[2];
-/* static */ double Fcn::sigma[2];
+/* static */    int Fcn::observInclude[4];
+/* static */ double Fcn::observExpected[4];
+/* static */ double Fcn::observSigma[4];
 
 
 /* static */
@@ -41,7 +42,7 @@ double Fcn::chiSquare(const vector<double>& par)
 
   double chiSq = 0;
 
-  rptools_mp_chisquare_(observExp, sigma, &chiSq,
+  rptools_mp_chisquare_(observInclude, observExpected, observSigma, &chiSq,
     &inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
     &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
 
@@ -100,10 +101,12 @@ void Fcn::setUserParameters(const Slha& input)
 /* static */
 void Fcn::setFixedParameters(const Slha& input)
 {
-  observExp[0] = to_double(input("RPVFitObserv")(7)[2]);
-  observExp[1] = to_double(input("RPVFitObserv")(8)[2]);
-  sigma[0] = to_double(input("RPVFitObserv")(7)[3]);
-  sigma[1] = to_double(input("RPVFitObserv")(8)[3]);
+  for (int i = 0; i < 4; i++)
+  {
+    observInclude[i]  =    to_int(input("RPVFitObserv")(i+7)[2]);
+    observExpected[i] = to_double(input("RPVFitObserv")(i+7)[3]);
+    observSigma[i]    = to_double(input("RPVFitObserv")(i+7)[4]);
+  }
 }
 
 // vim: sw=2 tw=78

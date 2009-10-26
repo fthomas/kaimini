@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
   fcn.function(fcn.uparGsl, NULL);
   gsl_vector_free(v);
 */
-
+/*
   gsl_multimin_function my;
   my.n = 1;
   my.f = &Fcn::chiSquare;
@@ -138,16 +138,15 @@ gsl_multimin_fminimizer_iterate (m2);
          }
        //while (status == GSL_CONTINUE && iter < 100 );
        while ( iter < 100 );
+*/
 
-
-/*
   MnMinimize minimizer(fcn, fcn.upar);
   FunctionMinimum m = minimizer();
+  
   fcn(m.UserParameters().Params());
-*/
   sphenodouble_mp_runtill_end_();
 
-  //cout << m << endl;
+  cout << m << endl;
 
   return 0;
 }

@@ -72,6 +72,7 @@ std::ostream& operator<<(std::ostream& os, const Slha& slha);
 std::ostream& operator<<(std::ostream& os, const SlhaBlock& block);
 std::ostream& operator<<(std::ostream& os, const SlhaLine& line);
 
+int to_int(const std::string& str);
 double to_double(const std::string& str);
 
 #endif // RPVFIT_SLHA_H

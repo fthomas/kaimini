@@ -197,9 +197,8 @@ ostream& operator<<(ostream& os, const SlhaLine& line)
   return os << line.at(0);
 }
 
-double to_double(const string& str)
-{
-  return lexical_cast<double>(str);
-}
+int to_int(const string& str) { return lexical_cast<int>(str); }
+
+double to_double(const string& str) { return lexical_cast<double>(str); }
 
 // vim: sw=2 tw=78
