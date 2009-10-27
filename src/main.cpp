@@ -84,8 +84,8 @@ int main(int argc, char* argv[])
   slha_input.readFile(input_file);
 
   Fcn fcn;
-  fcn.setUserParameters(slha_input);
-  fcn.setFixedParameters(slha_input);
+  fcn.setParameters(slha_input);
+  fcn.setObservables(slha_input);
 
   sphenodouble_mp_runtill_model_bilinear_rparity_();
 

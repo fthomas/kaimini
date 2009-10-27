@@ -35,8 +35,9 @@ SlhaBlock& Slha::operator()(const string& blockName)
   string block_name = to_upper_copy(blockName);
 
   for (Slha::iterator it = begin(); it != end(); it++)
+  {
     if (block_name == to_upper_copy(it->name)) return *it;
-
+  }
   push_back(SlhaBlock(block_name));
   return back();
 }
@@ -47,10 +48,10 @@ SlhaBlock Slha::operator()(const string& blockName) const
   string block_name = to_upper_copy(blockName);
 
   for (Slha::const_iterator it = begin(); it != end(); it++)
+  {
     if (block_name == to_upper_copy(it->name)) return *it;
-
-  throw out_of_range(
-    "Slha::operator()(\""+ blockName +"\")");
+  }
+  throw out_of_range("Slha::operator()(\""+ blockName +"\")");
 }
 
 
@@ -115,28 +116,36 @@ SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
   else if ("" == sj)
   {
     for (; it != end(); it++)
+    {
       if (si == it->at(1)) return *it;
+    }
   }
   else if ("" == sk)
   {
     for (; it != end(); it++)
+    {
       if (si == it->at(1) && sj == it->at(2)) return *it;
+    }
   }
   else if ("" == sl)
   {
     for (; it != end(); it++)
+    {
       if (si == it->at(1) && sj == it->at(2) &&
           sk == it->at(3)) return *it;
+    }
   }
   else
   {
     for (; it != end(); it++)
+    {
       if (si == it->at(1) && sj == it->at(2) &&
           sk == it->at(3) && sl == it->at(4)) return *it;
+    }
   }
 
-  throw out_of_range(
-    "SlhaBlock::operator()("+ si +", "+ sj +", "+ sk +", "+ sl +")");
+  throw out_of_range("SlhaBlock::operator()(" + si + ", " + sj + ", " + sk +
+                     ", " + sl + "); Block " + name);
 }
 
 
@@ -181,14 +190,18 @@ SlhaLine& SlhaLine::fromString(const string& line)
 ostream& operator<<(ostream& os, const Slha& slha)
 {
   for (Slha::const_iterator it = slha.begin(); it != slha.end(); it++)
+  {
     os << *it;
+  }
   return os;
 }
 
 ostream& operator<<(ostream& os, const SlhaBlock& block)
 {
   for (SlhaBlock::const_iterator it = block.begin(); it != block.end(); it++)
+  {
     os << *it << endl;
+  }
   return os;
 }
 

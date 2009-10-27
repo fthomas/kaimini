@@ -15,27 +15,27 @@ Block MINPAR        # Input parameters
  4    1                 # sign(mu)
  5   -3.000000E+02      # A0
 Block RVSNVEVIN     # sneutrino vevs
- 1    1.00000000E-05    # v_L1
- 2    1.00000000E-05    # v_L2
+ 1    1.00000000E-10    # v_L1
+ 2    1.00000000E-10    # v_L2
  3    1.00000000E-10    # v_L3
 Block RVKAPPAIN     # bilinear RP parameters
- 1    1.00000000E-05    # epsilon_1
- 2    1.00000000E-05    # epsilon_2
+ 1    1.00000000E-04    # epsilon_1
+ 2    1.00000000E-02    # epsilon_2
  3    1.00000000E-10    # epsilon_3
 Block RPVFitUpar    #
  1    1    1.0E-15      # epsilon_1
- 2    1    1.0E-15      # epsilon_2
+ 2    0    1.0E-15      # epsilon_2
  3    0    1.0E-15      # epsilon_3
  4    0    1.0E-15      # v_L1
  5    0    1.0E-15      # v_L2
  6    0    1.0E-15      # v_L3
 Block RPVFitObserv  #
  7    1    2.4E-03     0.6E-03   # m^2_atm [eV^2]
- 8    1    8.0E-05     0.5E-05   # m^2_sol [eV^2]
- 9    1    1.0         0.6       # tan^2 theta_atm
- 10   1    0.45        0.08      # tan^2 theta_sol
+ 8    0    8.0E-05     0.5E-05   # m^2_sol [eV^2]
+ 9    0    1.0         0.6       # tan^2 theta_atm
+ 10   0    0.45        0.08      # tan^2 theta_sol
 Block SPhenoInput   # SPheno specific input
- 1   -1                 # error level
+ 1    1                 # error level
  2    1                 # SPA conventions
  11   0                 # calculate branching ratios
  12   1.00000000E-04    # write only branching ratios larger than this value

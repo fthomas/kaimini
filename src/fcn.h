@@ -38,8 +38,8 @@ public:
   double operator()(const std::vector<double>& par) const;
   double Up() const;
 
-  void setUserParameters(const Slha& input);
-  static void setFixedParameters(const Slha& input);
+  void setParameters(const Slha& input);
+  static void setObservables(const Slha& input);
 };
 
 #endif // RPVFIT_FCN_H

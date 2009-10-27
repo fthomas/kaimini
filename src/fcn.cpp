@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <stdexcept>
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/MnUserParameters.h>
@@ -35,10 +36,14 @@ double Fcn::chiSquare(const vector<double>& par)
   size_t size = par.size();
 
   for (size_t i = 0; i < 3 && i < size; i++)
+  {
     model_data_mp_eps_[i].re = par.at(i);
+  }
 
   for (size_t i = 3; i < 6 && i < size; i++)
+  {
     model_data_mp_vevl_[i] = par.at(i);
+  }
 
   double chiSq = 0;
 
@@ -61,20 +66,23 @@ double Fcn::chiSquare(const gsl_vector* v, void* params)
 {
   vector<double> par(v->size);
   for (size_t i = 0; i < v->size; i++)
+  {
     par[i] = gsl_vector_get(v, i);
-
+  }
   return chiSquare(par);
 }
 
 
 double Fcn::operator()(const vector<double>& par) const
-{ return chiSquare(par); }
+{
+  return chiSquare(par);
+}
 
 
 double Fcn::Up() const { return 1.; }
 
 
-void Fcn::setUserParameters(const Slha& input)
+void Fcn::setParameters(const Slha& input)
 {
   upar.Add("epsilon_1", to_double(input("RVKAPPAIN")(1)[2]),
     to_double(input("RPVFitUpar")(1)[3]));
@@ -99,13 +107,24 @@ void Fcn::setUserParameters(const Slha& input)
 
 
 /* static */
-void Fcn::setFixedParameters(const Slha& input)
+void Fcn::setObservables(const Slha& input)
 {
   for (int i = 0; i < 4; i++)
   {
-    observInclude[i]  =    to_int(input("RPVFitObserv")(i+7)[2]);
-    observExpected[i] = to_double(input("RPVFitObserv")(i+7)[3]);
-    observSigma[i]    = to_double(input("RPVFitObserv")(i+7)[4]);
+    try
+    {
+      observInclude[i]  =    to_int(input("RPVFitObserv")(i+7)[2]);
+      observExpected[i] = to_double(input("RPVFitObserv")(i+7)[3]);
+      observSigma[i]    = to_double(input("RPVFitObserv")(i+7)[4]);
+    }
+    catch (out_of_range)
+    {
+      cerr << "Note (Fcn::setObservables): observable with index "
+           << (i+7) << " not found" << endl;
+      observInclude[i]  = 0;
+      observExpected[i] = 0.;
+      observSigma[i]    = 0.;
+    }
   }
 }
 
