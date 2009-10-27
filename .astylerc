@@ -1,0 +1,9 @@
+indent=spaces=2
+brackets=break
+indent-switches
+indent-preprocessor
+unpad-paren
+keep-one-line-statements
+keep-one-line-blocks
+convert-tabs
+suffix=none

@@ -178,8 +178,11 @@ SlhaLine& SlhaLine::fromString(const string& line)
   string comment = trim_copy(line.substr(comment_begin));
 
   clear();
-  if (!data.empty()) split(*dynamic_cast<vector<string>*>(this), data,
-                           is_space(), token_compress_on);
+  if (!data.empty())
+  {
+    split(*dynamic_cast<vector<string>*>(this), data, is_space(),
+          token_compress_on);
+  }
   insert(begin(), line);
   push_back(comment);
 

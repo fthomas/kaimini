@@ -48,8 +48,8 @@ double Fcn::chiSquare(const vector<double>& par)
   double chiSq = 0;
 
   rptools_mp_chisquare_(observInclude, observExpected, observSigma, &chiSq,
-    &inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
-    &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
+                        &inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
+                        &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
 
 #ifdef DEBUG
   cout.setf(ios::scientific);
@@ -85,17 +85,17 @@ double Fcn::Up() const { return 1.; }
 void Fcn::setParameters(const Slha& input)
 {
   upar.Add("epsilon_1", to_double(input("RVKAPPAIN")(1)[2]),
-    to_double(input("RPVFitUpar")(1)[3]));
+           to_double(input("RPVFitUpar")(1)[3]));
   upar.Add("epsilon_2", to_double(input("RVKAPPAIN")(2)[2]),
-    to_double(input("RPVFitUpar")(2)[3]));
+           to_double(input("RPVFitUpar")(2)[3]));
   upar.Add("epsilon_3", to_double(input("RVKAPPAIN")(3)[2]),
-    to_double(input("RPVFitUpar")(3)[3]));
+           to_double(input("RPVFitUpar")(3)[3]));
   upar.Add("v_L1", to_double(input("RVSNVEVIN")(1)[2]),
-    to_double(input("RPVFitUpar")(4)[3]));
+           to_double(input("RPVFitUpar")(4)[3]));
   upar.Add("v_L2", to_double(input("RVSNVEVIN")(2)[2]),
-    to_double(input("RPVFitUpar")(5)[3]));
+           to_double(input("RPVFitUpar")(5)[3]));
   upar.Add("v_L3", to_double(input("RVSNVEVIN")(3)[2]),
-    to_double(input("RPVFitUpar")(6)[3]));
+           to_double(input("RPVFitUpar")(6)[3]));
 
   if ("0" == input("RPVFitUpar")(1)[2]) upar.Fix("epsilon_1");
   if ("0" == input("RPVFitUpar")(2)[2]) upar.Fix("epsilon_2");

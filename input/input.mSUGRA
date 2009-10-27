@@ -35,7 +35,7 @@ Block RPVFitObserv  #
  9    0    1.0         0.6       # tan^2 theta_atm
  10   0    0.45        0.08      # tan^2 theta_sol
 Block SPhenoInput   # SPheno specific input
- 1    1                 # error level
+ 1    0                 # error level
  2    1                 # SPA conventions
  11   0                 # calculate branching ratios
  12   1.00000000E-04    # write only branching ratios larger than this value
