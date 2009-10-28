@@ -10,7 +10,7 @@ include_directories(
     ${Minuit2_INCLUDE_DIRS}
     ${SPheno_INCLUDE_DIRS})
 link_directories(${Minuit2_LIBRARY_DIRS})
-set(RPVFit_LIBRARIES Minuit2 ${SPheno_LIBRARIES})
+set(RPVFit_LIBRARIES gsl gslcblas m Minuit2 ${SPheno_LIBRARIES})
 set(RPVFit_RPATHS ${Minuit2_LIBRARY_DIRS})
 
 if(Fortran_COMPILER MATCHES ifort)

@@ -1,4 +1,4 @@
-// RPVFit
+// FISP - Fitting Interface for SPheno
 // Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,14 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef RPVFIT_SLHA_H
-#define RPVFIT_SLHA_H
+#ifndef FISP_SLHA_H
+#define FISP_SLHA_H
 
 #include <iostream>
 #include <limits>
 #include <list>
 #include <string>
 #include <vector>
+
+namespace FISP
+{
 
 class SlhaLine;
 class SlhaBlock;
@@ -75,6 +78,8 @@ std::ostream& operator<<(std::ostream& os, const SlhaLine& line);
 int to_int(const std::string& str);
 double to_double(const std::string& str);
 
-#endif // RPVFIT_SLHA_H
+} // namespace FISP
+
+#endif // FISP_SLHA_H
 
 // vim: sw=2 tw=78

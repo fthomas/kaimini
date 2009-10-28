@@ -1,4 +1,4 @@
-// RPVFit
+// FISP - Fitting Interface for SPheno
 // Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,13 +26,16 @@
 using namespace std;
 using namespace boost;
 
+namespace FISP
+{
+
 /* static */
 const int SlhaBlock::m_noIndex = std::numeric_limits<int>::max();
 
 
 SlhaBlock& Slha::operator()(const string& blockName)
 {
-  string block_name = to_upper_copy(blockName);
+  const string block_name = to_upper_copy(blockName);
 
   for (Slha::iterator it = begin(); it != end(); it++)
   {
@@ -45,7 +48,7 @@ SlhaBlock& Slha::operator()(const string& blockName)
 
 SlhaBlock Slha::operator()(const string& blockName) const
 {
-  string block_name = to_upper_copy(blockName);
+  const string block_name = to_upper_copy(blockName);
 
   for (Slha::const_iterator it = begin(); it != end(); it++)
   {
@@ -64,8 +67,8 @@ Slha& Slha::read(istream& is)
   {
     if (trim_left_copy(line).empty()) continue;
 
-    SlhaLine slha_line(line);
-    unsigned char first_char = slha_line[1][0];
+    const SlhaLine slha_line(line);
+    const unsigned char first_char = slha_line[1][0];
 
     if (isdigit(first_char))
     {
@@ -152,10 +155,10 @@ SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
 SlhaLine& SlhaBlock::operator()(const int i, const int j, const int k,
                                 const int l)
 {
-  string si = lexical_cast<string>(i);
-  string sj = lexical_cast<string>(j);
-  string sk = lexical_cast<string>(k);
-  string sl = lexical_cast<string>(l);
+  const string si = lexical_cast<string>(i);
+  const string sj = lexical_cast<string>(j);
+  const string sk = lexical_cast<string>(k);
+  const string sl = lexical_cast<string>(l);
 
   if (m_noIndex == i)
   {
@@ -174,8 +177,8 @@ SlhaLine& SlhaLine::fromString(const string& line)
   size_t comment_begin = line.find("#");
   if (string::npos == comment_begin) comment_begin = line.length();
 
-  string data    = trim_copy(line.substr(0, comment_begin));
-  string comment = trim_copy(line.substr(comment_begin));
+  const string data    = trim_copy(line.substr(0, comment_begin));
+  const string comment = trim_copy(line.substr(comment_begin));
 
   clear();
   if (!data.empty())
@@ -216,5 +219,7 @@ ostream& operator<<(ostream& os, const SlhaLine& line)
 int to_int(const string& str) { return lexical_cast<int>(str); }
 
 double to_double(const string& str) { return lexical_cast<double>(str); }
+
+} // namespace FISP
 
 // vim: sw=2 tw=78

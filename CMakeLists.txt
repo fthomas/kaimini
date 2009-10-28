@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
-project(RPVFit CXX Fortran)
+project(FISP CXX Fortran)
 
 get_filename_component(Fortran_COMPILER ${CMAKE_Fortran_COMPILER} NAME)
 

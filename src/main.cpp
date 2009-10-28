@@ -1,4 +1,4 @@
-// RPVFit
+// FISP - Fitting Interface for SPheno
 // Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 
 using namespace std;
 using namespace ROOT::Minuit2;
+using namespace FISP;
 using namespace SPheno;
 
 void parse_command_line(int argc, char** argv, string* inputFileName,
@@ -34,7 +35,7 @@ void parse_command_line(int argc, char** argv, string* inputFileName,
 {
   int c;
   int option_index = 0;
-  struct option long_options[] =
+  const struct option long_options[] =
     {
       {"input",  required_argument, 0, 'i'},
       {"output", required_argument, 0, 'o'},

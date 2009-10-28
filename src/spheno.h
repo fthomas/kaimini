@@ -1,5 +1,5 @@
-#ifndef RPVFIT_SPHENO_H
-#define RPVFIT_SPHENO_H
+#ifndef FISP_SPHENO_H
+#define FISP_SPHENO_H
 
 namespace SPheno
 {
@@ -66,6 +66,6 @@ inline void SPhenoDouble_RunTill_End()
 
 } // namespace SPheno
 
-#endif // RPVFIT_SPHENO_H
+#endif // FISP_SPHENO_H
 
 // vim: sw=2 tw=78

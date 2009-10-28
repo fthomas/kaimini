@@ -1,4 +1,4 @@
-// RPVFit
+// FISP - Fitting Interface for SPheno
 // Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,9 @@ using namespace std;
 using namespace ROOT::Minuit2;
 using namespace SPheno;
 
+namespace FISP
+{
+
 /* static */    int Fcn::observInclude[4];
 /* static */ double Fcn::observExpected[4];
 /* static */ double Fcn::observSigma[4];
@@ -34,7 +37,7 @@ using namespace SPheno;
 /* static */
 double Fcn::chiSquare(const vector<double>& par)
 {
-  size_t size = par.size();
+  const size_t size = par.size();
 
   for (size_t i = 0; i < 3 && i < size; i++)
   {
@@ -128,5 +131,7 @@ void Fcn::setObservables(const Slha& input)
     }
   }
 }
+
+} // namespace FISP
 
 // vim: sw=2 tw=78

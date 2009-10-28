@@ -1,5 +1,5 @@
 #
-# Makefile for RPVFit
+# Makefile for FISP
 #
 
 INTEL_LIBS     = /opt/intel/Compiler/11.1/056/lib/intel64
@@ -24,8 +24,9 @@ ifneq (,$(findstring ifort,$(F90)))
   F90FLAGS = -debug -warn all -warn errors
   LIBS    += -lifcore -limf -lm -lintlc -ldl -Wl,-rpath=$(INTEL_LIBS)
   MODPATH  = -module $(SPHENO_MODPATH)
+
 else ifneq (,$(findstring gfortran,$(F90)))
-  F90FLAGS = -g -Wall
+  F90FLAGS = -g -Wall -Wextra
   LIBS    += -lgfortran
   MODPATH  = -J$(SPHENO_MODPATH)
 endif

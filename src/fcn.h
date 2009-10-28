@@ -1,4 +1,4 @@
-// RPVFit
+// FISP - Fitting Interface for SPheno
 // Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,14 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef RPVFIT_FCN_H
-#define RPVFIT_FCN_H
+#ifndef FISP_FCN_H
+#define FISP_FCN_H
 
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/FCNBase.h>
 #include <Minuit2/MnUserParameters.h>
 #include "slha.h"
+
+namespace FISP
+{
 
 class Fcn : public ROOT::Minuit2::FCNBase
 {
@@ -42,6 +45,8 @@ public:
   static void setObservables(const Slha& input);
 };
 
-#endif // RPVFIT_FCN_H
+} // namespace FISP
+
+#endif // FISP_FCN_H
 
 // vim: sw=2 tw=78
