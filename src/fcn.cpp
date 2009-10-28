@@ -39,12 +39,12 @@ double Fcn::chiSquare(const vector<double>& par)
 {
   const size_t size = par.size();
 
-  for (size_t i = 0; i < 3 && i < size; i++)
+  for (size_t i = 0; i < 3 && i < size; ++i)
   {
     Model_Data_eps[i].re = par.at(i);
   }
 
-  for (size_t i = 3; i < 6 && i < size; i++)
+  for (size_t i = 3; i < 6 && i < size; ++i)
   {
     Model_Data_vevL[i] = par.at(i);
   }
@@ -69,7 +69,7 @@ double Fcn::chiSquare(const vector<double>& par)
 double Fcn::chiSquare(const gsl_vector* v, void* params)
 {
   vector<double> par(v->size);
-  for (size_t i = 0; i < v->size; i++)
+  for (size_t i = 0; i < v->size; ++i)
   {
     par[i] = gsl_vector_get(v, i);
   }
@@ -113,7 +113,7 @@ void Fcn::setParameters(const Slha& input)
 /* static */
 void Fcn::setObservables(const Slha& input)
 {
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; ++i)
   {
     try
     {

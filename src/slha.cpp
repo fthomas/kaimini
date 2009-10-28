@@ -37,7 +37,7 @@ SlhaBlock& Slha::operator()(const string& blockName)
 {
   const string block_name = to_upper_copy(blockName);
 
-  for (Slha::iterator it = begin(); it != end(); it++)
+  for (Slha::iterator it = begin(); it != end(); ++it)
   {
     if (block_name == to_upper_copy(it->name)) return *it;
   }
@@ -50,7 +50,7 @@ SlhaBlock Slha::operator()(const string& blockName) const
 {
   const string block_name = to_upper_copy(blockName);
 
-  for (Slha::const_iterator it = begin(); it != end(); it++)
+  for (Slha::const_iterator it = begin(); it != end(); ++it)
   {
     if (block_name == to_upper_copy(it->name)) return *it;
   }
@@ -118,21 +118,21 @@ SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
   }
   else if ("" == sj)
   {
-    for (; it != end(); it++)
+    for (; it != end(); ++it)
     {
       if (si == it->at(1)) return *it;
     }
   }
   else if ("" == sk)
   {
-    for (; it != end(); it++)
+    for (; it != end(); ++it)
     {
       if (si == it->at(1) && sj == it->at(2)) return *it;
     }
   }
   else if ("" == sl)
   {
-    for (; it != end(); it++)
+    for (; it != end(); ++it)
     {
       if (si == it->at(1) && sj == it->at(2) &&
           sk == it->at(3)) return *it;
@@ -140,7 +140,7 @@ SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
   }
   else
   {
-    for (; it != end(); it++)
+    for (; it != end(); ++it)
     {
       if (si == it->at(1) && sj == it->at(2) &&
           sk == it->at(3) && sl == it->at(4)) return *it;
@@ -195,7 +195,7 @@ SlhaLine& SlhaLine::fromString(const string& line)
 
 ostream& operator<<(ostream& os, const Slha& slha)
 {
-  for (Slha::const_iterator it = slha.begin(); it != slha.end(); it++)
+  for (Slha::const_iterator it = slha.begin(); it != slha.end(); ++it)
   {
     os << *it;
   }
@@ -204,7 +204,7 @@ ostream& operator<<(ostream& os, const Slha& slha)
 
 ostream& operator<<(ostream& os, const SlhaBlock& block)
 {
-  for (SlhaBlock::const_iterator it = block.begin(); it != block.end(); it++)
+  for (SlhaBlock::const_iterator it = block.begin(); it != block.end(); ++it)
   {
     os << *it << endl;
   }

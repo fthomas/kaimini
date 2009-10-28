@@ -128,7 +128,7 @@ gsl_multimin_fminimizer_iterate (m2);
 
        do
          {
-           iter++;
+           ++iter;
            status = gsl_multimin_fminimizer_iterate (m2);
      
            //if (status)
