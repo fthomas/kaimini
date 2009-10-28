@@ -27,6 +27,7 @@
 
 using namespace std;
 using namespace ROOT::Minuit2;
+using namespace SPheno;
 
 void parse_command_line(int argc, char** argv, string* inputFileName,
                         string* outputFileName)
@@ -70,13 +71,13 @@ int main(int argc, char* argv[])
   parse_command_line(argc, argv, &input_file, &output_file);
 
   // Set our (user-supplied) i/o filenames as SPheno's i/o filenames.
-  if (input_file.size() < sizeof(inputoutput_mp_leshouches_inputfile_))
-    strcpy(inputoutput_mp_leshouches_inputfile_, input_file.c_str());
+  if (input_file.size() < sizeof(InputOutput_LesHouches_InputFile))
+    strcpy(InputOutput_LesHouches_InputFile, input_file.c_str());
   else cerr << "Warning: input filename too long. SPheno will use its "
             << "default input filename." << endl;
 
-  if (output_file.size() < sizeof(inputoutput_mp_leshouches_outputfile_))
-    strcpy(inputoutput_mp_leshouches_outputfile_, output_file.c_str());
+  if (output_file.size() < sizeof(InputOutput_LesHouches_OutputFile))
+    strcpy(InputOutput_LesHouches_OutputFile, output_file.c_str());
   else cerr << "Warning: output filename too long. SPheno will use its "
             << "default output filename." << endl;
 
@@ -87,7 +88,7 @@ int main(int argc, char* argv[])
   fcn.setParameters(slha_input);
   fcn.setObservables(slha_input);
 
-  sphenodouble_mp_runtill_model_bilinear_rparity_();
+  SPhenoDouble_RunTill_Model_bilinear_Rparity();
 
 /*
   gsl_vector* v = gsl_vector_alloc(6);
@@ -150,7 +151,7 @@ gsl_multimin_fminimizer_iterate (m2);
   FunctionMinimum m = minimizer();
   
   fcn(m.UserParameters().Params());
-  sphenodouble_mp_runtill_end_();
+  SPhenoDouble_RunTill_End();
 
   cout << m << endl;
 

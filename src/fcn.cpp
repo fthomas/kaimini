@@ -24,6 +24,7 @@
 
 using namespace std;
 using namespace ROOT::Minuit2;
+using namespace SPheno;
 
 /* static */    int Fcn::observInclude[4];
 /* static */ double Fcn::observExpected[4];
@@ -37,19 +38,19 @@ double Fcn::chiSquare(const vector<double>& par)
 
   for (size_t i = 0; i < 3 && i < size; i++)
   {
-    model_data_mp_eps_[i].re = par.at(i);
+    Model_Data_eps[i].re = par.at(i);
   }
 
   for (size_t i = 3; i < 6 && i < size; i++)
   {
-    model_data_mp_vevl_[i] = par.at(i);
+    Model_Data_vevL[i] = par.at(i);
   }
 
   double chiSq = 0;
 
-  rptools_mp_chisquare_(observInclude, observExpected, observSigma, &chiSq,
-                        &inputoutput_mp_add_rparity_, &control_mp_delta_mass_,
-                        &sphenodouble_mp_m_gut_, &sphenodouble_mp_kont_);
+  RPtools_ChiSquare(observInclude, observExpected, observSigma, &chiSq,
+                    &InputOutput_Add_Rparity, &Control_delta_mass,
+                    &SPhenoDouble_m_Gut, &SPhenoDouble_kont);
 
 #ifdef DEBUG
   cout.setf(ios::scientific);
