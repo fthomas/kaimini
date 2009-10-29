@@ -69,7 +69,7 @@ double Fcn::chiSquare(const vector<double>& par)
 
 
 /* static */
-double Fcn::chiSquare(const gsl_vector* v, void* params)
+double Fcn::chiSquare(const gsl_vector* v, void* /* params */ = 0)
 {
   vector<double> par(v->size);
   for (size_t i = 0; i < v->size; ++i)
@@ -83,24 +83,24 @@ double Fcn::chiSquare(const gsl_vector* v, void* params)
 void Fcn::setParameters(const Slha& input)
 {
   upar.Add("epsilon_1", to_double(input("RVKAPPAIN")(1)[2]),
-           to_double(input("RPVFitUpar")(1)[3]));
+           to_double(input("RPVFitParams")(1)[3]));
   upar.Add("epsilon_2", to_double(input("RVKAPPAIN")(2)[2]),
-           to_double(input("RPVFitUpar")(2)[3]));
+           to_double(input("RPVFitParams")(2)[3]));
   upar.Add("epsilon_3", to_double(input("RVKAPPAIN")(3)[2]),
-           to_double(input("RPVFitUpar")(3)[3]));
+           to_double(input("RPVFitParams")(3)[3]));
   upar.Add("v_L1", to_double(input("RVSNVEVIN")(1)[2]),
-           to_double(input("RPVFitUpar")(4)[3]));
+           to_double(input("RPVFitParams")(4)[3]));
   upar.Add("v_L2", to_double(input("RVSNVEVIN")(2)[2]),
-           to_double(input("RPVFitUpar")(5)[3]));
+           to_double(input("RPVFitParams")(5)[3]));
   upar.Add("v_L3", to_double(input("RVSNVEVIN")(3)[2]),
-           to_double(input("RPVFitUpar")(6)[3]));
+           to_double(input("RPVFitParams")(6)[3]));
 
-  if ("0" == input("RPVFitUpar")(1)[2]) upar.Fix("epsilon_1");
-  if ("0" == input("RPVFitUpar")(2)[2]) upar.Fix("epsilon_2");
-  if ("0" == input("RPVFitUpar")(3)[2]) upar.Fix("epsilon_3");
-  if ("0" == input("RPVFitUpar")(4)[2]) upar.Fix("v_L1");
-  if ("0" == input("RPVFitUpar")(5)[2]) upar.Fix("v_L2");
-  if ("0" == input("RPVFitUpar")(6)[2]) upar.Fix("v_L3");
+  if ("0" == input("RPVFitParams")(1)[2]) upar.Fix("epsilon_1");
+  if ("0" == input("RPVFitParams")(2)[2]) upar.Fix("epsilon_2");
+  if ("0" == input("RPVFitParams")(3)[2]) upar.Fix("epsilon_3");
+  if ("0" == input("RPVFitParams")(4)[2]) upar.Fix("v_L1");
+  if ("0" == input("RPVFitParams")(5)[2]) upar.Fix("v_L2");
+  if ("0" == input("RPVFitParams")(6)[2]) upar.Fix("v_L3");
 }
 
 
@@ -146,7 +146,7 @@ void Fcn::simpleFitGsl()
     gsl_multimin_function my;
     my.n = 1;
     my.f = &Fcn::chiSquare;
-    my.params = NULL;
+    my.params = 0;
 
     const gsl_multimin_fminimizer_type* T;
     gsl_multimin_fminimizer* m2;

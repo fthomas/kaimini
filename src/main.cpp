@@ -86,12 +86,12 @@ int main(int argc, char* argv[])
   Slha slha_input;
   slha_input.readFile(input_file);
 
-  Fcn fcn;
-  fcn.setParameters(slha_input);
-  fcn.setObservables(slha_input);
+  Fcn rpvfit;
+  rpvfit.setParameters(slha_input);
+  rpvfit.setObservables(slha_input);
 
   SPhenoDouble_RunTill_Model_bilinear_Rparity();
-  fcn.simpleFitMinuit();
+  rpvfit.simpleFitMinuit();
   SPhenoDouble_RunTill_End();
 
   return 0;
