@@ -29,9 +29,7 @@ using namespace SPheno;
 namespace FISP
 {
 
-/* static */    int Fcn::observInclude[4];
-/* static */ double Fcn::observExpected[4];
-/* static */ double Fcn::observSigma[4];
+/* static */ Observables<Fcn::nObs> Fcn::obs;
 
 
 /* static */
@@ -51,7 +49,7 @@ double Fcn::chiSquare(const vector<double>& par)
 
   double chiSq = 0;
 
-  RPtools_ChiSquare(observInclude, observExpected, observSigma, &chiSq,
+  RPtools_ChiSquare(obs.use, obs.value, obs.error, &chiSq,
                     &InputOutput_Add_Rparity, &Control_delta_mass,
                     &SPhenoDouble_m_Gut, &SPhenoDouble_kont);
 
@@ -75,15 +73,6 @@ double Fcn::chiSquare(const gsl_vector* v, void* params)
   }
   return chiSquare(par);
 }
-
-
-double Fcn::operator()(const vector<double>& par) const
-{
-  return chiSquare(par);
-}
-
-
-double Fcn::Up() const { return 1.; }
 
 
 void Fcn::setParameters(const Slha& input)
@@ -113,21 +102,21 @@ void Fcn::setParameters(const Slha& input)
 /* static */
 void Fcn::setObservables(const Slha& input)
 {
-  for (int i = 0; i < 4; ++i)
+  for (int i = 0; i < nObs; ++i)
   {
     try
     {
-      observInclude[i]  =    to_int(input("RPVFitObserv")(i+7)[2]);
-      observExpected[i] = to_double(input("RPVFitObserv")(i+7)[3]);
-      observSigma[i]    = to_double(input("RPVFitObserv")(i+7)[4]);
+      obs.use[i]   =    to_int(input("RPVFitObserv")(i+7)[2]);
+      obs.value[i] = to_double(input("RPVFitObserv")(i+7)[3]);
+      obs.error[i] = to_double(input("RPVFitObserv")(i+7)[4]);
     }
     catch (out_of_range)
     {
       cerr << "Note (Fcn::setObservables): observable with index "
            << (i+7) << " not found" << endl;
-      observInclude[i]  = 0;
-      observExpected[i] = 0.;
-      observSigma[i]    = 0.;
+      obs.use[i]   = 0;
+      obs.value[i] = 0.;
+      obs.error[i] = 0.;
     }
   }
 }

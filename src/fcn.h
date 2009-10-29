@@ -26,20 +26,28 @@
 namespace FISP
 {
 
+template<int n> struct Observables
+{
+  int use[n];
+  double value[n];
+  double error[n];
+};
+
+
 class Fcn : public ROOT::Minuit2::FCNBase
 {
 public:
   ROOT::Minuit2::MnUserParameters upar;
 
-  static    int observInclude[4];
-  static double observExpected[4];
-  static double observSigma[4];
+  static const int nObs = 4;
+  static Observables<nObs> obs;
 
   static double chiSquare(const std::vector<double>& par);
   static double chiSquare(const gsl_vector* v, void* params);
 
-  double operator()(const std::vector<double>& par) const;
-  double Up() const;
+  double operator()(const std::vector<double>& par) const
+  { return chiSquare(par); }
+  double Up() const { return 1.; }
 
   void setParameters(const Slha& input);
   static void setObservables(const Slha& input);
