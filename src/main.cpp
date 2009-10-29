@@ -33,7 +33,7 @@ using namespace SPheno;
 void parse_command_line(int argc, char** argv, string* inputFileName,
                         string* outputFileName)
 {
-  int c;
+  int c = 0;
   int option_index = 0;
   const struct option long_options[] =
     {

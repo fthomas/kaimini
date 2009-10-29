@@ -60,8 +60,8 @@ SlhaBlock Slha::operator()(const string& blockName) const
 
 Slha& Slha::read(istream& is)
 {
-  string line;
-  string curr_block_name;
+  string line = "";
+  string curr_block_name = "";
 
   while (getline(is, line))
   {
