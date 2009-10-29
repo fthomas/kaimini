@@ -51,6 +51,8 @@ public:
 
   void setParameters(const Slha& input);
   static void setObservables(const Slha& input);
+  void simpleFitMinuit();
+  void simpleFitGsl();
 };
 
 } // namespace FISP

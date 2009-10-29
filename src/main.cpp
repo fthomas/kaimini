@@ -16,11 +16,6 @@
 
 #include <cstdlib>
 #include <getopt.h>
-#include <gsl/gsl_multimin.h>
-#include <gsl/gsl_vector.h>
-#include <Minuit2/FunctionMinimum.h>
-#include <Minuit2/MnMinimize.h>
-#include <Minuit2/MnPrint.h>
 #include "fcn.h"
 #include "slha.h"
 #include "spheno.h"
@@ -36,11 +31,11 @@ void parse_command_line(int argc, char** argv, string* inputFileName,
   int c = 0;
   int option_index = 0;
   const struct option long_options[] =
-    {
-      {"input",  required_argument, 0, 'i'},
-      {"output", required_argument, 0, 'o'},
-      {0, 0, 0, 0}
-    };
+  {
+    {"input",  required_argument, 0, 'i'},
+    {"output", required_argument, 0, 'o'},
+    {0, 0, 0, 0}
+  };
 
   while (true)
   {
@@ -74,13 +69,19 @@ int main(int argc, char* argv[])
   // Set our (user-supplied) i/o filenames as SPheno's i/o filenames.
   if (input_file.size() < sizeof(InputOutput_LesHouches_InputFile))
     strcpy(InputOutput_LesHouches_InputFile, input_file.c_str());
-  else cerr << "Warning: input filename too long. SPheno will use its "
-            << "default input filename." << endl;
+  else
+  {
+    cerr << "Warning: input filename too long. SPheno will use its "
+         << "default input filename." << endl;
+  }
 
   if (output_file.size() < sizeof(InputOutput_LesHouches_OutputFile))
     strcpy(InputOutput_LesHouches_OutputFile, output_file.c_str());
-  else cerr << "Warning: output filename too long. SPheno will use its "
-            << "default output filename." << endl;
+  else
+  {
+    cerr << "Warning: output filename too long. SPheno will use its "
+         << "default output filename." << endl;
+  }
 
   Slha slha_input;
   slha_input.readFile(input_file);
@@ -90,71 +91,8 @@ int main(int argc, char* argv[])
   fcn.setObservables(slha_input);
 
   SPhenoDouble_RunTill_Model_bilinear_Rparity();
-
-/*
-  gsl_vector* v = gsl_vector_alloc(6);
-  gsl_vector_set(v,1, 1.1);
-
-  fcn.function(fcn.uparGsl, NULL);
-  gsl_vector_free(v);
-*/
-/*
-  gsl_multimin_function my;
-  my.n = 1;
-  my.f = &Fcn::chiSquare;
-  my.params = NULL;
-
-  const gsl_multimin_fminimizer_type* T;
-  gsl_multimin_fminimizer* m2;
-
-  //T = gsl_multimin_fminimizer_nmsimplex;
-  //T = gsl_multimin_fminimizer_nmsimplex2;
-  T = gsl_multimin_fminimizer_nmsimplex2rand;
-  m2 = gsl_multimin_fminimizer_alloc(T,1);
-
-  gsl_vector* x = gsl_vector_alloc(1);
-  gsl_vector_set(x, 0, 1.0E-5);
-  //gsl_vector_set(x, 1, 0.00001);
-
-
-  gsl_vector* ss = gsl_vector_alloc(1);
-  gsl_vector_set(ss, 0, 1.0E-6);
-  //gsl_vector_set(ss, 1, 0.000001);
-
-  gsl_multimin_fminimizer_set(m2, &my, x, ss);
-size_t iter = 0;
-int status = 0;
-gsl_multimin_fminimizer_iterate (m2);
-
-       do
-         {
-           ++iter;
-           status = gsl_multimin_fminimizer_iterate (m2);
-     
-           //if (status)
-           //  break;
-     
-           //status = gsl_multimin_test_gradient (s->gradient, 1e-3);
-     
-          // if (status == GSL_SUCCESS)
-          //   printf ("Minimum found at:\n");
-     
-           printf ("%5d %.5f  %10.5f\n", int(iter),
-                   gsl_vector_get (m2->x, 0), 
-                   m2->fval);
-     
-         }
-       //while (status == GSL_CONTINUE && iter < 100 );
-       while ( iter < 100 );
-*/
-
-  MnMinimize minimizer(fcn, fcn.upar);
-  FunctionMinimum m = minimizer();
-  
-  fcn(m.UserParameters().Params());
+  fcn.simpleFitMinuit();
   SPhenoDouble_RunTill_End();
-
-  cout << m << endl;
 
   return 0;
 }

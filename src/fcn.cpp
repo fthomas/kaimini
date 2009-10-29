@@ -16,7 +16,11 @@
 
 #include <stdexcept>
 #include <vector>
+#include <gsl/gsl_multimin.h>
 #include <gsl/gsl_vector.h>
+#include <Minuit2/FunctionMinimum.h>
+#include <Minuit2/MnMinimize.h>
+#include <Minuit2/MnPrint.h>
 #include <Minuit2/MnUserParameters.h>
 #include "fcn.h"
 #include "slha.h"
@@ -29,7 +33,8 @@ using namespace SPheno;
 namespace FISP
 {
 
-/* static */ Observables<Fcn::nObs> Fcn::obs;
+/* static */
+Observables<Fcn::nObs> Fcn::obs;
 
 
 /* static */
@@ -119,6 +124,74 @@ void Fcn::setObservables(const Slha& input)
       obs.error[i] = 0.;
     }
   }
+}
+
+
+void Fcn::simpleFitMinuit()
+{
+  MnMinimize minimizer(*this, upar);
+  FunctionMinimum minimum = minimizer();
+
+  //
+  (*this)(minimum.UserParameters().Params());
+
+  cout << minimum << endl;
+}
+
+void Fcn::simpleFitGsl()
+{
+  //gsl_multimin_function function;
+// function.n
+  /*
+    gsl_multimin_function my;
+    my.n = 1;
+    my.f = &Fcn::chiSquare;
+    my.params = NULL;
+
+    const gsl_multimin_fminimizer_type* T;
+    gsl_multimin_fminimizer* m2;
+
+    //T = gsl_multimin_fminimizer_nmsimplex;
+    //T = gsl_multimin_fminimizer_nmsimplex2;
+    T = gsl_multimin_fminimizer_nmsimplex2rand;
+    m2 = gsl_multimin_fminimizer_alloc(T,1);
+
+    gsl_vector* x = gsl_vector_alloc(1);
+    gsl_vector_set(x, 0, 1.0E-5);
+    //gsl_vector_set(x, 1, 0.00001);
+
+
+    gsl_vector* ss = gsl_vector_alloc(1);
+    gsl_vector_set(ss, 0, 1.0E-6);
+    //gsl_vector_set(ss, 1, 0.000001);
+
+    gsl_multimin_fminimizer_set(m2, &my, x, ss);
+  size_t iter = 0;
+  int status = 0;
+  gsl_multimin_fminimizer_iterate (m2);
+
+         do
+           {
+             ++iter;
+             status = gsl_multimin_fminimizer_iterate (m2);
+
+             //if (status)
+             //  break;
+
+             //status = gsl_multimin_test_gradient (s->gradient, 1e-3);
+
+            // if (status == GSL_SUCCESS)
+            //   printf ("Minimum found at:\n");
+
+             printf ("%5d %.5f  %10.5f\n", int(iter),
+                     gsl_vector_get (m2->x, 0),
+                     m2->fval);
+
+           }
+         //while (status == GSL_CONTINUE && iter < 100 );
+         while ( iter < 100 );
+  */
+
 }
 
 } // namespace FISP
