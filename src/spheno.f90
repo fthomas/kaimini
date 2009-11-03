@@ -63,7 +63,6 @@ Use SugraRuns
  Logical :: CalcTBD
  Integer :: kont, i1, i_min(3)
  Real(dp) :: m_Gut, ratioWoM
-
  Bind(c, name="SPhenoDouble_kont") :: kont
  Bind(c, name="SPhenoDouble_m_Gut") :: m_Gut
 
@@ -96,7 +95,6 @@ Contains
  !--------------------------------------------------------------------------
  kont = 0
  Call ReadingData(kont)
-
 
  !---------------------------------------------
  ! parameters for branching ratio calculations
@@ -135,7 +133,7 @@ Contains
     & , uL_L, uL_R, uD_L, uD_R, uU_L, uU_R, Y_l, Y_d, Y_u                      &
     & , Mi, A_l, A_d, A_u, M2_E, M2_L, M2_D, M2_Q, M2_U, M2_H, mu, B           &
     & , m_GUT)
-
+Write(*,*) "kont",kont
  !-------------------------------------------------------------------
  ! Calculation of the branching ratios and widths provided L_BR is
  ! set .TRUE. (default) and that the routine Sugra has finished
@@ -245,6 +243,7 @@ Contains
 
  Call closing() ! closes the files
 
+
  End Subroutine RunTill_End
 
 
@@ -273,8 +272,8 @@ Contains
      & , mS0_T(2), mS02_T(2), RS0_T(2,2), mSpm_T(2), mSpm2_T(2),mZ2_run, mW2_run
   Complex(dp) :: Phase_Glu_T, U_T(2,2), V_T(2,2), N_T(4,4), Rsneut_T(3,3)  &
      & , RSlepton_T(6,6), RSdown_T(6,6), RSup_T(6,6), RSpm_T(2,2)
-  Real(dp) :: mudim, dt, tz, g2(213)
-  Complex(dp) :: CKMad(3,3), mu_mZ, B_mZ, Mi_mZ(3)
+  Real(dp) :: mudim, dt, tz, g2(213), vev2, vevs_DR(2), sinW2_DR
+  Complex(dp) :: CKMad(3,3), mu_mZ, B_mZ, Mi_mZ(3), dmZ2
   Complex(dp) :: cpl_CDSu_L(2,3,6), cpl_CDSu_R(2,3,6), cpl_CLSn_L(2,3,3) &
     & , cpl_CLSn_R(2,3,3)
   Integer :: i1,i2,i3, scheme
@@ -333,12 +332,16 @@ Contains
 
   !-------------------------------------
   ! calculate running masses at m_Z
-  ! open questions: vevSM, tanb
   !-------------------------------------
-  mZ2_run = (gauge_mZ(1)**2+gauge_mZ(2))**2*0.25*(vevsm(1)**2+vevsm(2)**2)
-  mW2_run = gauge_mZ(2)**2*0.25*(vevsm(1)**2+vevsm(2)**2)
+  sinW2 = 1._dp - mW2 / mZ2
+  vev2 =  Sqrt( mZ2 * (1._dp - sinW2) * SinW2 / (pi * alpha_mZ) )
+  vevSM(1) = vev2 / Sqrt(1._dp + tanb_mZ**2)
+  vevSM(2) = tanb_mZ * vevSM(1)
+  mZ2_run = (gauge_mZ(1)**2+gauge_mZ(2))**2*0.25*(vevSM(1)**2+vevSM(2)**2)
+  mW2_run = gauge_mZ(2)**2*0.25*(vevSM(1)**2+vevSM(2)**2)
+
   Call TreeMassesMSSM2(gauge_mZ(1), gauge_mZ(2), vevSM, Mi_mZ(1), Mi_mZ(2)   &
-     & , Mi_mZ(3), mu_mZ, B_mZ, tanb, M2_E_mZ, M2_L_mZ, A_l_mZ, Y_l_mZ       &
+     & , Mi_mZ(3), mu_mZ, B_mZ, tanb_mZ, M2_E_mZ, M2_L_mZ, A_l_mZ, Y_l_mZ       &
      & , M2_D_mZ, M2_U_mZ, M2_Q_mZ, A_d_mZ, A_u_mZ, Y_d_mZ, Y_u_mZ           &
      & , uU_L, uU_R ,uD_L, uD_R, uL_L, uL_R                                  &
      & , mGlu_T, Phase_Glu_T, mC_T, mC2_T, U_T, V_T, mN_T, mN2_T, N_T        &
@@ -346,6 +349,7 @@ Contains
      & , RSlepton_T, mSdown_T, mSdown2_T, RSdown_T, mSup_T, mSup2_T, RSup_T  &
      & , mP0_T, mP02_T, RP0_T, mS0_T, mS02_T, RS0_T, mSpm_T, mSpm2_T, RSpm_T &
      & , mZ2_run, mW2_run, GenerationMixing, kont, .False., .False.)
+
   If (.Not.GenerationMixing) Then ! need to add quark mixing for the following
    If (scheme.Eq.1) Then
     uU_L = CKM
@@ -471,7 +475,7 @@ Contains
   !-------------------
 !  BR_Bu_TauNu = Bm_to_l_nu(3,1, mSpm2(2), tanb, RSpm, Y_d_mZ, uU_L &
 !              &           , uD_R , Y_l_mZ, vevSM)
-  BR_Bu_TauNu = Bm_to_l_nu(3,1, mSpm2_T(2), tanb, RSpm_T, Y_d_mZ, uU_L &
+  BR_Bu_TauNu = Bm_to_l_nu(3,1, mSpm2_T(2), tanb_mZ, RSpm_T, Y_d_mZ, uU_L &
               &           , uD_R , Y_l_mZ, vevSM)
 
   !------------------------
@@ -1025,6 +1029,12 @@ Contains
     End If
 
     gauge(1) = Sqrt(5._dp/3._dp) * gauge(1)
+    Y_l = Transpose(Y_l)
+    Y_d = Transpose(Y_d)
+    Y_u = Transpose(Y_u)
+    A_l = Transpose(A_l)
+    A_d = Transpose(A_d)
+    A_u = Transpose(A_u)
     Call ParametersToG(gauge, y_l, y_d, y_u, Mi, A_l, A_d, A_u       &
                   & , M2_E, M2_L, M2_D, M2_Q, M2_U, M2_H, mu, B, g2)
     !------------------------------
@@ -1034,6 +1044,18 @@ Contains
     Call GToParameters(g2, gauge_mZ, Y_l_mZ, Y_d_mZ, Y_u_mZ, Mi_mZ, A_l_mZ &
        & , A_d_mZ, A_u_mZ, M2_E_mZ, M2_L_mZ, M2_D_mZ, M2_Q_mZ, M2_U_mZ     &
        & , M2_H_mZ, mu_mZ, B_mZ)
+    Y_l = Transpose(Y_l)
+    Y_d = Transpose(Y_d)
+    Y_u = Transpose(Y_u)
+    A_l = Transpose(A_l)
+    A_d = Transpose(A_d)
+    A_u = Transpose(A_u)
+    Y_l_mZ = Transpose(Y_l_mZ)
+    Y_d_mZ = Transpose(Y_d_mZ)
+    Y_u_mZ = Transpose(Y_u_mZ)
+    A_l_mZ = Transpose(A_l_mZ)
+    A_d_mZ = Transpose(A_d_mZ)
+    A_u_mZ = Transpose(A_u_mZ)
     !-----------------------------------------------------
     ! tanb_mZ is has been calculated in routine LoopMasses
     !-----------------------------------------------------
@@ -1043,7 +1065,7 @@ Contains
     vevSM(2) = tanb_mZ * vevSM(1)
     g2(1) = Sqrt(3._dp/5._dp) * g2(1)
     
-    Call TreeMassesMSSM2(g2(1), g2(2), vevSM, Mi_mZ(1), Mi_mZ(2), Mi_mZ(3)   &
+   Call TreeMassesMSSM2(g2(1), g2(2), vevSM, Mi_mZ(1), Mi_mZ(2), Mi_mZ(3)   &
       & , mu_mZ, B_mZ , tanb_mZ, M2_E_mZ, M2_L_mZ, A_l_mZ, Y_l_mZ, M2_D_mZ   &
       & , M2_U_mZ, M2_Q_mZ, A_d_mZ, A_u_mZ, Y_d_mZ, Y_u_mZ, uU_L, uU_R       &
       & , uD_L, uD_R, uL_L, uL_R, mGlu_T, PhaseGlu, mC_T, mC2_T, U_T, V_T    &
@@ -1324,7 +1346,7 @@ Contains
  !------------------------------------------------------------------
  ! Checked, if the file LesHouches.in exists
  !------------------------------------------------------------------
-  Inquire(file=LesHouches_InputFile,exist=file_exists)
+  Inquire(file=Trim(LesHouches_InputFile),exist=file_exists)
  !---------------------------------------
  !   if yes, use the data from this file
  !---------------------------------------
