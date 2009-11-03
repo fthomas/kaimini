@@ -23,8 +23,7 @@
 #include <string>
 #include <vector>
 
-namespace FISP
-{
+namespace FISP {
 
 class SlhaLine;
 class SlhaBlock;
@@ -33,6 +32,9 @@ class SlhaBlock;
 class Slha : public std::list<SlhaBlock>
 {
 public:
+  Slha() {}
+  Slha(const std::string fileName) { readFile(fileName); }
+
   SlhaBlock& operator()(const std::string& blockName);
   SlhaBlock operator()(const std::string& blockName) const;
   Slha& read(std::istream& is);
@@ -45,8 +47,8 @@ class SlhaBlock : public std::list<SlhaLine>
 public:
   std::string name;
 
-  SlhaBlock() { }
-  SlhaBlock(const std::string& blockName) : name(blockName) { }
+  SlhaBlock() {}
+  SlhaBlock(const std::string& blockName) : name(blockName) {}
 
   SlhaLine& operator()(const std::string& si = "",
                        const std::string& sj = "",
@@ -63,7 +65,7 @@ private:
 class SlhaLine : public std::vector<std::string>
 {
 public:
-  SlhaLine() { }
+  SlhaLine() {}
   SlhaLine(const std::string& line) { fromString(line); }
 
   SlhaLine& operator=(const std::string& line) { return fromString(line); }

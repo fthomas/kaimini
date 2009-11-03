@@ -26,8 +26,7 @@
 using namespace std;
 using namespace boost;
 
-namespace FISP
-{
+namespace FISP {
 
 /* static */
 const int SlhaBlock::m_noIndex = std::numeric_limits<int>::max();
