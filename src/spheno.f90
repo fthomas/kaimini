@@ -17,6 +17,7 @@ Module SPhenoDouble
 !---------------------------------
 ! loading necessary modules
 !---------------------------------
+Use iso_c_binding
 Use BranchingRatios
 Use Chargino3Decays
 Use Control
@@ -63,10 +64,13 @@ Use SugraRuns
  Integer :: kont, i1, i_min(3)
  Real(dp) :: m_Gut, ratioWoM
 
+ Bind(c, name="SPhenoDouble_kont") :: kont
+ Bind(c, name="SPhenoDouble_m_Gut") :: m_Gut
 
 Contains
 
- Subroutine RunTill_Model_bilinear_Rparity
+ Subroutine RunTill_Model_bilinear_Rparity &
+  & Bind(c, name="SPhenoDouble_RunTill_Model_bilinear_Rparity")
  !--------------------------------------------------------------------------
  ! set all parameters to zero
  !--------------------------------------------------------------------------
@@ -187,7 +191,7 @@ Contains
  End Subroutine RunTill_Model_bilinear_Rparity
 
 
- Subroutine RunTill_End
+ Subroutine RunTill_End Bind(c, name="SPhenoDouble_RunTill_End")
  If ((kont.Eq.0).And.(HighScaleModel.Ne."NMSSM")) Then
 
   Call CalculateLowEnergyConstraints(gauge, Y_l, Y_d, Y_u      &
