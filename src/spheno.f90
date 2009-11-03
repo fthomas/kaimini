@@ -68,7 +68,7 @@ Use SugraRuns
 
 Contains
 
- Subroutine RunTill_Model_bilinear_Rparity &
+ Subroutine RunTill_Model_bilinear_Rparity() &
   & Bind(c, name="SPhenoDouble_RunTill_Model_bilinear_Rparity")
  !--------------------------------------------------------------------------
  ! set all parameters to zero
@@ -189,7 +189,7 @@ Write(*,*) "kont",kont
  End Subroutine RunTill_Model_bilinear_Rparity
 
 
- Subroutine RunTill_End Bind(c, name="SPhenoDouble_RunTill_End")
+ Subroutine RunTill_End() Bind(c, name="SPhenoDouble_RunTill_End")
  If ((kont.Eq.0).And.(HighScaleModel.Ne."NMSSM")) Then
 
   Call CalculateLowEnergyConstraints(gauge, Y_l, Y_d, Y_u      &

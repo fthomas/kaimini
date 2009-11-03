@@ -14,19 +14,19 @@ CXX = g++
 F90 = ifort
 #F90 = gfortran
 
-CXXFLAGS = -g -Wall -Wextra
+CXXFLAGS = -g -Wall -Wextra -pedantic
 INCPATH  = -I$(MINUIT_INCPATH)
-LIBS     = -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS) \
+LIBS     = -L$(MINUIT_LIBS) -lMinuit2 -ldl -Wl,-rpath=$(MINUIT_LIBS) \
             $(SPHENO_LIB) -lgsl -lgslcblas -lm
-DEFINES  = -DDEBUG
+DEFINES  = 
 
 ifneq (,$(findstring ifort,$(F90)))
   F90FLAGS = -debug -warn all -warn errors
-  LIBS    += -lifcore -limf -lm -lintlc -ldl -Wl,-rpath=$(INTEL_LIBS)
+  LIBS    += -lifcore -limf -lm -lintlc -Wl,-rpath=$(INTEL_LIBS)
   MODPATH  = -module $(SPHENO_MODPATH)
 
 else ifneq (,$(findstring gfortran,$(F90)))
-  F90FLAGS = -g -Wall -Wextra
+  F90FLAGS = -g -Wall -Wextra -pedantic
   LIBS    += -lgfortran
   MODPATH  = -J$(SPHENO_MODPATH)
 endif
@@ -67,7 +67,7 @@ spheno_clean:
 	$(MAKE) -C $(SPHENO_DIR) cleanall
 
 spheno_diff:
-	diff -au $(SPHENO_DIR)/src/SPheno3.f90 src/spheno.f90 | colordiff
+	@diff -au $(SPHENO_DIR)/src/SPheno3.f90 src/spheno.f90 || true
 
 $(TARGET): spheno $(OBJECTS)
 	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
