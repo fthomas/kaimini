@@ -54,11 +54,11 @@ public:
                        const std::string& sj = "",
                        const std::string& sk = "",
                        const std::string& sl = "");
-  SlhaLine& operator()(const int i,             const int j = m_noIndex,
-                       const int k = m_noIndex, const int l = m_noIndex);
+  SlhaLine& operator()(const int i,             const int j = msNoIndex,
+                       const int k = msNoIndex, const int l = msNoIndex);
 
 private:
-  static const int m_noIndex;
+  static const int msNoIndex;
 };
 
 

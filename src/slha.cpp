@@ -29,7 +29,7 @@ using namespace boost;
 namespace FISP {
 
 /* static */
-const int SlhaBlock::m_noIndex = std::numeric_limits<int>::max();
+const int SlhaBlock::msNoIndex = std::numeric_limits<int>::max();
 
 
 SlhaBlock& Slha::operator()(const string& blockName)
@@ -159,14 +159,14 @@ SlhaLine& SlhaBlock::operator()(const int i, const int j, const int k,
   const string sk = lexical_cast<string>(k);
   const string sl = lexical_cast<string>(l);
 
-  if (m_noIndex == i)
+  if (msNoIndex == i)
   {
     push_back(SlhaLine());
     return back();
   }
-  else if (m_noIndex == j) return (*this)(si);
-  else if (m_noIndex == k) return (*this)(si, sj);
-  else if (m_noIndex == l) return (*this)(si, sj, sk);
+  else if (msNoIndex == j) return (*this)(si);
+  else if (msNoIndex == k) return (*this)(si, sj);
+  else if (msNoIndex == l) return (*this)(si, sj, sk);
   else                     return (*this)(si, sj, sk, sl);
 }
 
