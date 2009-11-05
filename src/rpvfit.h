@@ -49,6 +49,7 @@ public:
 
   void simpleFitMinuit();
   void simpleFitGsl();
+  void simpleMinimizeGsl();
 
 private:
   Parameters mPar;

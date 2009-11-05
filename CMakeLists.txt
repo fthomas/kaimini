@@ -7,6 +7,10 @@ project(FISP CXX Fortran)
 
 get_filename_component(Fortran_COMPILER ${CMAKE_Fortran_COMPILER} NAME)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
+endif()
+
 find_program(MAKE NAMES make gmake)
 find_package(Boost REQUIRED)
 find_package(Minuit2 REQUIRED)

@@ -16,7 +16,7 @@
 
 #include <cstdlib>
 #include <getopt.h>
-#include "fcn.h"
+#include "rpvfit.h"
 #include "slha.h"
 #include "spheno.h"
 
@@ -83,15 +83,16 @@ int main(int argc, char* argv[])
          << "default output filename." << endl;
   }
 
-  Slha slha_input;
-  slha_input.readFile(input_file);
+  Slha slha_input(input_file);
 
-  Fcn rpvfit;
+  RpvFit rpvfit;
   rpvfit.setParameters(slha_input);
   rpvfit.setObservables(slha_input);
 
   SPhenoDouble_RunTill_Model_bilinear_Rparity();
-  rpvfit.simpleFitMinuit();
+  //rpvfit.simpleFitMinuit();
+  //rpvfit.simpleFitGsl();
+  rpvfit.simpleMinimizeGsl();
   SPhenoDouble_RunTill_End();
 
   return 0;

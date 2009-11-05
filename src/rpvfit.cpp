@@ -128,6 +128,11 @@ void RpvFit::simpleFitMinuit()
 
 void RpvFit::simpleFitGsl()
 {
+}
+
+
+void RpvFit::simpleMinimizeGsl()
+{
   mspObj = this;
 
   gsl_multimin_function func;
@@ -149,30 +154,36 @@ void RpvFit::simpleFitGsl()
   gsl_vector_scale(step_sizes, 0.01);
 
   gsl_multimin_fminimizer_set(minimizer, &func, v, step_sizes);
-  
-  size_t iter = 0;
+
+  int iter = 0;
   int status = 0;
+  double size = 0.;
 
   do
   {
-          ++iter;
-             status = gsl_multimin_fminimizer_iterate (minimizer);
+    ++iter;
+    status = gsl_multimin_fminimizer_iterate(minimizer);
 
-             //if (status)
-             //  break;
+    if (status) break;
 
+    size = gsl_multimin_fminimizer_size(minimizer);
+    status = gsl_multimin_test_size(size, 1e-10);
+  }
+  while (GSL_CONTINUE  == status && iter < 1000);
 
-            // if (status == GSL_SUCCESS)
-            //   printf ("Minimum found at:\n");
+  cout.setf(ios::scientific);
+  cout.precision(8);
 
-             printf ("%5d %.5f  %10.5f\n", int(iter),
-                     gsl_vector_get (minimizer->x, 0),
-                     minimizer->fval);
+  cout << "Iterations: " << iter << endl;
+  cout << "Minimal chi^2: " << minimizer->fval << endl;
+  for (int i = 0; i < func.n; ++i)
+  {
+    cout << "Parameter " << i << ": " << gsl_vector_get(minimizer->x, i)
+         << endl;
+  }
 
-           }
-         //while (status == GSL_CONTINUE && iter < 100 );
-         while ( iter < 100 );
-
+  gsl_vector_free(v);
+  gsl_vector_free(step_sizes);
 }
 
 } // namespace FISP
