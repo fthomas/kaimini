@@ -1,8 +1,8 @@
 set(RPVFit_TARGET rpvfit)
 set(RPVFit_SOURCES
     main.cpp
-    fcn.cpp
     parameters.cpp
+    rpvfit.cpp
     slha.cpp
     spheno.f90)
 

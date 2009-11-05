@@ -32,13 +32,13 @@ else ifneq (,$(findstring gfortran,$(F90)))
 endif
 
 SOURCES = src/main.cpp \
-          src/fcn.cpp \
           src/parameters.cpp \
+          src/rpvfit.cpp \
           src/slha.cpp \
           src/spheno.f90
 OBJECTS = src/main.o \
-          src/fcn.o \
           src/parameters.o \
+          src/rpvfit.o \
           src/slha.o \
           src/spheno.o
 TARGET  = input/rpvfit

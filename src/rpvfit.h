@@ -14,49 +14,51 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FISP_FCN_H
-#define FISP_FCN_H
+#ifndef FISP_RPVFIT_H
+#define FISP_RPVFIT_H
 
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/FCNBase.h>
-#include <Minuit2/MnUserParameters.h>
+#include "parameters.h"
 #include "slha.h"
 
-namespace FISP
-{
+namespace FISP {
 
-template<int n> struct Observables
+struct Observable
 {
-  int use[n];
-  double value[n];
-  double error[n];
+  bool use;
+  double value;
+  double error;
 };
 
 
-class Fcn : public ROOT::Minuit2::FCNBase
+class RpvFit : public ROOT::Minuit2::FCNBase
 {
 public:
-  ROOT::Minuit2::MnUserParameters upar;
+  double chiSquare() const { return chiSquare(mPar.getParams()); }
+  double chiSquare(const std::vector<double>& v) const;
+  static double chiSquare(const gsl_vector* v, void*);
 
-  static const int nObs = 4;
-  static Observables<nObs> obs;
-
-  static double chiSquare(const std::vector<double>& par);
-  static double chiSquare(const gsl_vector* v, void* params);
-
-  double operator()(const std::vector<double>& par) const
-  { return chiSquare(par); }
+  double operator()(const std::vector<double>& v) const
+  { return chiSquare(v); }
   double Up() const { return 1.; }
 
   void setParameters(const Slha& input);
-  static void setObservables(const Slha& input);
+  void setObservables(const Slha& input);
+
   void simpleFitMinuit();
   void simpleFitGsl();
+
+private:
+  Parameters mPar;
+  std::vector<Observable> mObs;
+  static const int msObsCnt = 4;
+  static RpvFit* mspObj;
 };
 
 } // namespace FISP
 
-#endif // FISP_FCN_H
+#endif // FISP_RPVFIT_H
 
 // vim: sw=2 tw=78

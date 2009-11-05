@@ -23,17 +23,17 @@ Block RVKAPPAIN     # bilinear RP parameters
  2    1.00000000E-10    # epsilon_2
  3    1.00000000E-10    # epsilon_3
 Block RPVFitParams  #
- 1    1    1.0E-15      # epsilon_1
+ 1    1    1.0E-06      # epsilon_1
  2    0    1.0E-15      # epsilon_2
  3    0    1.0E-15      # epsilon_3
  4    0    1.0E-15      # v_L1
  5    0    1.0E-15      # v_L2
  6    0    1.0E-15      # v_L3
 Block RPVFitObserv  #
- 7    1    2.4E-03     0.6E-03   # m^2_atm [eV^2]
- 8    0    8.0E-05     0.5E-05   # m^2_sol [eV^2]
- 9    0    1.0         0.6       # tan^2 theta_atm
- 10   0    0.45        0.08      # tan^2 theta_sol
+ 1    1    2.4E-03     0.6E-03   # m^2_atm [eV^2]
+ 2    0    8.0E-05     0.5E-05   # m^2_sol [eV^2]
+ 3    0    1.0         0.6       # tan^2 theta_atm
+ 4    0    0.45        0.08      # tan^2 theta_sol
 Block SPhenoInput   # SPheno specific input
  1    0                 # error level
  2    1                 # SPA conventions
