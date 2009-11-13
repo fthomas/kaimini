@@ -176,7 +176,7 @@ void RpvFit::simpleMinimizeGsl()
 
   cout << "Iterations: " << iter << endl;
   cout << "Minimal chi^2: " << minimizer->fval << endl;
-  for (int i = 0; i < func.n; ++i)
+  for (size_t i = 0; i < func.n; ++i)
   {
     cout << "Parameter " << i << ": " << gsl_vector_get(minimizer->x, i)
          << endl;
