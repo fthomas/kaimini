@@ -31,17 +31,10 @@ else ifneq (,$(findstring gfortran,$(F90)))
   MODPATH  = -J$(SPHENO_MODPATH)
 endif
 
-SOURCES = src/main.cpp \
-          src/parameters.cpp \
-          src/rpvfit.cpp \
-          src/slha.cpp \
-          src/spheno.f90
-OBJECTS = src/main.o \
-          src/parameters.o \
-          src/rpvfit.o \
-          src/slha.o \
-          src/spheno.o
-TARGET  = input/rpvfit
+SOURCES := $(wildcard src/*.cpp src/*.f90)
+OBJECTS := $(SOURCES:.cpp=.o)
+OBJECTS := $(OBJECTS:.f90=.o)
+TARGET   = input/rpvfit
 
 all: $(TARGET)
 
