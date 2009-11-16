@@ -68,7 +68,9 @@ int main(int argc, char* argv[])
 
   // Set our (user-supplied) i/o filenames as SPheno's i/o filenames.
   if (input_file.size() < sizeof(InputOutput_LesHouches_InputFile))
+  {
     strcpy(InputOutput_LesHouches_InputFile, input_file.c_str());
+  }
   else
   {
     cerr << "Warning: input filename too long. SPheno will use its "
@@ -76,7 +78,9 @@ int main(int argc, char* argv[])
   }
 
   if (output_file.size() < sizeof(InputOutput_LesHouches_OutputFile))
+  {
     strcpy(InputOutput_LesHouches_OutputFile, output_file.c_str());
+  }
   else
   {
     cerr << "Warning: output filename too long. SPheno will use its "
