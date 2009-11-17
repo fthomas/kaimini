@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cmath>
+#include <iostream>
 #include <stdexcept>
 #include <vector>
 #include <gsl/gsl_multimin.h>
@@ -27,7 +29,6 @@
 
 using namespace std;
 using namespace ROOT::Minuit2;
-using namespace SPheno;
 
 namespace FISP {
 

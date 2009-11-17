@@ -1,8 +1,6 @@
 #ifndef FISP_SPHENO_H
 #define FISP_SPHENO_H
 
-namespace SPheno {
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -31,10 +29,8 @@ void SPhenoDouble_RunTill_Model_bilinear_Rparity(void);
 void SPhenoDouble_RunTill_End(void);
 
 #ifdef __cplusplus
-}
+} // extern "C"
 #endif
-
-} // namespace SPheno
 
 #endif // FISP_SPHENO_H
 

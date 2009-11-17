@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdlib>
+#include <cstring>
+#include <string>
 #include <getopt.h>
 #include "rpvfit.h"
 #include "slha.h"
@@ -23,7 +25,6 @@
 using namespace std;
 using namespace ROOT::Minuit2;
 using namespace FISP;
-using namespace SPheno;
 
 void parse_command_line(int argc, char** argv, string* inputFileName,
                         string* outputFileName)

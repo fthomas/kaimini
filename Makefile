@@ -85,4 +85,4 @@ cleanall: clean
 	rm -f $(RPVFIT) $(FISP_SO)
 	$(MAKE) -C input/ clean
 
-.PHONY: all spheno spheno_clean spheno_diff clean cleanall
+.PHONY: all shared spheno spheno_clean spheno_diff clean cleanall
