@@ -14,10 +14,10 @@ CXX = g++
 F90 = ifort
 #F90 = gfortran
 
-CXXFLAGS = -g -Wall -Wextra -pedantic
+CXXFLAGS = -fPIC -g -Wall -Wextra -pedantic
 INCPATH  = -I$(MINUIT_INCPATH) $(RCPPFLAGS)
-LIBS     = -L$(MINUIT_LIBS) -lMinuit2 -ldl -Wl,-rpath=$(MINUIT_LIBS) \
-           $(SPHENO_LIB) -lgsl -lgslcblas -lm $(RLDFLAGS)
+LIBS     = $(F90LIBS) -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) -lMinuit2 -ldl \
+           -Wl,-rpath=$(MINUIT_LIBS) $(SPHENO_LIB) $(RLDFLAGS)
 DEFINES  = 
 
 R_LIBS    = $(subst -L,,$(filter -L%,$(shell R CMD config --ldflags)))
@@ -28,23 +28,20 @@ RLDFLAGS  = $(shell R CMD config --ldflags) \
             $(foreach PATH,$(R_LIBS),-Wl,-rpath=$(PATH))
 
 ifneq (,$(findstring ifort,$(F90)))
-  F90FLAGS = -debug -warn all -warn errors
-  LIBS    += -lifcore -limf -lm -lintlc -Wl,-rpath=$(INTEL_LIBS)
+  F90FLAGS = -fPIC -debug -warn all -warn errors
+  F90LIBS  = -lifcore -limf -lm -lintlc -Wl,-rpath=$(INTEL_LIBS)
   MODPATH  = -module $(SPHENO_MODPATH)
 
 else ifneq (,$(findstring gfortran,$(F90)))
-  F90FLAGS = -g -Wall -Wextra -pedantic
-  LIBS    += -lgfortran
+  F90FLAGS = -fPIC -g -Wall -Wextra -pedantic
+  F90LIBS  = -lgfortran
   MODPATH  = -J$(SPHENO_MODPATH)
 endif
 
-SOURCES     := $(wildcard src/*.cpp src/*.f90 src/*.F90)
-OBJECTS     := $(SOURCES:.cpp=.o)
-OBJECTS     := $(OBJECTS:.f90=.o)
-OBJECTS     := $(OBJECTS:.F90=.o)
-OBJECTS_PIC := $(filter-out %main.pic.o,$(OBJECTS:.o=.pic.o))
-RPVFIT       = input/rpvfit
-FISP_SO      = input/fisp.so
+SOURCES := $(wildcard src/*.cpp src/*.f90 src/*.F90)
+OBJECTS := $(addsuffix .o,$(basename $(SOURCES)))
+RPVFIT   = input/rpvfit
+FISP_SO  = input/fisp.so
 
 all: $(RPVFIT)
 shared: $(FISP_SO)
@@ -62,16 +59,6 @@ shared: $(FISP_SO)
 	$(F90) -c $(F90FLAGS) $(MODPATH) $(DEFINES) -o "$@" "$<"
 
 
-%.pic.o: %.cpp
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCPATH) $(DEFINES) -o "$@" "$<"
-
-%.pic.o: %.f90
-	$(F90) -c -fPIC $(F90FLAGS) $(MODPATH) -o "$@" "$<"
-
-%.pic.o: %.F90
-	$(F90) -c -fPIC $(F90FLAGS) $(MODPATH) $(DEFINES) -o "$@" "$<"
-
-
 ### Build and clean rules:
 
 spheno:
@@ -87,15 +74,15 @@ spheno_diff:
 $(RPVFIT): spheno $(OBJECTS)
 	$(CXX) -o "$@" $(OBJECTS) $(LIBS)
 
-$(FISP_SO): spheno $(OBJECTS_PIC)
-	$(CXX) -o "$@" -shared $(OBJECTS_PIC) $(LIBS)
+$(FISP_SO): spheno $(filter-out %main.o,$(OBJECTS))
+	$(CXX) -o "$@" -shared $(filter-out %main.o,$(OBJECTS)) $(LIBS)
 
 
 clean:
-	rm -f $(OBJECTS) $(OBJECTS_PIC)
+	rm -f $(OBJECTS)
 
 cleanall: clean
-	rm -f $(RPVFIT) $(FISP_SO) Messages.out SPheno*.out SPheno.spc
+	rm -f $(RPVFIT) $(FISP_SO)
 	$(MAKE) -C input/ clean
 
 .PHONY: all spheno spheno_clean spheno_diff clean cleanall
