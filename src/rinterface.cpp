@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
+#include <vector>
 #include <Rcpp.h>
 #include "fisp.h"
 #include "rpvfit.h"
@@ -28,26 +29,51 @@ extern "C" {
 
 RpvFit gRpvFit;
 
-void rpvfit_init(SEXP params)
+SEXP rpvfit_init(SEXP args)
 {
-  RcppParams par(params);
+  RcppParams par(args);
   string input_file = par.getStringValue("input");
   string output_file = par.getStringValue("output");
 
   set_filenames(input_file, output_file);
-
   Slha slha_input(input_file);
 
   gRpvFit.setParameters(slha_input);
   gRpvFit.setObservables(slha_input);
 
   SPhenoDouble_RunTill_Model_bilinear_Rparity();
+  return R_NilValue;
 }
 
 
-void rpvfit_finish()
+SEXP rpvfit_get_params()
+{
+  vector<double> params = gRpvFit.getParameters()->getParams();
+  vector<double> var_params = gRpvFit.getParameters()->getVarParams();
+
+  RcppResultSet rs;
+  rs.add("params", params);
+  rs.add("varParams", var_params);
+  return rs.getReturnList();
+}
+
+
+SEXP rpvfit_chi_square(SEXP params)
+{
+  RcppVector<double> var_params(params);
+  gRpvFit.getParameters()->setVarParams(var_params.stlVector());
+  double chisq = gRpvFit.chiSquare();
+
+  RcppResultSet rs;
+  rs.add("chisq", chisq);
+  return rs.getReturnList();
+}
+
+
+SEXP rpvfit_finish()
 {
   SPhenoDouble_RunTill_End();
+  return R_NilValue;
 }
 
 } // extern "C"

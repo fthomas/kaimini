@@ -44,6 +44,7 @@ public:
   { return chiSquare(v); }
   double Up() const { return 1.; }
 
+  Parameters* getParameters() { return &mPar; }
   void setParameters(const Slha& input);
   void setObservables(const Slha& input);
 

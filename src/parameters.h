@@ -26,8 +26,8 @@ namespace FISP {
 class Parameters : public ROOT::Minuit2::MnUserParameters
 {
 public:
-  inline std::vector<double> getParams() const { return Params(); }
-  inline std::vector<double> getStepSizes() const { return Errors(); }
+  std::vector<double> getParams() const { return Params(); }
+  std::vector<double> getStepSizes() const { return Errors(); }
 
   std::vector<double> getVarParams() const;
   std::vector<double> getVarStepSizes() const;
