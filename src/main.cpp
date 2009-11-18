@@ -26,8 +26,8 @@ using namespace std;
 using namespace ROOT::Minuit2;
 using namespace FISP;
 
-void parse_command_line(int argc, char** argv, string* inputFileName,
-                        string* outputFileName)
+void parse_command_line(int argc, char** argv, string* inputFilename,
+                        string* outputFilename)
 {
   int c = 0;
   int option_index = 0;
@@ -46,11 +46,11 @@ void parse_command_line(int argc, char** argv, string* inputFileName,
     switch (c)
     {
       case 'i':
-        inputFileName->assign(optarg);
+        inputFilename->assign(optarg);
         break;
 
       case 'o':
-        outputFileName->assign(optarg);
+        outputFilename->assign(optarg);
         break;
 
       default:

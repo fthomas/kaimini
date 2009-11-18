@@ -33,12 +33,12 @@ class Slha : public std::list<SlhaBlock>
 {
 public:
   Slha() {}
-  Slha(const std::string fileName) { readFile(fileName); }
+  Slha(const std::string filename) { readFile(filename); }
 
   SlhaBlock& operator()(const std::string& blockName);
   SlhaBlock operator()(const std::string& blockName) const;
   Slha& read(std::istream& is);
-  Slha& readFile(const std::string& fileName);
+  Slha& readFile(const std::string& filename);
 };
 
 

@@ -93,12 +93,12 @@ Slha& Slha::read(istream& is)
 }
 
 
-Slha& Slha::readFile(const string& fileName)
+Slha& Slha::readFile(const string& filename)
 {
-  ifstream fs(fileName.c_str());
+  ifstream fs(filename.c_str());
   if (!fs)
   {
-    cerr << "Error (SLHA): readFile(\"" << fileName << "\") failed" << endl;
+    cerr << "Error (SLHA): readFile(\"" << filename << "\") failed" << endl;
     return *this;
   }
   return read(fs);
