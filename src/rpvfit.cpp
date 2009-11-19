@@ -61,6 +61,14 @@ double RpvFit::chiSquare(const vector<double>& v) const
                pow(mObs.at(i).error, 2);
     }
   }
+
+  cout.precision(8);
+  for (size_t i = 0; i < size; ++i)
+  {
+    cout << "p" << i << ": " << v[i] << endl;
+  }
+  cout << "chisq: " << chisq << endl << endl;
+
   return chisq;
 }
 

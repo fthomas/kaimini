@@ -24,7 +24,7 @@ RpvFitFinish <- function()
 
 RpvFitInit()
 params <- RpvFitGetParams()
-min <- nlm(RpvFitChiSquare, par$varParams)
+minimum <- nlm(RpvFitChiSquare, params$varParams)
 RpvFitFinish()
 
 # vim: sw=2 tw=78
