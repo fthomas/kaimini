@@ -43,8 +43,7 @@ OBJECTS := $(addsuffix .o,$(basename $(SOURCES)))
 RPVFIT   = input/rpvfit
 FISP_SO  = input/fisp.so
 
-all: $(RPVFIT)
-shared: $(FISP_SO)
+all: set_version $(RPVFIT) $(FISP_SO)
 
 
 ### Implicit rules:
@@ -85,4 +84,11 @@ cleanall: clean
 	rm -f $(RPVFIT) $(FISP_SO)
 	$(MAKE) -C input/ clean
 
-.PHONY: all shared spheno spheno_clean spheno_diff clean cleanall
+set_version:
+	if [ -d '.git' ] && [ -x "`which git 2>/dev/null`" ]; then \
+	  VERSION=`git describe --tags | cut -b2-`; \
+	  sed -i "s/fisp_version = \".*\"/fisp_version = \"$$VERSION\"/" \
+	    src/fisp.h; \
+	fi
+
+.PHONY: all shared spheno spheno_clean spheno_diff clean cleanall set_version
