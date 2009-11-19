@@ -39,6 +39,7 @@ public:
   SlhaBlock operator()(const std::string& blockName) const;
   Slha& read(std::istream& is);
   Slha& readFile(const std::string& filename);
+  std::string toString() const;
 };
 
 
@@ -56,6 +57,7 @@ public:
                        const std::string& sl = "");
   SlhaLine& operator()(const int i,             const int j = msNoIndex,
                        const int k = msNoIndex, const int l = msNoIndex);
+  std::string toString() const;
 
 private:
   static const int msNoIndex;
@@ -70,6 +72,7 @@ public:
 
   SlhaLine& operator=(const std::string& line) { return fromString(line); }
   SlhaLine& fromString(const std::string& line);
+  std::string toString() const;
 };
 
 

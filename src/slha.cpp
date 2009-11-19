@@ -16,6 +16,7 @@
 
 #include <fstream>
 #include <ostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -214,6 +215,29 @@ ostream& operator<<(ostream& os, const SlhaLine& line)
 {
   return os << line.at(0);
 }
+
+
+string Slha::toString() const
+{
+  stringstream ss("");
+  ss << *this;
+  return ss.str();
+}
+
+string SlhaBlock::toString() const
+{
+  stringstream ss("");
+  ss << *this;
+  return ss.str();
+}
+
+string SlhaLine::toString() const
+{
+  stringstream ss("");
+  ss << *this;
+  return ss.str();
+}
+
 
 int to_int(const string& str) { return lexical_cast<int>(str); }
 
