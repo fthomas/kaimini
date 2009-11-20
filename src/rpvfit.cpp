@@ -66,6 +66,7 @@ double RpvFit::chiSquare(const vector<double>& v) const
     }
   }
 
+  cout.setf(ios::scientific);
   cout.precision(8);
   for (size_t i = 0; i < size; ++i)
   {
@@ -222,6 +223,10 @@ void RpvFit::simpleMinimizeGsl()
     status = gsl_multimin_test_size(size, 1e-10);
   }
   while (GSL_CONTINUE  == status && iter < 1000);
+
+  // Call chiSquare() again with the parameter values of the minimal
+  // chi^2 to assure that same values are set in SPheno.
+  chiSquare(minimizer->x);
 
   cout.setf(ios::scientific);
   cout.precision(8);
