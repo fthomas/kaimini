@@ -89,6 +89,8 @@ set_version:
 	  VERSION=`git describe --tags | cut -b2-`; \
 	  sed -i "s/fisp_version = \".*\"/fisp_version = \"$$VERSION\"/" \
 	    src/fisp.h; \
+	  sed -i "s/^PROJECT_NUMBER.*=.*/PROJECT_NUMBER = $$VERSION/" \
+	     Doxyfile; \
 	fi
 
 .PHONY: all shared spheno spheno_clean spheno_diff clean cleanall set_version
