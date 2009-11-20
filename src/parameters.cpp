@@ -23,6 +23,13 @@ using namespace ROOT::Minuit2;
 
 namespace FISP {
 
+Parameters& Parameters::operator=(const MnUserParameters& par)
+{
+  MnUserParameters::operator=(par);
+  return *this;
+}
+
+
 vector<double> Parameters::getVarParams() const
 {
   vector<double> par(VariableParameters());
