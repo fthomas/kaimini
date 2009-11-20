@@ -56,7 +56,7 @@ double RpvFit::chiSquare(const vector<double>& v) const
     &Control_delta_mass, &SPhenoDouble_m_Gut, &SPhenoDouble_kont);
 
   mChiSq = 0;
-  for (int i = 0; i < msObsCnt; ++i)
+  for (size_t i = 0; i < msObsCnt; ++i)
   {
     if (mObs.at(i).use)
     {
@@ -105,7 +105,7 @@ void RpvFit::setParameters(const Slha& input)
 
 void RpvFit::setObservables(const Slha& input)
 {
-  for (int i = 1; i <= msObsCnt; ++i)
+  for (size_t i = 1; i <= msObsCnt; ++i)
   {
     try
     {
@@ -153,7 +153,7 @@ string RpvFit::slhaOutput() const
   line << format(" 0 %1$17.8E %|24t|%2%") % mChiSq % "# chi^2";
   result(block)() = line.str();
 
-  for (int i = 0; i < msObsCnt; ++i)
+  for (size_t i = 0; i < msObsCnt; ++i)
   {
     line.str("");
     line << format(" %1% %2$17.8E %3$17.8E %4$17.8E %|60t|%5%")
@@ -241,6 +241,7 @@ void RpvFit::simpleMinimizeGsl()
 
   gsl_vector_free(v);
   gsl_vector_free(step_sizes);
+  gsl_multimin_fminimizer_free(minimizer);
 }
 
 } // namespace FISP

@@ -61,7 +61,7 @@ private:
   Parameters mPar;
   mutable double mChiSq;
   std::vector<Observable> mObs;
-  static const int msObsCnt = 4;
+  static const size_t msObsCnt = 4;
   static RpvFit* mspObj;
 };
 
