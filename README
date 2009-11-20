@@ -4,3 +4,6 @@ FISP - Fitting Interface for SPheno
 Source code:
   http://github.com/fthomas/fisp
   git clone git://github.com/fthomas/fisp.git
+
+API Documentation:
+  http://physik.uni-wuerzburg.de/~fthomas/fisp/doc/
