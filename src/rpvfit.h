@@ -17,6 +17,7 @@
 #ifndef FISP_RPVFIT_H
 #define FISP_RPVFIT_H
 
+#include <string>
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/FCNBase.h>
@@ -27,9 +28,11 @@ namespace FISP {
 
 struct Observable
 {
+  std::string name;
   bool use;
   double value;
   double error;
+  mutable double wSqError;
 };
 
 
@@ -47,6 +50,7 @@ public:
   Parameters* getParameters() { return &mPar; }
   void setParameters(const Slha& input);
   void setObservables(const Slha& input);
+  std::string slhaOutput() const;
 
   void simpleFitMinuit();
   void simpleFitGsl();
@@ -55,6 +59,7 @@ public:
 
 private:
   Parameters mPar;
+  mutable double mChiSq;
   std::vector<Observable> mObs;
   static const int msObsCnt = 4;
   static RpvFit* mspObj;

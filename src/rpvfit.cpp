@@ -16,8 +16,10 @@
 
 #include <cmath>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <vector>
+#include <boost/format.hpp>
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/FunctionMinimum.h>
@@ -28,6 +30,7 @@
 #include "spheno.h"
 
 using namespace std;
+using namespace boost;
 using namespace ROOT::Minuit2;
 
 namespace FISP {
@@ -52,13 +55,14 @@ double RpvFit::chiSquare(const vector<double>& v) const
   RPtools_Calculate_RP_Observables(calc_obs, &InputOutput_Add_Rparity,
     &Control_delta_mass, &SPhenoDouble_m_Gut, &SPhenoDouble_kont);
 
-  double chisq = 0;
+  mChiSq = 0;
   for (int i = 0; i < msObsCnt; ++i)
   {
     if (mObs.at(i).use)
     {
-      chisq += pow(mObs.at(i).value - calc_obs[i], 2) /
-               pow(mObs.at(i).error, 2);
+      mObs.at(i).wSqError = pow(mObs.at(i).value - calc_obs[i], 2) /
+                            pow(mObs.at(i).error, 2);
+      mChiSq += mObs.at(i).wSqError;
     }
   }
 
@@ -67,9 +71,9 @@ double RpvFit::chiSquare(const vector<double>& v) const
   {
     cout << "p" << i << ": " << v[i] << endl;
   }
-  cout << "chisq: " << chisq << endl << endl;
+  cout << "chisq: " << mChiSq << endl << endl;
 
-  return chisq;
+  return mChiSq;
 }
 
 
@@ -90,7 +94,7 @@ void RpvFit::setParameters(const Slha& input)
   mPar.Add("v_L2", to_double(input("RVSNVEVIN")(2)[2]), 0.);
   mPar.Add("v_L3", to_double(input("RVSNVEVIN")(3)[2]), 0.);
 
-  for (int i = 0; i < 6; ++i)
+  for (size_t i = 0; i < mPar.Params().size(); ++i)
   {
     mPar.SetError(i, to_double(input("RPVFitParams")(i+1)[3]));
     if ("0" == input("RPVFitParams")(i+1)[2]) mPar.Fix(i);
@@ -106,9 +110,11 @@ void RpvFit::setObservables(const Slha& input)
     {
       Observable o =
       {
+        input("RPVFitObserv")(i)[5],
         to_int(input("RPVFitObserv")(i)[2]),
         to_double(input("RPVFitObserv")(i)[3]),
-        to_double(input("RPVFitObserv")(i)[4])
+        to_double(input("RPVFitObserv")(i)[4]),
+        -1.
       };
       mObs.push_back(o);
     }
@@ -116,10 +122,46 @@ void RpvFit::setObservables(const Slha& input)
     {
       cerr << "Note (RpvFit::setObservables): observable with index " << i
            << " not found" << endl;
-      Observable o = {false, 0., 0.};
+      Observable o = {"none", false, 0., 0., -1.};
       mObs.push_back(o);
     }
   }
+}
+
+
+string RpvFit::slhaOutput() const
+{
+  Slha result;
+  stringstream line("");
+
+  string block = "RPVFitParams";
+  result(block)() = "BLOCK " + block;
+  for (size_t i = 0; i < mPar.Params().size(); ++i)
+  {
+    line.str("");
+    line << format(" %1% %|6t|%2% %3$17.8E %4$17.8E %|47t|# %5%")
+            % (i+1) % !mPar.Parameter(i).IsFixed() % mPar.Value(i)
+            % mPar.Error(i) % mPar.Name(i);
+    result(block)() = line.str();
+  }
+
+  block = "RPVFitObserv";
+  result(block)() = "BLOCK " + block;
+
+  line.str("");
+  line << format(" 0 %1$17.8E %|24t|%2%") % mChiSq % "# chi^2";
+  result(block)() = line.str();
+
+  for (int i = 0; i < msObsCnt; ++i)
+  {
+    line.str("");
+    line << format(" %1% %2$17.8E %3$17.8E %4$17.8E %|60t|%5%")
+            % (i+1) % mObs.at(i).wSqError % mObs.at(i).value
+            % mObs.at(i).error % mObs.at(i).name;
+    result(block)() = line.str();
+  }
+
+  return result.toString();
 }
 
 
@@ -131,7 +173,8 @@ void RpvFit::simpleFitMinuit()
 
   // Call chiSquare() again with the parameter values of the minimal
   // chi^2 to assure that same values are set in SPheno.
-  chiSquare(minimum.UserParameters().Params());
+  mPar = minimum.UserParameters();
+  chiSquare();
 }
 
 

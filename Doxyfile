@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = FISP
-PROJECT_NUMBER = 0.0.1-4-g57f0633
+PROJECT_NUMBER = 0.0.1-6-g7e6a6da
 OUTPUT_DIRECTORY       =
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
@@ -152,7 +152,7 @@ ENUM_VALUES_PER_LINE   = 4
 GENERATE_TREEVIEW      = NO
 USE_INLINE_TREES       = NO
 TREEVIEW_WIDTH         = 250
-FORMULA_FONTSIZE       = 10
+FORMULA_FONTSIZE       = 12
 SEARCHENGINE           = YES
 #---------------------------------------------------------------------------
 # configuration options related to the LaTeX output
