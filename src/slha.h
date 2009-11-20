@@ -39,6 +39,7 @@ public:
   SlhaBlock operator()(const std::string& blockName) const;
   Slha& read(std::istream& is);
   Slha& readFile(const std::string& filename);
+  Slha& fromString(const std::string& str);
   std::string toString() const;
 };
 

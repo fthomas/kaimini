@@ -106,6 +106,14 @@ Slha& Slha::readFile(const string& filename)
 }
 
 
+Slha& Slha::fromString(const string& str)
+{
+  stringstream ss("");
+  ss << str;
+  return read(ss);
+}
+
+
 SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
                                 const string& sk, const string& sl)
 {
