@@ -97,8 +97,8 @@ void RpvFit::setParameters(const Slha& input)
 
   for (size_t i = 0; i < mPar.Params().size(); ++i)
   {
-    mPar.SetError(i, to_double(input("RPVFitParams")(i+1)[3]));
-    if ("0" == input("RPVFitParams")(i+1)[2]) mPar.Fix(i);
+    mPar.SetError(i, to_double(input("RPVFitParamsIn")(i+1)[3]));
+    if ("0" == input("RPVFitParamsIn")(i+1)[2]) mPar.Fix(i);
   }
 }
 
@@ -111,10 +111,10 @@ void RpvFit::setObservables(const Slha& input)
     {
       Observable o =
       {
-        input("RPVFitObserv")(i)[5],
-        to_int(input("RPVFitObserv")(i)[2]),
-        to_double(input("RPVFitObserv")(i)[3]),
-        to_double(input("RPVFitObserv")(i)[4]),
+        input("RPVFitObservIn")(i)[5],
+        to_int(input("RPVFitObservIn")(i)[2]),
+        to_double(input("RPVFitObservIn")(i)[3]),
+        to_double(input("RPVFitObservIn")(i)[4]),
         -1.
       };
       mObs.push_back(o);
@@ -173,7 +173,7 @@ void RpvFit::simpleFitMinuit()
   cout << minimum << endl;
 
   // Call chiSquare() again with the parameter values of the minimal
-  // chi^2 to assure that same values are set in SPheno.
+  // chi^2 to assure that the same values are set in SPheno.
   mPar = minimum.UserParameters();
   chiSquare();
 }
@@ -225,7 +225,7 @@ void RpvFit::simpleMinimizeGsl()
   while (GSL_CONTINUE  == status && iter < 1000);
 
   // Call chiSquare() again with the parameter values of the minimal
-  // chi^2 to assure that same values are set in SPheno.
+  // chi^2 to assure that the same values are set in SPheno.
   chiSquare(minimizer->x);
 
   cout.setf(ios::scientific);
