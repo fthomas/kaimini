@@ -32,7 +32,10 @@ struct Observable
   bool use;
   double value;
   double error;
-  mutable double wSqError;
+  mutable double calcValue;
+
+  /** weighted squared residual: (#value - #calcValue)² / #error² */
+  mutable double wSqResidual;
 };
 
 

@@ -58,11 +58,12 @@ double RpvFit::chiSquare(const vector<double>& v) const
   mChiSq = 0;
   for (size_t i = 0; i < msObsCnt; ++i)
   {
+    mObs.at(i).calcValue = calc_obs[i];
     if (mObs.at(i).use)
     {
-      mObs.at(i).wSqError = pow(mObs.at(i).value - calc_obs[i], 2) /
-                            pow(mObs.at(i).error, 2);
-      mChiSq += mObs.at(i).wSqError;
+      mObs.at(i).wSqResidual = pow(mObs.at(i).value - calc_obs[i], 2) /
+                               pow(mObs.at(i).error, 2);
+      mChiSq += mObs.at(i).wSqResidual;
     }
   }
 
@@ -115,7 +116,7 @@ void RpvFit::setObservables(const Slha& input)
         to_int(input("RPVFitObservIn")(i)[2]),
         to_double(input("RPVFitObservIn")(i)[3]),
         to_double(input("RPVFitObservIn")(i)[4]),
-        -1.
+        0., -1.
       };
       mObs.push_back(o);
     }
@@ -123,7 +124,7 @@ void RpvFit::setObservables(const Slha& input)
     {
       cerr << "Note (RpvFit::setObservables): observable with index " << i
            << " not found" << endl;
-      Observable o = {"none", false, 0., 0., -1.};
+      Observable o = {"none", false, 0., 0., 0., -1.};
       mObs.push_back(o);
     }
   }
@@ -140,7 +141,7 @@ string RpvFit::slhaOutput() const
   for (size_t i = 0; i < mPar.Params().size(); ++i)
   {
     line.str("");
-    line << format(" %1% %|6t|%2% %3$17.8E %4$17.8E %|47t|# %5%")
+    line << format(" %1% %|5t|%2% %3$16.8E %4$16.8E %|43t|# %5%")
             % (i+1) % !mPar.Parameter(i).IsFixed() % mPar.Value(i)
             % mPar.Error(i) % mPar.Name(i);
     result(block)() = line.str();
@@ -148,17 +149,27 @@ string RpvFit::slhaOutput() const
 
   block = "RPVFitObserv";
   result(block)() = "BLOCK " + block;
+  for (size_t i = 0; i < msObsCnt; ++i)
+  {
+    line.str("");
+    line << format(" %1% %|5t|%2% %3$16.8E %4$16.8E %5$16.8E %|60t|%6%")
+            % (i+1) % mObs.at(i).use % mObs.at(i).calcValue
+            % mObs.at(i).value % mObs.at(i).error % mObs.at(i).name;
+    result(block)() = line.str();
+  }
+
+  block = "RPVFitChiSquare";
+  result(block)() = "BLOCK " + block;
 
   line.str("");
-  line << format(" 0 %1$17.8E %|24t|%2%") % mChiSq % "# chi^2";
+  line << format(" 0 %1$16.8E %|22t|%2%") % mChiSq % "# chi^2";
   result(block)() = line.str();
 
   for (size_t i = 0; i < msObsCnt; ++i)
   {
     line.str("");
-    line << format(" %1% %2$17.8E %3$17.8E %4$17.8E %|60t|%5%")
-            % (i+1) % mObs.at(i).wSqError % mObs.at(i).value
-            % mObs.at(i).error % mObs.at(i).name;
+    line << format(" %1% %2$16.8E %|22t|%3%")
+            % (i+1) % mObs.at(i).wSqResidual % mObs.at(i).name;
     result(block)() = line.str();
   }
 
