@@ -6,4 +6,15 @@ Source code:
   git clone git://github.com/fthomas/fisp.git
 
 API Documentation:
-  http://physik.uni-wuerzburg.de/~fthomas/fisp/doc/
+  http://www.physik.uni-wuerzburg.de/~fthomas/fisp/doc/
+
+Requirements:
+  Boost C++ Libraries: http://www.boost.org/
+  CMake: http://www.cmake.org/
+  C++ compiler, e.g. g++: http://gcc.gnu.org/
+  Fortran 2003 compiler, e.g. gfortran or ifort
+  GSL (GNU Scientific Library): http://www.gnu.org/software/gsl/
+  Minuit2: http://www.cern.ch/minuit/
+  R: http://www.r-project.org/
+  Rcpp: http://cran.r-project.org/web/packages/Rcpp/
+  SPheno: http://www.physik.uni-wuerzburg.de/~porod/SPheno.html
