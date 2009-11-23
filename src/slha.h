@@ -20,27 +20,36 @@
 #include <iostream>
 #include <limits>
 #include <list>
+#include <sstream>
 #include <string>
 #include <vector>
 
 namespace FISP {
 
-class SlhaLine;
+class Slha;
 class SlhaBlock;
+class SlhaLine;
+
+std::ostream& operator<<(std::ostream& os, const Slha& slha);
+std::ostream& operator<<(std::ostream& os, const SlhaBlock& block);
+std::ostream& operator<<(std::ostream& os, const SlhaLine& line);
 
 
 class Slha : public std::list<SlhaBlock>
 {
 public:
   Slha() {}
-  Slha(const std::string filename) { readFile(filename); }
+  Slha(const std::string filename)
+  { readFile(filename); }
 
   SlhaBlock& operator()(const std::string& blockName);
   SlhaBlock operator()(const std::string& blockName) const;
   Slha& read(std::istream& is);
   Slha& readFile(const std::string& filename);
-  Slha& fromString(const std::string& str);
-  std::string toString() const;
+  Slha& fromString(const std::string& str)
+  { std::stringstream ss(""); ss << str; return read(ss); }
+  std::string toString() const
+  { std::stringstream ss(""); ss << *this; return ss.str(); }
 };
 
 
@@ -58,7 +67,8 @@ public:
                        const std::string& sl = "");
   SlhaLine& operator()(const int i,             const int j = msNoIndex,
                        const int k = msNoIndex, const int l = msNoIndex);
-  std::string toString() const;
+  std::string toString() const
+  { std::stringstream ss(""); ss << *this; return ss.str(); }
 
 private:
   static const int msNoIndex;
@@ -69,17 +79,16 @@ class SlhaLine : public std::vector<std::string>
 {
 public:
   SlhaLine() {}
-  SlhaLine(const std::string& line) { fromString(line); }
+  SlhaLine(const std::string& line)
+  { fromString(line); }
 
-  SlhaLine& operator=(const std::string& line) { return fromString(line); }
+  SlhaLine& operator=(const std::string& line)
+  { return fromString(line); }
   SlhaLine& fromString(const std::string& line);
-  std::string toString() const;
+  std::string toString() const
+  { std::stringstream ss(""); ss << *this; return ss.str(); }
 };
 
-
-std::ostream& operator<<(std::ostream& os, const Slha& slha);
-std::ostream& operator<<(std::ostream& os, const SlhaBlock& block);
-std::ostream& operator<<(std::ostream& os, const SlhaLine& line);
 
 int to_int(const std::string& str);
 double to_double(const std::string& str);

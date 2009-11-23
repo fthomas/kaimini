@@ -16,7 +16,6 @@
 
 #include <fstream>
 #include <ostream>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -103,14 +102,6 @@ Slha& Slha::readFile(const string& filename)
     return *this;
   }
   return read(fs);
-}
-
-
-Slha& Slha::fromString(const string& str)
-{
-  stringstream ss("");
-  ss << str;
-  return read(ss);
 }
 
 
@@ -222,28 +213,6 @@ ostream& operator<<(ostream& os, const SlhaBlock& block)
 ostream& operator<<(ostream& os, const SlhaLine& line)
 {
   return os << line.at(0);
-}
-
-
-string Slha::toString() const
-{
-  stringstream ss("");
-  ss << *this;
-  return ss.str();
-}
-
-string SlhaBlock::toString() const
-{
-  stringstream ss("");
-  ss << *this;
-  return ss.str();
-}
-
-string SlhaLine::toString() const
-{
-  stringstream ss("");
-  ss << *this;
-  return ss.str();
 }
 
 
