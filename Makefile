@@ -43,7 +43,7 @@ OBJECTS := $(addsuffix .o,$(basename $(SOURCES)))
 RPVFIT   = input/rpvfit
 FISP_SO  = input/fisp.so
 
-all: set_version $(RPVFIT) $(FISP_SO)
+all: $(RPVFIT) $(FISP_SO)
 
 
 ### Implicit rules:
@@ -93,4 +93,4 @@ set_version:
 	     Doxyfile; \
 	fi
 
-.PHONY: all shared spheno spheno_clean spheno_diff clean cleanall set_version
+.PHONY: all spheno spheno_clean spheno_diff clean cleanall set_version
