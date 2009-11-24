@@ -90,8 +90,10 @@ public:
 };
 
 
+bool to_bool(const std::string& str);
 int to_int(const std::string& str);
 double to_double(const std::string& str);
+long double to_long_double(const std::string& str);
 
 } // namespace FISP
 

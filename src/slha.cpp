@@ -216,9 +216,17 @@ ostream& operator<<(ostream& os, const SlhaLine& line)
 }
 
 
-int to_int(const string& str) { return lexical_cast<int>(str); }
+bool to_bool(const string& str)
+{ return lexical_cast<bool>(str); }
 
-double to_double(const string& str) { return lexical_cast<double>(str); }
+int to_int(const string& str)
+{ return lexical_cast<int>(str); }
+
+double to_double(const string& str)
+{ return lexical_cast<double>(str); }
+
+long double to_long_double(const string& str)
+{ return lexical_cast<long double>(str); }
 
 } // namespace FISP
 
