@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
-#include <sstream>
 #include <vector>
 #include <boost/format.hpp>
 #include <gsl/gsl_multimin.h>
