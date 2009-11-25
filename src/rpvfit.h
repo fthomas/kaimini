@@ -33,7 +33,7 @@ public:
   std::string getName() const
   { return std::string("RPVFit"); }
 
-privat:
+private:
   static const size_t msObsCnt = 4;
 };
 

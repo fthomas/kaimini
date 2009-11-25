@@ -42,9 +42,10 @@ int main(int argc, char* argv[])
 
   SPhenoDouble_RunTill_Model_bilinear_Rparity();
 
-  //rpvfit.simpleFitMinuit();
-  //rpvfit.simpleFitGsl();
-  rpvfit.simpleMinimizeGsl();
+  //rpvfit.fitMinuitMinimize();
+  //rpvfit.fitMinuitSimplex();
+  rpvfit.fitGslSimplex();
+  cout << rpvfit.result().toString();
 
   SPhenoDouble_RunTill_End();
 
