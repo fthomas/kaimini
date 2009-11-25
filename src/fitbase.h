@@ -35,12 +35,9 @@ struct Observable
   mutable double calcValue;
   mutable double wSqResidual;
 
-  Observable() : name(""), use(false), value(0.), error(0.), calcValue(0.),
-    wSqResidual(-1.) {}
-
-  Observable(std::string _name, bool _use, double _value, double _error) :
-    name(_name), use(_use), value(_value), error(_error), calcValue(0.),
-    wSqResidual(-1.) {}
+  Observable(std::string _name = "", bool _use = false, double _value = 0.,
+    double _error = 0.) : name(_name), use(_use), value(_value),
+    error(_error), calcValue(0.), wSqResidual(-1.) {}
 };
 
 
