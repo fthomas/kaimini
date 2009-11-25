@@ -19,53 +19,22 @@
 
 #include <string>
 #include <vector>
-#include <gsl/gsl_vector.h>
-#include <Minuit2/FCNBase.h>
-#include "parameters.h"
+#include "fitbase.h"
 #include "slha.h"
 
 namespace FISP {
 
-struct Observable
-{
-  std::string name;
-  bool use;
-  double value;
-  double error;
-  mutable double calcValue;
-
-  /** weighted squared residual: (#value - #calcValue)² / #error² */
-  mutable double wSqResidual;
-};
-
-
-class RpvFit : public ROOT::Minuit2::FCNBase
+class RpvFit : public FitBase
 {
 public:
-  double chiSquare() const { return chiSquare(mPar.getParams()); }
-  double chiSquare(const std::vector<double>& v) const;
-  static double chiSquare(const gsl_vector* v, void*);
-
-  double operator()(const std::vector<double>& v) const
-  { return chiSquare(v); }
-  double Up() const { return 1.; }
-
-  Parameters* getParameters() { return &mPar; }
   void setParameters(const Slha& input);
   void setObservables(const Slha& input);
-  std::string slhaOutput() const;
+  double chiSquare(const std::vector<double>& v) const;
+  std::string getName() const
+  { return std::string("RPVFit"); }
 
-  void simpleFitMinuit();
-  void simpleFitGsl();
-
-  void simpleMinimizeGsl();
-
-private:
-  Parameters mPar;
-  mutable double mChiSq;
-  std::vector<Observable> mObs;
+privat:
   static const size_t msObsCnt = 4;
-  static RpvFit* mspObj;
 };
 
 } // namespace FISP

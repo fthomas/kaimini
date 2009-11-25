@@ -16,28 +16,15 @@
 
 #include <cmath>
 #include <iostream>
-#include <sstream>
 #include <stdexcept>
 #include <vector>
-#include <boost/format.hpp>
-#include <gsl/gsl_multimin.h>
-#include <gsl/gsl_vector.h>
-#include <Minuit2/FunctionMinimum.h>
-#include <Minuit2/MnMinimize.h>
-#include <Minuit2/MnPrint.h>
 #include "rpvfit.h"
 #include "slha.h"
 #include "spheno.h"
 
 using namespace std;
-using namespace boost;
-using namespace ROOT::Minuit2;
 
 namespace FISP {
-
-/* static */
-RpvFit* RpvFit::mspObj;
-
 
 double RpvFit::chiSquare(const vector<double>& v) const
 {
@@ -79,16 +66,9 @@ double RpvFit::chiSquare(const vector<double>& v) const
 }
 
 
-/* static */
-double RpvFit::chiSquare(const gsl_vector* v, void* = 0)
-{
-  mspObj->mPar.setVarParams(v);
-  return mspObj->chiSquare();
-}
-
-
 void RpvFit::setParameters(const Slha& input)
 {
+  mPar = Parameters();
   mPar.Add("epsilon_1", to_double(input("RVKAPPAIN")(1)[2]), 0.);
   mPar.Add("epsilon_2", to_double(input("RVKAPPAIN")(2)[2]), 0.);
   mPar.Add("epsilon_3", to_double(input("RVKAPPAIN")(3)[2]), 0.);
@@ -106,153 +86,27 @@ void RpvFit::setParameters(const Slha& input)
 
 void RpvFit::setObservables(const Slha& input)
 {
+  mObs.clear();
   for (size_t i = 1; i <= msObsCnt; ++i)
   {
     try
     {
-      Observable o =
-      {
+      Observable obs(
         input("RPVFitObservIn")(i)[5],
-        to_int(input("RPVFitObservIn")(i)[2]),
+        to_bool(input("RPVFitObservIn")(i)[2]),
         to_double(input("RPVFitObservIn")(i)[3]),
-        to_double(input("RPVFitObservIn")(i)[4]),
-        0., -1.
-      };
-      mObs.push_back(o);
+        to_double(input("RPVFitObservIn")(i)[4])
+      );
+      mObs.push_back(obs);
     }
     catch (out_of_range)
     {
       cerr << "Note (RpvFit::setObservables): observable with index " << i
            << " not found" << endl;
-      Observable o = {"none", false, 0., 0., 0., -1.};
-      mObs.push_back(o);
+      Observable obs;
+      mObs.push_back(obs);
     }
   }
-}
-
-
-string RpvFit::slhaOutput() const
-{
-  Slha result;
-  stringstream line("");
-
-  string block = "RPVFitParams";
-  result(block)() = "BLOCK " + block;
-  for (size_t i = 0; i < mPar.Params().size(); ++i)
-  {
-    line.str("");
-    line << format(" %1% %|5t|%2% %3$16.8E %4$16.8E %|43t|# %5%")
-            % (i+1) % !mPar.Parameter(i).IsFixed() % mPar.Value(i)
-            % mPar.Error(i) % mPar.Name(i);
-    result(block)() = line.str();
-  }
-
-  block = "RPVFitObserv";
-  result(block)() = "BLOCK " + block;
-  for (size_t i = 0; i < msObsCnt; ++i)
-  {
-    line.str("");
-    line << format(" %1% %|5t|%2% %3$16.8E %4$16.8E %5$16.8E %|60t|%6%")
-            % (i+1) % mObs.at(i).use % mObs.at(i).calcValue
-            % mObs.at(i).value % mObs.at(i).error % mObs.at(i).name;
-    result(block)() = line.str();
-  }
-
-  block = "RPVFitChiSquare";
-  result(block)() = "BLOCK " + block;
-
-  line.str("");
-  line << format(" 0 %1$16.8E %|22t|%2%") % mChiSq % "# chi^2";
-  result(block)() = line.str();
-
-  for (size_t i = 0; i < msObsCnt; ++i)
-  {
-    line.str("");
-    line << format(" %1% %2$16.8E %|22t|%3%")
-            % (i+1) % mObs.at(i).wSqResidual % mObs.at(i).name;
-    result(block)() = line.str();
-  }
-
-  return result.toString();
-}
-
-
-void RpvFit::simpleFitMinuit()
-{
-  MnMinimize minimizer(*this, mPar);
-  FunctionMinimum minimum = minimizer();
-  cout << minimum << endl;
-
-  // Call chiSquare() again with the parameter values of the minimal
-  // chi^2 to assure that the same values are set in SPheno.
-  mPar = minimum.UserParameters();
-  chiSquare();
-}
-
-
-void RpvFit::simpleFitGsl()
-{
-}
-
-
-void RpvFit::simpleMinimizeGsl()
-{
-  mspObj = this;
-
-  gsl_multimin_function func;
-  func.f = &RpvFit::chiSquare;
-  func.n = mPar.VariableParameters();
-  func.params = 0;
-
-  const gsl_multimin_fminimizer_type* mtype;
-  gsl_multimin_fminimizer* minimizer;
-
-  mtype = gsl_multimin_fminimizer_nmsimplex2rand;
-  minimizer = gsl_multimin_fminimizer_alloc(mtype, func.n);
-
-  gsl_vector* v = mPar.getVarParamsGslVec();
-  gsl_vector* step_sizes = mPar.getVarStepSizesGslVec();
-
-  // Use always 1% of v_i as v_i's step size.
-  gsl_vector_memcpy(step_sizes, v);
-  gsl_vector_scale(step_sizes, 0.01);
-
-  gsl_multimin_fminimizer_set(minimizer, &func, v, step_sizes);
-
-  int iter = 0;
-  int status = 0;
-  double size = 0.;
-
-  do
-  {
-    ++iter;
-    status = gsl_multimin_fminimizer_iterate(minimizer);
-
-    if (status) break;
-
-    size = gsl_multimin_fminimizer_size(minimizer);
-    status = gsl_multimin_test_size(size, 1e-10);
-  }
-  while (GSL_CONTINUE  == status && iter < 1000);
-
-  // Call chiSquare() again with the parameter values of the minimal
-  // chi^2 to assure that the same values are set in SPheno.
-  chiSquare(minimizer->x);
-
-  cout.setf(ios::scientific);
-  cout.precision(8);
-
-  cout << "Iterations: " << iter << endl;
-  cout << "Minimal chi^2: " << minimizer->fval << endl;
-  for (size_t i = 0; i < func.n; ++i)
-  {
-    cout << "Parameter " << i << ": " << gsl_vector_get(minimizer->x, i)
-         << endl;
-  }
-
-  gsl_vector_free(v);
-  gsl_vector_free(step_sizes);
-  gsl_multimin_fminimizer_free(minimizer);
 }
 
 } // namespace FISP
