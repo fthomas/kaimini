@@ -46,6 +46,7 @@ public:
   SlhaBlock operator()(const std::string& blockName) const;
   Slha& read(std::istream& is);
   Slha& readFile(const std::string& filename);
+  Slha& writeFile(const std::string& filename);
   Slha& fromString(const std::string& str)
   { std::stringstream ss(""); ss << str; return read(ss); }
   std::string toString() const
@@ -112,6 +113,11 @@ bool to_bool(const std::string& str);
 int to_int(const std::string& str);
 double to_double(const std::string& str);
 long double to_long_double(const std::string& str);
+
+std::string to_string(const bool v);
+std::string to_string(const int v);
+std::string to_string(const double v);
+std::string to_string(const long double v);
 
 } // namespace FISP
 

@@ -107,6 +107,19 @@ Slha& Slha::readFile(const string& filename)
 }
 
 
+Slha& Slha::writeFile(const string& filename)
+{
+  ofstream fs(filename.c_str());
+  if (!fs)
+  {
+    cerr << "Error (SLHA): writeFile(\"" << filename << "\") failed" << endl;
+    return *this;
+  }
+  fs << *this;
+  return *this;
+}
+
+
 SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
                                 const string& sk, const string& sl)
 {
@@ -249,6 +262,18 @@ double to_double(const string& str)
 
 long double to_long_double(const string& str)
 { return lexical_cast<long double>(str); }
+
+string to_string(const bool v)
+{ return lexical_cast<string>(v); }
+
+string to_string(const int v)
+{ return lexical_cast<string>(v); }
+
+string to_string(const double v)
+{ return lexical_cast<string>(v); }
+
+string to_string(const long double v)
+{ return lexical_cast<string>(v); }
 
 } // namespace FISP
 
