@@ -38,6 +38,12 @@ struct Observable
   Observable(std::string _name = "", bool _use = false, double _value = 0.,
     double _error = 0.) : name(_name), use(_use), value(_value),
     error(_error), calcValue(0.), wSqResidual(-1.) {}
+
+  double weightedSquaredResidual() const
+  {
+    wSqResidual = pow(value - calcValue, 2) / pow(error, 2);
+    return wSqResidual;
+  }
 };
 
 
