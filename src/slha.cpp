@@ -205,7 +205,7 @@ SlhaLine& SlhaLine::str(const string& line)
   const string comment = trim_copy(line_.substr(comment_begin));
 
   if (!data.empty()) split(mVecStr, data, is_space(), token_compress_on);
-  mVecStr.push_back(comment);
+  if (!comment.empty()) mVecStr.push_back(comment);
 
   stringstream line_format("");
   for (size_t i = 0, pos = 0; i < mVecStr.size(); ++i, ++pos)

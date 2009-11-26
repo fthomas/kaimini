@@ -41,7 +41,8 @@ public:
     CPPUNIT_ASSERT(l1.str() == "");
     
     l1.str(" 1 2 3 4 ");
-    CPPUNIT_ASSERT(l1.str() == " 1 2 3 4 ");
+    CPPUNIT_ASSERT(l1.str() == " 1 2 3 4");
+    CPPUNIT_ASSERT(l1.size() == 4);
     
     l1 = "BLOCK TEST # comment";
     CPPUNIT_ASSERT(l1.str() == "BLOCK TEST # comment");
@@ -57,6 +58,32 @@ public:
 
     l1 = "# one long comment with trailing spaces    ";
     CPPUNIT_ASSERT(l1[0] == "# one long comment with trailing spaces");
+    CPPUNIT_ASSERT(l1.size() == 1);
+
+    l1 = "one long data line with trailing spaces    ";
+    CPPUNIT_ASSERT(l1.str() == "one long data line with trailing spaces");
+    CPPUNIT_ASSERT(l1[6] == "spaces");
+    CPPUNIT_ASSERT(l1.size() == 7);
+
+    l1 = "Hello brave new \n world!";
+    CPPUNIT_ASSERT(l1.str() == "Hello brave new");
+    CPPUNIT_ASSERT(l1.size() == 3);
+
+    l1 = "Hello stupid brave new world!";
+    CPPUNIT_ASSERT(l1.str() == "Hello stupid brave new world!");
+    l1[1] = "";
+    CPPUNIT_ASSERT(l1.str() == "Hello        brave new world!");
+    l1[1] = "dumb";
+    CPPUNIT_ASSERT(l1.str() == "Hello dumb   brave new world!");
+    l1[3] = "brand-new";
+    CPPUNIT_ASSERT(l1.str() == "Hello dumb   brave brand-new world!");
+    l1[0] = "Goodbye";
+    CPPUNIT_ASSERT(l1.str() == "Goodbye dumb brave brand-new world!");
+
+    l1 = " 23  1.123456789E+999  # some arcane value";
+    CPPUNIT_ASSERT(l1[0] == "23");
+    CPPUNIT_ASSERT(l1[1] == "1.123456789E+999");
+    CPPUNIT_ASSERT(l1[2] == "# some arcane value");
   }
 };
 

@@ -100,6 +100,9 @@ public:
   const std::string& at(size_t n) const
   { return mVecStr.at(n); }
 
+  size_t size() const
+  { return mVecStr.size(); }
+
   SlhaLine& str(const std::string& line);
   std::string str() const;
 

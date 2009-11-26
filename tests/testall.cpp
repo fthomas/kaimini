@@ -18,7 +18,7 @@
 
 #include "testslha.h"
 
-int main(int argc, char* argv[])
+int main()
 {
   CppUnit::TextUi::TestRunner runner;
 
