@@ -48,8 +48,8 @@ SEXP rpvfit_init(SEXP args)
 
 SEXP rpvfit_get_params()
 {
-  vector<double> params = gRpvFit.getParameters()->getParams();
-  vector<double> var_params = gRpvFit.getParameters()->getVarParams();
+  vector<double> params = gRpvFit.getParameters().getParams();
+  vector<double> var_params = gRpvFit.getParameters().getVarParams();
 
   RcppResultSet rs;
   rs.add("params", params);
@@ -61,8 +61,12 @@ SEXP rpvfit_get_params()
 SEXP rpvfit_chi_square(SEXP params)
 {
   RcppVector<double> var_params(params);
-  gRpvFit.getParameters()->setVarParams(var_params.stlVector());
-  double chisq = gRpvFit.chiSquare();
+
+  Parameters fit_params = gRpvFit.getParameters();
+  fit_params.setVarParams(var_params.stlVector());
+  gRpvFit.FitBase::setParameters(fit_params);
+
+  double chisq = gRpvFit.FitBase::chiSquare();
 
   RcppResultSet rs;
   rs.add("chisq", chisq);
