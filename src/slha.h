@@ -17,6 +17,7 @@
 #ifndef FISP_SLHA_H
 #define FISP_SLHA_H
 
+#include <cstddef>
 #include <iostream>
 #include <limits>
 #include <list>
@@ -88,22 +89,22 @@ public:
   SlhaLine& operator=(const std::string& line)
   { return str(line); }
 
-  std::string& operator[](size_t n)
+  std::string& operator[](std::size_t n)
   { return mVecStr[n]; }
 
-  const std::string& operator[](size_t n) const
+  const std::string& operator[](std::size_t n) const
   { return mVecStr[n]; }
 
-  std::string& at(size_t n)
+  std::string& at(std::size_t n)
   { return mVecStr.at(n); }
 
-  const std::string& at(size_t n) const
+  const std::string& at(std::size_t n) const
   { return mVecStr.at(n); }
 
   bool empty() const
   { return size() == 1 && mVecStr[0] == ""; }
 
-  size_t size() const
+  std::size_t size() const
   { return mVecStr.size(); }
 
   SlhaLine& str(const std::string& line);

@@ -17,6 +17,7 @@
 #ifndef FISP_RPVFIT_H
 #define FISP_RPVFIT_H
 
+#include <cstddef>
 #include <string>
 #include <vector>
 #include "fitbase.h"
@@ -34,7 +35,7 @@ public:
   { return std::string("RPVFit"); }
 
 private:
-  static const size_t msObsCnt = 4;
+  static const std::size_t msObsCnt = 4;
 };
 
 } // namespace FISP
