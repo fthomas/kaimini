@@ -89,6 +89,9 @@ public:
   SlhaLine& operator=(const std::string& line)
   { return str(line); }
 
+  SlhaLine& operator+=(const std::string& rhs)
+  { return append(rhs); }
+
   std::string& operator[](std::size_t n)
   { return mVecStr[n]; }
 
@@ -100,6 +103,9 @@ public:
 
   const std::string& at(std::size_t n) const
   { return mVecStr.at(n); }
+
+  SlhaLine& append(const std::string& rhs)
+  { return str(str() + rhs); }
 
   bool empty() const
   { return size() == 1 && mVecStr[0] == ""; }

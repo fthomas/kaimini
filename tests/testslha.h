@@ -95,6 +95,15 @@ public:
     CPPUNIT_ASSERT(l1.empty() == true);
     l1 = " . ";
     CPPUNIT_ASSERT(l1.empty() == false);
+
+    l1 = " 1 22 333 4444 ";
+    l1.append(" 55555 # a comment ");
+    CPPUNIT_ASSERT(l1.size() == 6);
+    CPPUNIT_ASSERT(l1[3] == "4444");
+    CPPUNIT_ASSERT(l1[4] == "55555");
+    CPPUNIT_ASSERT(l1[5] == "# a comment");
+    l1 += " 7 ";
+    CPPUNIT_ASSERT(l1[5] == "# a comment 7");
   }
 };
 
