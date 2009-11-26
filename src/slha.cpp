@@ -16,10 +16,12 @@
 
 #include <fstream>
 #include <ostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 #include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include "slha.h"
 
@@ -67,7 +69,7 @@ Slha& Slha::read(istream& is)
     if (trim_left_copy(line).empty()) continue;
 
     const SlhaLine slha_line(line);
-    const unsigned char first_char = slha_line[1][0];
+    const unsigned char first_char = slha_line[0][0];
 
     if (isdigit(first_char))
     {
@@ -80,9 +82,9 @@ Slha& Slha::read(istream& is)
 
       (*this)(curr_block_name)() = slha_line;
     }
-    else if ("BLOCK" == to_upper_copy(slha_line[1]))
+    else if ("BLOCK" == to_upper_copy(slha_line[0]))
     {
-      curr_block_name = slha_line.at(2);
+      curr_block_name = slha_line.at(1);
       (*this)(curr_block_name)() = slha_line;
     }
     else if ('#' == first_char) continue;
@@ -119,30 +121,30 @@ SlhaLine& SlhaBlock::operator()(const string& si, const string& sj,
   {
     for (; it != end(); ++it)
     {
-      if (si == it->at(1)) return *it;
+      if (si == it->at(0)) return *it;
     }
   }
   else if ("" == sk)
   {
     for (; it != end(); ++it)
     {
-      if (si == it->at(1) && sj == it->at(2)) return *it;
+      if (si == it->at(0) && sj == it->at(1)) return *it;
     }
   }
   else if ("" == sl)
   {
     for (; it != end(); ++it)
     {
-      if (si == it->at(1) && sj == it->at(2) &&
-          sk == it->at(3)) return *it;
+      if (si == it->at(0) && sj == it->at(1) &&
+          sk == it->at(2)) return *it;
     }
   }
   else
   {
     for (; it != end(); ++it)
     {
-      if (si == it->at(1) && sj == it->at(2) &&
-          sk == it->at(3) && sl == it->at(4)) return *it;
+      if (si == it->at(0) && sj == it->at(1) &&
+          sk == it->at(2) && sl == it->at(3)) return *it;
     }
   }
 
@@ -171,24 +173,44 @@ SlhaLine& SlhaBlock::operator()(const int i, const int j, const int k,
 }
 
 
-SlhaLine& SlhaLine::fromString(const string& line)
+SlhaLine& SlhaLine::str(const string& line)
 {
-  size_t comment_begin = line.find("#");
-  if (string::npos == comment_begin) comment_begin = line.length();
+  mVecStr.clear();
 
-  const string data    = trim_copy(line.substr(0, comment_begin));
-  const string comment = trim_copy(line.substr(comment_begin));
-
-  clear();
-  if (!data.empty())
+  string line_ = trim_copy(line.substr(0, line.find("\n")));
+  if (line_.empty())
   {
-    split(*dynamic_cast<vector<string>*>(this), data, is_space(),
-          token_compress_on);
+    mVecStr.push_back("");
+    mLineFormat = "%|0t|%1%";
+    return *this;
   }
-  insert(begin(), line);
-  push_back(comment);
+
+  size_t comment_begin = line_.find("#");
+  if (string::npos == comment_begin) comment_begin = line_.length();
+
+  const string data    = trim_copy(line_.substr(0, comment_begin));
+  const string comment = trim_copy(line_.substr(comment_begin));
+
+  if (!data.empty()) split(mVecStr, data, is_space(), token_compress_on);
+  mVecStr.push_back(comment);
+
+  stringstream line_format("");
+  for (size_t i = 0, pos = 0; i < mVecStr.size(); ++i, ++pos)
+  {
+    pos = line.find(mVecStr[i], pos);
+    line_format << "%|" << pos << "t|%" << (i+1) << "%  ";
+  }
+  mLineFormat = trim_copy(line_format.str());
 
   return *this;
+}
+
+
+string SlhaLine::str() const
+{
+  format fmter(mLineFormat);
+  for (size_t i = 0; i < mVecStr.size(); ++i) fmter % mVecStr[i];
+  return fmter.str();
 }
 
 
@@ -212,7 +234,7 @@ ostream& operator<<(ostream& os, const SlhaBlock& block)
 
 ostream& operator<<(ostream& os, const SlhaLine& line)
 {
-  return os << line.at(0);
+  return os << line.str();
 }
 
 

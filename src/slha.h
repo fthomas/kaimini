@@ -75,18 +75,36 @@ private:
 };
 
 
-class SlhaLine : public std::vector<std::string>
+class SlhaLine
 {
 public:
-  SlhaLine() {}
+  SlhaLine()
+  { str(""); }
+
   SlhaLine(const std::string& line)
-  { fromString(line); }
+  { str(line); }
 
   SlhaLine& operator=(const std::string& line)
-  { return fromString(line); }
-  SlhaLine& fromString(const std::string& line);
-  std::string toString() const
-  { std::stringstream ss(""); ss << *this; return ss.str(); }
+  { return str(line); }
+
+  std::string& operator[](size_t n)
+  { return mVecStr[n]; }
+
+  const std::string& operator[](size_t n) const
+  { return mVecStr[n]; }
+
+  std::string& at(size_t n)
+  { return mVecStr.at(n); }
+
+  const std::string& at(size_t n) const
+  { return mVecStr.at(n); }
+
+  SlhaLine& str(const std::string& line);
+  std::string str() const;
+
+private:
+  std::vector<std::string> mVecStr;
+  std::string mLineFormat;
 };
 
 
