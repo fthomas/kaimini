@@ -100,6 +100,9 @@ public:
   const std::string& at(size_t n) const
   { return mVecStr.at(n); }
 
+  bool empty() const
+  { return size() == 1 && mVecStr[0] == ""; }
+
   size_t size() const
   { return mVecStr.size(); }
 
@@ -117,10 +120,10 @@ int to_int(const std::string& str);
 double to_double(const std::string& str);
 long double to_long_double(const std::string& str);
 
-std::string to_string(const bool v);
-std::string to_string(const int v);
-std::string to_string(const double v);
-std::string to_string(const long double v);
+std::string to_string(bool v);
+std::string to_string(int v);
+std::string to_string(double v);
+std::string to_string(long double v);
 
 } // namespace FISP
 

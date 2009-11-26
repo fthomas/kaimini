@@ -84,6 +84,17 @@ public:
     CPPUNIT_ASSERT(l1[0] == "23");
     CPPUNIT_ASSERT(l1[1] == "1.123456789E+999");
     CPPUNIT_ASSERT(l1[2] == "# some arcane value");
+
+    l1 = "\n 1 2 3 4 5";
+    CPPUNIT_ASSERT(l1.empty() == true);
+    l1 = "  \n 1 2 3 4 5  ";
+    CPPUNIT_ASSERT(l1.empty() == true);
+    l1 = "";
+    CPPUNIT_ASSERT(l1.empty() == true);
+    l1 = "   ";
+    CPPUNIT_ASSERT(l1.empty() == true);
+    l1 = " . ";
+    CPPUNIT_ASSERT(l1.empty() == false);
   }
 };
 
