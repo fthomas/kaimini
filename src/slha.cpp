@@ -211,7 +211,7 @@ SlhaLine& SlhaLine::str(const string& line)
   for (size_t i = 0, pos = 0; i < mVecStr.size(); ++i, ++pos)
   {
     pos = line.find(mVecStr[i], pos);
-    line_format << "%|" << pos << "t|%" << (i+1) << "%  ";
+    line_format << "%|" << pos << "t|%" << (i+1) << "% ";
   }
   mLineFormat = trim_copy(line_format.str());
 
