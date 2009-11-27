@@ -104,6 +104,10 @@ public:
     CPPUNIT_ASSERT(l1[5] == "# a comment");
     l1 += " 7 ";
     CPPUNIT_ASSERT(l1[5] == "# a comment 7");
+
+    l1 = " test  str() and   strPlain() ";
+    CPPUNIT_ASSERT(l1.str() == " test  str() and   strPlain()");
+    CPPUNIT_ASSERT(l1.strPlain() == "test str() and strPlain()");
   }
 };
 

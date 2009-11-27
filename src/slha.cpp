@@ -228,6 +228,14 @@ string SlhaLine::str() const
 }
 
 
+string SlhaLine::strPlain() const
+{
+  string retval = "";
+  for (size_t i = 0; i < mVecStr.size(); ++i) retval += mVecStr[i] + " ";
+  return trim_copy(retval);
+}
+
+
 ostream& operator<<(ostream& os, const Slha& slha)
 {
   for (Slha::const_iterator it = slha.begin(); it != slha.end(); ++it)

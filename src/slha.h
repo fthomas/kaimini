@@ -76,6 +76,44 @@ private:
   static const int msNoIndex;
 };
 
+/*
+class SlhaBlock
+{
+public:
+  SlhaBlock() : mName("")
+  {}
+
+  SlhaBlock(const std::string& name) : mName(name)
+  {}
+
+  SlhaLine& operator[](const std::string& indexStr = "");
+
+  SlhaLine& at(const std::string& s0 = "", const std::string& s1 = "",
+               const std::string& s2 = "", const std::string& s3 = "",
+               const std::string& s4 = "", const std::string& s5 = "");
+
+  SlhaLine& at(int i0 = msNoIndex, int i1 = msNoIndex, int i2 = msNoIndex,
+               int i3 = msNoIndex, int i4 = msNoIndex, int i5 = msNoIndex);
+
+  clear
+
+  SlhaBlock& name(const std::string& newName)
+  { mName = newName; return *this; }
+
+  const std::string& name() const
+  { return mName; }
+
+  std::string str() const
+  { std::stringstream ss(""); ss << *this; return ss.str(); }
+
+private:
+  std::string mName;
+  std::vector<SlhaLine> mVecLine;
+
+  static const int msNoIndex;
+};
+*/
+
 
 class SlhaLine
 {
@@ -114,7 +152,10 @@ public:
   { return mVecStr.size(); }
 
   SlhaLine& str(const std::string& line);
+
   std::string str() const;
+
+  std::string strPlain() const;
 
 private:
   std::vector<std::string> mVecStr;
