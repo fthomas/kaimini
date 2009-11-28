@@ -87,14 +87,19 @@ public:
 
     l1 = "\n 1 2 3 4 5";
     CPPUNIT_ASSERT(l1.empty() == true);
+    CPPUNIT_ASSERT(l1.size() == 1);
     l1 = "  \n 1 2 3 4 5  ";
     CPPUNIT_ASSERT(l1.empty() == true);
+    CPPUNIT_ASSERT(l1.size() == 1);
     l1 = "";
     CPPUNIT_ASSERT(l1.empty() == true);
+    CPPUNIT_ASSERT(l1.size() == 1);
     l1 = "   ";
     CPPUNIT_ASSERT(l1.empty() == true);
+    CPPUNIT_ASSERT(l1.size() == 1);
     l1 = " . ";
     CPPUNIT_ASSERT(l1.empty() == false);
+    CPPUNIT_ASSERT(l1.size() == 1);
 
     l1 = " 1 22 333 4444 ";
     l1.append(" 55555 # a comment ");
@@ -116,6 +121,21 @@ public:
     CPPUNIT_ASSERT(l1.front() == "1");
     l1.front() = "-1";
     CPPUNIT_ASSERT(l1.front() == "-1");
+
+    CPPUNIT_ASSERT(l1.front() == *l1.begin());
+    CPPUNIT_ASSERT(l1.back() == *(l1.end()-1));
+    CPPUNIT_ASSERT(*(l1.end()-2) == "4");
+    *l1.begin() = "0";
+    CPPUNIT_ASSERT(l1.front() == "0");
+    *(l1.end()-1) = "7";
+    CPPUNIT_ASSERT(l1.back() == "7");
+
+    CPPUNIT_ASSERT(*l1.rbegin() == l1.back());
+    CPPUNIT_ASSERT(*(l1.rend()-1) == l1.front());
+    *l1.rbegin() = "8";
+    CPPUNIT_ASSERT(l1.back() == "8");
+    *(l1.rend()-1) = "-2";
+    CPPUNIT_ASSERT(l1.front() == "-2");
   }
 };
 

@@ -125,6 +125,12 @@ private:
 class SlhaLine
 {
 public:
+  typedef std::vector<std::string>::iterator iterator;
+  typedef std::vector<std::string>::const_iterator const_iterator;
+  typedef std::vector<std::string>::reverse_iterator reverse_iterator;
+  typedef std::vector<std::string>::const_reverse_iterator
+          const_reverse_iterator;
+
   SlhaLine()
   { str(""); }
 
@@ -158,14 +164,38 @@ public:
   const std::string& back() const
   { return mVecStr.back(); }
 
+  iterator begin()
+  { return mVecStr.begin(); }
+
+  const_iterator begin() const
+  { return mVecStr.begin(); }
+
   bool empty() const
   { return size() == 1 && mVecStr[0] == ""; }
+
+  iterator end()
+  { return mVecStr.end(); }
+
+  const_iterator end() const
+  { return mVecStr.end(); }
 
   std::string& front()
   { return mVecStr.front(); }
 
   const std::string& front() const
   { return mVecStr.front(); }
+
+  reverse_iterator rbegin()
+  { return mVecStr.rbegin(); }
+
+  const_reverse_iterator rbegin() const
+  { return mVecStr.rbegin(); }
+
+  reverse_iterator rend()
+  { return mVecStr.rend(); }
+
+  const_reverse_iterator rend() const
+  { return mVecStr.rend(); }
 
   std::size_t size() const
   { return mVecStr.size(); }

@@ -224,7 +224,10 @@ SlhaLine& SlhaLine::str(const string& line)
 string SlhaLine::str() const
 {
   format fmter(mLineFormat);
-  for (size_t i = 0; i < mVecStr.size(); ++i) fmter % mVecStr[i];
+  for (SlhaLine::const_iterator it = begin(); it != end(); ++it)
+  {
+    fmter % *it;
+  }
   return fmter.str();
 }
 
@@ -232,7 +235,10 @@ string SlhaLine::str() const
 string SlhaLine::strPlain() const
 {
   string retval = "";
-  for (size_t i = 0; i < mVecStr.size(); ++i) retval += mVecStr[i] + " ";
+  for (SlhaLine::const_iterator it = begin(); it != end(); ++it)
+  {
+    retval += *it + " ";
+  }
   return trim_copy(retval);
 }
 
