@@ -108,6 +108,14 @@ public:
     l1 = " test  str() and   strPlain() ";
     CPPUNIT_ASSERT(l1.str() == " test  str() and   strPlain()");
     CPPUNIT_ASSERT(l1.strPlain() == "test str() and strPlain()");
+
+    l1 = " 1 2 3 4 5 ";
+    CPPUNIT_ASSERT(l1.back() == "5");
+    l1.back() = "6";
+    CPPUNIT_ASSERT(l1.back() == "6");
+    CPPUNIT_ASSERT(l1.front() == "1");
+    l1.front() = "-1";
+    CPPUNIT_ASSERT(l1.front() == "-1");
   }
 };
 

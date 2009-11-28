@@ -19,7 +19,6 @@
 
 #include <cstddef>
 #include <iostream>
-#include <limits>
 #include <list>
 #include <sstream>
 #include <string>
@@ -77,25 +76,27 @@ private:
 };
 
 /*
-class SlhaBlock
+class SlhaBlock2
 {
 public:
-  SlhaBlock() : mName("")
-  {}
-
-  SlhaBlock(const std::string& name) : mName(name)
+  SlhaBlock(const std::string& name = "") : mName(name)
   {}
 
   SlhaLine& operator[](const std::string& indexStr = "");
+  const SlhaLine& operator[](const std::string& indexStr) const;
 
-  SlhaLine& at(const std::string& s0 = "", const std::string& s1 = "",
-               const std::string& s2 = "", const std::string& s3 = "",
-               const std::string& s4 = "", const std::string& s5 = "");
+  SlhaLine& at(int i0 = nind, int i1 = nind, int i2 = nind,
+               int i3 = nind, int i4 = nind, int i5 = nind);
 
-  SlhaLine& at(int i0 = msNoIndex, int i1 = msNoIndex, int i2 = msNoIndex,
-               int i3 = msNoIndex, int i4 = msNoIndex, int i5 = msNoIndex);
+  const SlhaLine& at(int i0,        int i1 = nind, int i2 = nind,
+                     int i3 = nind, int i4 = nind, int i5 = nind) const;
 
-  clear
+  SlhaBlock& clear()
+  { mVecLine.clear(); return *this; }
+
+  SlhaBlock& erase(const std::string& indexStr);
+  SlhaBlock& erase(int i0,        int i1 = nind, int i2 = nind,
+                   int i3 = nind, int i4 = nind, int i5 = nind);
 
   SlhaBlock& name(const std::string& newName)
   { mName = newName; return *this; }
@@ -103,17 +104,23 @@ public:
   const std::string& name() const
   { return mName; }
 
+  std::size_t size() const
+  { return mVecLine.size(); }
+
   std::string str() const
   { std::stringstream ss(""); ss << *this; return ss.str(); }
 
 private:
+  getPos()
+  getPos()
+  getPos()
+
   std::string mName;
   std::vector<SlhaLine> mVecLine;
 
-  static const int msNoIndex;
+  static const int nind;
 };
 */
-
 
 class SlhaLine
 {
@@ -145,8 +152,20 @@ public:
   SlhaLine& append(const std::string& rhs)
   { return str(str() + rhs); }
 
+  std::string& back()
+  { return mVecStr.back(); }
+
+  const std::string& back() const
+  { return mVecStr.back(); }
+
   bool empty() const
   { return size() == 1 && mVecStr[0] == ""; }
+
+  std::string& front()
+  { return mVecStr.front(); }
+
+  const std::string& front() const
+  { return mVecStr.front(); }
 
   std::size_t size() const
   { return mVecStr.size(); }

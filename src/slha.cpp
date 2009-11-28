@@ -16,6 +16,7 @@
 
 #include <cstddef>
 #include <fstream>
+#include <limits>
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
