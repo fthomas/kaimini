@@ -52,35 +52,35 @@ Slha& FitBase::result()
   if (mPar.Params().empty() || mObs.empty()) return mResult;
 
   string block = getName() + "Params";
-  mResult(block)() = "BLOCK " + block;
+  mResult[block][""] = "BLOCK " + block;
 
   for (size_t i = 0; i < mPar.Params().size(); ++i)
   {
-    mResult(block)() = str(
+    mResult[block][""] = str(
       format(" %1% %|5t|%2% %3$16.8E %4$16.8E %|43t|# %5%")
              % (i+1) % !mPar.Parameter(i).IsFixed() % mPar.Value(i)
              % mPar.Error(i) % mPar.Name(i));
   }
 
   block = getName() + "Observ";
-  mResult(block)() = "BLOCK " + block;
+  mResult[block][""] = "BLOCK " + block;
 
   for (size_t i = 0; i < mObs.size(); ++i)
   {
-    mResult(block)() = str(
+    mResult[block][""] = str(
       format(" %1% %|5t|%2% %3$16.8E %4$16.8E %5$16.8E %|60t|%6%")
              % (i+1) % mObs.at(i).use % mObs.at(i).calcValue
              % mObs.at(i).value % mObs.at(i).error % mObs.at(i).name);
   }
 
   block = getName() + "ChiSquare";
-  mResult(block)() = "BLOCK " + block;
-  mResult(block)() = str(
+  mResult[block][""] = "BLOCK " + block;
+  mResult[block][""] = str(
     format(" 0 %1$16.8E %|22t|%2%") % mChiSq % "# chi^2");
 
   for (size_t i = 0; i < mObs.size(); ++i)
   {
-    mResult(block)() = str(
+    mResult[block][""] = str(
       format(" %1% %2$16.8E %|22t|%3%")
              % (i+1) % mObs.at(i).wSqResidual % mObs.at(i).name);
   }

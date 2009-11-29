@@ -99,17 +99,17 @@ double RpvFit::chiSquareSphenoExt(const vector<double>& v) const
 void RpvFit::setParameters(const Slha& input)
 {
   mPar = Parameters();
-  mPar.Add("epsilon_1", to_double(input("RVKAPPAIN")(1)[1]), 0.);
-  mPar.Add("epsilon_2", to_double(input("RVKAPPAIN")(2)[1]), 0.);
-  mPar.Add("epsilon_3", to_double(input("RVKAPPAIN")(3)[1]), 0.);
-  mPar.Add("v_L1", to_double(input("RVSNVEVIN")(1)[1]), 0.);
-  mPar.Add("v_L2", to_double(input("RVSNVEVIN")(2)[1]), 0.);
-  mPar.Add("v_L3", to_double(input("RVSNVEVIN")(3)[1]), 0.);
+  mPar.Add("epsilon_1", to_double(input["RVKAPPAIN"]["1"][1]), 0.);
+  mPar.Add("epsilon_2", to_double(input["RVKAPPAIN"]["2"][1]), 0.);
+  mPar.Add("epsilon_3", to_double(input["RVKAPPAIN"]["3"][1]), 0.);
+  mPar.Add("v_L1", to_double(input["RVSNVEVIN"]["1"][1]), 0.);
+  mPar.Add("v_L2", to_double(input["RVSNVEVIN"]["2"][1]), 0.);
+  mPar.Add("v_L3", to_double(input["RVSNVEVIN"]["3"][1]), 0.);
 
   for (size_t i = 0; i < mPar.Params().size(); ++i)
   {
-    mPar.SetError(i, to_double(input("RPVFitParamsIn")(i+1)[2]));
-    if ("0" == input("RPVFitParamsIn")(i+1)[1]) mPar.Fix(i);
+    mPar.SetError(i, to_double(input["RPVFitParamsIn"].at(i+1)[2]));
+    if ("0" == input["RPVFitParamsIn"].at(i+1)[1]) mPar.Fix(i);
   }
 }
 
@@ -122,10 +122,10 @@ void RpvFit::setObservables(const Slha& input)
     try
     {
       Observable obs(
-        input("RPVFitObservIn")(i)[4],
-        to_bool(input("RPVFitObservIn")(i)[1]),
-        to_double(input("RPVFitObservIn")(i)[2]),
-        to_double(input("RPVFitObservIn")(i)[3])
+        input["RPVFitObservIn"].at(i)[4],
+        to_bool(input["RPVFitObservIn"].at(i)[1]),
+        to_double(input["RPVFitObservIn"].at(i)[2]),
+        to_double(input["RPVFitObservIn"].at(i)[3])
       );
       mObs.push_back(obs);
     }

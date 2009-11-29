@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
   //rpvfit.fitMinuitMinimize();
   //rpvfit.fitMinuitSimplex();
   rpvfit.fitGslSimplex();
-  cout << rpvfit.result().toString();
+  cout << rpvfit.result();
 
   SPhenoDouble_RunTill_End();
 
