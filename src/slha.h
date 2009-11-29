@@ -19,108 +19,20 @@
 
 #include <cstddef>
 #include <iostream>
-#include <list>
 #include <sstream>
 #include <string>
 #include <vector>
 
 namespace FISP {
 
-class Slha;
-class SlhaBlock;
 class SlhaLine;
+class SlhaBlock;
+class Slha;
 
-std::ostream& operator<<(std::ostream& os, const Slha& slha);
-std::ostream& operator<<(std::ostream& os, const SlhaBlock& block);
 std::ostream& operator<<(std::ostream& os, const SlhaLine& line);
+std::ostream& operator<<(std::ostream& os, const SlhaBlock& block);
+std::ostream& operator<<(std::ostream& os, const Slha& slha);
 
-
-class Slha : public std::list<SlhaBlock>
-{
-public:
-  Slha() {}
-  Slha(const std::string filename)
-  { readFile(filename); }
-
-  SlhaBlock& operator()(const std::string& blockName);
-  SlhaBlock operator()(const std::string& blockName) const;
-  Slha& read(std::istream& is);
-  Slha& readFile(const std::string& filename);
-  Slha& writeFile(const std::string& filename);
-  Slha& fromString(const std::string& str)
-  { std::stringstream ss(""); ss << str; return read(ss); }
-  std::string toString() const
-  { std::stringstream ss(""); ss << *this; return ss.str(); }
-};
-
-
-class SlhaBlock : public std::list<SlhaLine>
-{
-public:
-  std::string name;
-
-  SlhaBlock() {}
-  SlhaBlock(const std::string& blockName) : name(blockName) {}
-
-  SlhaLine& operator()(const std::string& si = "",
-                       const std::string& sj = "",
-                       const std::string& sk = "",
-                       const std::string& sl = "");
-  SlhaLine& operator()(const int i,             const int j = msNoIndex,
-                       const int k = msNoIndex, const int l = msNoIndex);
-  std::string toString() const
-  { std::stringstream ss(""); ss << *this; return ss.str(); }
-
-private:
-  static const int msNoIndex;
-};
-
-/*
-class SlhaBlock2
-{
-public:
-  SlhaBlock(const std::string& name = "") : mName(name)
-  {}
-
-  SlhaLine& operator[](const std::string& indexStr = "");
-  const SlhaLine& operator[](const std::string& indexStr) const;
-
-  SlhaLine& at(int i0 = nind, int i1 = nind, int i2 = nind,
-               int i3 = nind, int i4 = nind, int i5 = nind);
-
-  const SlhaLine& at(int i0,        int i1 = nind, int i2 = nind,
-                     int i3 = nind, int i4 = nind, int i5 = nind) const;
-
-  SlhaBlock& clear()
-  { mVecLine.clear(); return *this; }
-
-  SlhaBlock& erase(const std::string& indexStr);
-  SlhaBlock& erase(int i0,        int i1 = nind, int i2 = nind,
-                   int i3 = nind, int i4 = nind, int i5 = nind);
-
-  SlhaBlock& name(const std::string& newName)
-  { mName = newName; return *this; }
-
-  const std::string& name() const
-  { return mName; }
-
-  std::size_t size() const
-  { return mVecLine.size(); }
-
-  std::string str() const
-  { std::stringstream ss(""); ss << *this; return ss.str(); }
-
-private:
-  getPos()
-  getPos()
-  getPos()
-
-  std::string mName;
-  std::vector<SlhaLine> mVecLine;
-
-  static const int nind;
-};
-*/
 
 class SlhaLine
 {
@@ -144,61 +56,61 @@ public:
   { return append(rhs); }
 
   std::string& operator[](std::size_t n)
-  { return mVecStr[n]; }
+  { return impl_[n]; }
 
   const std::string& operator[](std::size_t n) const
-  { return mVecStr[n]; }
+  { return impl_[n]; }
 
   std::string& at(std::size_t n)
-  { return mVecStr.at(n); }
+  { return impl_.at(n); }
 
   const std::string& at(std::size_t n) const
-  { return mVecStr.at(n); }
+  { return impl_.at(n); }
 
   SlhaLine& append(const std::string& rhs)
   { return str(str() + rhs); }
 
   std::string& back()
-  { return mVecStr.back(); }
+  { return impl_.back(); }
 
   const std::string& back() const
-  { return mVecStr.back(); }
+  { return impl_.back(); }
 
   iterator begin()
-  { return mVecStr.begin(); }
+  { return impl_.begin(); }
 
   const_iterator begin() const
-  { return mVecStr.begin(); }
+  { return impl_.begin(); }
 
   bool empty() const
-  { return size() == 1 && mVecStr[0] == ""; }
+  { return size() == 1 && impl_[0] == ""; }
 
   iterator end()
-  { return mVecStr.end(); }
+  { return impl_.end(); }
 
   const_iterator end() const
-  { return mVecStr.end(); }
+  { return impl_.end(); }
 
   std::string& front()
-  { return mVecStr.front(); }
+  { return impl_.front(); }
 
   const std::string& front() const
-  { return mVecStr.front(); }
+  { return impl_.front(); }
 
   reverse_iterator rbegin()
-  { return mVecStr.rbegin(); }
+  { return impl_.rbegin(); }
 
   const_reverse_iterator rbegin() const
-  { return mVecStr.rbegin(); }
+  { return impl_.rbegin(); }
 
   reverse_iterator rend()
-  { return mVecStr.rend(); }
+  { return impl_.rend(); }
 
   const_reverse_iterator rend() const
-  { return mVecStr.rend(); }
+  { return impl_.rend(); }
 
   std::size_t size() const
-  { return mVecStr.size(); }
+  { return impl_.size(); }
 
   SlhaLine& str(const std::string& line);
 
@@ -207,8 +119,211 @@ public:
   std::string strPlain() const;
 
 private:
-  std::vector<std::string> mVecStr;
+  std::vector<std::string> impl_;
   std::string mLineFormat;
+};
+
+
+class SlhaBlock
+{
+public:
+  typedef std::vector<SlhaLine>::iterator iterator;
+  typedef std::vector<SlhaLine>::const_iterator const_iterator;
+  typedef std::vector<SlhaLine>::reverse_iterator reverse_iterator;
+  typedef std::vector<SlhaLine>::const_reverse_iterator
+          const_reverse_iterator;
+
+  SlhaBlock(const std::string& name = "") : mName(name) {}
+
+  SlhaLine& operator[](const std::vector<std::string>& keys);
+  const SlhaLine& operator[](const std::vector<std::string>& keys) const;
+
+  SlhaLine& operator[](const std::vector<int>& intKeys);
+  const SlhaLine& operator[](const std::vector<int>& intKeys) const;
+
+  SlhaLine& operator[](const std::string& keysStr);
+  const SlhaLine& operator[](const std::string& keysStr) const;
+
+  SlhaLine& at(const std::string& s0 = "", const std::string& s1 = "",
+               const std::string& s2 = "", const std::string& s3 = "");
+
+  const
+  SlhaLine& at(const std::string& s0 = "", const std::string& s1 = "",
+               const std::string& s2 = "", const std::string& s3 = "") const;
+
+  SlhaLine& at(int i0, int i1 = nind, int i2 = nind, int i3 = nind);
+
+  const
+  SlhaLine& at(int i0, int i1 = nind, int i2 = nind, int i3 = nind) const;
+
+  SlhaLine& back()
+  { return impl_.back(); }
+
+  const SlhaLine& back() const
+  { return impl_.back(); }
+
+  iterator begin()
+  { return impl_.begin(); }
+
+  const_iterator begin() const
+  { return impl_.begin(); }
+
+  SlhaBlock& clear()
+  { impl_.clear(); return *this; }
+
+  bool empty() const
+  { return impl_.empty(); }
+
+  iterator end()
+  { return impl_.end(); }
+
+  const_iterator end() const
+  { return impl_.end(); }
+
+  iterator erase(iterator position)
+  { return impl_.erase(position); }
+
+  iterator erase(iterator first, iterator last)
+  { return impl_.erase(first, last); }
+
+  iterator find(const std::vector<std::string>& keys);
+  const_iterator find(const std::vector<std::string>& keys) const;
+
+  SlhaLine& front()
+  { return impl_.front(); }
+
+  const SlhaLine& front() const
+  { return impl_.front(); }
+
+  SlhaBlock& name(const std::string& newName)
+  { mName = newName; return *this; }
+
+  const std::string& name() const
+  { return mName; }
+
+  SlhaBlock& pop_back()
+  { impl_.pop_back(); return *this; }
+
+  SlhaBlock& push_back(const SlhaLine& line)
+  { impl_.push_back(line); return *this; }
+
+  SlhaBlock& push_back(const std::string& line)
+  { impl_.push_back(SlhaLine(line)); return *this; }
+
+  reverse_iterator rbegin()
+  { return impl_.rbegin(); }
+
+  const_reverse_iterator rbegin() const
+  { return impl_.rbegin(); }
+
+  reverse_iterator rend()
+  { return impl_.rend(); }
+
+  const_reverse_iterator rend() const
+  { return impl_.rend(); }
+
+  std::size_t size() const
+  { return impl_.size(); }
+
+  SlhaBlock& str(const std::string& block);
+
+  std::string str() const
+  { std::stringstream ss(""); ss << *this; return ss.str(); }
+
+private:
+  std::string mName;
+  std::vector<SlhaLine> impl_;
+  static const int nind;
+};
+
+
+class Slha
+{
+public:
+  typedef std::vector<SlhaBlock>::iterator iterator;
+  typedef std::vector<SlhaBlock>::const_iterator const_iterator;
+  typedef std::vector<SlhaBlock>::reverse_iterator reverse_iterator;
+  typedef std::vector<SlhaBlock>::const_reverse_iterator
+          const_reverse_iterator;
+
+  Slha() {}
+
+  Slha(const std::string filename)
+  { readFile(filename); }
+
+  SlhaBlock& operator[](const std::string& blockName);
+  const SlhaBlock& operator[](const std::string& blockName) const;
+
+  SlhaBlock& back()
+  { return impl_.back(); }
+
+  const SlhaBlock& back() const
+  { return impl_.back(); }
+
+  iterator begin()
+  { return impl_.begin(); }
+
+  const_iterator begin() const
+  { return impl_.begin(); }
+
+  Slha& clear()
+  { impl_.clear(); return *this; }
+
+  bool empty() const
+  { return impl_.empty(); }
+
+  iterator end()
+  { return impl_.end(); }
+
+  const_iterator end() const
+  { return impl_.end(); }
+
+  iterator erase(iterator position)
+  { return impl_.erase(position); }
+
+  iterator erase(iterator first, iterator last)
+  { return impl_.erase(first, last); }
+
+  SlhaBlock& front()
+  { return impl_.front(); }
+
+  const SlhaBlock& front() const
+  { return impl_.front(); }
+
+  Slha& pop_back()
+  { impl_.pop_back(); return *this; }
+
+  Slha& push_back(const SlhaBlock& block)
+  { impl_.push_back(block); return *this; }
+
+  Slha& read(std::istream& is);
+  Slha& readFile(const std::string& filename);
+
+  reverse_iterator rbegin()
+  { return impl_.rbegin(); }
+
+  const_reverse_iterator rbegin() const
+  { return impl_.rbegin(); }
+
+  reverse_iterator rend()
+  { return impl_.rend(); }
+
+  const_reverse_iterator rend() const
+  { return impl_.rend(); }
+
+  std::size_t size() const
+  { return impl_.size(); }
+
+  Slha& str(const std::string& slhaStr)
+  { std::stringstream ss(""); ss << slhaStr; return read(ss); }
+
+  std::string str() const
+  { std::stringstream ss(""); ss << *this; return ss.str(); }
+
+  Slha& writeFile(const std::string& filename);
+
+private:
+  std::vector<SlhaBlock>  impl_;
 };
 
 

@@ -27,6 +27,8 @@ namespace FISP {
 class TestSlha : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(TestSlha);
+  CPPUNIT_TEST(testSlha);
+  CPPUNIT_TEST(testSlhaBlock);
   CPPUNIT_TEST(testSlhaLine);
   CPPUNIT_TEST_SUITE_END();
 
@@ -34,6 +36,83 @@ public:
   void setUp() {}
 
   void tearDown() {}
+
+  void testSlha()
+  {
+    std::string data =
+      "# first comment\n"
+      "# second comment \n"
+      "BLOCK FIRST\n"
+      " 1  1  9.1\n"
+      " 1  2  9.2\n"
+      " 1  3  9.3\n"
+      " 2  10.0\n"
+      "# comment before second block\n"
+      "BlOcK second blob # comment\n"
+      "  1  11.0  # first\n"
+      "  2  false # second\n"
+      " -3  true  # third \n"
+      "  0 A  2  true  # third \n"
+      " -9000 B    3  more \n"
+      "# comment after second block\n";
+
+    Slha s1; s1.str(data);
+    CPPUNIT_ASSERT(s1[""].front().str() == "# first comment");
+    CPPUNIT_ASSERT(s1[""].back().str() == "# second comment");
+    CPPUNIT_ASSERT(s1["fIrSt"]["2 10.0"].str() == " 2  10.0");
+    CPPUNIT_ASSERT(s1["seCONd"]["-3"][1] == "true");
+    CPPUNIT_ASSERT(s1["second"].size() == 7);
+    CPPUNIT_ASSERT(s1["second"].at("BlOcK")[2] == "blob");
+  }
+
+  void testSlhaBlock()
+  {
+    SlhaBlock b1;
+    CPPUNIT_ASSERT(b1.name() == "");
+    b1.name("test");
+    CPPUNIT_ASSERT(b1.name() == "test");
+    CPPUNIT_ASSERT(b1.size() == 0);
+
+    b1.push_back(SlhaLine(" 1 a b c"));
+    CPPUNIT_ASSERT(b1.front().str() == " 1 a b c");
+    CPPUNIT_ASSERT(b1.back().str() == " 1 a b c");
+
+    b1.push_back(SlhaLine(" 2 a b"));
+    CPPUNIT_ASSERT(b1.front().str() == " 1 a b c");
+    CPPUNIT_ASSERT(b1.back().str() == " 2 a b");
+    CPPUNIT_ASSERT(b1.str() == " 1 a b c\n 2 a b\n");
+
+    b1[""] = " 2 a c";
+    std::vector<int> vi;
+    std::vector<std::string> vs;
+    vi.push_back(1);
+    vs.push_back("1");
+    CPPUNIT_ASSERT(b1[vi].str() == " 1 a b c");
+    CPPUNIT_ASSERT(b1[vs].str() == " 1 a b c");
+    CPPUNIT_ASSERT(b1["2 a"].str() == " 2 a b");
+    CPPUNIT_ASSERT(b1["2 a c"].str() == " 2 a c");
+    CPPUNIT_ASSERT(b1["2 a c"][2] == "c");
+    CPPUNIT_ASSERT(b1.at("2", "a", "c")[2] == "c");
+    b1.at() = " 3 -1 y zzz";
+    CPPUNIT_ASSERT(b1.at("3").str() == " 3 -1 y zzz");
+    CPPUNIT_ASSERT(b1.at(3,-1).str() == " 3 -1 y zzz");
+    CPPUNIT_ASSERT(b1.push_back(" 4 1 f g").back().str() == " 4 1 f g");
+
+    std::string block = " 1 a b c \n"
+                        " 2 d e f # comment\n"
+                        " 3 1 g h i   \n"
+                        " 3 2 gg hh ii";
+    std::string block_bh =
+                        " 1 a b c\n"
+                        " 2 d e f # comment\n"
+                        " 3 1 g h i\n"
+                        " 3 2 gg hh ii\n";
+
+    b1.str(block);
+    CPPUNIT_ASSERT(b1.size() == 4);
+    CPPUNIT_ASSERT(b1["3 2"][2] == "gg");
+    CPPUNIT_ASSERT(b1.str() == block_bh);
+  }
 
   void testSlhaLine()
   {
