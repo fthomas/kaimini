@@ -63,9 +63,9 @@ void parse_command_line(int argc, char** argv,
 
 void set_filenames(const string& inputFilename, const string& outputFilename)
 {
-  if (inputFilename.size() < sizeof(InputOutput_LesHouches_InputFile))
+  if (inputFilename.size() < sizeof(InputOutput_LesHouches_FileIn))
   {
-    strcpy(InputOutput_LesHouches_InputFile, inputFilename.c_str());
+    strcpy(InputOutput_LesHouches_FileIn, inputFilename.c_str());
   }
   else
   {
@@ -73,9 +73,9 @@ void set_filenames(const string& inputFilename, const string& outputFilename)
          << "default input filename." << endl;
   }
 
-  if (outputFilename.size() < sizeof(InputOutput_LesHouches_OutputFile))
+  if (outputFilename.size() < sizeof(InputOutput_LesHouches_FileOut))
   {
-    strcpy(InputOutput_LesHouches_OutputFile, outputFilename.c_str());
+    strcpy(InputOutput_LesHouches_FileOut, outputFilename.c_str());
   }
   else
   {

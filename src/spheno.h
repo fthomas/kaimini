@@ -9,8 +9,8 @@ extern "C" {
 extern double Control_delta_mass;
 
 /* Module InputOutput */
-extern char InputOutput_LesHouches_InputFile[256];
-extern char InputOutput_LesHouches_OutputFile[256];
+extern char InputOutput_LesHouches_FileIn[256];
+extern char InputOutput_LesHouches_FileOut[256];
 extern bool InputOutput_Add_Rparity;
 
 /* Module Model_Data */

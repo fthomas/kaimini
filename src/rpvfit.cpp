@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cmath>
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
@@ -58,14 +57,14 @@ double RpvFit::chiSquare(const vector<double>& v) const
 }
 
 /*
-double RpvFit::chiSquareSphenoExt(const vector<double>& v) const
+double RpvFit::chiSquare(const vector<double>& v) const
 {
   Slha in("LesHouches.in");
 
   for (size_t i = 0; i < 3; ++i)
   {
-    in("RVKAPPAIN")(i+1)[1] = to_string(v.at(i));
-    in("RVSNVEVIN")(i+1)[1] = to_string(v.at(i+3));
+    in["RVKAPPAIN"].at(i+1)[1] = to_string(v.at(i));
+    in["RVSNVEVIN"].at(i+1)[1] = to_string(v.at(i+3));
   }
   in.writeFile("LesHouches.in");
 
@@ -75,7 +74,7 @@ double RpvFit::chiSquareSphenoExt(const vector<double>& v) const
 
   for (size_t i = 0; i < 4; ++i)
   {
-    mObs.at(i).calcValue = to_double(out("SPhenoRP")(i+7)[1]);
+    mObs.at(i).calcValue = to_double(out["SPhenoRP"].at(i+7)[1]);
   }
 
   mChiSq = 0;

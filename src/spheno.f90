@@ -1346,7 +1346,7 @@ Write(*,*) "kont",kont
  !------------------------------------------------------------------
  ! Checked, if the file LesHouches.in exists
  !------------------------------------------------------------------
-  Inquire(file=Trim(LesHouches_InputFile),exist=file_exists)
+  Inquire(file=Trim(LesHouches_FileIn),exist=file_exists)
  !---------------------------------------
  !   if yes, use the data from this file
  !---------------------------------------

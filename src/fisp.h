@@ -21,7 +21,7 @@
 
 namespace FISP {
 
-const std::string fisp_version = "0.0.1-33-g7ff3ca9";
+const std::string fisp_version = "0.0.2";
 
 void parse_command_line(int argc, char** argv,
                         std::string* inputFilename,

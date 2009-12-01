@@ -82,6 +82,7 @@ clean:
 
 cleanall: clean
 	rm -f $(RPVFIT) $(FISP_SO)
+	rm -rf html/
 	$(MAKE) -C input/ clean
 
 set_version:
