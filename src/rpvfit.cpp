@@ -42,7 +42,7 @@ double RpvFit::chiSquare(const vector<double>& v) const
   for (size_t i = 0; i < msObsCnt; ++i)
   {
     mObs.at(i).calcValue = calc_obs[i];
-    if (mObs.at(i).use) mChiSq += mObs.at(i).weightedSquaredResidual();
+    if (mObs.at(i).use) mChiSq += mObs.at(i).wSquaredResidual();
   }
 
   cout.setf(ios::scientific);

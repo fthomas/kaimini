@@ -17,6 +17,7 @@
 #ifndef FISP_FITBASE_H
 #define FISP_FITBASE_H
 
+#include <cmath>
 #include <string>
 #include <vector>
 #include <gsl/gsl_vector.h>
@@ -39,9 +40,9 @@ struct Observable
     double _error = 0.) : name(_name), use(_use), value(_value),
     error(_error), calcValue(0.), wSqResidual(-1.) {}
 
-  double weightedSquaredResidual() const
+  double wSquaredResidual() const
   {
-    wSqResidual = pow(value - calcValue, 2) / pow(error, 2);
+    wSqResidual = std::pow(value - calcValue, 2) / std::pow(error, 2);
     return wSqResidual;
   }
 };
