@@ -19,10 +19,11 @@
 #include <stdexcept>
 #include <vector>
 #include "rpvfit.h"
-#include "slha.h"
+#include "slhame.h"
 #include "spheno.h"
 
 using namespace std;
+using namespace SLHAme;
 
 namespace FISP {
 

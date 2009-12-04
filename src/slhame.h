@@ -1,4 +1,4 @@
-// FISP - Fitting Interface for SPheno
+// SLHAme - SUSY Les Houches Accord made easy
 // Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FISP_SLHA_H
-#define FISP_SLHA_H
+#ifndef SLHAME_H
+#define SLHAME_H
 
 #include <algorithm>
 #include <cstddef>
@@ -29,7 +29,7 @@
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 
-namespace FISP {
+namespace SLHAme {
 
 inline bool to_bool(const std::string& str)
 { return boost::lexical_cast<bool>(str); }
@@ -60,7 +60,7 @@ std::vector<std::string> to_string_vector(const std::vector<T>& vec)
 {
   std::vector<std::string> str_vec;
   for (typename std::vector<T>::const_iterator it = vec.begin();
-       it != vec.end(); ++it) { str_vec.push_back(to_string(*it)); }
+       it != vec.end(); ++it) str_vec.push_back(to_string(*it));
   return str_vec;
 }
 
@@ -616,8 +616,8 @@ inline std::ostream& operator<<(std::ostream& os, const SlhaBlock& block)
 inline std::ostream& operator<<(std::ostream& os, const SlhaLine& line)
 { return os << line.str(); }
 
-} // namespace FISP
+} // namespace SLHAme
 
-#endif // FISP_SLHA_H
+#endif // SLHAME_H
 
 // vim: sw=2 tw=78

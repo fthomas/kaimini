@@ -16,13 +16,10 @@
 
 #include <cppunit/ui/text/TestRunner.h>
 
-#include "testslha.h"
-
 int main()
 {
   CppUnit::TextUi::TestRunner runner;
 
-  runner.addTest(FISP::TestSlha::suite());
   runner.run();
 
   return 0;

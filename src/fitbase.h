@@ -23,7 +23,7 @@
 #include <gsl/gsl_vector.h>
 #include <Minuit2/FCNBase.h>
 #include "parameters.h"
-#include "slha.h"
+#include "slhame.h"
 
 namespace FISP {
 
@@ -51,8 +51,8 @@ struct Observable
 class FitBase : public ROOT::Minuit2::FCNBase
 {
 public:
-  virtual void setParameters(const Slha& input) = 0;
-  virtual void setObservables(const Slha& input) = 0;
+  virtual void setParameters(const SLHAme::Slha& input) = 0;
+  virtual void setObservables(const SLHAme::Slha& input) = 0;
 
   virtual double chiSquare(const std::vector<double>& v) const = 0;
   double chiSquare() const
@@ -73,7 +73,7 @@ public:
   FitBase& setParameters(const Parameters& par)
   { mPar = par; return *this; }
 
-  Slha& result();
+  SLHAme::Slha& result();
 
   virtual std::string getName() const
   { return std::string("FitBase"); }
@@ -81,7 +81,7 @@ public:
 protected:
   Parameters mPar;
   std::vector<Observable> mObs;
-  Slha mResult;
+  SLHAme::Slha mResult;
 
   mutable double mChiSq;
   static FitBase* mspObj;

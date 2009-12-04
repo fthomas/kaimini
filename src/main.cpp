@@ -17,12 +17,13 @@
 #include <string>
 #include "fisp.h"
 #include "rpvfit.h"
-#include "slha.h"
+#include "slhame.h"
 #include "spheno.h"
 
 using namespace std;
 using namespace ROOT::Minuit2;
 using namespace FISP;
+using namespace SLHAme;
 
 int main(int argc, char* argv[])
 {

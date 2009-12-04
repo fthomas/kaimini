@@ -19,11 +19,12 @@
 #include <Rcpp.h>
 #include "fisp.h"
 #include "rpvfit.h"
-#include "slha.h"
+#include "slhame.h"
 #include "spheno.h"
 
 using namespace std;
 using namespace FISP;
+using namespace SLHAme;
 
 extern "C" {
 

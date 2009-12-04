@@ -1,9 +1,10 @@
 set(RPVFit_TARGET rpvfit)
 set(RPVFit_SOURCES
+    fisp.cpp
+    fitbase.cpp
     main.cpp
     parameters.cpp
     rpvfit.cpp
-    slha.cpp
     spheno.f90)
 
 include_directories(

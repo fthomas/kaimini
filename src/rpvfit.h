@@ -21,15 +21,15 @@
 #include <string>
 #include <vector>
 #include "fitbase.h"
-#include "slha.h"
+#include "slhame.h"
 
 namespace FISP {
 
 class RpvFit : public FitBase
 {
 public:
-  void setParameters(const Slha& input);
-  void setObservables(const Slha& input);
+  void setParameters(const SLHAme::Slha& input);
+  void setObservables(const SLHAme::Slha& input);
   double chiSquare(const std::vector<double>& v) const;
   std::string getName() const
   { return std::string("RPVFit"); }

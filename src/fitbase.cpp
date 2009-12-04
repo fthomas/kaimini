@@ -26,11 +26,12 @@
 #include <Minuit2/MnPrint.h>
 #include "fitbase.h"
 #include "parameters.h"
-#include "slha.h"
+#include "slhame.h"
 
 using namespace std;
 using namespace boost;
 using namespace ROOT::Minuit2;
+using namespace SLHAme;
 
 namespace FISP {
 

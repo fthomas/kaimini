@@ -22,4 +22,4 @@ add_custom_target(spheno_clean ${MAKE} cleanall
     WORKING_DIRECTORY ${SPheno_ROOT_DIR})
 
 add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
-add_subdirectory(tests)
+add_subdirectory(test)
