@@ -18,6 +18,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#include "datapoint.h"
 #include "rpvfit.h"
 #include "slhame.h"
 #include "spheno.h"
@@ -121,7 +122,7 @@ void RpvFit::setObservables(const Slha& input)
   {
     try
     {
-      Observable obs(
+      DataPoint obs(
         input["RPVFitObservIn"].at(i)[4],
         to_bool(input["RPVFitObservIn"].at(i)[1]),
         to_double(input["RPVFitObservIn"].at(i)[2]),
@@ -133,7 +134,7 @@ void RpvFit::setObservables(const Slha& input)
     {
       cerr << "Note (RpvFit::setObservables): observable with index " << i
            << " not found" << endl;
-      Observable obs;
+      DataPoint obs;
       mObs.push_back(obs);
     }
   }

@@ -17,36 +17,15 @@
 #ifndef FISP_FITBASE_H
 #define FISP_FITBASE_H
 
-#include <cmath>
 #include <string>
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/FCNBase.h>
+#include "datapoint.h"
 #include "parameters.h"
 #include "slhame.h"
 
 namespace FISP {
-
-struct Observable
-{
-  std::string name;
-  bool use;
-  double value;
-  double error;
-  mutable double calcValue;
-  mutable double wSqResidual;
-
-  Observable(std::string _name = "", bool _use = false, double _value = 0.,
-    double _error = 0.) : name(_name), use(_use), value(_value),
-    error(_error), calcValue(0.), wSqResidual(-1.) {}
-
-  double wSquaredResidual() const
-  {
-    wSqResidual = std::pow(value - calcValue, 2) / std::pow(error, 2);
-    return wSqResidual;
-  }
-};
-
 
 class FitBase : public ROOT::Minuit2::FCNBase
 {
@@ -80,7 +59,7 @@ public:
 
 protected:
   Parameters mPar;
-  std::vector<Observable> mObs;
+  std::vector<DataPoint> mObs;
   SLHAme::Slha mResult;
 
   mutable double mChiSq;
