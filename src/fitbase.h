@@ -23,15 +23,15 @@
 #include <Minuit2/FCNBase.h>
 #include "datapoint.h"
 #include "parameters.h"
-#include "slhame.h"
+#include "slhaea.h"
 
 namespace FISP {
 
 class FitBase : public ROOT::Minuit2::FCNBase
 {
 public:
-  virtual void setParameters(const SLHAme::Slha& input) = 0;
-  virtual void setObservables(const SLHAme::Slha& input) = 0;
+  virtual void setParameters(const SLHAea::SLHA& input) = 0;
+  virtual void setObservables(const SLHAea::SLHA& input) = 0;
 
   virtual double chiSquare(const std::vector<double>& v) const = 0;
   double chiSquare() const
@@ -52,7 +52,7 @@ public:
   FitBase& setParameters(const Parameters& par)
   { mPar = par; return *this; }
 
-  SLHAme::Slha& result();
+  SLHAea::SLHA& result();
 
   virtual std::string getName() const
   { return std::string("FitBase"); }
@@ -60,7 +60,7 @@ public:
 protected:
   Parameters mPar;
   std::vector<DataPoint> mObs;
-  SLHAme::Slha mResult;
+  SLHAea::SLHA mResult;
 
   mutable double mChiSq;
   static FitBase* mspObj;

@@ -19,12 +19,12 @@
 #include <Rcpp.h>
 #include "fisp.h"
 #include "rpvfit.h"
-#include "slhame.h"
+#include "slhaea.h"
 #include "spheno.h"
 
 using namespace std;
 using namespace FISP;
-using namespace SLHAme;
+using namespace SLHAea;
 
 extern "C" {
 
@@ -37,7 +37,7 @@ SEXP rpvfit_init(SEXP args)
   string output_file = par.getStringValue("output");
 
   set_filenames(input_file, output_file);
-  Slha slha_input(input_file);
+  SLHA slha_input(input_file);
 
   gRpvFit.setParameters(slha_input);
   gRpvFit.setObservables(slha_input);

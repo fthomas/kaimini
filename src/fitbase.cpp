@@ -26,12 +26,12 @@
 #include <Minuit2/MnPrint.h>
 #include "fitbase.h"
 #include "parameters.h"
-#include "slhame.h"
+#include "slhaea.h"
 
 using namespace std;
 using namespace boost;
 using namespace ROOT::Minuit2;
-using namespace SLHAme;
+using namespace SLHAea;
 
 namespace FISP {
 
@@ -47,7 +47,7 @@ double FitBase::chiSquare(const gsl_vector* v, void* = 0)
 }
 
 
-Slha& FitBase::result()
+SLHA& FitBase::result()
 {
   mResult.clear();
   if (mPar.Params().empty() || mObs.empty()) return mResult;

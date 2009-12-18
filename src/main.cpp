@@ -17,13 +17,13 @@
 #include <string>
 #include "fisp.h"
 #include "rpvfit.h"
-#include "slhame.h"
+#include "slhaea.h"
 #include "spheno.h"
 
 using namespace std;
 using namespace ROOT::Minuit2;
 using namespace FISP;
-using namespace SLHAme;
+using namespace SLHAea;
 
 int main(int argc, char* argv[])
 {
@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
   parse_command_line(argc, argv, &input_file, &output_file);
   set_filenames(input_file, output_file);
 
-  Slha slha_input(input_file);
+  SLHA slha_input(input_file);
 
   RpvFit rpvfit;
   rpvfit.setParameters(slha_input);

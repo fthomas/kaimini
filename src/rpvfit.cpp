@@ -20,11 +20,11 @@
 #include <vector>
 #include "datapoint.h"
 #include "rpvfit.h"
-#include "slhame.h"
+#include "slhaea.h"
 #include "spheno.h"
 
 using namespace std;
-using namespace SLHAme;
+using namespace SLHAea;
 
 namespace FISP {
 
@@ -97,25 +97,25 @@ double RpvFit::chiSquare(const vector<double>& v) const
 }
 */
 
-void RpvFit::setParameters(const Slha& input)
+void RpvFit::setParameters(const SLHA& input)
 {
   mPar = Parameters();
-  mPar.Add("epsilon_1", to_double(input["RVKAPPAIN"]["1"][1]), 0.);
-  mPar.Add("epsilon_2", to_double(input["RVKAPPAIN"]["2"][1]), 0.);
-  mPar.Add("epsilon_3", to_double(input["RVKAPPAIN"]["3"][1]), 0.);
-  mPar.Add("v_L1", to_double(input["RVSNVEVIN"]["1"][1]), 0.);
-  mPar.Add("v_L2", to_double(input["RVSNVEVIN"]["2"][1]), 0.);
-  mPar.Add("v_L3", to_double(input["RVSNVEVIN"]["3"][1]), 0.);
+  mPar.Add("epsilon_1", to_<double>(input.at("RVKAPPAIN").at("1")[1]), 0.);
+  mPar.Add("epsilon_2", to_<double>(input.at("RVKAPPAIN").at("2")[1]), 0.);
+  mPar.Add("epsilon_3", to_<double>(input.at("RVKAPPAIN").at("3")[1]), 0.);
+  mPar.Add("v_L1", to_<double>(input.at("RVSNVEVIN").at("1")[1]), 0.);
+  mPar.Add("v_L2", to_<double>(input.at("RVSNVEVIN").at("2")[1]), 0.);
+  mPar.Add("v_L3", to_<double>(input.at("RVSNVEVIN").at("3")[1]), 0.);
 
   for (size_t i = 0; i < mPar.Params().size(); ++i)
   {
-    mPar.SetError(i, to_double(input["RPVFitParamsIn"].at(i+1)[2]));
-    if ("0" == input["RPVFitParamsIn"].at(i+1)[1]) mPar.Fix(i);
+    mPar.SetError(i, to_<double>(input.at("RPVFitParamsIn").at(i+1)[2]));
+    if ("0" == input.at("RPVFitParamsIn").at(i+1)[1]) mPar.Fix(i);
   }
 }
 
 
-void RpvFit::setObservables(const Slha& input)
+void RpvFit::setObservables(const SLHA& input)
 {
   mObs.clear();
   for (size_t i = 1; i <= msObsCnt; ++i)
@@ -123,10 +123,10 @@ void RpvFit::setObservables(const Slha& input)
     try
     {
       DataPoint obs(
-        input["RPVFitObservIn"].at(i)[4],
-        to_bool(input["RPVFitObservIn"].at(i)[1]),
-        to_double(input["RPVFitObservIn"].at(i)[2]),
-        to_double(input["RPVFitObservIn"].at(i)[3])
+        input.at("RPVFitObservIn").at(i)[4],
+        to_<bool>(input.at("RPVFitObservIn").at(i)[1]),
+        to_<double>(input.at("RPVFitObservIn").at(i)[2]),
+        to_<double>(input.at("RPVFitObservIn").at(i)[3])
       );
       mObs.push_back(obs);
     }
