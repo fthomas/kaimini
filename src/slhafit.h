@@ -1,5 +1,5 @@
-// FISP - Fitting Interface for SPheno
-// Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Kaimini
+// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,24 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FISP_FISP_H
-#define FISP_FISP_H
+#ifndef KAIMINI_SLHAFIT_H
+#define KAIMINI_SLHAFIT_H
 
-#include <string>
+#include <vector>
+#include "fitbase.h"
+#include "slhaea.h"
 
-namespace FISP {
+namespace Kaimini {
 
-const std::string fisp_version = "0.0.2";
+class SLHAFit : public FitBase
+{
+public:
+  void setDataPoints(const SLHAea::SLHA& input);
+  void setParameters(const SLHAea::SLHA& input);
 
-void parse_command_line(int argc, char** argv,
-                        std::string* inputFilename,
-                        std::string* outputFilename);
+  void readDataPoints(const SLHAea::SLHA& input) const;
+  void writeParameters(const std::vector<double>& v,
+                       SLHAea::SLHA& output) const;
 
-void set_filenames(const std::string& inputFilename,
-                   const std::string& outputFilename);
+private:
+  std::vector<SLHAea::SLHAKey> mDataPointsKeys;
+  std::vector<SLHAea::SLHAKey> mParamsKeys;
+};
 
-} // namespace FISP
+} // namespace Kaimini
 
-#endif // FISP_FISP_H
+#endif // KAIMINI_SLHAFIT_H
 
 // vim: sw=2 tw=78

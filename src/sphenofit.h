@@ -1,5 +1,5 @@
-// FISP - Fitting Interface for SPheno
-// Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Kaimini
+// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,32 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FISP_RPVFIT_H
-#define FISP_RPVFIT_H
+#ifndef KAIMINI_SPHENOFIT_H
+#define KAIMINI_SPHENOFIT_H
 
-#include <cstddef>
-#include <string>
 #include <vector>
-#include "fitbase.h"
-#include "slhaea.h"
+#include <string>
+#include "slhafit.h"
 
-namespace FISP {
+namespace Kaimini {
 
-class RpvFit : public FitBase
+class SPhenoFit : public SLHAFit
 {
 public:
-  void setParameters(const SLHAea::SLHA& input);
-  void setObservables(const SLHAea::SLHA& input);
+  SPhenoFit(const std::string& filename);
+
   double chiSquare(const std::vector<double>& v) const;
-  std::string getName() const
-  { return std::string("RPVFit"); }
 
 private:
-  static const std::size_t msObsCnt = 4;
+  std::string ifile;
+  std::string ofile;
 };
 
-} // namespace FISP
+} // namespace Kaimini
 
-#endif // FISP_RPVFIT_H
+#endif // KAIMINI_SPHENOFIT_H
 
 // vim: sw=2 tw=78

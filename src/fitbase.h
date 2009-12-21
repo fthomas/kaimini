@@ -1,5 +1,5 @@
-// FISP - Fitting Interface for SPheno
-// Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Kaimini
+// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,60 +14,61 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FISP_FITBASE_H
-#define FISP_FITBASE_H
+#ifndef KAIMINI_FITBASE_H
+#define KAIMINI_FITBASE_H
 
-#include <string>
 #include <vector>
-#include <gsl/gsl_vector.h>
 #include <Minuit2/FCNBase.h>
 #include "datapoint.h"
 #include "parameters.h"
-#include "slhaea.h"
 
-namespace FISP {
+namespace Kaimini {
 
 class FitBase : public ROOT::Minuit2::FCNBase
 {
 public:
-  virtual void setParameters(const SLHAea::SLHA& input) = 0;
-  virtual void setObservables(const SLHAea::SLHA& input) = 0;
-
   virtual double chiSquare(const std::vector<double>& v) const = 0;
+
   double chiSquare() const
-  { return chiSquare(mPar.getParams()); }
-  static double chiSquare(const gsl_vector* v, void*);
+  { return chiSquare(mParamsInt.getParams()); }
 
   double operator()(const std::vector<double>& v) const
   { return chiSquare(v); }
-  double Up() const
+
+  virtual double Up() const
   { return 1.; }
 
-  void fitMinuitMinimize();
-  void fitMinuitSimplex();
-  void fitGslSimplex();
-
   Parameters getParameters() const
-  { return mPar; }
-  FitBase& setParameters(const Parameters& par)
-  { mPar = par; return *this; }
+  { return mParamsExt; }
 
-  SLHAea::SLHA& result();
+  void setParameters(const Parameters& par)
+  {
+    mParamsExt = par;
+    paramTransformExtToInt(par);
+  }
 
-  virtual std::string getName() const
-  { return std::string("FitBase"); }
+  virtual void
+  paramTransformExtToInt(const Parameters& extPar)
+  { mParamsInt = extPar; }
+
+  virtual void
+  paramTransformIntToExt(const Parameters& intPar)
+  { mParamsExt = intPar; }
+
+  virtual std::vector<double>
+  paramTransformIntToExt(const std::vector<double>& intPar) const
+  { return intPar; }
 
 protected:
-  Parameters mPar;
-  std::vector<DataPoint> mObs;
-  SLHAea::SLHA mResult;
+  Parameters mParamsExt;
+  Parameters mParamsInt;
 
+  std::vector<DataPoint> mDataPoints;
   mutable double mChiSq;
-  static FitBase* mspObj;
 };
 
-} // namespace FISP
+} // namespace Kaimini
 
-#endif // FISP_FITBASE_H
+#endif // KAIMINI_FITBASE_H
 
 // vim: sw=2 tw=78

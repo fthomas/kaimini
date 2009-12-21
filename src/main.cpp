@@ -1,5 +1,5 @@
-// FISP - Fitting Interface for SPheno
-// Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Kaimini
+// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,14 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
-#include "fisp.h"
-#include "rpvfit.h"
 #include "slhaea.h"
-#include "spheno.h"
 
 using namespace std;
 using namespace ROOT::Minuit2;
-using namespace FISP;
+using namespace Kaimini;
 using namespace SLHAea;
 
 int main(int argc, char* argv[])
@@ -33,22 +30,6 @@ int main(int argc, char* argv[])
 
   // Set our (user-supplied) i/o filenames as SPheno's i/o filenames.
   parse_command_line(argc, argv, &input_file, &output_file);
-  set_filenames(input_file, output_file);
-
-  SLHA slha_input(input_file);
-
-  RpvFit rpvfit;
-  rpvfit.setParameters(slha_input);
-  rpvfit.setObservables(slha_input);
-
-  SPhenoDouble_RunTill_Model_bilinear_Rparity();
-
-  //rpvfit.fitMinuitMinimize();
-  //rpvfit.fitMinuitSimplex();
-  rpvfit.fitGslSimplex();
-  cout << rpvfit.result();
-
-  SPhenoDouble_RunTill_End();
 
   return 0;
 }

@@ -1,5 +1,5 @@
-// FISP - Fitting Interface for SPheno
-// Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Kaimini
+// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,22 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FISP_PARAMETERS_H
-#define FISP_PARAMETERS_H
+#ifndef KAIMINI_PARAMETERS_H
+#define KAIMINI_PARAMETERS_H
 
+#include <ostream>
 #include <vector>
 #include <gsl/gsl_vector.h>
+#include <Minuit2/MinuitParameter.h>
 #include <Minuit2/MnUserParameters.h>
 
-namespace FISP {
+namespace Kaimini {
 
 class Parameters : public ROOT::Minuit2::MnUserParameters
 {
 public:
-  Parameters& operator=(const ROOT::Minuit2::MnUserParameters& par);
+  Parameters& operator=(const ROOT::Minuit2::MnUserParameters& par)
+  {
+    ROOT::Minuit2::MnUserParameters::operator=(par);
+    return *this;
+  }
 
-  std::vector<double> getParams() const { return Params(); }
-  std::vector<double> getStepSizes() const { return Errors(); }
+  std::vector<double> getParams() const
+  { return Params(); }
+
+  std::vector<double> getStepSizes() const
+  { return Errors(); }
 
   std::vector<double> getVarParams() const;
   std::vector<double> getVarStepSizes() const;
@@ -41,8 +50,14 @@ public:
   Parameters& setVarParams(const gsl_vector* v);
 };
 
-} // namespace FISP
+std::ostream&
+operator<<(std::ostream& os, const ROOT::Minuit2::MinuitParameter& mp);
 
-#endif // FISP_PARAMETERS_H
+std::ostream&
+operator<<(std::ostream& os, const Parameters& par);
+
+} // namespace Kaimini
+
+#endif // KAIMINI_PARAMETERS_H
 
 // vim: sw=2 tw=78

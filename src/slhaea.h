@@ -1,5 +1,5 @@
 // SLHAea - another SUSY Les Houches Accord input/output library
-// Copyright © 2009 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 #include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -124,6 +123,25 @@ std::ostream& operator<<(std::ostream& os, const SLHABlock& block);
 std::ostream& operator<<(std::ostream& os, const SLHA& slha);
 
 
+/**
+ * Container of string that represents a line in a %SLHA structure.
+ * This class is a container of string that represents a line in a
+ * %SLHA structure. The elements of a %SLHALine are the so called
+ * fields of an ordinary %SLHA line, which are its
+ * whitespace-separated substrings and the comment. For example, if a
+ * %SLHALine is constructed from the line <tt>" 1 2 0.123 # a comment
+ * "</tt> its elements would be \c "1", \c "2", \c "0.123", and
+ * \c "# a comment". Array-style access to the elements with integer
+ * indicies is provided by the operator[]() and at() functions.
+ *
+ * In addition to storing the fields of a %SLHA line, a %SLHALine also
+ * stores its formatting (the exact position of the fields in the
+ * line). A formatted representation of a %SLHALine can be produced
+ * with str() const while str_plain() const produces an unformatted
+ * representation where each element is concatenated with a space.
+ * The reformat() function clears the previous formatting and indents
+ * all elements with a appropriate number of spaces.
+ */
 class SLHALine
 {
 private:
@@ -147,17 +165,47 @@ public:
   //   operator for this class are just fine, so we don't need to
   //   write our own.
 
+  /**
+   * \brief Constructs %SLHALine from a string.
+   * \param line String whose fields are used as content of the
+   *   %SLHALine.
+   * \sa str()
+   */
   SLHALine(const std::string& line)
   { str(line); }
 
+  /**
+   * \brief Assigns new content to the %SLHALine based on a string.
+   * \param line String whose fields are used as new content of the
+   *   %SLHALine.
+   * \return Reference to \c *this.
+   *
+   * This function is an alias for str().
+   */
   SLHALine&
   operator=(const std::string& line)
   { return str(line); }
 
+  /**
+   * \brief Appends a string to the end of the %SLHALine.
+   * \param rhs String that is appended to the %SLHALine.
+   * \return Reference to \c *this.
+   *
+   * This function is an alias for append().
+   */
   SLHALine&
   operator+=(const std::string& rhs)
   { return append(rhs); }
 
+  /**
+   * \brief Adds an element to the end of the %SLHALine.
+   * \param field Element that is added to the end of the %SLHALine.
+   * \return Reference to \c *this.
+   *
+   * This function adds an element to the end of the %SLHALine. If the
+   * last element is a comment \p field is only appended to it and
+   * thus size() remains unchanged.
+   */
   template<class T> SLHALine&
   operator<<(const T& field)
   {
@@ -165,61 +213,125 @@ public:
     const std::string rhs_tr = boost::trim_copy(rhs);
     if (rhs_tr.empty()) return *this;
 
-    if (!empty() && back().find("#") != std::string::npos) back() += rhs;
-    else impl_.push_back(rhs_tr);
+    if (!empty() && back().find('#') != std::string::npos)
+    {
+      back() += rhs;
+      return *this;
+    }
 
+    impl_.push_back(rhs_tr);
     reformat();
     return *this;
   }
 
   /**
-   * \brief Appends string to the end of the %SLHALine.
+   * \brief Appends a string to the end of the %SLHALine.
    * \param rhs String that is appended to the %SLHALine.
-   * \return Reference to \c *this;
+   * \return Reference to \c *this.
+   *
+   * This functions appends \p rhs to output of str() const and uses
+   * this temporary string as input for str(). Based on the temporary
+   * string size() is increased or remains unchanged.
    */
   SLHALine&
   append(const std::string& rhs)
   { return str(str() + rhs); }
 
+  /**
+   * Returns true if the %SLHALine begins with \c "BLOCK" or
+   * \c "DECAY". Comparison is done case-insensitive.
+   */
+  bool
+  is_block_def() const
+  {
+    return !empty() &&
+      (boost::iequals("BLOCK", front()) || boost::iequals("DECAY", front()));
+  }
+
+  /** Returns true if the %SLHALine begins with \c "#". */
+  bool
+  is_comment_line() const
+  { return !empty() && (front().compare(0, 1, "#") == 0); }
+
+  /**
+   * Returns true if the %SLHALine is not empty and if neither
+   * is_block_def() nor is_comment_line() returns true.
+   */
+  bool
+  is_data_line() const
+  { return !empty() && !is_block_def() && !is_comment_line(); }
+
+  /**
+   * \brief Reformats the string representation of the %SLHALine.
+   * \return Reference to \c *this.
+   */
   SLHALine&
   reformat()
   {
     if (empty()) return *this;
 
-    std::string line;
+    std::stringstream line_fmt("");
+    int arg = 0, pos = 0;
     const_iterator it = begin();
 
     if (boost::iequals("BLOCK", *it) || boost::iequals("DECAY", *it))
     {
-      line += *it;
-      if (it+1 != end()) line += " " + *++it;
+      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
+      pos += it->length();
+
+      if (it+1 != end())
+      {
+        line_fmt << "%|" << ++pos << "t|%" << ++arg << "% ";
+        pos += (++it)->length();
+      }
     }
     else if (it->compare(0, 1, "#") == 0)
-    { line += *it; }
+    {
+      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
+      pos += it->length();
+    }
     else
-    { line += " " + *it; }
+    {
+      line_fmt << "%|" << ++pos << "t|%" << ++arg << "% ";
+      pos += it->length();
+    }
 
     while (++it != end())
     {
       // Compute the number of spaces required for proper indentation.
-      int dist = 3 - ((line.size() - 1) % 4);
-      int spaces = dist > 1 ? dist : dist + 4;
-      line.append(spaces, ' ') += *it;
+      int dist = 3 - ((pos - 1) % 4);
+      pos += dist > 1 ? dist : dist + 4;
+
+      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
+      pos += it->length();
     }
 
-    str(line);
+    lineFormat_ = boost::trim_right_copy(line_fmt.str());
     return *this;
   }
 
+  /**
+   * \brief Assigns new content to the %SLHALine based on a string.
+   * \param line String whose fields are used as new content of the
+   *   %SLHALine.
+   * \return Reference to \c *this.
+   *
+   * This function parses \p line and sets the found fields as new
+   * content of the %SLHALine. If \p line contains newlines
+   * everything after the first newline is ignored.
+   *
+   * The exact formatting of \p line is stored internally and can be
+   * reproduced with str() const.
+   */
   SLHALine&
   str(const std::string& line)
   {
     clear();
     const std::string
-      line_tr = boost::trim_copy(line.substr(0, line.find("\n")));
+      line_tr = boost::trim_copy(line.substr(0, line.find('\n')));
     if (line_tr.empty()) return *this;
 
-    const int comment_pos = std::min(line_tr.find("#"), line_tr.length());
+    const int comment_pos = std::min(line_tr.find('#'), line_tr.length());
     const std::string
       data    = boost::trim_copy(line_tr.substr(0, comment_pos)),
       comment = boost::trim_copy(line_tr.substr(comment_pos));
@@ -229,11 +341,12 @@ public:
 
     // Construct the format string for line.
     std::stringstream line_fmt("");
-    int i = 1, pos = 0;
-    for (const_iterator it = begin(); it != end(); ++it, ++i, ++pos)
+    int arg = 0, pos = 0;
+    for (const_iterator it = begin(); it != end(); ++it)
     {
       pos = line.find(*it, pos);
-      line_fmt << "%|" << pos << "t|%" << i << "% ";
+      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
+      pos += it->length();
     }
     lineFormat_ = boost::trim_right_copy(line_fmt.str());
 
@@ -304,32 +417,32 @@ public:
   { return impl_.at(n); }
 
   /**
-   * Returns a read/write reference to the string at the first element
-   * of the %SLHALine.
+   * Returns a read/write reference to the first element of the
+   * %SLHALine.
    */
   reference
   front()
   { return impl_.front(); }
 
   /**
-   * Returns a read-only (constant) reference to the string at the
-   * first element of the %SLHALine.
+   * Returns a read-only (constant) reference to the first element of
+   * the %SLHALine.
    */
   const_reference
   front() const
   { return impl_.front(); }
 
   /**
-   * Returns a read/write reference to the string at the last element
-   * of the %SLHALine.
+   * Returns a read/write reference to the last element of the
+   * %SLHALine.
    */
   reference
   back()
   { return impl_.back(); }
 
   /**
-   * Returns a read-only (constant) reference to the string at the
-   * last element of the %SLHALine.
+   * Returns a read-only (constant) reference to the last element of
+   * the %SLHALine.
    */
   const_reference
   back() const
@@ -485,6 +598,13 @@ private:
 };
 
 
+/**
+ * Container of SLHALine that resembles a block in a %SLHA structure.
+ * This class is a named container of SLHALine that resembles a block
+ * in a %SLHA structure. In contrast to a block in a %SLHA structure,
+ * a %SLHABlock can contain zero, one, or more SLHALine that are
+ * block definitions or it can be completely empty.
+ */
 class SLHABlock
 {
 private:
@@ -880,6 +1000,10 @@ public:
   push_back(const value_type& line)
   { impl_.push_back(line); }
 
+  void
+  push_back(const std::string& line)
+  { impl_.push_back(SLHALine(line)); }
+
   /**
    * Removes the last element. This function shrinks the size() of the
    * %SLHABlock by one.
@@ -968,13 +1092,16 @@ public:
   //   operator for this class are just fine, so we don't need to
   //   write our own.
 
-  /**
-   * \brief Constructs %SLHA container from data provided in a file.
-   * \param filename Name of input file to read data from.
-   * \sa read_file()
-   */
-  SLHA(const std::string filename)
-  { read_file(filename); }
+  SLHA(std::istream& is)
+  { read(is); }
+
+  SLHALine::reference
+  field(const SLHAKey& key)
+  { return at(key.block).at(key.line).at(key.field); }
+
+  SLHALine::const_reference
+  field(const SLHAKey& key) const
+  { return at(key.block).at(key.line).at(key.field); }
 
   /**
    * \brief Transforms data from a stream into the %SLHA container.
@@ -995,53 +1122,12 @@ public:
       if (boost::trim_copy(line_str).empty()) continue;
 
       const SLHALine line_slha(line_str);
-      if ((boost::iequals("BLOCK", line_slha[0]) ||
-           boost::iequals("DECAY", line_slha[0])) && line_slha.size() > 1)
+      if (line_slha.is_block_def() && line_slha.size() > 1)
       {
         if ('#' != line_slha[1][0]) curr_name = line_slha[1];
       }
       (*this)[curr_name].push_back(line_slha);
     }
-    return *this;
-  }
-
-  /**
-   * \brief Transforms data from a file into the %SLHA container.
-   * \param filename Name of input file to read data from.
-   * \returns Reference to \c *this.
-   * \sa read()
-   */
-  SLHA&
-  read_file(const std::string& filename)
-  {
-    std::ifstream fs(filename.c_str());
-    if (!fs)
-    {
-      std::cerr << "SLHA::read_file(\"" << filename << "\") failed"
-                << std::endl;
-      return *this;
-    }
-    return read(fs);
-  }
-
-  /**
-   * \brief Writes the string representation of the %SLHA container
-   *   into a file.
-   * \param filename Name of output file the string representation is
-   *   written to.
-   * \returns Reference to \c *this.
-   */
-  SLHA&
-  write_file(const std::string& filename)
-  {
-    std::ofstream fs(filename.c_str());
-    if (!fs)
-    {
-      std::cerr << "Error: SLHA::write_file(\"" << filename << "\") failed"
-                << std::endl;
-      return *this;
-    }
-    fs << *this;
     return *this;
   }
 
@@ -1383,6 +1469,13 @@ private:
   impl_type impl_;
 };
 
+
+inline std::istream&
+operator>>(std::istream& is, SLHA& slha)
+{
+  slha.read(is);
+  return is;
+}
 
 inline std::ostream&
 operator<<(std::ostream& os, const SLHAKey& key)
