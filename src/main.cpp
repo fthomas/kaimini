@@ -15,12 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
-#include "slhaea.h"
+#include "kaimini.h"
 
 using namespace std;
-using namespace ROOT::Minuit2;
 using namespace Kaimini;
-using namespace SLHAea;
 
 int main(int argc, char* argv[])
 {
@@ -29,7 +27,7 @@ int main(int argc, char* argv[])
   string output_file = "SPheno.spc";
 
   // Set our (user-supplied) i/o filenames as SPheno's i/o filenames.
-  parse_command_line(argc, argv, &input_file, &output_file);
+  parse_command_line(argc, argv, input_file, output_file);
 
   return 0;
 }
