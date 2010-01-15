@@ -38,15 +38,25 @@ public:
   virtual double Up() const
   { return 1.; }
 
-  Parameters getParameters() const
+  Parameters getExtParameters() const
   { return mParamsExt; }
 
-  void setParameters(const Parameters& par)
+  Parameters getIntParameters() const
+  { return mParamsInt; }
+
+  void setExtParameters(const Parameters& extPar)
   {
-    mParamsExt = par;
-    paramTransformExtToInt(par);
+    mParamsExt = extPar;
+    paramTransformExtToInt(extPar);
   }
 
+  void setIntParameters(const Parameters& intPar)
+  {
+    mParamsInt = intPar;
+    paramTransformIntToExt(intPar);
+  }
+
+protected:
   virtual void
   paramTransformExtToInt(const Parameters& extPar)
   { mParamsInt = extPar; }
