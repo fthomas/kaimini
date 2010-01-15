@@ -35,6 +35,7 @@ class TestSLHAFit : public CppUnit::TestFixture
   CPPUNIT_TEST(testSetParameters);
   CPPUNIT_TEST(testReadDataPoints);
   CPPUNIT_TEST(testWriteParameters);
+  CPPUNIT_TEST(testResult);
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -88,9 +89,22 @@ public:
     par.push_back(88.);
     par.push_back(99.);
     par.push_back(10.);
-    fit.writeParameters(input, par);
-    //cout << input << endl;
+    fit.writeParameters(par, input);
+    //cout << endl << input << endl;
   }
+
+  void testResult()
+  {
+    ifstream fs("slha0.txt");
+    SLHA input;
+    input.read(fs);
+
+    SLHAFit fit;
+    fit.setDataPoints(input);
+    fit.setParameters(input);
+    //cout << endl << fit.result() << endl;
+  }
+
 };
 
 } // namespace Kaimini

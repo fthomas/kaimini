@@ -16,8 +16,10 @@
 
 #include <cassert>
 #include <cstddef>
+#include <sstream>
 #include <stdexcept>
 #include <vector>
+#include <Minuit2/MinuitParameter.h>
 #include "datapoint.h"
 #include "kaimini.h"
 #include "parameters.h"
@@ -26,6 +28,7 @@
 
 using namespace std;
 using namespace boost;
+using namespace ROOT::Minuit2;
 using namespace SLHAea;
 
 namespace Kaimini {
@@ -206,6 +209,68 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
       exit_field_not_found(mParamsKeys[i].str());
     }
   }
+}
+
+
+SLHA SLHAFit::result() const
+{
+  SLHA result;
+
+  string block = "KaiminiInfo";
+  result[block][""] << "BLOCK" << block;
+  result[block][""] << "1" << kaimini_version;
+
+  if (!mParamsExt.Params().empty())
+  {
+    block = "KaiminiParametersOut";
+    result[block][""] << "BLOCK" << block;
+
+    for (size_t i = 0; i < mParamsExt.Params().size(); ++i)
+    {
+      MinuitParameter mp = mParamsExt.Parameter(i);
+
+      stringstream limits;
+      if (mp.HasLowerLimit()) limits << mp.LowerLimit();
+      limits << ":";
+      if (mp.HasUpperLimit()) limits << mp.UpperLimit();
+
+      result[block][""] << i+1
+        << mp.GetName()
+        << !mp.IsFixed()
+        << mp.Value()
+        << mp.Error()
+        << limits.str();
+    }
+  }
+
+  if (!mDataPoints.empty())
+  {
+    block = "KaiminiDataPointsOut";
+    result[block][""] << "BLOCK" << block;
+
+    for (size_t i = 0; i < mDataPoints.size(); ++i)
+    {
+      result[block][""] << i+1
+        << mDataPoints[i].name
+        << mDataPoints[i].use
+        << mDataPoints[i].calcValue
+        << mDataPoints[i].value
+        << mDataPoints[i].error;
+    }
+
+    mChiSq = sumWtSqResiduals(mDataPoints.begin(), mDataPoints.end());
+    block = "KaiminiChiSquare";
+    result[block][""] << "BLOCK" << block;
+    result[block][""] << 0 << "chi^2" << mChiSq;
+
+    for (size_t i = 0; i < mDataPoints.size(); ++i)
+    {
+      result[block][""] << i+1
+        << mDataPoints[i].name
+        << mDataPoints[i].wtSqResidual;
+    }
+  }
+  return result;
 }
 
 } // namespace Kaimini

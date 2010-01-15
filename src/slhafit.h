@@ -33,6 +33,8 @@ public:
   void writeParameters(const std::vector<double>& v,
                        SLHAea::SLHA& output) const;
 
+  SLHAea::SLHA result() const;
+
 private:
   std::vector<SLHAea::SLHAKey> mDataPointsKeys;
   std::vector<SLHAea::SLHAKey> mParamsKeys;
