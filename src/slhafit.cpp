@@ -258,7 +258,6 @@ SLHA SLHAFit::result() const
         << mDataPoints[i].error;
     }
 
-    mChiSq = sumWtSqResiduals(mDataPoints.begin(), mDataPoints.end());
     block = "KaiminiChiSquare";
     result[block][""] << "BLOCK" << block;
     result[block][""] << 0 << "chi^2" << mChiSq;
