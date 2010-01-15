@@ -28,6 +28,11 @@ namespace Kaimini {
 class Parameters : public ROOT::Minuit2::MnUserParameters
 {
 public:
+  Parameters() {}
+
+  Parameters(const ROOT::Minuit2::MnUserParameters& par)
+  { ROOT::Minuit2::MnUserParameters::operator=(par); }
+
   Parameters& operator=(const ROOT::Minuit2::MnUserParameters& par)
   {
     ROOT::Minuit2::MnUserParameters::operator=(par);
