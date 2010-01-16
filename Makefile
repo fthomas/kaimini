@@ -2,8 +2,8 @@
 # Makefile for Kaimini
 #
 
-MINUIT_INCPATH = /usr/include/root
-MINUIT_LIBS    = /usr/lib/root/5.24
+MINUIT_INCPATH = /usr/local/include
+MINUIT_LIBS    = /usr/local/lib
 
 CXX      = g++
 CXXFLAGS = -fPIC -g -Wall -Wextra -pedantic
