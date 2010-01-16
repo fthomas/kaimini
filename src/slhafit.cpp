@@ -109,6 +109,7 @@ void SLHAFit::setParameters(const SLHA& input)
   }
 
   mParamsExt = Parameters(); // Erase old parameters.
+  mParamsKeys.clear();
 
   for (SLHABlock::const_iterator line = block->begin();
        line != block->end(); ++line)
