@@ -5,12 +5,11 @@
 MINUIT_INCPATH = /usr/include/root
 MINUIT_LIBS    = /usr/lib/root/5.24
 
-CXX = g++
-
+CXX      = g++
 CXXFLAGS = -fPIC -g -Wall -Wextra -pedantic
 INCPATH  = -I$(MINUIT_INCPATH) $(RCPPFLAGS)
-LIBS     = $(F90LIBS) -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) -lMinuit2 -ldl \
-           -Wl,-rpath=$(MINUIT_LIBS) $(SPHENO_LIB) $(RLDFLAGS)
+LIBS     = -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) -lMinuit2 -ldl \
+           -Wl,-rpath=$(MINUIT_LIBS) $(RLDFLAGS)
 DEFINES  = 
 
 R_LIBS    = $(subst -L,,$(filter -L%,$(shell R CMD config --ldflags)))
@@ -22,10 +21,10 @@ RLDFLAGS  = $(shell R CMD config --ldflags) \
 
 SOURCES := $(wildcard src/*.cpp)
 OBJECTS := $(addsuffix .o,$(basename $(SOURCES)))
-KAIMINI  = input/kaimini
-FISP_SO  = input/kaimini.so
+KAIMINI    = input/kaimini
+KAIMINI_SO = input/kaimini.so
 
-all: $(KAIMINI) $(FISP_SO)
+all: $(KAIMINI) $(KAIMINI_SO)
 
 
 ### Implicit rules:
@@ -36,10 +35,10 @@ all: $(KAIMINI) $(FISP_SO)
 
 ### Build and clean rules:
 
-$(RPVFIT): $(OBJECTS)
+$(KAIMINI): $(OBJECTS)
 	$(CXX) -o "$@" $(OBJECTS) $(LIBS)
 
-$(FISP_SO): $(filter-out %main.o,$(OBJECTS))
+$(KAIMINI_SO): $(filter-out %main.o,$(OBJECTS))
 	$(CXX) -o "$@" -shared $(filter-out %main.o,$(OBJECTS)) $(LIBS)
 
 
@@ -47,7 +46,7 @@ clean:
 	rm -f $(OBJECTS)
 
 cleanall: clean
-	rm -f $(KAIMINI) $(FISP_SO)
+	rm -f $(KAIMINI) $(KAIMINI_SO)
 	rm -rf html/
 	$(MAKE) -C input/ clean
 

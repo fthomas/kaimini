@@ -1,4 +1,4 @@
-rpvfit:
+kaimini:
 	$(MAKE) -C ..
 
 clean:
@@ -13,4 +13,4 @@ switch:
 	  ln -s input.MSSM   LesHouches.in; \
 	fi
 
-.PHONY: rpvfit clean switch
+.PHONY: kaimini clean switch
