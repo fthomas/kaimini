@@ -134,24 +134,25 @@ ostream& operator<<(ostream& os, const MinuitParameter& mp)
 
 ostream& operator<<(ostream& os, const Parameters& par)
 {
-  os << "Parameters:" << endl;
-  for (size_t i = 0; i < par.Params().size(); ++i)
-  {
-    MinuitParameter mp = par.Parameter(i);
+  const vector<MinuitParameter>& mps = par.getMinuitParameters();
 
+  os << "Parameters:" << endl;
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
+  {
     stringstream limits; limits << "[ ";
-    if (mp.HasLowerLimit()) limits << mp.LowerLimit();
+    if (mp->HasLowerLimit()) limits << mp->LowerLimit();
     limits << ", ";
-    if (mp.HasUpperLimit()) limits << mp.UpperLimit() << " ";
+    if (mp->HasUpperLimit()) limits << mp->UpperLimit() << " ";
     limits << "]";
 
-    os << "    - number    : " << mp.Number()   << endl
-       << "      name      : " << mp.GetName()  << endl
-       << "      value     : " << mp.Value()    << endl
-       << "      step_size : " << mp.Error()    << endl
+    os << "    - number    : " << mp->Number()  << endl
+       << "      name      : " << mp->GetName() << endl
+       << "      value     : " << mp->Value()   << endl
+       << "      step_size : " << mp->Error()   << endl
        << "      limits    : " << limits.str()  << endl
-       << "      fixed     : " << mp.IsFixed()  << endl
-       << "      constant  : " << mp.IsConst()  << endl
+       << "      fixed     : " << mp->IsFixed() << endl
+       << "      constant  : " << mp->IsConst() << endl
        << endl;
   }
   return os;

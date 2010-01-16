@@ -39,6 +39,10 @@ public:
     return *this;
   }
 
+  const std::vector<ROOT::Minuit2::MinuitParameter>&
+  getMinuitParameters() const
+  { return ROOT::Minuit2::MnUserParameters::Parameters(); }
+
   std::vector<double> getParams() const
   { return Params(); }
 
