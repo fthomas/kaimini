@@ -31,12 +31,12 @@ namespace Kaimini {
 vector<double> Parameters::getVarParams() const
 {
   vector<double> par;
-  for (size_t i = 0; i < Params().size(); ++i)
+  const vector<MinuitParameter>& mps = getMinuitParameters();
+
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
   {
-    if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
-    {
-      par.push_back(Value(i));
-    }
+    if (!mp->IsFixed() && !mp->IsConst()) par.push_back(mp->Value());
   }
   return par;
 }
@@ -45,12 +45,12 @@ vector<double> Parameters::getVarParams() const
 vector<double> Parameters::getVarStepSizes() const
 {
   vector<double> step_sizes;
-  for (size_t i = 0; i < Params().size(); ++i)
+  const vector<MinuitParameter>& mps = getMinuitParameters();
+
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
   {
-    if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
-    {
-      step_sizes.push_back(Error(i));
-    }
+    if (!mp->IsFixed() && !mp->IsConst()) step_sizes.push_back(mp->Error());
   }
   return step_sizes;
 }
@@ -59,11 +59,15 @@ vector<double> Parameters::getVarStepSizes() const
 gsl_vector* Parameters::getVarParamsGslVec() const
 {
   gsl_vector* par = gsl_vector_alloc(VariableParameters());
-  for (size_t i = 0, j = 0; i < Params().size(); ++i)
+  const vector<MinuitParameter>& mps = getMinuitParameters();
+
+  size_t i = 0;
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
   {
-    if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
+    if (!mp->IsFixed() && !mp->IsConst())
     {
-      gsl_vector_set(par, j++, Value(i));
+      gsl_vector_set(par, i++, mp->Value());
     }
   }
   return par;
@@ -73,11 +77,15 @@ gsl_vector* Parameters::getVarParamsGslVec() const
 gsl_vector* Parameters::getVarStepSizesGslVec() const
 {
   gsl_vector* step_sizes = gsl_vector_alloc(VariableParameters());
-  for (size_t i = 0, j = 0; i < Params().size(); ++i)
+  const vector<MinuitParameter>& mps = getMinuitParameters();
+
+  size_t i = 0;
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
   {
-    if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
+    if (!mp->IsFixed() && !mp->IsConst())
     {
-      gsl_vector_set(step_sizes, j++, Error(i));
+      gsl_vector_set(step_sizes, i++, mp->Error());
     }
   }
   return step_sizes;
