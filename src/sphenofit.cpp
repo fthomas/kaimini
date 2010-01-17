@@ -26,16 +26,16 @@ using namespace SLHAea;
 
 namespace Kaimini {
 
-SPhenoFit::SPhenoFit(const string& filename)
+void SPhenoFit::init(const string& inputFile)
 {
   ifile = "LesHouches.in";
   ofile = "SPheno.spc";
 
   // cp filename ifile
-  ifstream source(filename.c_str(), ios::binary);
+  ifstream source(inputFile.c_str(), ios::binary);
   ofstream dest(ifile.c_str(), ios::binary);
 
-  if (!source) exit_file_open_failed(filename);
+  if (!source) exit_file_open_failed(inputFile);
   if (!dest) exit_file_open_failed(ifile);
 
   dest << source.rdbuf();
@@ -48,6 +48,20 @@ SPhenoFit::SPhenoFit(const string& filename)
 
   setDataPoints(input);
   setParameters(input);
+}
+
+
+void SPhenoFit::writeResult(const string& outputFile) const
+{
+  // Write the fit result into outputFile.
+  ofstream dest(outputFile.c_str());
+  if (!dest) exit_file_open_failed(outputFile);
+  dest << result();
+
+  // Append SPheno's output to outputFile.
+  ifstream source(ofile.c_str());
+  if (!source) exit_file_open_failed(ofile);
+  dest << source.rdbuf();
 }
 
 

@@ -30,6 +30,7 @@ class TestSPhenoFit : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE(TestSPhenoFit);
   CPPUNIT_TEST(testConstructor);
   CPPUNIT_TEST(testChiSquare);
+  CPPUNIT_TEST(testWriteResult);
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -49,6 +50,16 @@ public:
     v.push_back(7.1E+01);
     fit.chiSquare(v);
   }
+
+  void testWriteResult()
+  {
+    SPhenoFit fit("slha1.txt");
+    vector<double> v;
+    v.push_back(7.1E+01);
+    fit.chiSquare(v);
+    fit.writeResult("out.txt");
+  }
+
 };
 
 } // namespace Kaimini

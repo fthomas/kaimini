@@ -26,7 +26,11 @@ namespace Kaimini {
 class SPhenoFit : public SLHAFit
 {
 public:
-  SPhenoFit(const std::string& filename);
+  explicit SPhenoFit(const std::string& inputFile)
+  { init(inputFile); }
+
+  void init(const std::string& inputFile);
+  void writeResult(const std::string& outputFile) const;
 
   double chiSquare(const std::vector<double>& v) const;
 
