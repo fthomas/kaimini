@@ -25,7 +25,7 @@ namespace Kaimini {
 
 class SLHAFit : public FitBase
 {
-public:
+protected:
   void setDataPoints(const SLHAea::SLHA& input);
   void setParameters(const SLHAea::SLHA& input);
 
