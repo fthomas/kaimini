@@ -167,7 +167,7 @@ void SLHAFit::setParameters(const SLHA& input)
       exit_line_not_parsed("KaiminiParameters", line->str());
     }
   }
-  paramTransformExtToInt(mParamsExt);
+  mParamsInt = paramTransformExtToInt(mParamsExt);
 }
 
 

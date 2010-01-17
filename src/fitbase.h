@@ -47,23 +47,23 @@ public:
   void setExtParameters(const Parameters& extPar)
   {
     mParamsExt = extPar;
-    paramTransformExtToInt(extPar);
+    mParamsInt = paramTransformExtToInt(extPar);
   }
 
   void setIntParameters(const Parameters& intPar)
   {
     mParamsInt = intPar;
-    paramTransformIntToExt(intPar);
+    mParamsExt = paramTransformIntToExt(intPar);
   }
 
 protected:
-  virtual void
-  paramTransformExtToInt(const Parameters& extPar)
-  { mParamsInt = extPar; }
+  virtual Parameters
+  paramTransformExtToInt(const Parameters& extPar) const
+  { return extPar; }
 
-  virtual void
-  paramTransformIntToExt(const Parameters& intPar)
-  { mParamsExt = intPar; }
+  virtual Parameters
+  paramTransformIntToExt(const Parameters& intPar) const
+  { return intPar; }
 
   virtual std::vector<double>
   paramTransformIntToExt(const std::vector<double>& intPar) const
