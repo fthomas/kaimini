@@ -19,6 +19,7 @@
 
 #include <vector>
 #include "fitbase.h"
+#include "parameters.h"
 #include "slhaea.h"
 
 namespace Kaimini {
@@ -33,11 +34,13 @@ protected:
   void writeParameters(const std::vector<double>& v,
                        SLHAea::SLHA& output) const;
 
-  SLHAea::SLHA result() const;
+  void processResult(const Parameters& extPar);
+  const SLHAea::SLHA& result();
 
 private:
   std::vector<SLHAea::SLHAKey> mDataPointsKeys;
   std::vector<SLHAea::SLHAKey> mParamsKeys;
+  SLHAea::SLHA mResult;
 };
 
 } // namespace Kaimini

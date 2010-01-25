@@ -213,45 +213,53 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 }
 
 
-SLHA SLHAFit::result() const
+void SLHAFit::processResult(const Parameters& extPar)
 {
-  SLHA result;
+  // Remove the KaiminiParametersOut block if it exists.
+  SLHA::iterator it = mResult.find("KaiminiParametersOut");
+  if (mResult.end() != it) mResult.erase(it);
 
-  string block = "KaiminiInfo";
-  result[block][""] << "BLOCK" << block;
-  result[block][""] << "1" << kaimini_version;
+  if (extPar.getParams().empty()) return;
 
-  if (!mParamsExt.Params().empty())
+  string block = "KaiminiParametersOut";
+  mResult[block][""] << "BLOCK" << block;
+
+  for (size_t i = 0; i < extPar.getParams().size(); ++i)
   {
-    block = "KaiminiParametersOut";
-    result[block][""] << "BLOCK" << block;
+    MinuitParameter mp = extPar.Parameter(i);
 
-    for (size_t i = 0; i < mParamsExt.Params().size(); ++i)
-    {
-      MinuitParameter mp = mParamsExt.Parameter(i);
+    stringstream limits;
+    if (mp.HasLowerLimit()) limits << mp.LowerLimit();
+    limits << ":";
+    if (mp.HasUpperLimit()) limits << mp.UpperLimit();
 
-      stringstream limits;
-      if (mp.HasLowerLimit()) limits << mp.LowerLimit();
-      limits << ":";
-      if (mp.HasUpperLimit()) limits << mp.UpperLimit();
-
-      result[block][""] << i+1
-        << mp.GetName()
-        << !mp.IsFixed()
-        << mp.Value()
-        << mp.Error()
-        << limits.str();
-    }
+    mResult[block][""] << i+1
+      << mp.GetName()
+      << !mp.IsFixed()
+      << mp.Value()
+      << mp.Error()
+      << limits.str();
   }
+}
+
+
+const SLHA& SLHAFit::result()
+{
+  string block = "KaiminiInfo";
+  mResult[block][""] << "BLOCK" << block;
+  mResult[block][""] << "1" << kaimini_version;
+
+  if (mResult.find("KaiminiParametersOut") == mResult.end())
+  { processResult(mParamsExt); }
 
   if (!mDataPoints.empty())
   {
     block = "KaiminiDataPointsOut";
-    result[block][""] << "BLOCK" << block;
+    mResult[block][""] << "BLOCK" << block;
 
     for (size_t i = 0; i < mDataPoints.size(); ++i)
     {
-      result[block][""] << i+1
+      mResult[block][""] << i+1
         << mDataPoints[i].name
         << mDataPoints[i].use
         << mDataPoints[i].calcValue
@@ -260,17 +268,17 @@ SLHA SLHAFit::result() const
     }
 
     block = "KaiminiChiSquare";
-    result[block][""] << "BLOCK" << block;
-    result[block][""] << 0 << "chi^2" << mChiSq;
+    mResult[block][""] << "BLOCK" << block;
+    mResult[block][""] << 0 << "chi^2" << mChiSq;
 
     for (size_t i = 0; i < mDataPoints.size(); ++i)
     {
-      result[block][""] << i+1
+      mResult[block][""] << i+1
         << mDataPoints[i].name
         << mDataPoints[i].wtSqResidual;
     }
   }
-  return result;
+  return mResult;
 }
 
 } // namespace Kaimini
