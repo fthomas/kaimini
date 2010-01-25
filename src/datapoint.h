@@ -61,6 +61,12 @@ struct DataPoint
     error = std::abs(random_error());
     return error;
   }
+
+  void reset()
+  {
+    calcValue    =  0.;
+    wtSqResidual = -1.;
+  }
 };
 
 
