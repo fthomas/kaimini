@@ -32,6 +32,9 @@ public:
   double chiSquare() const
   { return chiSquare(mParamsInt.getParams()); }
 
+  double chiSquare(const Parameters& par) const
+  { return chiSquare(par.getParams()); }
+
   double operator()(const std::vector<double>& v) const
   { return chiSquare(v); }
 
@@ -69,12 +72,16 @@ protected:
   paramTransformIntToExt(const std::vector<double>& intPar) const
   { return intPar; }
 
+  virtual void processResult(const Parameters& extPar) = 0;
+
 protected:
   Parameters mParamsExt;
   Parameters mParamsInt;
 
   std::vector<DataPoint> mDataPoints;
   mutable double mChiSq;
+
+friend class MinuitDriver;
 };
 
 } // namespace Kaimini

@@ -18,6 +18,7 @@
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnSimplex.h>
 #include "minuitdriver.h"
+#include "parameters.h"
 
 using namespace ROOT::Minuit2;
 
@@ -27,8 +28,10 @@ FunctionMinimum MinuitDriver::runMinimize(unsigned int strategy)
 {
   MnMinimize minimizer(*mpFit, mpFit->mParamsInt, strategy);
   FunctionMinimum minimum = minimizer();
+  Parameters minpar = minimum.UserParameters();
 
-  mpFit->chiSquare(minimum.UserParameters().Params());
+  mpFit->chiSquare(minpar);
+  mpFit->processResult(mpFit->paramTransformIntToExt(minpar));
   return minimum;
 }
 
@@ -37,8 +40,10 @@ FunctionMinimum MinuitDriver::runSimplex(unsigned int strategy)
 {
   MnSimplex minimizer(*mpFit, mpFit->mParamsInt, strategy);
   FunctionMinimum minimum = minimizer();
+  Parameters minpar = minimum.UserParameters();
 
-  mpFit->chiSquare(minimum.UserParameters().Params());
+  mpFit->chiSquare(minpar);
+  mpFit->processResult(mpFit->paramTransformIntToExt(minpar));
   return minimum;
 }
 
