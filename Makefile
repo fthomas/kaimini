@@ -12,12 +12,12 @@ LIBS     = -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) -lMinuit2 -ldl \
            -Wl,-rpath=$(MINUIT_LIBS) $(RLDFLAGS)
 DEFINES  = 
 
-R_LIBS    = $(subst -L,,$(filter -L%,$(shell R CMD config --ldflags)))
-RCPPFLAGS = $(shell R CMD config --cppflags) \
-            $(shell echo 'Rcpp:::CxxFlags()' | R --vanilla --slave)
-RLDFLAGS  = $(shell R CMD config --ldflags) \
-            $(shell echo 'Rcpp:::LdFlags()'  | R --vanilla --slave) \
-            $(foreach PATH,$(R_LIBS),-Wl,-rpath=$(PATH))
+#R_LIBS    = $(subst -L,,$(filter -L%,$(shell R CMD config --ldflags)))
+#RCPPFLAGS = $(shell R CMD config --cppflags) \
+#            $(shell echo 'Rcpp:::CxxFlags()' | R --vanilla --slave)
+#RLDFLAGS  = $(shell R CMD config --ldflags) \
+#            $(shell echo 'Rcpp:::LdFlags()'  | R --vanilla --slave) \
+#            $(foreach PATH,$(R_LIBS),-Wl,-rpath=$(PATH))
 
 SOURCES := $(wildcard src/*.cpp)
 OBJECTS := $(addsuffix .o,$(basename $(SOURCES)))

@@ -2,6 +2,7 @@ set(Kaimini_TARGET kaimini)
 set(Kaimini_SOURCES
     kaimini.cpp
     main.cpp
+    minuitdriver.cpp
     parameters.cpp
     slhafit.cpp
     sphenofit.cpp)
