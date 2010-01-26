@@ -8,8 +8,8 @@ MINUIT_LIBS    = /usr/local/lib
 CXX      = g++
 CXXFLAGS = -fPIC -g -Wall -Wextra -pedantic
 INCPATH  = -I$(MINUIT_INCPATH) $(RCPPFLAGS)
-LIBS     = -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) -lMinuit2 -ldl \
-           -Wl,-rpath=$(MINUIT_LIBS) $(RLDFLAGS)
+LIBS     = -lboost_filesystem-mt -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) \
+           -lMinuit2 -ldl -Wl,-rpath=$(MINUIT_LIBS) $(RLDFLAGS)
 DEFINES  = 
 
 #R_LIBS    = $(subst -L,,$(filter -L%,$(shell R CMD config --ldflags)))
