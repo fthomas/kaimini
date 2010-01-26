@@ -53,7 +53,7 @@ public:
     }
     CPPUNIT_ASSERT(6720 < lt1         && lt1         <  6920);
     CPPUNIT_ASSERT(9440 < lt1+lt2     && lt1+lt2     <  9640);
-    CPPUNIT_ASSERT(9870 < lt1+lt2+lt3 && lt1+lt2+lt3 < 10000);
+    CPPUNIT_ASSERT(9870 < lt1+lt2+lt3 && lt1+lt2+lt3 <= 10000);
   }
 };
 
