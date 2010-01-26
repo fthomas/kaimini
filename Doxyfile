@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = Kaimini
-PROJECT_NUMBER         = 0.0.2-28-gd631e30
+PROJECT_NUMBER         = 0.0.2-34-gd698caa
 OUTPUT_DIRECTORY       =
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English

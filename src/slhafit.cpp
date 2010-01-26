@@ -245,9 +245,7 @@ void SLHAFit::processResult(const Parameters& extPar)
 
 const SLHA& SLHAFit::result()
 {
-  string block = "KaiminiInfo";
-  mResult[block][""] << "BLOCK" << block;
-  mResult[block][""] << "1" << kaimini_version;
+  string block;
 
   if (mResult.find("KaiminiParametersOut") == mResult.end())
   { processResult(mParamsExt); }
@@ -278,6 +276,10 @@ const SLHA& SLHAFit::result()
         << mDataPoints[i].wtSqResidual;
     }
   }
+
+  block = "KaiminiInfo";
+  mResult[block][""] << "BLOCK" << block;
+  mResult[block][""] << "1" << kaimini_version;
   return mResult;
 }
 
