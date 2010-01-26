@@ -17,79 +17,76 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 #include "kaimini.h"
 #include "slhaea.h"
 #include "sphenofit.h"
 
 using namespace std;
 using namespace SLHAea;
+namespace fs = boost::filesystem;
 
 namespace Kaimini {
 
-void SPhenoFit::init(const string& inputFile)
+void SPhenoFit::setUp(const string& inputFile)
 {
-  ifile = "LesHouches.in";
-  ofile = "SPheno.spc";
+  mInitialDir = fs::initial_path<fs::path>();
+  mWorkingDir = mInitialDir / ".kaimini-SPheno";
+  mSPhenoIn   = mWorkingDir / "LesHouches.in";
+  mSPhenoOut  = mWorkingDir / "SPheno.spc";
 
-  // cp filename ifile
-  ifstream source(inputFile.c_str(), ios::binary);
-  ofstream dest(ifile.c_str(), ios::binary);
+  if (!fs::exists(mWorkingDir)) fs::create_directory(mWorkingDir);
 
-  if (!source) exit_file_open_failed(inputFile);
-  if (!dest) exit_file_open_failed(ifile);
+  if (fs::exists(mSPhenoIn)) fs::remove(mSPhenoIn);
+  fs::copy_file(fs::path(inputFile), mSPhenoIn);
 
-  dest << source.rdbuf();
-  dest.close();
+  ifstream src(inputFile.c_str());
+  if (!src) exit_file_open_failed(inputFile);
 
-  // Set data points and parameters from input file.
-  source.seekg(0, ios::beg);
-  const SLHA input(source);
-  source.close();
+  mSLHAInput.clear();
+  src >> mSLHAInput;
+  src.close();
 
-  setDataPoints(input);
-  setParameters(input);
+  setDataPoints(mSLHAInput);
+  setParameters(mSLHAInput);
+
+  fs::current_path(mWorkingDir);
 }
 
 
-void SPhenoFit::writeResult(const string& outputFile) const
+void SPhenoFit::tearDown(const string& outputFile)
 {
-  // Write the fit result into outputFile.
+  fs::current_path(mInitialDir);
+
   ofstream dest(outputFile.c_str());
   if (!dest) exit_file_open_failed(outputFile);
   dest << result();
 
-  // Append SPheno's output to outputFile.
-  ifstream source(ofile.c_str());
-  if (!source) exit_file_open_failed(ofile);
-  dest << source.rdbuf();
+  fs::ifstream src(mSPhenoOut);
+  if (!src) exit_file_open_failed(mSPhenoOut.file_string());
+  dest << src.rdbuf();
+
+  //fs::remove(mWorkingDir);
 }
 
 
 double SPhenoFit::chiSquare(const vector<double>& v) const
 {
-  fstream fs;
-  SLHA input, output;
-
-  // Read the content of SPheno's input file.
-  fs.open(ifile.c_str(), ios::in);
-  if (!fs) exit_file_open_failed(ifile);
-  fs >> input;
-  fs.close();
-
   // Write the parameters ‘v’ into SPheno's input file.
-  writeParameters(paramTransformIntToExt(v), input);
-  fs.open(ifile.c_str(), ios::out | ios::trunc);
-  if (!fs) exit_file_open_failed(ifile);
-  fs << input;
-  fs.close();
+  writeParameters(paramTransformIntToExt(v), mSLHAInput);
+  fs::ofstream ofs(mSPhenoIn, ios_base::out | ios_base::trunc);
+  if (!ofs) exit_file_open_failed(mSPhenoIn.file_string());
+  ofs << mSLHAInput;
+  ofs.close();
 
   system("SPheno");
 
   // Read the data points from SPheno's output file.
-  fs.open(ofile.c_str(), ios::in);
-  if (!fs) exit_file_open_failed(ofile);
-  fs >> output;
-  fs.close();
+  fs::ifstream ifs(mSPhenoOut, ios_base::in);
+  if (!ifs) exit_file_open_failed(mSPhenoOut.file_string());
+  SLHA output(ifs);
+  ifs.close();
   readDataPoints(output);
 
   mChiSq = sumWtSqResiduals(mDataPoints.begin(), mDataPoints.end());

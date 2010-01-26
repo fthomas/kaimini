@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <string>
+#include <boost/filesystem.hpp>
 #include "slhafit.h"
 
 namespace Kaimini {
@@ -27,16 +28,20 @@ class SPhenoFit : public SLHAFit
 {
 public:
   explicit SPhenoFit(const std::string& inputFile)
-  { init(inputFile); }
+  { setUp(inputFile); }
 
-  void init(const std::string& inputFile);
-  void writeResult(const std::string& outputFile) const;
+  void setUp(const std::string& inputFile);
+  void tearDown(const std::string& outputFile);
 
   double chiSquare(const std::vector<double>& v) const;
 
 private:
-  std::string ifile;
-  std::string ofile;
+  boost::filesystem::path mInitialDir;
+  boost::filesystem::path mWorkingDir;
+  boost::filesystem::path mSPhenoIn;
+  boost::filesystem::path mSPhenoOut;
+
+  mutable SLHAea::SLHA mSLHAInput;
 };
 
 } // namespace Kaimini
