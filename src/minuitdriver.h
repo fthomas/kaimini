@@ -18,20 +18,20 @@
 #define KAIMINI_MINUITDRIVER_H
 
 #include <Minuit2/FunctionMinimum.h>
-#include "fitbase.h"
+#include "genericfit.h"
 
 namespace Kaimini {
 
 class MinuitDriver
 {
 public:
-  explicit MinuitDriver(FitBase* fit) : mpFit(fit) {}
+  explicit MinuitDriver(GenericFit* fit) : mpFit(fit) {}
 
   ROOT::Minuit2::FunctionMinimum runMinimize(unsigned int strategy = 1);
   ROOT::Minuit2::FunctionMinimum runSimplex(unsigned int strategy = 1);
 
 private:
-  FitBase* mpFit;
+  GenericFit* mpFit;
 };
 
 } // namespace Kaimini

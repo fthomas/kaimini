@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_FITBASE_H
-#define KAIMINI_FITBASE_H
+#ifndef KAIMINI_GENERICFIT_H
+#define KAIMINI_GENERICFIT_H
 
 #include <vector>
 #include <Minuit2/FCNBase.h>
@@ -24,7 +24,7 @@
 
 namespace Kaimini {
 
-class FitBase : public ROOT::Minuit2::FCNBase
+class GenericFit : public ROOT::Minuit2::FCNBase
 {
 public:
   virtual double chiSquare(const std::vector<double>& v) const = 0;
@@ -86,6 +86,6 @@ friend class MinuitDriver;
 
 } // namespace Kaimini
 
-#endif // KAIMINI_FITBASE_H
+#endif // KAIMINI_GENERICFIT_H
 
 // vim: sw=2 tw=78

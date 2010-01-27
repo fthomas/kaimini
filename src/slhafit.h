@@ -18,13 +18,13 @@
 #define KAIMINI_SLHAFIT_H
 
 #include <vector>
-#include "fitbase.h"
+#include "genericfit.h"
 #include "parameters.h"
 #include "slhaea.h"
 
 namespace Kaimini {
 
-class SLHAFit : public FitBase
+class SLHAFit : public GenericFit
 {
 protected:
   void setDataPoints(const SLHAea::SLHA& input);
