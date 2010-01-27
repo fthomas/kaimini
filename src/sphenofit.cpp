@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstddef>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -90,6 +91,14 @@ double SPhenoFit::chiSquare(const vector<double>& v) const
   readDataPoints(output);
 
   mChiSq = sumWtSqResiduals(mDataPoints.begin(), mDataPoints.end());
+
+  // Output the current parameter values and chi^2.
+  cout.precision(8);
+  cout.setf(ios_base::scientific);
+  for (size_t i = 0; i < v.size(); ++i)
+  { cout << "par_" << i << ":  " << v[i] << endl; }
+  cout << "chi^2:  " << mChiSq << endl << endl;
+
   return mChiSq;
 }
 
