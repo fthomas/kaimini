@@ -19,6 +19,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+#include <boost/format.hpp>
 #include <Minuit2/MinuitParameter.h>
 #include "datapoint.h"
 #include "kaimini.h"
@@ -233,12 +234,14 @@ void SLHAFit::processResult(const Parameters& extPar)
     limits << ":";
     if (mp.HasUpperLimit()) limits << mp.UpperLimit();
 
-    mResult[block][""] << i+1
-      << mp.GetName()
-      << !mp.IsFixed()
-      << mp.Value()
-      << mp.Error()
-      << limits.str();
+    mResult[block][""] = str(
+      format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E   %6%")
+        % (i+1)
+        % mp.GetName()
+        % !mp.IsFixed()
+        % mp.Value()
+        % mp.Error()
+        % limits.str());
   }
 }
 
@@ -257,23 +260,27 @@ const SLHA& SLHAFit::result()
 
     for (size_t i = 0; i < mDataPoints.size(); ++i)
     {
-      mResult[block][""] << i+1
-        << mDataPoints[i].name
-        << mDataPoints[i].use
-        << mDataPoints[i].calcValue
-        << mDataPoints[i].value
-        << mDataPoints[i].error;
+      mResult[block][""] = str(
+        format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E %6$16.8E")
+          % (i+1)
+          % mDataPoints[i].name
+          % mDataPoints[i].use
+          % mDataPoints[i].calcValue
+          % mDataPoints[i].value
+          % mDataPoints[i].error);
     }
 
     block = "KaiminiChiSquare";
     mResult[block][""] << "BLOCK" << block;
-    mResult[block][""] << 0 << "chi^2" << mChiSq;
+    mResult[block][""] = str(format(" 0  chi^2 %|15t|%1$15.8E") % mChiSq);
 
     for (size_t i = 0; i < mDataPoints.size(); ++i)
     {
-      mResult[block][""] << i+1
-        << mDataPoints[i].name
-        << mDataPoints[i].wtSqResidual;
+      mResult[block][""] = str(
+        format(" %1% %|4t|%2% %|15t|%3$15.8E")
+          % (i+1)
+          % mDataPoints[i].name
+          % mDataPoints[i].wtSqResidual);
     }
   }
 

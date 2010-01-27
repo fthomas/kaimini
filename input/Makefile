@@ -3,6 +3,7 @@ kaimini:
 
 clean:
 	rm -f Messages.out SPheno*.out SPheno.spc
+	rm -rf .kaimini-*
 
 switch:
 	TARGET=`readlink -n LesHouches.in`; \
