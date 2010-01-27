@@ -20,6 +20,7 @@
 #include <vector>
 #include <string>
 #include <boost/filesystem.hpp>
+#include "slhaea.h"
 #include "slhafit.h"
 
 namespace Kaimini {
