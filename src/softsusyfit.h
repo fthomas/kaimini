@@ -14,17 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_SPHENOFIT_H
-#define KAIMINI_SPHENOFIT_H
+#ifndef KAIMINI_SOFTSUSYFIT_H
+#define KAIMINI_SOFTSUSYFIT_H
 
 #include "simpleslhafit.h"
 
 namespace Kaimini {
 
-class SPhenoFit : public SimpleSLHAFit
+class SOFTSUSYFit : public SimpleSLHAFit
 {
 public:
-  explicit SPhenoFit(const std::string& inputFile)
+  explicit SOFTSUSYFit(const std::string& inputFile)
   { setUp(inputFile); }
 
 protected:
@@ -33,6 +33,6 @@ protected:
 
 } // namespace Kaimini
 
-#endif // KAIMINI_SPHENOFIT_H
+#endif // KAIMINI_SOFTSUSYFIT_H
 
 // vim: sw=2 tw=78

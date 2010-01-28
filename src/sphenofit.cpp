@@ -14,92 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstddef>
-#include <fstream>
-#include <string>
-#include <vector>
 #include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include "kaimini.h"
-#include "slhaea.h"
 #include "sphenofit.h"
 
 using namespace std;
-using namespace SLHAea;
 namespace fs = boost::filesystem;
 
 namespace Kaimini {
 
-void SPhenoFit::setUp(const string& inputFile)
+void SPhenoFit::initVars()
 {
   mInitialDir = fs::initial_path<fs::path>();
   mWorkingDir = mInitialDir / ".kaimini-SPheno";
   mTmpInFile  = mWorkingDir / "LesHouches.in";
   mTmpOutFile = mWorkingDir / "SPheno.spc";
-
-  if (!fs::exists(mWorkingDir)) fs::create_directory(mWorkingDir);
-
-  if (fs::exists(mTmpInFile)) fs::remove(mTmpInFile);
-  fs::copy_file(fs::path(inputFile), mTmpInFile);
-
-  ifstream src(inputFile.c_str());
-  if (!src) exit_file_open_failed(inputFile);
-
-  mSLHAInput.clear();
-  src >> mSLHAInput;
-  src.close();
-
-  setDataPoints(mSLHAInput);
-  setParameters(mSLHAInput);
-
-  fs::current_path(mWorkingDir);
-}
-
-
-void SPhenoFit::tearDown(const string& outputFile)
-{
-  fs::current_path(mInitialDir);
-
-  ofstream dest(outputFile.c_str());
-  if (!dest) exit_file_open_failed(outputFile);
-  dest << result();
-
-  fs::ifstream src(mTmpOutFile);
-  if (!src) exit_file_open_failed(mTmpOutFile.file_string());
-  dest << src.rdbuf();
-
-  //fs::remove(mWorkingDir);
-}
-
-
-double SPhenoFit::chiSquare(const vector<double>& v) const
-{
-  // Write the parameters ‘v’ into SPheno's input file.
-  writeParameters(paramTransformIntToExt(v), mSLHAInput);
-  fs::ofstream ofs(mTmpInFile, ios_base::out | ios_base::trunc);
-  if (!ofs) exit_file_open_failed(mTmpInFile.file_string());
-  ofs << mSLHAInput;
-  ofs.close();
-
-  system("SPheno");
-
-  // Read the data points from SPheno's output file.
-  fs::ifstream ifs(mTmpOutFile, ios_base::in);
-  if (!ifs) exit_file_open_failed(mTmpOutFile.file_string());
-  SLHA output(ifs);
-  ifs.close();
-  readDataPoints(output);
-
-  mChiSq = sumWtSqResiduals(mDataPoints.begin(), mDataPoints.end());
-
-  // Output the current parameter values and chi^2.
-  cout.precision(8);
-  cout.setf(ios_base::scientific);
-  for (size_t i = 0; i < v.size(); ++i)
-  { cout << "par_" << i << ":  " << v[i] << endl; }
-  cout << "chi^2:  " << mChiSq << endl << endl;
-
-  return mChiSq;
+  mCommand    = "SPheno";
 }
 
 } // namespace Kaimini

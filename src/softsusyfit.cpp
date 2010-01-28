@@ -14,25 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_SPHENOFIT_H
-#define KAIMINI_SPHENOFIT_H
+#include <sstream>
+#include <boost/filesystem.hpp>
+#include "softsusyfit.h"
 
-#include "simpleslhafit.h"
+using namespace std;
+namespace fs = boost::filesystem;
 
 namespace Kaimini {
 
-class SPhenoFit : public SimpleSLHAFit
+void SOFTSUSYFit::initVars()
 {
-public:
-  explicit SPhenoFit(const std::string& inputFile)
-  { setUp(inputFile); }
+  mInitialDir = fs::initial_path<fs::path>();
+  mWorkingDir = mInitialDir / ".kaimini-SOFTSUSY";
+  mTmpInFile  = mWorkingDir / "SLHA.in";
+  mTmpOutFile = mWorkingDir / "SLHA.out";
 
-protected:
-  void initVars();
-};
+  stringstream cmd;
+  cmd << "softpoint.x leshouches < " << mTmpInFile.file_string()
+      << " > " << mTmpOutFile.file_string();
+  mCommand = cmd.str();
+}
 
 } // namespace Kaimini
-
-#endif // KAIMINI_SPHENOFIT_H
 
 // vim: sw=2 tw=78
