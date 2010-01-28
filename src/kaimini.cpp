@@ -28,8 +28,8 @@ using namespace std;
 namespace Kaimini {
 
 random_generator_type
-random_generator(static_cast<unsigned int>(std::time(0)) +
-                 static_cast<unsigned int>(std::clock()));
+random_generator(static_cast<unsigned int>(time(0)) +
+                 static_cast<unsigned int>(clock()));
 
 
 void exit_field_not_found(const string& key)
