@@ -34,13 +34,13 @@ void SPhenoFit::setUp(const string& inputFile)
 {
   mInitialDir = fs::initial_path<fs::path>();
   mWorkingDir = mInitialDir / ".kaimini-SPheno";
-  mSPhenoIn   = mWorkingDir / "LesHouches.in";
-  mSPhenoOut  = mWorkingDir / "SPheno.spc";
+  mTmpInFile  = mWorkingDir / "LesHouches.in";
+  mTmpOutFile = mWorkingDir / "SPheno.spc";
 
   if (!fs::exists(mWorkingDir)) fs::create_directory(mWorkingDir);
 
-  if (fs::exists(mSPhenoIn)) fs::remove(mSPhenoIn);
-  fs::copy_file(fs::path(inputFile), mSPhenoIn);
+  if (fs::exists(mTmpInFile)) fs::remove(mTmpInFile);
+  fs::copy_file(fs::path(inputFile), mTmpInFile);
 
   ifstream src(inputFile.c_str());
   if (!src) exit_file_open_failed(inputFile);
@@ -64,8 +64,8 @@ void SPhenoFit::tearDown(const string& outputFile)
   if (!dest) exit_file_open_failed(outputFile);
   dest << result();
 
-  fs::ifstream src(mSPhenoOut);
-  if (!src) exit_file_open_failed(mSPhenoOut.file_string());
+  fs::ifstream src(mTmpOutFile);
+  if (!src) exit_file_open_failed(mTmpOutFile.file_string());
   dest << src.rdbuf();
 
   //fs::remove(mWorkingDir);
@@ -76,16 +76,16 @@ double SPhenoFit::chiSquare(const vector<double>& v) const
 {
   // Write the parameters ‘v’ into SPheno's input file.
   writeParameters(paramTransformIntToExt(v), mSLHAInput);
-  fs::ofstream ofs(mSPhenoIn, ios_base::out | ios_base::trunc);
-  if (!ofs) exit_file_open_failed(mSPhenoIn.file_string());
+  fs::ofstream ofs(mTmpInFile, ios_base::out | ios_base::trunc);
+  if (!ofs) exit_file_open_failed(mTmpInFile.file_string());
   ofs << mSLHAInput;
   ofs.close();
 
   system("SPheno");
 
   // Read the data points from SPheno's output file.
-  fs::ifstream ifs(mSPhenoOut, ios_base::in);
-  if (!ifs) exit_file_open_failed(mSPhenoOut.file_string());
+  fs::ifstream ifs(mTmpOutFile, ios_base::in);
+  if (!ifs) exit_file_open_failed(mTmpOutFile.file_string());
   SLHA output(ifs);
   ifs.close();
   readDataPoints(output);

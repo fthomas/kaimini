@@ -39,8 +39,8 @@ public:
 private:
   boost::filesystem::path mInitialDir;
   boost::filesystem::path mWorkingDir;
-  boost::filesystem::path mSPhenoIn;
-  boost::filesystem::path mSPhenoOut;
+  boost::filesystem::path mTmpInFile;
+  boost::filesystem::path mTmpOutFile;
 
   mutable SLHAea::SLHA mSLHAInput;
 };
