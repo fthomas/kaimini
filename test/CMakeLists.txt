@@ -2,6 +2,7 @@ set(TEST_SOURCES
     testall.cpp
     ../src/kaimini.cpp
     ../src/parameters.cpp
+    ../src/simpleslhafit.cpp
     ../src/slhafit.cpp
     ../src/sphenofit.cpp)
 
