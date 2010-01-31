@@ -91,7 +91,7 @@ void SLHAFit::setDataPoints(const SLHA& input)
     { error *= 0.01 * dp.value; }
 
     if (normal_dist)
-    { dp.randomError(error); }
+    { dp.randomNormalError(error); }
     else
     { dp.error = error; }
 

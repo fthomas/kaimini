@@ -52,11 +52,21 @@ struct DataPoint
     return wtSqResidual;
   }
 
-  double randomError(double stddev)
+  double randomNormalError(double stddev)
   {
     typedef boost::normal_distribution<> dist_type;
     boost::variate_generator<random_generator_type&, dist_type>
-    random_error(random_generator, dist_type(0, stddev));
+    random_error(random_generator, dist_type(0., stddev));
+
+    error = std::abs(random_error());
+    return error;
+  }
+
+  double randomUniformError(double width)
+  {
+    typedef boost::uniform_real<> dist_type;
+    boost::variate_generator<random_generator_type&, dist_type>
+    random_error(random_generator, dist_type(0., width));
 
     error = std::abs(random_error());
     return error;
