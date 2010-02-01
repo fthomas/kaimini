@@ -216,9 +216,9 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 
 void SLHAFit::processResult(const Parameters& extPar)
 {
-  // Remove the KaiminiParametersOut block if it exists.
+  // Remove the KaiminiParametersOut block if it exists and is not empty.
   SLHA::iterator it = mResult.find("KaiminiParametersOut");
-  if (mResult.end() != it) mResult.erase(it);
+  if (mResult.end() != it && !it->empty()) mResult.erase(it);
 
   if (extPar.getParams().empty()) return;
 
