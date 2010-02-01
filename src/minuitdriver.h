@@ -17,7 +17,9 @@
 #ifndef KAIMINI_MINUITDRIVER_H
 #define KAIMINI_MINUITDRIVER_H
 
+#include <vector>
 #include <Minuit2/FunctionMinimum.h>
+#include <Minuit2/MinosError.h>
 #include "genericfit.h"
 
 namespace Kaimini {
@@ -27,8 +29,12 @@ class MinuitDriver
 public:
   explicit MinuitDriver(GenericFit* fit) : mpFit(fit) {}
 
-  ROOT::Minuit2::FunctionMinimum runMinimize(unsigned int strategy = 1);
-  ROOT::Minuit2::FunctionMinimum runSimplex(unsigned int strategy = 1);
+  ROOT::Minuit2::FunctionMinimum runMinimize(unsigned int stra = 1);
+  ROOT::Minuit2::FunctionMinimum runSimplex(unsigned int stra = 1);
+
+  std::vector<ROOT::Minuit2::MinosError>
+  runMinos(const ROOT::Minuit2::FunctionMinimum& minimum,
+           unsigned int stra = 1);
 
 private:
   GenericFit* mpFit;
