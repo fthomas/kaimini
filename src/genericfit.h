@@ -27,6 +27,8 @@ namespace Kaimini {
 class GenericFit : public ROOT::Minuit2::FCNBase
 {
 public:
+  GenericFit() : mChiSq(-1.), mErrorDef(1.) {}
+
   virtual double chiSquare(const std::vector<double>& v) const = 0;
 
   double chiSquare(const Parameters& par) const
@@ -35,8 +37,11 @@ public:
   double operator()(const std::vector<double>& v) const
   { return chiSquare(v); }
 
-  virtual double Up() const
-  { return 1.; }
+  double Up() const
+  { return mErrorDef; }
+
+  void setErrorDef(double up)
+  { mErrorDef = up; }
 
   Parameters getExtParameters() const
   { return mParamsExt; }
@@ -77,6 +82,9 @@ protected:
 
   std::vector<DataPoint> mDataPoints;
   mutable double mChiSq;
+
+private:
+  double mErrorDef;
 
 friend class MinuitDriver;
 };
