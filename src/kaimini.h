@@ -37,8 +37,10 @@ void exit_line_not_parsed(const std::string& block, const std::string& line);
 
 void exit_value_not_parsed(const std::string& key, const std::string& value);
 
-void throw_block_not_found(const std::string& function,
+void throw_block_not_found(const std::string& where,
                            const std::string& block);
+
+void throw_ptr_is_null(const std::string& where, const std::string& ptr);
 
 void warn_line_ignored(const std::string& block, const std::string& line);
 

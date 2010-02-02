@@ -63,11 +63,19 @@ void exit_value_not_parsed(const string& key, const string& value)
 }
 
 
-void throw_block_not_found(const string& function, const string& block)
+void throw_block_not_found(const string& where, const string& block)
 {
   stringstream msg;
-  msg << function << ": block ‘" << block << "’ could not be found "
+  msg << where << ": block ‘" << block << "’ could not be found "
       << "in SLHA structure";
+  throw runtime_error(msg.str());
+}
+
+
+void throw_ptr_is_null(const string& where, const string& ptr)
+{
+  stringstream msg;
+  msg << where << ": pointer ‘" << ptr << "’ is a null pointer";
   throw runtime_error(msg.str());
 }
 
