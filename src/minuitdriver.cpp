@@ -18,6 +18,7 @@
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
+#include <Minuit2/MinuitParameter.h>
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnMinos.h>
 #include <Minuit2/MnSimplex.h>
@@ -33,13 +34,12 @@ FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
 {
   MnMinimize minimizer(*mpFit, mpFit->mParamsInt, stra);
   FunctionMinimum minimum = minimizer();
+
   Parameters minpar = minimum.UserParameters();
-
-  // Run chiSquare with the minimal parameter values again so that
-  // cached variables in mpFit correspond to the found minimum.
-  mpFit->chiSquare(minpar);
-
   mpFit->processResult(mpFit->paramTransformIntToExt(minpar));
+
+  mpMinimum.reset(new FunctionMinimum(minimum));
+  sanitize();
   return minimum;
 }
 
@@ -48,13 +48,12 @@ FunctionMinimum MinuitDriver::runSimplex(unsigned int stra)
 {
   MnSimplex minimizer(*mpFit, mpFit->mParamsInt, stra);
   FunctionMinimum minimum = minimizer();
+
   Parameters minpar = minimum.UserParameters();
-
-  // Run chiSquare with the minimal parameter values again so that
-  // cached variables in mpFit correspond to the found minimum.
-  mpFit->chiSquare(minpar);
-
   mpFit->processResult(mpFit->paramTransformIntToExt(minpar));
+
+  mpMinimum.reset(new FunctionMinimum(minimum));
+  sanitize();
   return minimum;
 }
 
@@ -65,11 +64,36 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum, unsigned int stra)
   MnMinos minos(*mpFit, minimum, stra);
 
   vector<MinosError> errors;
-  for (size_t i = 0; i < mpFit->mParamsInt.getParams().size(); ++i)
-  { errors.push_back(minos.Minos(i)); }
+  const vector<MinuitParameter>& mps = minimum.UserParameters().Parameters();
+
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
+  {
+    if (!mp->IsFixed() && !mp->IsConst())
+    { errors.push_back(minos.Minos(mp->Number())); }
+    else
+    { errors.push_back(MinosError()); }
+  }
 
   //mpFit->processResult();
+  sanitize();
   return errors;
+}
+
+
+vector<MinosError>
+MinuitDriver::runMinos(unsigned int stra)
+{
+  if (!mpMinimum) runMinimize();
+  return runMinos(*mpMinimum, stra);
+}
+
+
+void MinuitDriver::sanitize()
+{
+  // Run chiSquare with the minimal parameter values again so that
+  // cached variables in mpFit correspond to the found minimum.
+  mpFit->chiSquare(mpMinimum->UserParameters());
 }
 
 } // namespace Kaimini

@@ -18,6 +18,7 @@
 #define KAIMINI_MINUITDRIVER_H
 
 #include <vector>
+#include <boost/scoped_ptr.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include "genericfit.h"
@@ -36,8 +37,15 @@ public:
   runMinos(const ROOT::Minuit2::FunctionMinimum& minimum,
            unsigned int stra = 1);
 
+  std::vector<ROOT::Minuit2::MinosError>
+  runMinos(unsigned int stra = 1);
+
+private:
+  void sanitize();
+
 private:
   GenericFit* mpFit;
+  boost::scoped_ptr<ROOT::Minuit2::FunctionMinimum> mpMinimum;
 };
 
 } // namespace Kaimini
