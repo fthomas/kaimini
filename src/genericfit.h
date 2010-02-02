@@ -29,9 +29,6 @@ class GenericFit : public ROOT::Minuit2::FCNBase
 public:
   virtual double chiSquare(const std::vector<double>& v) const = 0;
 
-  double chiSquare() const
-  { return chiSquare(mParamsInt.getParams()); }
-
   double chiSquare(const Parameters& par) const
   { return chiSquare(par.getParams()); }
 
