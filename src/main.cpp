@@ -32,6 +32,7 @@ int main(int argc, char* argv[])
   SPhenoFit fit(input_file);
   MinuitDriver driver(&fit);
   cout << driver.runMinimize();
+  cout << driver.runMinos();
   fit.tearDown(output_file);
   return 0;
 }

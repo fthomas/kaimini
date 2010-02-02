@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
+#include <ostream>
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
@@ -71,8 +72,6 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum, unsigned int stra)
   {
     if (!mp->IsFixed() && !mp->IsConst())
     { errors.push_back(minos.Minos(mp->Number())); }
-    else
-    { errors.push_back(MinosError()); }
   }
 
   //mpFit->processResult();
@@ -94,6 +93,22 @@ void MinuitDriver::sanitize()
   // Run chiSquare with the minimal parameter values again so that
   // cached variables in mpFit correspond to the found minimum.
   mpFit->chiSquare(mpMinimum->UserParameters());
+}
+
+
+ostream& operator<<(ostream& os, const vector<MinosError>& errors)
+{
+  os << "MinosErrors:" << endl;
+  for (vector<MinosError>::const_iterator err = errors.begin();
+       err != errors.end(); ++err)
+  {
+    os << "    - number : " << err->Parameter() << endl
+       << "      valid  : " << err->IsValid()   << endl
+       << "      lower  : " << err->Lower()     << endl
+       << "      upper  : " << err->Upper()     << endl
+       << endl;
+  }
+  return os;
 }
 
 } // namespace Kaimini

@@ -59,6 +59,7 @@ public:
   Parameters& setVarParams(const gsl_vector* v);
 };
 
+
 std::ostream&
 operator<<(std::ostream& os, const ROOT::Minuit2::MinuitParameter& mp);
 
