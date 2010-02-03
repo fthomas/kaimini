@@ -35,9 +35,7 @@ FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
 {
   MnMinimize minimizer(*mpFit, mpFit->mParamsInt, stra);
   FunctionMinimum minimum = minimizer();
-
-  Parameters minpar = minimum.UserParameters();
-  mpFit->processParams(&minpar);
+  mpFit->processMinimum(&minimum);
 
   mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();
@@ -49,9 +47,7 @@ FunctionMinimum MinuitDriver::runSimplex(unsigned int stra)
 {
   MnSimplex minimizer(*mpFit, mpFit->mParamsInt, stra);
   FunctionMinimum minimum = minimizer();
-
-  Parameters minpar = minimum.UserParameters();
-  mpFit->processParams(&minpar);
+  mpFit->processMinimum(&minimum);
 
   mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();

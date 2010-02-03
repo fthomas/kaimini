@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <vector>
 #include <boost/format.hpp>
+#include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
 #include "datapoint.h"
@@ -259,6 +260,13 @@ void SLHAFit::processParams(const Parameters* intPar)
         % mp->Error()
         % limits.str());
   }
+}
+
+
+void SLHAFit::processMinimum(const FunctionMinimum* intMin)
+{
+  Parameters intPar = intMin->UserParameters();
+  processParams(&intPar);
 }
 
 

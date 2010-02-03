@@ -18,6 +18,7 @@
 #define KAIMINI_SLHAFIT_H
 
 #include <vector>
+#include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include "genericfit.h"
 #include "parameters.h"
@@ -36,6 +37,7 @@ protected:
                        SLHAea::SLHA& output) const;
 
   void processParams(const Parameters* intPar);
+  void processMinimum(const ROOT::Minuit2::FunctionMinimum* intMin);
   void processErrors(const std::vector<ROOT::Minuit2::MinosError>* intErr);
   const SLHAea::SLHA& result();
 
