@@ -23,6 +23,7 @@
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
+#include <Minuit2/MnUserCovariance.h>
 #include "datapoint.h"
 #include "kaimini.h"
 #include "parameters.h"
@@ -230,18 +231,12 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 
 void SLHAFit::processParams(const Parameters* intPar)
 {
-  // Do nothing if intPar is empty.
   if (intPar->getParams().empty()) return;
-
-  string block = "KaiminiParametersOut";
-
-  // Remove the KaiminiParametersOut block if it exists and is not empty.
-  SLHA::iterator it = mResult.find(block);
-  if (mResult.end() != it && !it->empty()) mResult.erase(it);
 
   Parameters extPar = paramTransformIntToExt(*intPar);
   const vector<MinuitParameter>& mps = extPar.getMinuitParameters();
 
+  string block = "KaiminiParametersOut";
   mResult[block]["BLOCK"] = "BLOCK " + block;
   for (vector<MinuitParameter>::const_iterator mp = mps.begin();
        mp != mps.end(); ++mp)
@@ -267,22 +262,35 @@ void SLHAFit::processMinimum(const FunctionMinimum* intMin)
 {
   Parameters intPar = intMin->UserParameters();
   processParams(&intPar);
+
+  string block;
+
+  if (intMin->HasCovariance() && intMin->HasValidCovariance())
+  {
+    const MnUserCovariance& intCovar = intMin->UserCovariance();
+    // << Transform intCovar to external covariance matrix here. >>
+
+    block = "KaiminiCovarianceMatrix";
+    mResult[block]["BLOCK"] = "BLOCK " + block;
+    for (unsigned int row = 0; row < intCovar.Nrow(); ++row)
+    {
+      for (unsigned int col = row; col < intCovar.Nrow(); ++col)
+      {
+        mResult[block][""] = str(format(" %1% %|4t|%2% %3$16.8E")
+          % (row+1) % (col+1) % intCovar(row, col));
+      }
+    }
+  }
 }
 
 
 void SLHAFit::processErrors(const vector<MinosError>* intErr)
 {
-  // Do nothing if intErr is empty.
   if (intErr->empty()) return;
-
-  string block = "KaiminiMinosErrors";
-
-  // Remove the KaiminiMinosErrors block if it exists and is not empty.
-  SLHA::iterator it = mResult.find(block);
-  if (mResult.end() != it && !it->empty()) mResult.erase(it);
 
   // << Transform intErr to external errors here. >>
 
+  string block = "KaiminiMinosErrors";
   mResult[block]["BLOCK"] = "BLOCK " + block;
   for (vector<MinosError>::const_iterator me = intErr->begin();
        me != intErr->end(); ++me)

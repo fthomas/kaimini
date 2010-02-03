@@ -8,7 +8,6 @@ Output:
  - KaiminiInfo:
    - add number of function calls
    - add information about which driver was used
- - add an additional block for the covariance matrix
  - investigate what else FunctionMinimum contains that is interesting
    for us
  - make output of parameter values (while minimization) configurable in
