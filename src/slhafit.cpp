@@ -153,7 +153,19 @@ void SLHAFit::setParameters(const SLHA& input)
 
     try
     {
-      mParamsExt.SetError(name, to_<double>((*line)[4]));
+      // Parse the error string.
+      double error = 0.;
+      string error_str = (*line)[4];
+      string::iterator last_char = error_str.end()-1;
+      if ('%' == *last_char)
+      {
+        error_str.erase(last_char);
+        error = to_<double>(error_str) * 0.01 * mParamsExt.Value(name);
+      }
+      else
+      { error = to_<double>(error_str); }
+      mParamsExt.SetError(name, error);
+
       if (!to_<bool>((*line)[3])) mParamsExt.Fix(name);
 
       if (!lower.empty() && !upper.empty())

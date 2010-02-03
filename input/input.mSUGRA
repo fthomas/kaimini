@@ -23,12 +23,12 @@ Block RVKAPPAIN     # bilinear RP parameters
  2    1.00000000E-10    # epsilon_2
  3    1.00000000E-10    # epsilon_3
 Block KaiminiParameters
- 1  eps_1   RVKAPPAIN;1;1   1   1.0E-15     :
- 2  eps_2   RVKAPPAIN;2;1   0   1.0E-15     :
- 3  eps_3   RVKAPPAIN;3;1   0   1.0E-15     :
- 4  v_L1    RVSNVEVIN;1;1   0   1.0E-15     :
- 5  v_L2    RVSNVEVIN;2;1   0   1.0E-15     :
- 6  v_L3    RVSNVEVIN;3;1   0   1.0E-15     :
+ 1  eps_1   RVKAPPAIN;1;1   1   5%  :
+ 2  eps_2   RVKAPPAIN;2;1   0   5%  :
+ 3  eps_3   RVKAPPAIN;3;1   0   5%  :
+ 4  v_L1    RVSNVEVIN;1;1   0   5%  :
+ 5  v_L2    RVSNVEVIN;2;1   0   5%  :
+ 6  v_L3    RVSNVEVIN;3;1   0   5%  :
 Block KaiminiDataPoints
  1  m^2_atm     SPhenoRP;7;1    1   2.4E-03     0.6E-03
  2  m^2_sol     SPhenoRP;8;1    0   8.0E-05     0.5E-05
