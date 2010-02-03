@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <vector>
 #include <boost/format.hpp>
+#include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
 #include "datapoint.h"
 #include "kaimini.h"
@@ -226,34 +227,67 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 }
 
 
-void SLHAFit::processResult(const Parameters& extPar)
+void SLHAFit::processParams(const Parameters* intPar)
 {
-  // Remove the KaiminiParametersOut block if it exists and is not empty.
-  SLHA::iterator it = mResult.find("KaiminiParametersOut");
-  if (mResult.end() != it && !it->empty()) mResult.erase(it);
-
-  if (extPar.getParams().empty()) return;
+  // Do nothing if intPar is empty.
+  if (intPar->getParams().empty()) return;
 
   string block = "KaiminiParametersOut";
-  mResult[block][""] << "BLOCK" << block;
 
-  for (size_t i = 0; i < extPar.getParams().size(); ++i)
+  // Remove the KaiminiParametersOut block if it exists and is not empty.
+  SLHA::iterator it = mResult.find(block);
+  if (mResult.end() != it && !it->empty()) mResult.erase(it);
+
+  Parameters extPar = paramTransformIntToExt(*intPar);
+  const vector<MinuitParameter>& mps = extPar.getMinuitParameters();
+
+  mResult[block]["BLOCK"] = "BLOCK " + block;
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
   {
-    MinuitParameter mp = extPar.Parameter(i);
-
     stringstream limits;
-    if (mp.HasLowerLimit()) limits << mp.LowerLimit();
+    if (mp->HasLowerLimit()) limits << mp->LowerLimit();
     limits << ":";
-    if (mp.HasUpperLimit()) limits << mp.UpperLimit();
+    if (mp->HasUpperLimit()) limits << mp->UpperLimit();
 
     mResult[block][""] = str(
       format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E   %6%")
-        % (i+1)
-        % mp.GetName()
-        % !mp.IsFixed()
-        % mp.Value()
-        % mp.Error()
+        % (mp->Number()+1)
+        % mp->GetName()
+        % !mp->IsFixed()
+        % mp->Value()
+        % mp->Error()
         % limits.str());
+  }
+}
+
+
+void SLHAFit::processErrors(const vector<MinosError>* intErr)
+{
+  // Do nothing if intErr is empty.
+  if (intErr->empty()) return;
+
+  string block = "KaiminiMinosErrors";
+
+  // Remove the KaiminiMinosErrors block if it exists and is not empty.
+  SLHA::iterator it = mResult.find(block);
+  if (mResult.end() != it && !it->empty()) mResult.erase(it);
+
+  // << Transform intErr to external errors here. >>
+
+  mResult[block]["BLOCK"] = "BLOCK " + block;
+  for (vector<MinosError>::const_iterator me = intErr->begin();
+       me != intErr->end(); ++me)
+  {
+    MinuitParameter mp = mParamsExt.Parameter(me->Parameter());
+
+    mResult[block][""] = str(
+      format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E")
+        % (me->Parameter()+1)
+        % mp.GetName()
+        % me->IsValid()
+        % me->Lower()
+        % me->Upper());
   }
 }
 
@@ -262,13 +296,10 @@ const SLHA& SLHAFit::result()
 {
   string block;
 
-  if (mResult.count("KaiminiParametersOut") < 1)
-  { processResult(mParamsExt); }
-
   if (!mDataPoints.empty())
   {
     block = "KaiminiDataPointsOut";
-    mResult[block][""] << "BLOCK" << block;
+    mResult[block]["BLOCK"] = "BLOCK " + block;
 
     for (size_t i = 0; i < mDataPoints.size(); ++i)
     {
@@ -283,7 +314,7 @@ const SLHA& SLHAFit::result()
     }
 
     block = "KaiminiChiSquare";
-    mResult[block][""] << "BLOCK" << block;
+    mResult[block]["BLOCK"] = "BLOCK " + block;
     mResult[block][""] = str(format(" 0  chi^2 %|15t|%1$15.8E") % mChiSq);
 
     for (size_t i = 0; i < mDataPoints.size(); ++i)
@@ -297,7 +328,7 @@ const SLHA& SLHAFit::result()
   }
 
   block = "KaiminiInfo";
-  mResult[block][""] << "BLOCK" << block;
+  mResult[block]["BLOCK"] = "BLOCK " + block;
   mResult[block][""] << "1" << kaimini_version << "# version number";
   return mResult;
 }

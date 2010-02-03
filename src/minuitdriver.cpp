@@ -37,7 +37,7 @@ FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
   FunctionMinimum minimum = minimizer();
 
   Parameters minpar = minimum.UserParameters();
-  mpFit->processResult(mpFit->paramTransformIntToExt(minpar));
+  mpFit->processParams(&minpar);
 
   mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();
@@ -51,7 +51,7 @@ FunctionMinimum MinuitDriver::runSimplex(unsigned int stra)
   FunctionMinimum minimum = minimizer();
 
   Parameters minpar = minimum.UserParameters();
-  mpFit->processResult(mpFit->paramTransformIntToExt(minpar));
+  mpFit->processParams(&minpar);
 
   mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();
@@ -74,7 +74,7 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum, unsigned int stra)
     { errors.push_back(minos.Minos(mp->Number())); }
   }
 
-  //mpFit->processResult();
+  mpFit->processErrors(&errors);
   sanitize();
   return errors;
 }

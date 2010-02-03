@@ -19,6 +19,8 @@
 
 #include <vector>
 #include <Minuit2/FCNBase.h>
+#include <Minuit2/FunctionMinimum.h>
+#include <Minuit2/MinosError.h>
 #include "datapoint.h"
 #include "parameters.h"
 
@@ -74,7 +76,14 @@ protected:
   paramTransformIntToExt(const std::vector<double>& intPar) const
   { return intPar; }
 
-  virtual void processResult(const Parameters& extPar) = 0;
+  virtual void
+  processParams(const Parameters*) {}
+
+  virtual void
+  processMinimum(const ROOT::Minuit2::FunctionMinimum*) {}
+
+  virtual void
+  processErrors(const std::vector<ROOT::Minuit2::MinosError>*) {}
 
 protected:
   Parameters mParamsExt;
