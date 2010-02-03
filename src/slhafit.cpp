@@ -262,7 +262,7 @@ const SLHA& SLHAFit::result()
 {
   string block;
 
-  if (mResult.find("KaiminiParametersOut") == mResult.end())
+  if (mResult.count("KaiminiParametersOut") < 1)
   { processResult(mParamsExt); }
 
   if (!mDataPoints.empty())
