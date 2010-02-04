@@ -33,7 +33,7 @@ namespace Kaimini {
 
 FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
 {
-  MnMinimize minimizer(*mpFit, mpFit->mParamsInt, stra);
+  MnMinimize minimizer(*mpFit, mpFit->getIntParameters(), stra);
   FunctionMinimum minimum = minimizer();
   mpFit->processMinimum(&minimum);
 
@@ -45,7 +45,7 @@ FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
 
 FunctionMinimum MinuitDriver::runSimplex(unsigned int stra)
 {
-  MnSimplex minimizer(*mpFit, mpFit->mParamsInt, stra);
+  MnSimplex minimizer(*mpFit, mpFit->getIntParameters(), stra);
   FunctionMinimum minimum = minimizer();
   mpFit->processMinimum(&minimum);
 

@@ -63,6 +63,15 @@ public:
     mParamsExt = paramTransformIntToExt(intPar);
   }
 
+  virtual void
+  processParams(const Parameters*) {}
+
+  virtual void
+  processMinimum(const ROOT::Minuit2::FunctionMinimum*) {}
+
+  virtual void
+  processErrors(const std::vector<ROOT::Minuit2::MinosError>*) {}
+
 protected:
   virtual Parameters
   paramTransformExtToInt(const Parameters& extPar) const
@@ -76,15 +85,6 @@ protected:
   paramTransformIntToExt(const std::vector<double>& intPar) const
   { return intPar; }
 
-  virtual void
-  processParams(const Parameters*) {}
-
-  virtual void
-  processMinimum(const ROOT::Minuit2::FunctionMinimum*) {}
-
-  virtual void
-  processErrors(const std::vector<ROOT::Minuit2::MinosError>*) {}
-
 protected:
   Parameters mParamsExt;
   Parameters mParamsInt;
@@ -94,8 +94,6 @@ protected:
 
 private:
   double mErrorDef;
-
-friend class MinuitDriver;
 };
 
 } // namespace Kaimini
