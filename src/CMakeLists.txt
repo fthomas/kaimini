@@ -4,6 +4,7 @@ set(Kaimini_SOURCES
     main.cpp
     minuitdriver.cpp
     parameters.cpp
+    simpleslhafit.cpp
     slhafit.cpp
     sphenofit.cpp)
 
