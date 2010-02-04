@@ -1,22 +1,32 @@
-\documentclass[a4paper,10pt]{scrartcl}
+\documentclass[a4paper,12pt]{article}
 
 \usepackage[utf8x]{inputenc}
+\usepackage{a4wide}
 \usepackage{fancyvrb}
+\usepackage[colorlinks=true]{hyperref}
 
-\title{Kaimini}
-\author{F.S. Thomas}
+\newcommand{\mailto}[1]
+{\href{mailto:#1}{#1}}
+
+\title{\textbf{Kaimini}}
+\author{
+  Frank S. Thomas\\
+  \texttt{\mailto{fthomas@physik.uni-wuerzburg.de}}\\
+  \vspace{1em}\\
+  Institut für Theoretische Physik und Astrophysik, Universität Würzburg,\\
+  Am Hubland, D-97074 Würzburg, Germany
+}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-
 \end{abstract}
 
-\section{}
+\section{Introduction}
 
-\begin{Verbatim}
+\begin{Verbatim}[frame=single]
 Block KaiminiParameters
 # <no>  <name>   <use> 
  1  eps_1   RVKAPPAIN;1;1   1   5%  :
