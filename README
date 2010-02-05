@@ -9,25 +9,29 @@ Documentation:
 
 Dependencies:
   Kaimini is written in C++. To build it, the C++ Standard Library, some
-  parts of the Boost C++ Libraries[1], Minuit2[2] and the GNU Scientific
-  Library (GSL)[3] are required. To actually use Kaimini, a spectrum
-  calculator like SPheno[4] or SOFTSUSY[5] is needed.
+  parts of the Boost C++ Libraries[1], Minuit2[2], the GNU Scientific
+  Library (GSL)[3], and CMake[4] are required.
 
   [1] http://www.boost.org/
   [2] http://www.cern.ch/minuit
   [3] http://www.gnu.org/software/gsl/
-  [4] http://www.physik.uni-wuerzburg.de/~porod/SPheno.html
-  [5] http://projects.hepforge.org/softsusy/
+  [4] http://www.cmake.org/
 
-  For development of Kaimini additional software is required. Doxygen[6]
-  is used for building the API documentation, CppUnit[7] is required to
-  compile the unit tests, and CMake[8] is used to build them.
+  For development of Kaimini additional software is required. Doxygen[5]
+  is used for building the API documentation and CppUnit[6] is required
+  to compile the unit tests.
 
-  [6] http://www.doxygen.org/
-  [7] http://cppunit.sourceforge.net/
-  [8] http://www.cmake.org/
+  [5] http://www.doxygen.org/
+  [6] http://cppunit.sourceforge.net/
 
 Installation:
+  To compile Kaimini and to install the 'kaimini' executable into
+  /usr/local/bin run these commands in Kaimini's source tree:
+    mkdir build
+    cd build
+    cmake ..
+    make
+    sudo make install
 
 Source code:
   For Kaimini's development the Git version control system is used. The
@@ -39,16 +43,16 @@ Source code:
 
 Issues and feedback:
   For bug reports, feature requests, or general feedback either use the
-  issue tracker[9] or write me an email[10].
+  issue tracker[7] or write me an email[8].
 
-   [9] http://github.com/fthomas/kaimini/issues
-  [10] fthomas@physik.uni-wuerzburg.de
+  [7] http://github.com/fthomas/kaimini/issues
+  [8] fthomas@physik.uni-wuerzburg.de
 
 License:
-  Kaimini is free software[11] and licensed under the GPLv3[12].
+  Kaimini is free software[9] and licensed under the GPLv3[10].
 
-  [11] http://www.gnu.org/philosophy/free-sw.html
-  [12] http://www.gnu.org/licenses/gpl-3.0.html
+   [9] http://www.gnu.org/philosophy/free-sw.html
+  [10] http://www.gnu.org/licenses/gpl-3.0.html
        or see the file COPYING in Kaimini's source tree
 
 Author:
