@@ -7,9 +7,9 @@ MINUIT_LIBS    = /usr/local/lib
 
 CXX      = g++
 CXXFLAGS = -fPIC -g -Wall -Wextra -pedantic
-INCPATH  = -I$(MINUIT_INCPATH)
-LIBS     = -lboost_filesystem-mt -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) \
-           -lMinuit2 -ldl -Wl,-rpath=$(MINUIT_LIBS)
+INCPATH  = $(shell gsl-config --cflags) -I$(MINUIT_INCPATH)
+LIBS     = -lboost_filesystem-mt $(shell gsl-config --libs) \
+           -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS)
 DEFINES  = 
 
 SRCDIR  := src

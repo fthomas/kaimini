@@ -17,5 +17,5 @@ find_package(Minuit2 REQUIRED)
 add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
 
 if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
-  add_subdirectory(test)
+    add_subdirectory(test)
 endif()
