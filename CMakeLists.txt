@@ -10,8 +10,12 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 set(Boost_USE_MULTITHREADED TRUE)
-find_package(Boost COMPONENTS filesystem REQUIRED)
+find_package(Boost REQUIRED filesystem)
+find_package(Boost COMPONENTS unit_test_framework)
 find_package(Minuit2 REQUIRED)
 
 add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
-add_subdirectory(test)
+
+if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
+  add_subdirectory(test)
+endif()

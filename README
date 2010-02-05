@@ -17,13 +17,6 @@ Dependencies:
   [3] http://www.gnu.org/software/gsl/
   [4] http://www.cmake.org/
 
-  For development of Kaimini additional software is required. Doxygen[5]
-  is used for building the API documentation and CppUnit[6] is required
-  to compile the unit tests.
-
-  [5] http://www.doxygen.org/
-  [6] http://cppunit.sourceforge.net/
-
 Installation:
   To compile Kaimini and to install the 'kaimini' executable into
   /usr/local/bin run these commands in Kaimini's source tree:
@@ -43,17 +36,17 @@ Source code:
 
 Issues and feedback:
   For bug reports, feature requests, or general feedback either use the
-  issue tracker[7] or write me an email[8].
+  issue tracker[5] or write me an email[6].
 
-  [7] http://github.com/fthomas/kaimini/issues
-  [8] fthomas@physik.uni-wuerzburg.de
+  [5] http://github.com/fthomas/kaimini/issues
+  [6] fthomas@physik.uni-wuerzburg.de
 
 License:
-  Kaimini is free software[9] and licensed under the GPLv3[10].
+  Kaimini is free software[7] and licensed under the GPLv3[8].
 
-   [9] http://www.gnu.org/philosophy/free-sw.html
-  [10] http://www.gnu.org/licenses/gpl-3.0.html
-       or see the file COPYING in Kaimini's source tree
+  [7] http://www.gnu.org/philosophy/free-sw.html
+  [8] http://www.gnu.org/licenses/gpl-3.0.html
+      or see the file COPYING in Kaimini's source tree
 
 Author:
   Kaimini was written by

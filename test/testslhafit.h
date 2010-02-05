@@ -14,101 +14,96 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_TESTSLHAFIT_H
-#define KAIMINI_TESTSLHAFIT_H
-
 #include <fstream>
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
-#include <slhaea.h>
-#include <slhafit.h>
+#include <vector>
+#include "slhaea.h"
+#include "slhafit.h"
 
 using namespace std;
 using namespace SLHAea;
+using namespace Kaimini;
 
-namespace Kaimini {
-
-class TestSLHAFit : public CppUnit::TestFixture
+class ExposedSLHAFit : public SLHAFit
 {
-  CPPUNIT_TEST_SUITE(TestSLHAFit);
-  CPPUNIT_TEST(testSetDataPoints);
-  CPPUNIT_TEST(testSetParameters);
-  CPPUNIT_TEST(testReadDataPoints);
-  CPPUNIT_TEST(testWriteParameters);
-  CPPUNIT_TEST(testResult);
-  CPPUNIT_TEST_SUITE_END();
-
 public:
-  void setUp() {}
+  double chiSquare(const vector<double>&) const { return 0.; }
 
-  void tearDown() {}
+  using SLHAFit::setDataPoints;
+  using SLHAFit::setParameters;
+  using SLHAFit::readDataPoints;
+  using SLHAFit::writeParameters;
 
-  void testSetDataPoints()
-  {
-    ifstream fs("slha0.txt");
-    SLHA input;
-    input.read(fs);
-
-    SLHAFit fit;
-    fit.setDataPoints(input);
-  }
-
-  void testSetParameters()
-  {
-    ifstream fs("slha0.txt");
-    SLHA input;
-    input.read(fs);
-
-    SLHAFit fit;
-    fit.setParameters(input);
-  }
-
-  void testReadDataPoints()
-  {
-    ifstream fs("slha0.txt");
-    SLHA input;
-    input.read(fs);
-
-    SLHAFit fit;
-    fit.setDataPoints(input);
-    fit.readDataPoints(input);
-  }
-
-  void testWriteParameters()
-  {
-    ifstream fs("slha0.txt");
-    SLHA input;
-    input.read(fs);
-
-    SLHAFit fit;
-    fit.setParameters(input);
-
-    vector<double> par;
-    par.push_back(66.);
-    par.push_back(77.);
-    par.push_back(88.);
-    par.push_back(99.);
-    par.push_back(10.);
-    fit.writeParameters(par, input);
-    //cout << endl << input << endl;
-  }
-
-  void testResult()
-  {
-    ifstream fs("slha0.txt");
-    SLHA input;
-    input.read(fs);
-
-    SLHAFit fit;
-    fit.setDataPoints(input);
-    fit.setParameters(input);
-    //cout << endl << fit.result() << endl;
-  }
-
+  using SLHAFit::mParamsExt;
+  using SLHAFit::mDataPoints;
 };
 
-} // namespace Kaimini
+BOOST_AUTO_TEST_SUITE(TestSLHAFit)
 
-#endif // KAIMINI_TESTSLHAFIT_H
+BOOST_AUTO_TEST_CASE(testSetDataPoints)
+{
+  ifstream fs("slha0.txt");
+  SLHA input;
+  fs >> input;
+
+  ExposedSLHAFit fit;
+  fit.setDataPoints(input);
+
+  BOOST_CHECK(fit.mDataPoints.size() == 5);
+  BOOST_CHECK(fit.mDataPoints[4].name == "dp5");
+}
+
+BOOST_AUTO_TEST_CASE(testSetParameters)
+{
+  ifstream fs("slha0.txt");
+  SLHA input;
+  fs >> input;
+
+  ExposedSLHAFit fit;
+  fit.setParameters(input);
+
+  BOOST_CHECK(fit.mParamsExt.getParams().size() == 5);
+  BOOST_CHECK(fit.mParamsExt.GetName(2) == "par3");
+}
+
+BOOST_AUTO_TEST_CASE(testReadDataPoints)
+{
+  ifstream fs("slha0.txt");
+  SLHA input;
+  fs >> input;
+
+  ExposedSLHAFit fit;
+  fit.setDataPoints(input);
+  BOOST_CHECK(fit.mDataPoints[0].calcValue == 0.);
+
+  fit.readDataPoints(input);
+  BOOST_CHECK(fit.mDataPoints[0].calcValue != 0.);
+}
+
+BOOST_AUTO_TEST_CASE(testWriteParameters)
+{
+  ifstream fs("slha0.txt");
+  SLHA input;
+  fs >> input;
+
+  ExposedSLHAFit fit;
+  fit.setParameters(input);
+  string before1 = input["RVKAPPAIN"]["1"][1];
+  string before2 = input["RVSNVEVIN"]["2"][1];
+
+  vector<double> par;
+  par.push_back(66.);
+  par.push_back(77.);
+  par.push_back(88.);
+  par.push_back(99.);
+  par.push_back(10.);
+  fit.writeParameters(par, input);
+  string after1 = input["RVKAPPAIN"]["1"][1];
+  string after2 = input["RVSNVEVIN"]["2"][1];
+
+  BOOST_CHECK(before1 != after1);
+  BOOST_CHECK(before2 != after2);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 // vim: sw=2 tw=78

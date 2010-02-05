@@ -14,23 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cppunit/ui/text/TestRunner.h>
+#define BOOST_TEST_MAIN
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 #include "testdatapoint.h"
 #include "testparameters.h"
-//#include "testslhafit.h"
-#include "testsphenofit.h"
-
-int main()
-{
-  CppUnit::TextUi::TestRunner runner;
-
-  runner.addTest(Kaimini::TestDataPoint::suite());
-  runner.addTest(Kaimini::TestParameters::suite());
-  //runner.addTest(Kaimini::TestSLHAFit::suite());
-  runner.addTest(Kaimini::TestSPhenoFit::suite());
-  runner.run();
-
-  return 0;
-}
+#include "testslhafit.h"
 
 // vim: sw=2 tw=78

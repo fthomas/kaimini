@@ -39,7 +39,8 @@ $(KAIMINI_SO): $(filter-out %main.o,$(OBJECTS))
 
 
 clean:
-	rm -rf $(OBJDIR)
+	rm -f $(OBJECTS)
+	-rmdir $(OBJDIR)
 
 cleanall: clean
 	rm -f $(KAIMINI) $(KAIMINI_SO)

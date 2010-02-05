@@ -14,60 +14,43 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_TESTPARAMETERS_H
-#define KAIMINI_TESTPARAMETERS_H
-
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
-#include <parameters.h>
+#include <gsl/gsl_vector.h>
+#include "parameters.h"
 
 using namespace std;
+using namespace Kaimini;
 
-namespace Kaimini {
+BOOST_AUTO_TEST_SUITE(TestParameters)
 
-class TestParameters : public CppUnit::TestFixture
+BOOST_AUTO_TEST_CASE(testVarParams)
 {
-  CPPUNIT_TEST_SUITE(TestParameters);
-  CPPUNIT_TEST(testVarParams);
-  CPPUNIT_TEST_SUITE_END();
+  Parameters par;
+  par.Add("p1", 1.1, 0.1);
+  par.Add("p2", 2.2, 0.1);
+  par.Add("p3", 3.3, 0.);
+  par.Fix("p2");
+  par.Fix("p3");
 
-public:
-  void setUp() {}
+  BOOST_CHECK(par.getParams().size() == 3);
+  BOOST_CHECK(par.getStepSizes().size() == 3);
 
-  void tearDown() {}
+  BOOST_CHECK(par.getVarParams().size() == 1);
+  BOOST_CHECK(par.getVarStepSizes().size() == 1);
 
-  void testVarParams()
-  {
-    Parameters par;
-    par.Add("p1", 1.1, 0.1);
-    par.Add("p2", 2.2, 0.1);
-    par.Add("p3", 3.3, 0.);
-    par.Fix("p2");
-    par.Fix("p3");
+  gsl_vector* vpar_gsl = par.getVarParamsGslVec();
+  gsl_vector* vss_gsl = par.getVarStepSizesGslVec();
 
-    CPPUNIT_ASSERT(par.getParams().size() == 3);
-    CPPUNIT_ASSERT(par.getStepSizes().size() == 3);
+  BOOST_CHECK(vpar_gsl->size == 1);
+  BOOST_CHECK(vss_gsl->size == 1);
 
-    CPPUNIT_ASSERT(par.getVarParams().size() == 1);
-    CPPUNIT_ASSERT(par.getVarStepSizes().size() == 1);
+  gsl_vector_free(vpar_gsl);
+  gsl_vector_free(vss_gsl);
 
-    gsl_vector* vpar_gsl = par.getVarParamsGslVec();
-    gsl_vector* vss_gsl = par.getVarStepSizesGslVec();
+  par.Release("p3");
+  BOOST_CHECK(par.getVarParams().size() == 2);
+  BOOST_CHECK(par.getVarStepSizes().size() == 2);
+}
 
-    CPPUNIT_ASSERT(vpar_gsl->size == 1);
-    CPPUNIT_ASSERT(vss_gsl->size == 1);
-
-    gsl_vector_free(vpar_gsl);
-    gsl_vector_free(vss_gsl);
-
-    par.Release("p3");
-    CPPUNIT_ASSERT(par.getVarParams().size() == 2);
-    CPPUNIT_ASSERT(par.getVarStepSizes().size() == 2);
-  }
-};
-
-} // namespace Kaimini
-
-#endif // KAIMINI_TESTPARAMETERS_H
+BOOST_AUTO_TEST_SUITE_END()
 
 // vim: sw=2 tw=78
