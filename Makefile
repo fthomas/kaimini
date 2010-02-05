@@ -12,8 +12,10 @@ LIBS     = -lboost_filesystem-mt -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) \
            -lMinuit2 -ldl -Wl,-rpath=$(MINUIT_LIBS)
 DEFINES  = 
 
-SOURCES := $(wildcard src/*.cpp)
-OBJECTS := $(addsuffix .o,$(basename $(SOURCES)))
+SRCDIR  := src
+OBJDIR  := src/.obj
+SOURCES := $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS := $(subst $(SRCDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
 KAIMINI    = input/kaimini
 KAIMINI_SO = input/kaimini.so
 
@@ -22,7 +24,8 @@ all: $(KAIMINI) $(KAIMINI_SO)
 
 ### Implicit rules:
 
-%.o: %.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p "$(@D)"
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) $(DEFINES) -o "$@" "$<"
 
 
@@ -36,7 +39,7 @@ $(KAIMINI_SO): $(filter-out %main.o,$(OBJECTS))
 
 
 clean:
-	rm -f $(OBJECTS)
+	rm -rf $(OBJDIR)
 
 cleanall: clean
 	rm -f $(KAIMINI) $(KAIMINI_SO)
