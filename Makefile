@@ -7,17 +7,10 @@ MINUIT_LIBS    = /usr/local/lib
 
 CXX      = g++
 CXXFLAGS = -fPIC -g -Wall -Wextra -pedantic
-INCPATH  = -I$(MINUIT_INCPATH) $(RCPPFLAGS)
+INCPATH  = -I$(MINUIT_INCPATH)
 LIBS     = -lboost_filesystem-mt -lgsl -lgslcblas -lm -L$(MINUIT_LIBS) \
-           -lMinuit2 -ldl -Wl,-rpath=$(MINUIT_LIBS) $(RLDFLAGS)
+           -lMinuit2 -ldl -Wl,-rpath=$(MINUIT_LIBS)
 DEFINES  = 
-
-#R_LIBS    = $(subst -L,,$(filter -L%,$(shell R CMD config --ldflags)))
-#RCPPFLAGS = $(shell R CMD config --cppflags) \
-#            $(shell echo 'Rcpp:::CxxFlags()' | R --vanilla --slave)
-#RLDFLAGS  = $(shell R CMD config --ldflags) \
-#            $(shell echo 'Rcpp:::LdFlags()'  | R --vanilla --slave) \
-#            $(foreach PATH,$(R_LIBS),-Wl,-rpath=$(PATH))
 
 SOURCES := $(wildcard src/*.cpp)
 OBJECTS := $(addsuffix .o,$(basename $(SOURCES)))
@@ -47,7 +40,7 @@ clean:
 
 cleanall: clean
 	rm -f $(KAIMINI) $(KAIMINI_SO)
-	rm -rf html/
+	rm -rf doc/html/
 	$(MAKE) -C input/ clean
 
 set_version:

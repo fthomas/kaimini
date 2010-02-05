@@ -1,6 +1,5 @@
 Drivers:
  - add a GSL driver
- - add an R driver
 Fits:
  - initialize most SLHA blocks of mResult in SLHAFit
  - append random string to SimpleSLHAFit's mWorkingDir
@@ -17,3 +16,4 @@ Kaimini:
    entries to the SLHA to select Driver and Fit (calculator)
  - catch the exceptions thrown by Boost's filesystem lib
  - use Boost's program_options instead of getopt.h
+ - use Boost's unit test framwork instead of CppUnit?
