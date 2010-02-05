@@ -45,6 +45,7 @@ clean:
 cleanall: clean
 	rm -f $(KAIMINI) $(KAIMINI_SO)
 	rm -rf doc/html/
+	$(MAKE) -C doc/manual/ clean
 	$(MAKE) -C input/ clean
 
 set_version:
