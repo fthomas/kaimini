@@ -15,8 +15,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif()
 
-set(Boost_USE_MULTITHREADED TRUE)
-find_package(Boost REQUIRED filesystem)
+find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(Boost COMPONENTS unit_test_framework)
 find_package(Minuit2 REQUIRED)
 
