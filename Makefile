@@ -6,7 +6,7 @@ MINUIT_INCPATH = /usr/local/include
 MINUIT_LIBS    = /usr/local/lib
 
 CXX      = g++
-CXXFLAGS = -fPIC -g -Wall -Wextra -pedantic
+CXXFLAGS = -fPIC -O2 -g -Wall -Wextra -pedantic
 INCPATH  = $(shell gsl-config --cflags) -I$(MINUIT_INCPATH)
 LIBS     = -lboost_filesystem-mt $(shell gsl-config --libs) \
            -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS)

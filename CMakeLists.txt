@@ -5,8 +5,14 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 project(Kaimini CXX)
 
+# Enable more warnings if GCC is used.
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
+endif()
+
+# Use 'RelWithDebInfo' as default CMAKE_BUILD_TYPE.
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif()
 
 set(Boost_USE_MULTITHREADED TRUE)
