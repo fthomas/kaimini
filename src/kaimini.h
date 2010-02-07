@@ -22,7 +22,7 @@
 
 namespace Kaimini {
 
-const std::string kaimini_version = "0.0.3";
+const std::string kaimini_version = "0.0.3-32-g3c89e9e";
 
 // Random number generator that is used in Kaimini.
 typedef boost::mt19937 random_generator_type;

@@ -51,11 +51,17 @@ cleanall: clean
 set_version:
 	if [ -d '.git' ] && [ -x "`which git 2>/dev/null`" ]; then \
 	  VERSION=`git describe --tags | cut -b2-`; \
-	  sed -i "s/kaimini_version = \".*\"/kaimini_version = \"$$VERSION\"/" \
+	  V_MAJOR=`echo $$VERSION | cut -d. -f1`; \
+	  V_MINOR=`echo $$VERSION | cut -d. -f2`; \
+	  V_PATCH=`echo $$VERSION | cut -d. -f3`; \
+	  sed -i \
+	    "s/^\(set(Kaimini_VERSION_MAJOR \).*/\1\"$$V_MAJOR\")/; \
+	     s/^\(set(Kaimini_VERSION_MINOR \).*/\1\"$$V_MINOR\")/; \
+	     s/^\(set(Kaimini_VERSION_PATCH \).*/\1\"$$V_PATCH\")/" \
+	    CMakeLists.txt; \
+	  sed -i "s/^\(PROJECT_NUMBER.*= \).*/\1$$VERSION/" Doxyfile; \
+	  sed -i "s/\(kaimini_version = \)\".*\"/\1\"$$VERSION\"/" \
 	    src/kaimini.h; \
-	  SUBST="PROJECT_NUMBER         = $$VERSION"; \
-	  sed -i "s/^PROJECT_NUMBER.*=.*/$$SUBST/" \
-	     Doxyfile; \
 	fi
 
 .PHONY: all clean cleanall set_version

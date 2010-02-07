@@ -5,6 +5,11 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 project(Kaimini CXX)
 
+set(Kaimini_VERSION_MAJOR "0")
+set(Kaimini_VERSION_MINOR "0")
+set(Kaimini_VERSION_PATCH "3-32-g3c89e9e")
+set(Kaimini_VERSION "${Kaimini_VERSION_MAJOR}.${Kaimini_VERSION_MINOR}.${Kaimini_VERSION_PATCH}")
+
 # Enable more warnings if GCC is used.
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
