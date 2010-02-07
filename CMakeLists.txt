@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 project(Kaimini CXX)
 
@@ -23,6 +22,8 @@ endif()
 find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(Boost COMPONENTS unit_test_framework)
 find_package(Minuit2 REQUIRED)
+
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
 
