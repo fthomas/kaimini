@@ -9,7 +9,7 @@ CXX      = g++
 CXXFLAGS = -fPIC -O2 -g -Wall -Wextra -pedantic
 INCPATH  = $(shell gsl-config --cflags) -I$(MINUIT_INCPATH)
 LIBS     = -lboost_filesystem-mt $(shell gsl-config --libs) \
-           -L$(MINUIT_LIBS) -lMinuit2 -Wl,-rpath=$(MINUIT_LIBS)
+           -L$(MINUIT_LIBS) -lMinuit2 -lgomp -Wl,-rpath=$(MINUIT_LIBS)
 DEFINES  = 
 
 SRCDIR  := src
