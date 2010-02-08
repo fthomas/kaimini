@@ -18,8 +18,9 @@ Dependencies:
   [4] http://www.cmake.org/
 
 Installation:
-  To compile Kaimini and to install the 'kaimini' executable into
-  /usr/local/bin run these commands in Kaimini's source tree:
+  To compile Kaimini and to install the 'kaimini' executable (by default
+  into /usr/local/bin on Unix), run these commands in Kaimini's source
+  tree:
     mkdir build
     cd build
     cmake ..
