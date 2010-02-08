@@ -10,12 +10,14 @@ Documentation:
 Dependencies:
   Kaimini is written in C++. To build it, the C++ Standard Library, some
   parts of the Boost C++ Libraries[1], Minuit2[2], the GNU Scientific
-  Library (GSL)[3], and CMake[4] are required.
+  Library (GSL)[3], and CMake[4] are required. Instructions about
+  installing these dependencies are available in the Kaimini wiki[5].
 
   [1] http://www.boost.org/
   [2] http://www.cern.ch/minuit
   [3] http://www.gnu.org/software/gsl/
   [4] http://www.cmake.org/
+  [5] http://wiki.github.com/fthomas/kaimini/installing-dependencies
 
 Installation:
   To compile Kaimini and to install the 'kaimini' executable (by default
@@ -41,16 +43,16 @@ Source code:
 
 Issues and feedback:
   For bug reports, feature requests, or general feedback either use the
-  issue tracker[5] or write me an email[6].
+  issue tracker[6] or write me an email[7].
 
-  [5] http://github.com/fthomas/kaimini/issues
-  [6] fthomas@physik.uni-wuerzburg.de
+  [6] http://github.com/fthomas/kaimini/issues
+  [7] fthomas@physik.uni-wuerzburg.de
 
 License:
-  Kaimini is free software[7] and licensed under the GPLv3[8].
+  Kaimini is free software[8] and licensed under the GPLv3[9].
 
-  [7] http://www.gnu.org/philosophy/free-sw.html
-  [8] http://www.gnu.org/licenses/gpl-3.0.html
+  [8] http://www.gnu.org/philosophy/free-sw.html
+  [9] http://www.gnu.org/licenses/gpl-3.0.html
       or see the file COPYING in Kaimini's source tree
 
 Author:
