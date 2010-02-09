@@ -1,5 +1,6 @@
 set(Kaimini_TARGET kaimini)
 set(Kaimini_SOURCES
+    gsldriver.cpp
     kaimini.cpp
     main.cpp
     minuitdriver.cpp

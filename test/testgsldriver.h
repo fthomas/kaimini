@@ -1,5 +1,5 @@
 // Kaimini
-// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,30 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
-#include <Minuit2/MnPrint.h>
-#include "kaimini.h"
-#include "sphenofit.h"
-#include "minuitdriver.h"
+#include <cmath>
+#include <boost/test/floating_point_comparison.hpp>
+#include <gsl/gsl_vector.h>
 #include "gsldriver.h"
 
 using namespace std;
 using namespace Kaimini;
 
-int main(int argc, char* argv[])
-{
-  string input_file  = "LesHouches.in";
-  string output_file = "SPheno.spc";
-  parse_command_line(argc, argv, input_file, output_file);
+BOOST_AUTO_TEST_SUITE(TestGSLDriver)
 
-  SPhenoFit fit(input_file);
-  GSLDriver dr(&fit);
-  dr.runSimplex();
-  //MinuitDriver driver(&fit);
-  //cout << driver.runMinimize();
-  //cout << driver.runMinos();
-  fit.tearDown(output_file);
-  return 0;
+BOOST_AUTO_TEST_CASE(testDistance)
+{
+  gsl_vector* d1x = gsl_vector_alloc(1);
+  gsl_vector* d1y = gsl_vector_alloc(1);
+
+  gsl_vector_set(d1x, 0, 1.);
+  gsl_vector_set(d1y, 0, 2.);
+  BOOST_CHECK_CLOSE(GSLDriver::distance(d1x, d1y), 1., 1e-6);
+
+  gsl_vector_set(d1x, 0, -1*sqrt(2.));
+  gsl_vector_set(d1y, 0, sqrt(8.));
+  BOOST_CHECK_CLOSE(GSLDriver::distance(d1x, d1y), 3*sqrt(2.), 1e-6);
+
+  gsl_vector_free(d1x);
+  gsl_vector_free(d1y);
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 // vim: sw=2 tw=78

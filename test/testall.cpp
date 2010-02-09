@@ -18,6 +18,7 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include "testdatapoint.h"
+#include "testgsldriver.h"
 #include "testparameters.h"
 #include "testslhafit.h"
 

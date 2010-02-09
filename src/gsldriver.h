@@ -1,5 +1,5 @@
 // Kaimini
-// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,30 +14,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
-#include <Minuit2/MnPrint.h>
-#include "kaimini.h"
-#include "sphenofit.h"
-#include "minuitdriver.h"
-#include "gsldriver.h"
+#ifndef KAIMINI_GSLDRIVER_H
+#define KAIMINI_GSLDRIVER_H
 
-using namespace std;
-using namespace Kaimini;
+#include <gsl/gsl_vector.h>
+#include "genericfit.h"
+#include "parameters.h"
 
-int main(int argc, char* argv[])
+namespace Kaimini {
+
+class GSLDriver
 {
-  string input_file  = "LesHouches.in";
-  string output_file = "SPheno.spc";
-  parse_command_line(argc, argv, input_file, output_file);
+public:
+  explicit GSLDriver(GenericFit* fit)
+  {
+    mspFit = fit;
+    msPar  = fit->getIntParameters();
+  }
 
-  SPhenoFit fit(input_file);
-  GSLDriver dr(&fit);
-  dr.runSimplex();
-  //MinuitDriver driver(&fit);
-  //cout << driver.runMinimize();
-  //cout << driver.runMinos();
-  fit.tearDown(output_file);
-  return 0;
-}
+  ~GSLDriver()
+  {
+    mspFit = 0;
+    msPar  = Parameters();
+  }
+
+  static double chiSquare(const gsl_vector* v, void* = 0);
+
+  void runSimplex();
+
+//private:
+  static double distance(void* xp, void* yp);
+
+private:
+  static GenericFit* mspFit;
+  static Parameters msPar;
+};
+
+} // namespace Kaimini
+
+#endif // KAIMINI_GSLDRIVER_H
 
 // vim: sw=2 tw=78

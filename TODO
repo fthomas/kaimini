@@ -1,5 +1,3 @@
-Drivers:
- - add a GSL driver
 Fits:
  - initialize most SLHA blocks of mResult in SLHAFit
  - append random string to SimpleSLHAFit's mWorkingDir
