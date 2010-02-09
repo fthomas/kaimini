@@ -52,8 +52,8 @@ public:
   std::vector<double> getVarParams() const;
   std::vector<double> getVarStepSizes() const;
 
-  gsl_vector* getVarParamsGslVec() const;
-  gsl_vector* getVarStepSizesGslVec() const;
+  gsl_vector* getVarParamsGSLVec() const;
+  gsl_vector* getVarStepSizesGSLVec() const;
 
   Parameters& setVarParams(const std::vector<double>& v);
   Parameters& setVarParams(const gsl_vector* v);

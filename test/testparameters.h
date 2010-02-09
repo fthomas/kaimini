@@ -37,8 +37,8 @@ BOOST_AUTO_TEST_CASE(testVarParams)
   BOOST_CHECK(par.getVarParams().size() == 1);
   BOOST_CHECK(par.getVarStepSizes().size() == 1);
 
-  gsl_vector* vpar_gsl = par.getVarParamsGslVec();
-  gsl_vector* vss_gsl = par.getVarStepSizesGslVec();
+  gsl_vector* vpar_gsl = par.getVarParamsGSLVec();
+  gsl_vector* vss_gsl = par.getVarStepSizesGSLVec();
 
   BOOST_CHECK(vpar_gsl->size == 1);
   BOOST_CHECK(vss_gsl->size == 1);

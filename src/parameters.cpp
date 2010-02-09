@@ -56,7 +56,7 @@ vector<double> Parameters::getVarStepSizes() const
 }
 
 
-gsl_vector* Parameters::getVarParamsGslVec() const
+gsl_vector* Parameters::getVarParamsGSLVec() const
 {
   gsl_vector* par = gsl_vector_alloc(VariableParameters());
   const vector<MinuitParameter>& mps = getMinuitParameters();
@@ -74,7 +74,7 @@ gsl_vector* Parameters::getVarParamsGslVec() const
 }
 
 
-gsl_vector* Parameters::getVarStepSizesGslVec() const
+gsl_vector* Parameters::getVarStepSizesGSLVec() const
 {
   gsl_vector* step_sizes = gsl_vector_alloc(VariableParameters());
   const vector<MinuitParameter>& mps = getMinuitParameters();
