@@ -31,6 +31,9 @@ public:
 
   static double chiSquare(const gsl_vector* v, void* = 0);
 
+  static double chiSquare(void* xp)
+  { return chiSquare(static_cast<gsl_vector*>(xp)); }
+
   void runSimplex();
 
 private:
