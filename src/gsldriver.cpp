@@ -30,6 +30,21 @@ GenericFit* GSLDriver::mspFit = 0;
 Parameters GSLDriver::msPar = Parameters();
 
 
+// explicit
+GSLDriver::GSLDriver(GenericFit* fit)
+{
+  mspFit = fit;
+  msPar  = fit->getIntParameters();
+}
+
+
+GSLDriver::~GSLDriver()
+{
+  mspFit = 0;
+  msPar  = Parameters();
+}
+
+
 // static
 double GSLDriver::chiSquare(const gsl_vector* v, void*)
 {
@@ -96,19 +111,22 @@ gsl_vector_get(gsl_multimin_fminimizer_x(minimizer), i) << endl;
 }
 
 
-// static
-double GSLDriver::distance(void* xp, void* yp)
+double pNormDist(void* xp, void* yp, double p)
 {
   gsl_vector* vx = static_cast<gsl_vector*>(xp);
   gsl_vector* vy = static_cast<gsl_vector*>(yp);
 
-  gsl_vector_sub(vx, vy);
-  gsl_vector_mul(vx, vx);
+  gsl_vector* diff = gsl_vector_alloc(vx->size);
+  gsl_vector_memcpy(diff, vx);
+  gsl_vector_sub(diff, vy);
 
   double retval = 0.;
-  for (size_t i = 0; i < vx->size; ++i)
-  { retval += gsl_vector_get(vx, i); }
-  return sqrt(retval);
+  for (size_t i = 0; i < diff->size; ++i)
+  { retval += pow(abs(gsl_vector_get(diff, i)), p); }
+  retval = pow(retval, 1./p);
+
+  gsl_vector_free(diff);
+  return retval;
 }
 
 } // namespace Kaimini

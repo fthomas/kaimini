@@ -26,29 +26,20 @@ namespace Kaimini {
 class GSLDriver
 {
 public:
-  explicit GSLDriver(GenericFit* fit)
-  {
-    mspFit = fit;
-    msPar  = fit->getIntParameters();
-  }
-
-  ~GSLDriver()
-  {
-    mspFit = 0;
-    msPar  = Parameters();
-  }
+  explicit GSLDriver(GenericFit* fit);
+  ~GSLDriver();
 
   static double chiSquare(const gsl_vector* v, void* = 0);
 
   void runSimplex();
 
-//private:
-  static double distance(void* xp, void* yp);
-
 private:
   static GenericFit* mspFit;
   static Parameters msPar;
 };
+
+
+double pNormDist(void* xp, void* yp, double p = 2.);
 
 } // namespace Kaimini
 
