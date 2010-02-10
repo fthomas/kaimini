@@ -46,7 +46,8 @@ private:
 
 double gsl_vector_minkowski_dist(void* v1, void* v2, double p);
 
-double gsl_vector_dist(void* v1, void* v2);
+inline double gsl_vector_dist(void* v1, void* v2)
+{ return gsl_vector_minkowski_dist(v1, v2, 2.); }
 
 void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size);
 
