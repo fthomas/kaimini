@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
+#include <gsl/gsl_randist.h>
+#include <gsl/gsl_rng.h>
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_vector.h>
 #include "gsldriver.h"
@@ -111,10 +113,10 @@ gsl_vector_get(gsl_multimin_fminimizer_x(minimizer), i) << endl;
 }
 
 
-double pNormDist(void* xp, void* yp, double p)
+double gsl_vector_minkowski_dist(void* v1, void* v2, double p)
 {
-  gsl_vector* vx = static_cast<gsl_vector*>(xp);
-  gsl_vector* vy = static_cast<gsl_vector*>(yp);
+  gsl_vector* vx = static_cast<gsl_vector*>(v1);
+  gsl_vector* vy = static_cast<gsl_vector*>(v2);
 
   gsl_vector* diff = gsl_vector_alloc(vx->size);
   gsl_vector_memcpy(diff, vx);
@@ -127,6 +129,33 @@ double pNormDist(void* xp, void* yp, double p)
 
   gsl_vector_free(diff);
   return retval;
+}
+
+
+void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
+{
+  gsl_vector* v_old = static_cast<gsl_vector*>(v);
+  const unsigned int n = v_old->size;
+  gsl_vector* v_new = gsl_vector_alloc(n);
+
+  // Set normal distributed random numbers as elements of v_new and
+  // compute the euclidean norm of this vector.
+  double length = 0.;
+  for (size_t i = 0; i < n; ++i)
+  {
+    double* v_new_i = gsl_vector_ptr(v_new, i);
+    *v_new_i = gsl_ran_ugaussian(r);
+    length += pow(*v_new_i, 2);
+  }
+  length = sqrt(length);
+
+  // Scale v_new so that the elements of v_new are uniformly distributed
+  // within an n-sphere of radius step_size.
+  const double scale =
+    pow(pow(step_size, n) * gsl_rng_uniform_pos(r), 1.0/n) / length;
+  gsl_vector_scale(v_new, scale);
+
+  gsl_vector_add(v_old, v_new);
 }
 
 } // namespace Kaimini

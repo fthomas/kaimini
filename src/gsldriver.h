@@ -17,6 +17,7 @@
 #ifndef KAIMINI_GSLDRIVER_H
 #define KAIMINI_GSLDRIVER_H
 
+#include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
 #include "genericfit.h"
 #include "parameters.h"
@@ -31,8 +32,8 @@ public:
 
   static double chiSquare(const gsl_vector* v, void* = 0);
 
-  static double chiSquare(void* xp)
-  { return chiSquare(static_cast<gsl_vector*>(xp)); }
+  static double chiSquare(void* v)
+  { return chiSquare(static_cast<gsl_vector*>(v)); }
 
   void runSimplex();
 
@@ -41,8 +42,9 @@ private:
   static Parameters msPar;
 };
 
+double gsl_vector_minkowski_dist(void* v1, void* v2, double p = 2.);
 
-double pNormDist(void* xp, void* yp, double p = 2.);
+void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size);
 
 } // namespace Kaimini
 
