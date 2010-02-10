@@ -32,7 +32,8 @@ int main(int argc, char* argv[])
 
   SPhenoFit fit(input_file);
   GSLDriver dr(&fit);
-  dr.runSimplex();
+  dr.runSimulatedAnnealing();
+  //dr.runSimplex();
   //MinuitDriver driver(&fit);
   //cout << driver.runMinimize();
   //cout << driver.runMinos();

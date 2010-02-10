@@ -6,7 +6,7 @@ project(Kaimini CXX)
 
 set(Kaimini_VERSION_MAJOR "0")
 set(Kaimini_VERSION_MINOR "0")
-set(Kaimini_VERSION_PATCH "3-32-g3c89e9e")
+set(Kaimini_VERSION_PATCH "3-46-g2fa6c2c")
 set(Kaimini_VERSION "${Kaimini_VERSION_MAJOR}.${Kaimini_VERSION_MINOR}.${Kaimini_VERSION_PATCH}")
 
 # Enable more warnings if GCC is used.

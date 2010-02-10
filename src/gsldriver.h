@@ -36,13 +36,17 @@ public:
   { return chiSquare(static_cast<gsl_vector*>(v)); }
 
   void runSimplex();
+  void runSimulatedAnnealing();
 
 private:
   static GenericFit* mspFit;
   static Parameters msPar;
 };
 
-double gsl_vector_minkowski_dist(void* v1, void* v2, double p = 2.);
+
+double gsl_vector_minkowski_dist(void* v1, void* v2, double p);
+
+double gsl_vector_dist(void* v1, void* v2);
 
 void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size);
 

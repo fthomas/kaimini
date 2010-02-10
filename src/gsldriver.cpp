@@ -18,6 +18,7 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_multimin.h>
+#include <gsl/gsl_siman.h>
 #include <gsl/gsl_vector.h>
 #include "gsldriver.h"
 
@@ -109,7 +110,32 @@ gsl_vector_get(gsl_multimin_fminimizer_x(minimizer), i) << endl;
   gsl_vector_free(v);
   gsl_vector_free(step_sizes);
   gsl_multimin_fminimizer_free(minimizer);
+}
 
+
+void GSLDriver::runSimulatedAnnealing()
+{
+  const gsl_rng_type* T;
+  gsl_rng* r;
+
+  gsl_rng_env_setup();
+
+  T = gsl_rng_default;
+  r = gsl_rng_alloc(T);
+
+  gsl_siman_params_t params
+       = {20, 10, 0.0005,
+          1.0, 0.0008, 1.03, 2.0e-6};
+
+  gsl_vector* x_initial = msPar.getVarParamsGSLVec();
+
+  gsl_siman_solve(r, x_initial, GSLDriver::chiSquare,
+    gsl_vector_step_random, gsl_vector_dist, NULL,
+    NULL, NULL, NULL,
+    sizeof(gsl_vector), params);
+
+  gsl_vector_free(x_initial);
+  gsl_rng_free(r);
 }
 
 
@@ -132,10 +158,14 @@ double gsl_vector_minkowski_dist(void* v1, void* v2, double p)
 }
 
 
+double gsl_vector_dist(void* v1, void* v2)
+{ return gsl_vector_minkowski_dist(v1, v2, 2.); }
+
+
 void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
 {
   gsl_vector* v_old = static_cast<gsl_vector*>(v);
-  const unsigned int n = v_old->size;
+  const size_t n = v_old->size;
   gsl_vector* v_new = gsl_vector_alloc(n);
 
   // Set normal distributed random numbers as elements of v_new and
