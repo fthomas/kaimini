@@ -11,7 +11,7 @@ CXXFLAGS = -fPIC -O2 -g -Wall
 ifneq (,$(findstring g++,$(CXX)))
   CXXFLAGS += -Wextra -pedantic
 else ifneq (,$(findstring icc,$(CXX)))
-  CXXFLAGS += -Wcheck -wd383 -wd981
+  CXXFLAGS += -strict-ansi -Wcheck -wd383 -wd981
 endif
 
 INCPATH  = $(shell gsl-config --cflags) -I$(MINUIT_INCPATH)
