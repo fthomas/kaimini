@@ -85,7 +85,7 @@ void SLHAFit::setDataPoints(const SLHA& input)
       dp.value = to_<double>((*line)[4]);
       error    = to_<double>(error_str);
     }
-    catch (bad_lexical_cast)
+    catch (bad_lexical_cast&)
     {
       exit_line_not_parsed("KaiminiDataPoints", line->str());
     }
@@ -145,11 +145,11 @@ void SLHAFit::setParameters(const SLHA& input)
     {
       mParamsExt.SetValue(name, to_<double>(input.field(key)));
     }
-    catch (bad_lexical_cast)
+    catch (bad_lexical_cast&)
     {
       exit_value_not_parsed(key.str(), input.field(key));
     }
-    catch (out_of_range)
+    catch (out_of_range&)
     {
       exit_field_not_found(key.str());
     }
@@ -178,7 +178,7 @@ void SLHAFit::setParameters(const SLHA& input)
       else if (!upper.empty())
       { mParamsExt.SetUpperLimit(name, to_<double>(upper)); }
     }
-    catch (bad_lexical_cast)
+    catch (bad_lexical_cast&)
     {
       exit_line_not_parsed("KaiminiParameters", line->str());
     }
@@ -198,12 +198,12 @@ void SLHAFit::readDataPoints(const SLHA& input) const
       mDataPoints[i].calcValue =
         to_<double>(input.field(mDataPointsKeys[i]));
     }
-    catch (bad_lexical_cast)
+    catch (bad_lexical_cast&)
     {
       exit_value_not_parsed(
         mDataPointsKeys[i].str(), input.field(mDataPointsKeys[i]));
     }
-    catch (out_of_range)
+    catch (out_of_range&)
     {
       exit_field_not_found(mDataPointsKeys[i].str());
     }
@@ -221,7 +221,7 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
     {
       output.field(mParamsKeys[i]) = to_string(v[i]);
     }
-    catch (out_of_range)
+    catch (out_of_range&)
     {
       exit_field_not_found(mParamsKeys[i].str());
     }

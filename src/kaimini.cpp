@@ -111,7 +111,7 @@ void parse_command_line(int argc, char** argv,
     po::store(parsed, vm);
     po::notify(vm);
   }
-  catch(po::invalid_command_line_syntax e)
+  catch(po::invalid_command_line_syntax& e)
   {
     cerr << "Invalid command line syntax: " << e.what() << endl;
     exit(EXIT_FAILURE);
