@@ -6,15 +6,22 @@ MINUIT_INCPATH = /usr/local/include
 MINUIT_LIBS    = /usr/local/lib
 
 CXX      = g++
-CXXFLAGS = -fPIC -O2 -g -Wall -Wextra -pedantic
+CXXFLAGS = -fPIC -O2 -g -Wall
+
+ifneq (,$(findstring g++,$(CXX)))
+  CXXFLAGS += -Wextra -pedantic
+else ifneq (,$(findstring icc,$(CXX)))
+  CXXFLAGS += -Wcheck
+endif
+
 INCPATH  = $(shell gsl-config --cflags) -I$(MINUIT_INCPATH)
 LIBS     = -lboost_filesystem-mt -lboost_program_options-mt \
            $(shell gsl-config --libs) \
            -L$(MINUIT_LIBS) -lMinuit2 -lgomp -Wl,-rpath=$(MINUIT_LIBS)
 DEFINES  = 
 
-SRCDIR  := src
-OBJDIR  := src/.obj
+SRCDIR   = src
+OBJDIR   = src/.obj
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(subst $(SRCDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
 KAIMINI    = input/kaimini
