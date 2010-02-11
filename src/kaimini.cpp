@@ -20,10 +20,11 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <getopt.h>
+#include <boost/program_options.hpp>
 #include "kaimini.h"
 
 using namespace std;
+namespace po = boost::program_options;
 
 namespace Kaimini {
 
@@ -34,7 +35,7 @@ random_generator(static_cast<unsigned int>(time(0)) +
 
 void exit_field_not_found(const string& key)
 {
-  cerr << "error: could not find field referenced by ‘" << key
+  cerr << "Error: could not find field referenced by ‘" << key
        << "’ in SLHA structure" << endl;
   exit(EXIT_FAILURE);
 }
@@ -42,14 +43,14 @@ void exit_field_not_found(const string& key)
 
 void exit_file_open_failed(const string& filename)
 {
-  cerr << "error: failed to open file ‘" << filename << "’" << endl;
+  cerr << "Error: failed to open file ‘" << filename << "’" << endl;
   exit(EXIT_FAILURE);
 }
 
 
 void exit_line_not_parsed(const string& block, const string& line)
 {
-  cerr << "error: could not parse line in block ‘" << block << "’: "
+  cerr << "Error: could not parse line in block ‘" << block << "’: "
        << line << endl;
   exit(EXIT_FAILURE);
 }
@@ -57,7 +58,7 @@ void exit_line_not_parsed(const string& block, const string& line)
 
 void exit_value_not_parsed(const string& key, const string& value)
 {
-  cerr << "error: could not parse field referenced by ‘" << key << "’: "
+  cerr << "Error: could not parse field referenced by ‘" << key << "’: "
        << value << endl;
   exit(EXIT_FAILURE);
 }
@@ -82,42 +83,51 @@ void throw_ptr_is_null(const string& where, const string& ptr)
 
 void warn_line_ignored(const string& block, const string& line)
 {
-  cerr << "warning: ignoring line in block ‘" << block << "’: "
+  cerr << "Warning: ignoring line in block ‘" << block << "’: "
        << line << endl;
 }
 
 
 void parse_command_line(int argc, char** argv,
-                        string& inputFilename,
-                        string& outputFilename)
+                        string* ifile, string* ofile)
 {
-  int c = 0;
-  int option_index = 0;
-  const struct option long_options[] =
+  po::options_description cmdline_options("Options");
+  cmdline_options.add_options()
+    ("help,h",    "show this help message and exit")
+    ("version,V", "show Kaimini's version number and exit")
+
+    ("input-file,i",  po::value<string>(ifile)->
+      default_value(*ifile), "read input from file <arg>")
+
+    ("output-file,o", po::value<string>(ofile)->
+      default_value(*ofile), "write result to file <arg>");
+
+  po::variables_map vm;
+
+  try
   {
-    {"input",  required_argument, 0, 'i'},
-    {"output", required_argument, 0, 'o'},
-    {0, 0, 0, 0}
-  };
-
-  while (true)
+    po::parsed_options parsed = po::command_line_parser(argc, argv)
+      .options(cmdline_options).allow_unregistered().run();
+    po::store(parsed, vm);
+    po::notify(vm);
+  }
+  catch(po::invalid_command_line_syntax e)
   {
-    c = getopt_long(argc, argv, "i:o:", long_options, &option_index);
-    if (-1 == c) break;
+    cerr << "Invalid command line syntax: " << e.what() << endl;
+    exit(EXIT_FAILURE);
+  }
 
-    switch (c)
-    {
-      case 'i':
-        inputFilename.assign(optarg);
-        break;
+  if (vm.count("help"))
+  {
+    cout << "Usage: kaimini [options]" << endl << endl;
+    cout << cmdline_options;
+    exit(EXIT_SUCCESS);
+  }
 
-      case 'o':
-        outputFilename.assign(optarg);
-        break;
-
-      default:
-        abort();
-    }
+  if (vm.count("version"))
+  {
+    cout << "kaimini " << kaimini_version << endl;
+    exit(EXIT_SUCCESS);
   }
 }
 

@@ -26,18 +26,19 @@ using namespace Kaimini;
 
 int main(int argc, char* argv[])
 {
-  string input_file  = "LesHouches.in";
-  string output_file = "SPheno.spc";
-  parse_command_line(argc, argv, input_file, output_file);
+  string input_file = "kaimini.in";
+  string output_file = "kaimini.out";
+  parse_command_line(argc, argv, &input_file, &output_file);
 
   SPhenoFit fit(input_file);
-  GSLDriver dr(&fit);
-  dr.runSimulatedAnnealing();
+  //GSLDriver dr(&fit);
+  //dr.runSimulatedAnnealing();
   //dr.runSimplex();
-  //MinuitDriver driver(&fit);
-  //cout << driver.runMinimize();
+  MinuitDriver driver(&fit);
+  cout << driver.runMinimize();
   //cout << driver.runMinos();
   fit.tearDown(output_file);
+
   return 0;
 }
 

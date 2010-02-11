@@ -46,8 +46,7 @@ void warn_line_ignored(const std::string& block, const std::string& line);
 
 // Miscellaneous auxiliary functions:
 void parse_command_line(int argc, char** argv,
-                        std::string& inputFilename,
-                        std::string& outputFilename);
+                        std::string* ifile, std::string* ofile);
 
 } // namespace Kaimini
 

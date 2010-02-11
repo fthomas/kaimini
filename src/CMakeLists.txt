@@ -9,7 +9,7 @@ set(Kaimini_SOURCES
     slhafit.cpp
     sphenofit.cpp)
 set(Kaimini_LIBRARIES
-    ${Boost_FILESYSTEM_LIBRARIES}
+    ${Boost_FILESYSTEM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARIES}
     gsl gslcblas m
     Minuit2 gomp)
 set(Kaimini_RPATHS ${Minuit2_LIBRARY_DIRS})
