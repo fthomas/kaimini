@@ -32,11 +32,11 @@ BOOST_AUTO_TEST_CASE(testDistance)
 
   gsl_vector_set(d1x, 0, 1.);
   gsl_vector_set(d1y, 0, 2.);
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y), 1., 1e-6);
+  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y), 1., 1e-6);
 
   gsl_vector_set(d1x, 0, -1*sqrt(2.));
   gsl_vector_set(d1y, 0, sqrt(8.));
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y), 3*sqrt(2.), 1e-6);
+  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y), 3*sqrt(2.), 1e-6);
 
   gsl_vector_free(d1x);
   gsl_vector_free(d1y);
@@ -49,8 +49,7 @@ BOOST_AUTO_TEST_CASE(testDistance)
   gsl_vector_set(d2x, 1, 0.);
   gsl_vector_set(d2y, 0, 1.);
   gsl_vector_set(d2y, 1, 1.);
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y),
-    sqrt(2.), 1e-6);
+  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y), sqrt(2.), 1e-6);
   BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y, 3),
     pow(2., 1./3.), 1e-6);
   BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y, 9),
@@ -60,7 +59,7 @@ BOOST_AUTO_TEST_CASE(testDistance)
   gsl_vector_set(d2x, 1, -2.3);
   gsl_vector_set(d2y, 0, 19.9);
   gsl_vector_set(d2y, 1, 0.01);
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y),
+  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y),
     pow((pow(abs(0.47 - 19.9), 2.0) + pow(abs(-2.3 - 0.01), 2.0)),
       1./2.0), 1e-6);
   BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y, 3.5),
@@ -96,9 +95,9 @@ BOOST_AUTO_TEST_CASE(testStepRandom)
     gsl_vector_set_zero(x);
     gsl_vector_step_random(r, x, 3.);
 
-    if      (gsl_vector_minkowski_dist(zero, x) < sqrt(1./3.)*3.) ++lt1;
-    else if (gsl_vector_minkowski_dist(zero, x) < sqrt(2./3.)*3.) ++lt2;
-    else if (gsl_vector_minkowski_dist(zero, x) < sqrt(3./3.)*3.) ++lt3;
+    if      (gsl_vector_dist(zero, x) < sqrt(1./3.)*3.) ++lt1;
+    else if (gsl_vector_dist(zero, x) < sqrt(2./3.)*3.) ++lt2;
+    else if (gsl_vector_dist(zero, x) < sqrt(3./3.)*3.) ++lt3;
   }
 
   gsl_vector_free(zero);
@@ -122,14 +121,10 @@ BOOST_AUTO_TEST_CASE(testStepRandom)
     gsl_vector_set_zero(x);
     gsl_vector_step_random(r, x, 8.);
 
-    if      (gsl_vector_minkowski_dist(zero, x)
-      < pow(1./4., 1./6.) * 8.) ++lt1;
-    else if (gsl_vector_minkowski_dist(zero, x)
-      < pow(2./4., 1./6.) * 8.) ++lt2;
-    else if (gsl_vector_minkowski_dist(zero, x)
-      < pow(3./4., 1./6.) * 8.) ++lt3;
-    else if (gsl_vector_minkowski_dist(zero, x)
-      < pow(4./4., 1./6.) * 8.) ++lt4;
+    if      (gsl_vector_dist(zero, x) < pow(1./4., 1./6.) * 8.) ++lt1;
+    else if (gsl_vector_dist(zero, x) < pow(2./4., 1./6.) * 8.) ++lt2;
+    else if (gsl_vector_dist(zero, x) < pow(3./4., 1./6.) * 8.) ++lt3;
+    else if (gsl_vector_dist(zero, x) < pow(4./4., 1./6.) * 8.) ++lt4;
   }
 
   gsl_vector_free(zero);
