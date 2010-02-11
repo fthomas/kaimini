@@ -66,7 +66,7 @@ void GSLDriver::runSimplex()
   const gsl_multimin_fminimizer_type* mtype;
   gsl_multimin_fminimizer* minimizer;
 
-  mtype = gsl_multimin_fminimizer_nmsimplex2rand;
+  mtype = gsl_multimin_fminimizer_nmsimplex;
   minimizer = gsl_multimin_fminimizer_alloc(mtype, func.n);
 
   gsl_vector* v = msPar.getVarParamsGSLVec();
@@ -107,8 +107,8 @@ void GSLDriver::runSimplex()
 gsl_vector_get(gsl_multimin_fminimizer_x(minimizer), i) << endl;
   }
 
-  gsl_vector_free(v);
   gsl_vector_free(step_sizes);
+  gsl_vector_free(v);
   gsl_multimin_fminimizer_free(minimizer);
 }
 
