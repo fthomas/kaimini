@@ -2,16 +2,16 @@ kaimini:
 	$(MAKE) -C ..
 
 clean:
-	rm -f Messages.out SPheno*.out SPheno.spc
+	rm -f kaimini.out
 	rm -rf .kaimini-*
 
 switch:
-	TARGET=`readlink -n LesHouches.in`; \
-	rm LesHouches.in; \
+	TARGET=`readlink -n kaimini.in`; \
+	rm kaimini.in; \
 	if [ "$$TARGET" == "input.MSSM" ]; then \
-	  ln -s input.mSUGRA LesHouches.in; \
+	  ln -s input.mSUGRA kaimini.in; \
 	else \
-	  ln -s input.MSSM   LesHouches.in; \
+	  ln -s input.MSSM   kaimini.in; \
 	fi
 
 .PHONY: kaimini clean switch
