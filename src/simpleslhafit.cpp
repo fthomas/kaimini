@@ -44,7 +44,7 @@ void SimpleSLHAFit::setUp(const string& inputFile)
     if (fs::exists(mTmpInFile)) fs::remove(mTmpInFile);
     fs::copy_file(fs::path(inputFile), mTmpInFile);
   }
-  catch (fs::basic_filesystem_error<fs::path>& ex )
+  catch (fs::basic_filesystem_error<fs::path>& ex)
   {
     cerr << ex.what() << endl;
     exit(EXIT_FAILURE);
@@ -78,7 +78,14 @@ void SimpleSLHAFit::tearDown(const string& outputFile)
   if (!src) exit_file_open_failed(mTmpOutFile.file_string());
   dest << src.rdbuf();
 
-  //fs::remove(mWorkingDir);
+  try
+  {
+    fs::remove_all(mWorkingDir);
+  }
+  catch (fs::basic_filesystem_error<fs::path>& ex)
+  {
+    cerr << ex.what() << endl;
+  }
 }
 
 
