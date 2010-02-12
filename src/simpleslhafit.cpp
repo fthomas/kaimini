@@ -18,6 +18,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <unistd.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include "kaimini.h"
@@ -49,13 +50,15 @@ void SimpleSLHAFit::setUp(const string& inputFile)
   setDataPoints(mSLHAInput);
   setParameters(mSLHAInput);
 
-  fs::current_path(mWorkingDir);
+  //fs::current_path(mWorkingDir);
+  chdir(mWorkingDir.file_string().c_str());
 }
 
 
 void SimpleSLHAFit::tearDown(const string& outputFile)
 {
-  fs::current_path(mInitialDir);
+  //fs::current_path(mInitialDir);
+  chdir(mInitialDir.file_string().c_str());
 
   ofstream dest(outputFile.c_str());
   if (!dest) exit_file_open_failed(outputFile);
