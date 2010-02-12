@@ -7,10 +7,12 @@ if(Minuit2_ROOT)
     set(_Minuit2_INCLUDE_SEARCH_DIRS
         ${Minuit2_INCLUDEDIR}
         ${Minuit2_ROOT}/include
+        ${Minuit2_ROOT}/inc
         ${Minuit2_ROOT})
     set(_Minuit2_LIBRARIES_SEARCH_DIRS
         ${Minuit2_LIBRARYDIR}
         ${Minuit2_ROOT}/lib
+        ${Minuit2_ROOT}/src/.libs
         ${Minuit2_ROOT})
 endif()
 
