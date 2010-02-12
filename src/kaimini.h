@@ -17,6 +17,7 @@
 #ifndef KAIMINI_KAIMINI_H
 #define KAIMINI_KAIMINI_H
 
+#include <stdexcept>
 #include <string>
 #include <boost/random.hpp>
 
@@ -28,7 +29,7 @@ const std::string kaimini_version = "0.0.3-46-g2fa6c2c";
 typedef boost::mt19937 random_generator_type;
 extern random_generator_type random_generator;
 
-// Auxiliary functions for error handling:
+// Auxiliary functions/classes for error handling:
 void exit_field_not_found(const std::string& key);
 
 void exit_file_open_failed(const std::string& filename);
@@ -37,12 +38,14 @@ void exit_line_not_parsed(const std::string& block, const std::string& line);
 
 void exit_value_not_parsed(const std::string& key, const std::string& value);
 
-void throw_block_not_found(const std::string& where,
-                           const std::string& block);
-
-void throw_ptr_is_null(const std::string& where, const std::string& ptr);
-
 void warn_line_ignored(const std::string& block, const std::string& line);
+
+class block_not_found : public std::runtime_error
+{
+public:
+  explicit block_not_found(const std::string& msg)
+    : std::runtime_error(msg) {}
+};
 
 // Miscellaneous auxiliary functions:
 void parse_command_line(int argc, char** argv,

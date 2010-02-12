@@ -16,9 +16,7 @@
 
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
+#include <ostream>
 #include <string>
 #include <boost/program_options.hpp>
 #include "kaimini.h"
@@ -64,23 +62,6 @@ void exit_value_not_parsed(const string& key, const string& value)
 }
 
 
-void throw_block_not_found(const string& where, const string& block)
-{
-  stringstream msg;
-  msg << where << ": block ‘" << block << "’ could not be found "
-      << "in SLHA structure";
-  throw runtime_error(msg.str());
-}
-
-
-void throw_ptr_is_null(const string& where, const string& ptr)
-{
-  stringstream msg;
-  msg << where << ": pointer ‘" << ptr << "’ is a null pointer";
-  throw runtime_error(msg.str());
-}
-
-
 void warn_line_ignored(const string& block, const string& line)
 {
   cerr << "Warning: ignoring line in block ‘" << block << "’: "
@@ -111,9 +92,9 @@ void parse_command_line(int argc, char** argv,
     po::store(parsed, vm);
     po::notify(vm);
   }
-  catch(po::invalid_command_line_syntax& e)
+  catch(po::invalid_command_line_syntax& ex)
   {
-    cerr << "Invalid command line syntax: " << e.what() << endl;
+    cerr << "Error: invalid command line syntax: " << ex.what() << endl;
     exit(EXIT_FAILURE);
   }
 
