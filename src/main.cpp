@@ -14,21 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdlib>
+#include <ostream>
 #include <string>
+#include <boost/filesystem.hpp>
 #include <Minuit2/MnPrint.h>
-#include "kaimini.h"
-#include "sphenofit.h"
-#include "minuitdriver.h"
 #include "gsldriver.h"
+#include "kaimini.h"
+#include "minuitdriver.h"
+#include "sphenofit.h"
 
 using namespace std;
 using namespace Kaimini;
+namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[])
 {
-  string input_file = "kaimini.in";
+  string input_file  = "kaimini.in";
   string output_file = "kaimini.out";
   parse_command_line(argc, argv, &input_file, &output_file);
+
+  if (!fs::exists(input_file))
+  {
+    cerr << "Error: input file ‘" << input_file << "’ does not exist"
+         << endl;
+    exit(EXIT_FAILURE);
+  }
 
   SPhenoFit fit(input_file);
   //GSLDriver dr(&fit);
