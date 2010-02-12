@@ -29,6 +29,12 @@ Installation:
     make
     sudo make install
 
+  If Minuit2 is not installed into standard directories (e.g. under
+  /usr/ or /usr/local/), CMake won't find it. In this case cmake must be
+  invoked with the full path to the Minuit2 installation or source
+  directory:
+    cmake -D Minuit2_ROOT=/path/to/Minuit2/installation/dir ..
+
 Source code:
   For Kaimini's development the Git version control system is used. The
   Git repository can be inspected and browsed online at GitHub:
