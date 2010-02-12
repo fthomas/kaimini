@@ -27,7 +27,7 @@ OBJECTS := $(subst $(SRCDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
 KAIMINI    = input/kaimini
 KAIMINI_SO = input/kaimini.so
 
-all: $(KAIMINI) $(KAIMINI_SO)
+all: $(KAIMINI)
 
 
 ### Implicit rules:

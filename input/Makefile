@@ -5,6 +5,9 @@ clean:
 	rm -f kaimini.out
 	rm -rf .kaimini-*
 
+cleanall: clean
+	$(MAKE) -C .. cleanall
+
 switch:
 	TARGET=`readlink -n kaimini.in`; \
 	rm kaimini.in; \
@@ -14,4 +17,4 @@ switch:
 	  ln -s input.MSSM   kaimini.in; \
 	fi
 
-.PHONY: kaimini clean switch
+.PHONY: kaimini clean cleanall switch
