@@ -40,10 +40,10 @@ void exit_value_not_parsed(const std::string& key, const std::string& value);
 
 void warn_line_ignored(const std::string& block, const std::string& line);
 
-class block_not_found : public std::runtime_error
+class ExBlockNotFound : public std::runtime_error
 {
 public:
-  explicit block_not_found(const std::string& msg)
+  explicit ExBlockNotFound(const std::string& msg)
     : std::runtime_error(msg) {}
 };
 
