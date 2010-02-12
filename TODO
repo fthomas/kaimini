@@ -12,4 +12,3 @@ Output:
 Kaimini:
  - add command-line options to select Driver and Fit and/or add
    entries to the SLHA to select Driver and Fit (calculator)
- - catch the exceptions thrown by Boost's filesystem lib

@@ -15,7 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
+#include <cstdlib>
 #include <fstream>
+#include <ostream>
 #include <string>
 #include <vector>
 #include <unistd.h>
@@ -35,10 +37,18 @@ void SimpleSLHAFit::setUp(const string& inputFile)
 {
   initVars();
 
-  if (!fs::exists(mWorkingDir)) fs::create_directory(mWorkingDir);
+  try
+  {
+    if (!fs::exists(mWorkingDir)) fs::create_directory(mWorkingDir);
 
-  if (fs::exists(mTmpInFile)) fs::remove(mTmpInFile);
-  fs::copy_file(fs::path(inputFile), mTmpInFile);
+    if (fs::exists(mTmpInFile)) fs::remove(mTmpInFile);
+    fs::copy_file(fs::path(inputFile), mTmpInFile);
+  }
+  catch (fs::basic_filesystem_error<fs::path>& ex )
+  {
+    cerr << ex.what() << endl;
+    exit(EXIT_FAILURE);
+  }
 
   ifstream src(inputFile.c_str());
   if (!src) exit_file_open_failed(inputFile);
