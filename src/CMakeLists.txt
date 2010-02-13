@@ -7,7 +7,9 @@ set(Kaimini_SOURCES
     parameters.cpp
     simpleslhafit.cpp
     slhafit.cpp
-    sphenofit.cpp)
+    softsusyfit.cpp
+    sphenofit.cpp
+    suspectfit.cpp)
 set(Kaimini_LIBRARIES
     ${Boost_FILESYSTEM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARIES}
     gsl gslcblas m

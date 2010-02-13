@@ -7,7 +7,8 @@ set(TEST_SOURCES
     ../src/simpleslhafit.cpp
     ../src/slhafit.cpp
     ../src/softsusyfit.cpp
-    ../src/sphenofit.cpp)
+    ../src/sphenofit.cpp
+    ../src/suspectfit.cpp)
 set(TEST_LIBRARIES
     ${Boost_LIBRARIES}
     gsl gslcblas m
