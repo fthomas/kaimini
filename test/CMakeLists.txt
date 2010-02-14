@@ -5,10 +5,7 @@ set(TEST_SOURCES
     ../src/minuitdriver.cpp
     ../src/parameters.cpp
     ../src/simpleslhafit.cpp
-    ../src/slhafit.cpp
-    ../src/softsusyfit.cpp
-    ../src/sphenofit.cpp
-    ../src/suspectfit.cpp)
+    ../src/slhafit.cpp)
 set(TEST_LIBRARIES
     ${Boost_LIBRARIES}
     gsl gslcblas m

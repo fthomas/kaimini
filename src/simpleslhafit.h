@@ -28,20 +28,28 @@ namespace Kaimini {
 class SimpleSLHAFit : public SLHAFit
 {
 public:
+  explicit SimpleSLHAFit(const std::string& inputFile)
+  { setUp(inputFile); }
+
   void setUp(const std::string& inputFile);
   void tearDown(const std::string& outputFile);
 
   double chiSquare(const std::vector<double>& v) const;
 
-protected:
-  virtual void initVars() = 0;
+  void selectSOFTSUSY();
+  void selectSPheno();
+  void selectSuSpect();
 
-protected:
+private:
+  void selectCalculator(const SLHAea::SLHABlock& block);
+
+private:
   boost::filesystem::path mInitialDir;
   boost::filesystem::path mWorkingDir;
   boost::filesystem::path mTmpInFile;
   boost::filesystem::path mTmpOutFile;
   std::string mCommand;
+  std::string mCmdline;
 
   mutable SLHAea::SLHA mSLHAInput;
 };

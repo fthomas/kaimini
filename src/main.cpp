@@ -22,7 +22,7 @@
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
-#include "sphenofit.h"
+#include "simpleslhafit.h"
 
 using namespace std;
 using namespace Kaimini;
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     exit(EXIT_FAILURE);
   }
 
-  SPhenoFit fit(input_file);
+  SimpleSLHAFit fit(input_file);
   //GSLDriver dr(&fit);
   //dr.runSimulatedAnnealing();
   //dr.runSimplex();

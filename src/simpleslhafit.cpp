@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <unistd.h>
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include "kaimini.h"
@@ -35,7 +36,22 @@ namespace Kaimini {
 
 void SimpleSLHAFit::setUp(const string& inputFile)
 {
-  initVars();
+  ifstream src(inputFile.c_str());
+  if (!src) exit_file_open_failed(inputFile);
+
+  mSLHAInput.clear();
+  src >> mSLHAInput;
+  src.close();
+
+  setDataPoints(mSLHAInput);
+  setParameters(mSLHAInput);
+
+  mInitialDir = fs::initial_path<fs::path>();
+
+  if (mSLHAInput.count("KaiminiCalculator") > 0)
+  { selectCalculator(mSLHAInput.at("KaiminiCalculator")); }
+  else
+  { selectSPheno(); }
 
   try
   {
@@ -49,16 +65,6 @@ void SimpleSLHAFit::setUp(const string& inputFile)
     cerr << ex.what() << endl;
     exit(EXIT_FAILURE);
   }
-
-  ifstream src(inputFile.c_str());
-  if (!src) exit_file_open_failed(inputFile);
-
-  mSLHAInput.clear();
-  src >> mSLHAInput;
-  src.close();
-
-  setDataPoints(mSLHAInput);
-  setParameters(mSLHAInput);
 
   //fs::current_path(mWorkingDir);
   chdir(mWorkingDir.file_string().c_str());
@@ -98,7 +104,8 @@ double SimpleSLHAFit::chiSquare(const vector<double>& v) const
   ofs << mSLHAInput;
   ofs.close();
 
-  system(mCommand.c_str());
+  string cmd = mCommand + " " + mCmdline;
+  system(cmd.c_str());
 
   // Read the data points from the calculator's output file.
   fs::ifstream ifs(mTmpOutFile, ios_base::in);
@@ -117,6 +124,91 @@ double SimpleSLHAFit::chiSquare(const vector<double>& v) const
   cout << "chi^2:  " << mChiSq << endl << endl;
 
   return mChiSq;
+}
+
+
+void SimpleSLHAFit::selectSOFTSUSY()
+{
+  mWorkingDir = mInitialDir / ".kaimini-SOFTSUSY";
+  mTmpInFile  = mWorkingDir / "softsusy.in";
+  mTmpOutFile = mWorkingDir / "softsusy.out";
+  mCommand    = "softpoint.x";
+  mCmdline    = "leshouches < softsusy.in > softsusy.out";
+}
+
+
+void SimpleSLHAFit::selectSPheno()
+{
+  mWorkingDir = mInitialDir / ".kaimini-SPheno";
+  mTmpInFile  = mWorkingDir / "LesHouches.in";
+  mTmpOutFile = mWorkingDir / "SPheno.spc";
+  mCommand    = "SPheno";
+  mCmdline    = "";
+}
+
+
+void SimpleSLHAFit::selectSuSpect()
+{
+  mWorkingDir = mInitialDir / ".kaimini-SuSpect";
+  mTmpInFile  = mWorkingDir / "suspect2_lha.in";
+  mTmpOutFile = mWorkingDir / "suspect2_lha.out";
+  mCommand    = "suspect2";
+  mCmdline    = "";
+}
+
+
+void SimpleSLHAFit::selectCalculator(const SLHABlock& block)
+{
+  mWorkingDir = mInitialDir / ".kaimini";
+  mTmpInFile  = mWorkingDir / "slha.in";
+  mTmpOutFile = mWorkingDir / "slha.out";
+  mCommand    = "";
+  mCmdline    = "";
+
+  for(SLHABlock::const_iterator line = block.begin(); line != block.end();
+      ++line)
+  {
+    size_t size = line->data_count();
+    if (size < 2) continue;
+
+    if ("1" == (*line)[0])
+    {
+      string calculator = (*line)[1];
+      mWorkingDir = mInitialDir / (".kaimini-" + calculator);
+
+      if (boost::iequals(calculator, "SOFTSUSY"))
+      { selectSOFTSUSY(); }
+      else if (boost::iequals(calculator, "SPheno"))
+      { selectSPheno(); }
+      else if (boost::iequals(calculator, "SuSpect"))
+      { selectSuSpect(); }
+
+      if (size > 2)
+      {
+        string cmd = (*line)[2];
+        if (!fs::exists(cmd))
+        {
+          cerr << "Error: file ‘" << cmd << "’ does not exist" << endl;
+          exit(EXIT_FAILURE);
+        }
+        mCommand = cmd;
+      }
+      else if (mCommand.empty())
+      { mCommand = (*line)[1]; }
+    }
+    else if ("2" == (*line)[0])
+    {
+      mTmpInFile  = mWorkingDir / (*line)[1];
+    }
+    else if ("3" == (*line)[0])
+    {
+      mTmpOutFile = mWorkingDir / (*line)[1];
+    }
+    else if ("4" == (*line)[0])
+    {
+      mCmdline = (*line)[1];
+    }
+  }
 }
 
 } // namespace Kaimini

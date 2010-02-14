@@ -1,3 +1,5 @@
+#BLOCK KaiminiCalculator
+# 1    SPheno    /usr/bin/SPheno
 Block MODSEL        # Select model
  1    1                 # mSugra
  4    1                 # R-parity is violated.

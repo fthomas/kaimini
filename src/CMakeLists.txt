@@ -6,10 +6,7 @@ set(Kaimini_SOURCES
     minuitdriver.cpp
     parameters.cpp
     simpleslhafit.cpp
-    slhafit.cpp
-    softsusyfit.cpp
-    sphenofit.cpp
-    suspectfit.cpp)
+    slhafit.cpp)
 set(Kaimini_LIBRARIES
     ${Boost_FILESYSTEM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARIES}
     gsl gslcblas m
