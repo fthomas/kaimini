@@ -1,5 +1,5 @@
 // Kaimini
-// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,15 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#define BOOST_TEST_MAIN
-#define BOOST_TEST_DYN_LINK
+#include "kaimini.h"
 
-#include <boost/test/floating_point_comparison.hpp>
-#include <boost/test/unit_test.hpp>
-#include "testdatapoint.h"
-#include "testgsldriver.h"
-#include "testkaimini.h"
-#include "testparameters.h"
-#include "testslhafit.h"
+using namespace std;
+using namespace Kaimini;
+
+BOOST_AUTO_TEST_SUITE(TestKaimini)
+
+BOOST_AUTO_TEST_CASE(test_random_string)
+{
+  for (size_t i = 0; i < 100; ++i)
+  {
+    BOOST_CHECK(random_string(i).length() == i);
+    BOOST_CHECK(random_string() != random_string());
+  }
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 // vim: sw=2 tw=78
