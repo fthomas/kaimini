@@ -19,6 +19,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <boost/filesystem.hpp>
 #include <boost/random.hpp>
 
 namespace Kaimini {
@@ -51,7 +52,13 @@ public:
 void parse_command_line(int argc, char** argv,
                         std::string* ifile, std::string* ofile);
 
-std::string random_string(size_t length = 8);
+std::string random_string(size_t length = 6);
+
+boost::filesystem::path
+temp_path(const boost::filesystem::path& p_template);
+
+boost::filesystem::path
+create_temp_directory(const boost::filesystem::path& dp_template);
 
 } // namespace Kaimini
 

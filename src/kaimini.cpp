@@ -18,10 +18,12 @@
 #include <ctime>
 #include <ostream>
 #include <string>
+#include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include "kaimini.h"
 
 using namespace std;
+namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
 namespace Kaimini {
@@ -115,8 +117,7 @@ void parse_command_line(int argc, char** argv,
 
 string random_string(size_t length)
 {
-  static const std::string alnum =
-    "0123456789"
+  static const std::string alnum = "0123456789"
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -124,9 +125,42 @@ string random_string(size_t length)
   boost::variate_generator<random_generator_type&, dist_type>
   rnd(random_generator, dist_type(0, alnum.length()-1));
 
-  string ret;
-  while (0 != length--) ret += alnum[rnd()];
-  return ret;
+  string retval;
+  while (0 != length--) retval += alnum[rnd()];
+  return retval;
+}
+
+
+fs::path temp_path(const fs::path& p_template)
+{
+  string name = p_template.filename();
+  size_t len = 0;
+
+  string::const_reverse_iterator it = name.rbegin();
+  while (it != name.rend() && 'X' == *it++) ++len;
+
+  size_t pos = name.length() - len;
+  if (len < 6)
+  {
+    name.resize(pos + 6, 'X');
+    len = 6;
+  }
+  name.replace(pos, len, random_string(len));
+
+  fs::path temp_p = p_template.parent_path() / name;
+  return temp_p;
+}
+
+
+fs::path create_temp_directory(const fs::path& dp_template)
+{
+  fs::path temp_dir;
+
+  do temp_dir = temp_path(dp_template);
+  while (fs::exists(temp_dir));
+
+  fs::create_directory(temp_dir);
+  return temp_dir;
 }
 
 } // namespace Kaimini
