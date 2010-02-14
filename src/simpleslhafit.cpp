@@ -46,16 +46,22 @@ void SimpleSLHAFit::setUp(const string& inputFile)
   setDataPoints(mSLHAInput);
   setParameters(mSLHAInput);
 
-  mInitialDir = fs::initial_path<fs::path>();
-
   if (mSLHAInput.count("KaiminiCalculator") > 0)
   { selectCalculator(mSLHAInput.at("KaiminiCalculator")); }
   else
   { selectSPheno(); }
 
+  mInitialDir = fs::initial_path<fs::path>();
+  mWorkingDir = mInitialDir / mWorkingDirStr;
+  mTmpInFile  = mWorkingDir / mTmpInFileStr;
+  mTmpOutFile = mWorkingDir / mTmpOutFileStr;
+
   try
   {
-    if (!fs::exists(mWorkingDir)) fs::create_directory(mWorkingDir);
+    //if (!fs::exists(mWorkingDir)) fs::create_directory(mWorkingDir);
+    mWorkingDir = create_temp_directory(mWorkingDir);
+    mTmpInFile  = mWorkingDir / mTmpInFileStr;
+    mTmpOutFile = mWorkingDir / mTmpOutFileStr;
 
     if (fs::exists(mTmpInFile)) fs::remove(mTmpInFile);
     fs::copy_file(fs::path(inputFile), mTmpInFile);
@@ -129,41 +135,41 @@ double SimpleSLHAFit::chiSquare(const vector<double>& v) const
 
 void SimpleSLHAFit::selectSOFTSUSY()
 {
-  mWorkingDir = mInitialDir / ".kaimini-SOFTSUSY";
-  mTmpInFile  = mWorkingDir / "softsusy.in";
-  mTmpOutFile = mWorkingDir / "softsusy.out";
-  mCommand    = "softpoint.x";
-  mCmdline    = "leshouches < softsusy.in > softsusy.out";
+  mWorkingDirStr = ".kaimini-SOFTSUSY.";
+  mTmpInFileStr  = "softsusy.in";
+  mTmpOutFileStr = "softsusy.out";
+  mCommand = "softpoint.x";
+  mCmdline = "leshouches < softsusy.in > softsusy.out";
 }
 
 
 void SimpleSLHAFit::selectSPheno()
 {
-  mWorkingDir = mInitialDir / ".kaimini-SPheno";
-  mTmpInFile  = mWorkingDir / "LesHouches.in";
-  mTmpOutFile = mWorkingDir / "SPheno.spc";
-  mCommand    = "SPheno";
-  mCmdline    = "";
+  mWorkingDirStr = ".kaimini-SPheno.";
+  mTmpInFileStr  = "LesHouches.in";
+  mTmpOutFileStr = "SPheno.spc";
+  mCommand = "SPheno";
+  mCmdline = "";
 }
 
 
 void SimpleSLHAFit::selectSuSpect()
 {
-  mWorkingDir = mInitialDir / ".kaimini-SuSpect";
-  mTmpInFile  = mWorkingDir / "suspect2_lha.in";
-  mTmpOutFile = mWorkingDir / "suspect2_lha.out";
-  mCommand    = "suspect2";
-  mCmdline    = "";
+  mWorkingDirStr = ".kaimini-SuSpect.";
+  mTmpInFileStr  = "suspect2_lha.in";
+  mTmpOutFileStr = "suspect2_lha.out";
+  mCommand = "suspect2";
+  mCmdline = "";
 }
 
 
 void SimpleSLHAFit::selectCalculator(const SLHABlock& block)
 {
-  mWorkingDir = mInitialDir / ".kaimini";
-  mTmpInFile  = mWorkingDir / "slha.in";
-  mTmpOutFile = mWorkingDir / "slha.out";
-  mCommand    = "";
-  mCmdline    = "";
+  mWorkingDirStr = ".kaimini.";
+  mTmpInFileStr  = "slha.in";
+  mTmpOutFileStr = "slha.out";
+  mCommand = "";
+  mCmdline = "";
 
   for(SLHABlock::const_iterator line = block.begin(); line != block.end();
       ++line)
@@ -174,7 +180,7 @@ void SimpleSLHAFit::selectCalculator(const SLHABlock& block)
     if ("1" == (*line)[0])
     {
       string calculator = (*line)[1];
-      mWorkingDir = mInitialDir / (".kaimini-" + calculator);
+      mWorkingDirStr = ".kaimini-" + calculator + ".";
 
       if (boost::iequals(calculator, "SOFTSUSY"))
       { selectSOFTSUSY(); }
@@ -198,11 +204,11 @@ void SimpleSLHAFit::selectCalculator(const SLHABlock& block)
     }
     else if ("2" == (*line)[0])
     {
-      mTmpInFile  = mWorkingDir / (*line)[1];
+      mTmpInFileStr  = (*line)[1];
     }
     else if ("3" == (*line)[0])
     {
-      mTmpOutFile = mWorkingDir / (*line)[1];
+      mTmpOutFileStr = (*line)[1];
     }
     else if ("4" == (*line)[0])
     {

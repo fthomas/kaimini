@@ -48,6 +48,10 @@ private:
   boost::filesystem::path mWorkingDir;
   boost::filesystem::path mTmpInFile;
   boost::filesystem::path mTmpOutFile;
+
+  std::string mWorkingDirStr;
+  std::string mTmpInFileStr;
+  std::string mTmpOutFileStr;
   std::string mCommand;
   std::string mCmdline;
 
