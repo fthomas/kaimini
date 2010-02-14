@@ -51,6 +51,8 @@ public:
 void parse_command_line(int argc, char** argv,
                         std::string* ifile, std::string* ofile);
 
+std::string random_string(size_t length = 8);
+
 } // namespace Kaimini
 
 #endif // KAIMINI_KAIMINI_H

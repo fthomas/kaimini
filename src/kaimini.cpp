@@ -112,6 +112,23 @@ void parse_command_line(int argc, char** argv,
   }
 }
 
+
+string random_string(size_t length)
+{
+  static const std::string alnum =
+    "0123456789"
+    "abcdefghijklmnopqrstuvwxyz"
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  typedef boost::uniform_int<> dist_type;
+  boost::variate_generator<random_generator_type&, dist_type>
+  rnd(random_generator, dist_type(0, alnum.length()-1));
+
+  string ret;
+  while (0 != length--) ret += alnum[rnd()];
+  return ret;
+}
+
 } // namespace Kaimini
 
 // vim: sw=2 tw=78

@@ -46,6 +46,10 @@ $(KAIMINI_SO): $(filter-out %main.o,$(OBJECTS))
 	$(CXX) -o "$@" -shared $(filter-out %main.o,$(OBJECTS)) $(LIBS)
 
 
+doc:
+	doxygen doc/Doxyfile
+	$(MAKE) -C doc/manual/
+
 clean:
 	rm -f $(OBJECTS)
 	-rmdir $(OBJDIR)
@@ -72,4 +76,4 @@ set_version:
 	    src/kaimini.h; \
 	fi
 
-.PHONY: all clean cleanall set_version
+.PHONY: all doc clean cleanall set_version
