@@ -31,6 +31,7 @@ class MinuitDriver
 public:
   explicit MinuitDriver(GenericFit* fit) : mpFit(fit) {}
 
+  ROOT::Minuit2::FunctionMinimum runMigrad(unsigned int stra = 1);
   ROOT::Minuit2::FunctionMinimum runMinimize(unsigned int stra = 1);
   ROOT::Minuit2::FunctionMinimum runSimplex(unsigned int stra = 1);
 

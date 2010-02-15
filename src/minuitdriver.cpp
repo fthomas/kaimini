@@ -20,6 +20,7 @@
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
+#include <Minuit2/MnMigrad.h>
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnMinos.h>
 #include <Minuit2/MnSimplex.h>
@@ -30,6 +31,18 @@ using namespace std;
 using namespace ROOT::Minuit2;
 
 namespace Kaimini {
+
+FunctionMinimum MinuitDriver::runMigrad(unsigned int stra)
+{
+  MnMigrad minimizer(*mpFit, mpFit->getIntParameters(), stra);
+  FunctionMinimum minimum = minimizer();
+  mpFit->processMinimum(&minimum);
+
+  mpMinimum.reset(new FunctionMinimum(minimum));
+  sanitize();
+  return minimum;
+}
+
 
 FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
 {
