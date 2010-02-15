@@ -105,13 +105,13 @@ void parse_command_line(int argc, char** argv,
     cerr << "Error: invalid command line syntax: " << ex.what() << endl;
     exit(EXIT_FAILURE);
   }
-  catch (po::multiple_occurrences& ex)
+  catch (po::multiple_occurrences&)
   {
     cerr << "Error: several occurrences of an option that can be "
          << "specified only once" << endl;
     exit(EXIT_FAILURE);
   }
-  catch (po::too_many_positional_options_error)
+  catch (po::too_many_positional_options_error&)
   {
     cerr << "Error: too many command line arguments" << endl;
     exit(EXIT_FAILURE);
