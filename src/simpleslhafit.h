@@ -39,6 +39,7 @@ public:
   void selectSOFTSUSY();
   void selectSPheno();
   void selectSuSpect();
+  void selectXSUSY();
 
 private:
   void selectCalculator(const SLHAea::SLHABlock& block);

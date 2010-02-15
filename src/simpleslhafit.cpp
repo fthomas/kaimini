@@ -166,6 +166,16 @@ void SimpleSLHAFit::selectSuSpect()
 }
 
 
+void SimpleSLHAFit::selectXSUSY()
+{
+  mWorkingDirStr = ".kaimini-XSUSY.";
+  mTmpInFileStr  = "in.dat";
+  mTmpOutFileStr = "out.dat";
+  mCommand = "XSUSY";
+  mCmdline = "< in.dat";
+}
+
+
 void SimpleSLHAFit::selectCalculator(const SLHABlock& block)
 {
   mWorkingDirStr = ".kaimini.";
