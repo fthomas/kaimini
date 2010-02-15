@@ -94,9 +94,15 @@ void parse_command_line(int argc, char** argv,
     po::store(parsed, vm);
     po::notify(vm);
   }
-  catch(po::invalid_command_line_syntax& ex)
+  catch (po::invalid_command_line_syntax& ex)
   {
     cerr << "Error: invalid command line syntax: " << ex.what() << endl;
+    exit(EXIT_FAILURE);
+  }
+  catch (po::multiple_occurrences& ex)
+  {
+    cerr << "Error: several occurrences of an option that can be "
+         << "specified only once" << endl;
     exit(EXIT_FAILURE);
   }
 
