@@ -90,6 +90,9 @@ void SimpleSLHAFit::tearDown(const string& outputFile)
   if (!src) exit_file_open_failed(mTmpOutFile.file_string());
   dest << src.rdbuf();
 
+  src.close();
+  dest.close();
+
   try
   {
     fs::remove_all(mWorkingDir);
