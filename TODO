@@ -1,13 +1,18 @@
-Fits:
- - initialize most SLHA blocks of mResult in SLHAFit
+Input:
+ - BLOCK Kaimini???:
+   - add entries to select the driver and its options
+
 Output:
- - KaiminiInfo:
+ - BLOCK KaiminiInfo:
    - add number of function calls
-   - add information about which driver was used
- - investigate what else FunctionMinimum contains that is interesting
-   for us
-Kaimini:
- - add entries to the SLHA to select Driver
+   - add information about the used driver
+
+GSLDriver:
+ - runSimplex:
+    - determine the parameter errors
+    - call GenericFit::processMinimum()
+ - runSimulatedAnnealing:
+    - make it work!
 
 SimpleSLHAFit:
  - selectCalculator:
