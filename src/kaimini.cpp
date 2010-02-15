@@ -78,19 +78,22 @@ void parse_command_line(int argc, char** argv,
   cmdline_options.add_options()
     ("help,h",    "show this help message and exit")
     ("version,V", "show Kaimini's version number and exit")
-
     ("input-file,i",  po::value<string>(ifile)->
       default_value(*ifile), "read input from file <arg>")
-
     ("output-file,o", po::value<string>(ofile)->
       default_value(*ofile), "write result to file <arg>");
+
+  po::positional_options_description pos_options;
+  pos_options.add("input-file", 1);
+  pos_options.add("output-file", 1);
 
   po::variables_map vm;
 
   try
   {
     po::parsed_options parsed = po::command_line_parser(argc, argv)
-      .options(cmdline_options).allow_unregistered().run();
+      .options(cmdline_options).positional(pos_options)
+      .allow_unregistered().run();
     po::store(parsed, vm);
     po::notify(vm);
   }
@@ -103,6 +106,11 @@ void parse_command_line(int argc, char** argv,
   {
     cerr << "Error: several occurrences of an option that can be "
          << "specified only once" << endl;
+    exit(EXIT_FAILURE);
+  }
+  catch (po::too_many_positional_options_error)
+  {
+    cerr << "Error: too many command line arguments" << endl;
     exit(EXIT_FAILURE);
   }
 
