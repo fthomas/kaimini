@@ -133,7 +133,7 @@ string random_string(size_t length)
 
 fs::path temp_path(const fs::path& p_template)
 {
-  string name = p_template.filename();
+  string name = p_template.leaf();
   size_t len = 0;
 
   string::const_reverse_iterator it = name.rbegin();
@@ -147,7 +147,7 @@ fs::path temp_path(const fs::path& p_template)
   }
   name.replace(pos, len, random_string(len));
 
-  fs::path temp_p = p_template.parent_path() / name;
+  fs::path temp_p = p_template.branch_path() / name;
   return temp_p;
 }
 
