@@ -28,6 +28,8 @@ namespace po = boost::program_options;
 
 namespace Kaimini {
 
+bool verbose_output = true;
+
 random_generator_type
 random_generator(static_cast<unsigned int>(time(0)) +
                  static_cast<unsigned int>(clock()));
@@ -77,11 +79,12 @@ void parse_command_line(int argc, char** argv,
   po::options_description cmdline_options("Options");
   cmdline_options.add_options()
     ("help,h",    "show this help message and exit")
-    ("version,V", "show Kaimini's version number and exit")
+    ("version,V", "show version number and exit")
     ("input-file,i",  po::value<string>(ifile)->
       default_value(*ifile), "read input from file <arg>")
     ("output-file,o", po::value<string>(ofile)->
-      default_value(*ofile), "write result to file <arg>");
+      default_value(*ofile), "write result to file <arg>")
+    ("quiet,q", "be quiet (no output to stdout)");
 
   po::positional_options_description pos_options;
   pos_options.add("input-file", 1);
@@ -126,6 +129,8 @@ void parse_command_line(int argc, char** argv,
     cout << "kaimini " << kaimini_version << endl;
     exit(EXIT_SUCCESS);
   }
+
+  if (vm.count("quiet")) verbose_output = false;
 }
 
 

@@ -30,6 +30,9 @@ namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[])
 {
+  cout.precision(8);
+  cout.setf(ios_base::scientific);
+
   string input_file  = "kaimini.in";
   string output_file = "kaimini.out";
   parse_command_line(argc, argv, &input_file, &output_file);

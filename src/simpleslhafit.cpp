@@ -125,12 +125,12 @@ double SimpleSLHAFit::chiSquare(const vector<double>& v) const
 
   mChiSq = sumWtSqResiduals(mDataPoints.begin(), mDataPoints.end());
 
-  // Output the current parameter values and chi^2.
-  cout.precision(8);
-  cout.setf(ios_base::scientific);
-  for (size_t i = 0; i < v.size(); ++i)
-  { cout << "par_" << i << ":  " << v[i] << endl; }
-  cout << "chi^2:  " << mChiSq << endl << endl;
+  if (verbose_output)
+  {
+    for (size_t i = 0; i < v.size(); ++i)
+    { cout << "par_" << i << " :  " << v[i] << endl; }
+    cout << "chi^2 :  " << mChiSq << endl << endl;
+  }
 
   return mChiSq;
 }

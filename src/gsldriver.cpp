@@ -91,20 +91,18 @@ void GSLDriver::runSimplex()
   while (GSL_CONTINUE == status && iter < 1000);
 
   // Run chiSquare with the minimal parameter values again so that
-  // cached variables in mpFit correspond to the found minimum.
+  // cached variables in mspFit correspond to the found minimum.
   chiSquare(minimizer->x);
 
-  cout.setf(ios::scientific);
-  cout.precision(8);
-
-  cout << "Iterations: " << iter << endl;
-  cout << "Minimal chi^2: " << minimizer->fval << endl;
-  for (size_t i = 0; i < func.n; ++i)
+  if (verbose_output)
   {
-    cout << "Parameter " << i << ": " << gsl_vector_get(minimizer->x, i)
-         << endl;
-    cout << "          " << i << ": " <<
-gsl_vector_get(gsl_multimin_fminimizer_x(minimizer), i) << endl;
+    cout << "iter   :  " << iter << endl;
+    for (size_t i = 0; i < func.n; ++i)
+    {
+      cout << "vpar_" << i << " :  " << gsl_vector_get(minimizer->x, i)
+           << endl;
+    }
+    cout << "chi^2  :  " << minimizer->fval << endl;
   }
 
   gsl_vector_free(step_sizes);

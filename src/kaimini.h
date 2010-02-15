@@ -26,6 +26,8 @@ namespace Kaimini {
 
 const std::string kaimini_version = "0.0.3-46-g2fa6c2c";
 
+extern bool verbose_output;
+
 // Random number generator that is used in Kaimini.
 typedef boost::mt19937 random_generator_type;
 extern random_generator_type random_generator;
