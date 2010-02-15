@@ -56,7 +56,7 @@ double GSLDriver::chiSquare(const gsl_vector* v, void*)
 }
 
 
-void GSLDriver::runSimplex()
+Parameters GSLDriver::runSimplex()
 {
   gsl_multimin_function func;
   func.f = &GSLDriver::chiSquare;
@@ -108,6 +108,9 @@ void GSLDriver::runSimplex()
   gsl_vector_free(step_sizes);
   gsl_vector_free(v);
   gsl_multimin_fminimizer_free(minimizer);
+
+  mspFit->processParams(&msPar);
+  return msPar;
 }
 
 

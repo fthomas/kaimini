@@ -45,12 +45,14 @@ int main(int argc, char* argv[])
   }
 
   SimpleSLHAFit fit(input_file);
-  //GSLDriver dr(&fit);
-  //dr.runSimulatedAnnealing();
-  //dr.runSimplex();
-  MinuitDriver driver(&fit);
-  cout << driver.runMinimize();
-  //cout << driver.runMinos();
+  GSLDriver gsl_dr(&fit);
+  gsl_dr.runSimplex();
+  //gsl_dr.runSimulatedAnnealing();
+
+  //MinuitDriver minuit_dr(&fit);
+  //cout << minuit_dr.runMinimize();
+  //cout << minuit_dr.runMinos();
+
   fit.tearDown(output_file);
 
   return 0;

@@ -10,7 +10,6 @@ Output:
 GSLDriver:
  - runSimplex:
     - determine the parameter errors
-    - call GenericFit::processMinimum()
  - runSimulatedAnnealing:
     - make it work!
 
