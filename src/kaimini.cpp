@@ -155,7 +155,7 @@ fs::path temp_path(const fs::path& p_template)
   string name = p_template.leaf();
   size_t len = 0;
 
-  string::const_reverse_iterator it = name.rbegin();
+  string::reverse_iterator it = name.rbegin();
   while (it != name.rend() && 'X' == *it++) ++len;
 
   size_t pos = name.length() - len;
