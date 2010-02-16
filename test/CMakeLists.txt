@@ -8,8 +8,8 @@ set(TEST_SOURCES
     ../src/slhafit.cpp)
 set(TEST_LIBRARIES
     ${Boost_LIBRARIES}
-    gsl gslcblas m
-    Minuit2 gomp)
+    ${Minuit2_LIBRARIES}
+    gsl gslcblas m)
 
 include_directories(
     ../src
