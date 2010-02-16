@@ -178,8 +178,8 @@ void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
 
   // Scale v_new so that the elements of v_new are uniformly distributed
   // within an n-sphere of radius step_size.
-  const double scale =
-    pow(pow(step_size, n) * gsl_rng_uniform_pos(r), 1.0/n) / length;
+  const double scale = pow(pow(step_size, static_cast<int>(n))
+    * gsl_rng_uniform_pos(r), 1.0/n) / length;
   gsl_vector_scale(v_new, scale);
 
   gsl_vector_add(v_old, v_new);
