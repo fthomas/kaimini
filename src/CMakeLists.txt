@@ -11,12 +11,16 @@ set(Kaimini_LIBRARIES
     ${Boost_FILESYSTEM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARIES}
     gsl gslcblas m
     Minuit2 gomp)
-set(Kaimini_RPATHS ${Minuit2_LIBRARY_DIRS})
+set(Kaimini_RPATHS
+    ${Boost_LIBRARY_DIRS}
+    ${Minuit2_LIBRARY_DIRS})
 
 include_directories(
     ${Boost_INCLUDE_DIRS}
     ${Minuit2_INCLUDE_DIRS})
-link_directories(${Minuit2_LIBRARY_DIRS})
+link_directories(
+    ${Boost_LIBRARY_DIRS}
+    ${Minuit2_LIBRARY_DIRS})
 
 add_executable(${Kaimini_TARGET} ${Kaimini_SOURCES})
 target_link_libraries(${Kaimini_TARGET} ${Kaimini_LIBRARIES})
