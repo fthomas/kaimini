@@ -9,10 +9,10 @@ Output:
 
 GSLDriver:
  - runSimplex:
-    - determine the parameter errors
+   - determine the parameter errors
  - runSimulatedAnnealing:
-    - make it work!
+   - make it work!
 
 SimpleSLHAFit:
  - selectCalculator:
-    - sanitize user input (http://xkcd.com/327/)
+   - sanitize user input (http://xkcd.com/327/)

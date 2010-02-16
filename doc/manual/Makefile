@@ -5,6 +5,7 @@ clean:
 	  *.pdf *.snm *.toc *.vrb
 
 kaimini.pdf: kaimini.tex
-	for i in `seq 1 3`; do \
-	  pdflatex "$<"; \
-	done
+	pdflatex "$<"
+	bibtex "$(<:.tex=)"
+	pdflatex "$<"
+	pdflatex "$<"
