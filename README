@@ -1,5 +1,5 @@
-Kaimini
-=======
+Kaimini, a general purpose fitting frontend
+===========================================
 
 Introduction:
 
@@ -47,8 +47,8 @@ Source code:
     git clone git://github.com/fthomas/kaimini.git
 
   The latest source code is also available as tar and ZIP archive:
-    http://github.com/fthomas/kaimini/tarball/master
-    http://github.com/fthomas/kaimini/zipball/master
+    http://github.com/fthomas/kaimini/tarball/master (tar.gz)
+    http://github.com/fthomas/kaimini/zipball/master (zip)
 
 Issues and feedback:
   For bug reports, feature requests, or general feedback either use the

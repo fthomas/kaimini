@@ -5,17 +5,18 @@
 \usepackage{fancyvrb}
 \usepackage[colorlinks=true]{hyperref}
 
-\newcommand{\mailto}[1]
-{\href{mailto:#1}{#1}}
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\mailto}[1]{\href{mailto:#1}{#1}}
 
-\title{\textbf{Kaimini}}
-\author{
+
+\title{\textbf{Kaimini, a general purpose fitting frontend for programs
+  using the SLHA interface}}
+\author{%
   Frank S. Thomas\\
-  \texttt{\mailto{fthomas@physik.uni-wuerzburg.de}}\\
+  \ttt{\mailto{fthomas@physik.uni-wuerzburg.de}}\\
   \vspace{1em}\\
   Institut für Theoretische Physik und Astrophysik, Universität Würzburg,\\
-  Am Hubland, D-97074 Würzburg, Germany
-}
+  Am Hubland, D-97074 Würzburg, Germany}
 
 \begin{document}
 
@@ -26,35 +27,47 @@
 
 \tableofcontents
 
-\section{Introduction}
+%-----------------------------------------------------------------------------
+\section{Introduction\label{sec:introduction}}
 
-\cite{Skands:2003cj}
+%-----------------------------------------------------------------------------
+\section{Kaimini Input Blocks\label{sec:kaimini_input_blocks}}
 
-\section{Input Blocks}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiParameters}}
 
-\subsection*{\tt{BLOCK KaiminiParameters}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiDataPoints}}
 
-\subsection*{\tt{BLOCK KaiminiDataPoints}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiCalculator}}
 
-\subsection*{\tt{BLOCK KaiminiCalculator}}
 
-\section{Output Blocks}
+%-----------------------------------------------------------------------------
+\section{Kaimini Output Blocks\label{sec:kaimini_output_blocks}}
 
-\subsection*{\tt{BLOCK KaiminiParametersOut}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiParametersOut}}
 
-\subsection*{\tt{BLOCK KaiminiDataPointsOut}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiDataPointsOut}}
 
-\subsection*{\tt{BLOCK KaiminiChiSquare}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiChiSquare}}
 
-\subsection*{\tt{BLOCK KaiminiCovarianceMatrix}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiCovarianceMatrix}}
 
-\subsection*{\tt{BLOCK KaiminiMinosErrors}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiMinosErrors}}
 
-\subsection*{\tt{BLOCK KaiminiInfo}}
+%-----------------------------------------------------------------------------
+\subsection*{\ttt{BLOCK KaiminiInfo}}
 
 
 \appendix
 
+%-----------------------------------------------------------------------------
 \section{Example}
 
 \begin{Verbatim}[frame=single]
@@ -76,5 +89,10 @@ Block KaiminiDataPoints
 \pagebreak
 \bibliographystyle{utphys}
 \bibliography{kaimini}
+\phantom{\cite{Kaimini}}
+\phantom{\cite{SLHAea}}
+\phantom{\cite{Porod:2003um}}
+\phantom{\cite{James:1975dr}}
+\phantom{\cite{Skands:2003cj}}
 
 \end{document}

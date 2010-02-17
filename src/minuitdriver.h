@@ -1,4 +1,4 @@
-// Kaimini
+// Kaimini, a general purpose fitting frontend
 // Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
