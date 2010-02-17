@@ -23,6 +23,7 @@
 #include <Minuit2/MnMigrad.h>
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnMinos.h>
+#include <Minuit2/MnScan.h>
 #include <Minuit2/MnSimplex.h>
 #include "minuitdriver.h"
 #include "parameters.h"
@@ -47,6 +48,18 @@ FunctionMinimum MinuitDriver::runMigrad(unsigned int stra)
 FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
 {
   MnMinimize minimizer(*mpFit, mpFit->getIntParameters(), stra);
+  FunctionMinimum minimum = minimizer();
+  mpFit->processMinimum(&minimum);
+
+  mpMinimum.reset(new FunctionMinimum(minimum));
+  sanitize();
+  return minimum;
+}
+
+
+FunctionMinimum MinuitDriver::runScan(unsigned int stra)
+{
+  MnScan minimizer(*mpFit, mpFit->getIntParameters(), stra);
   FunctionMinimum minimum = minimizer();
   mpFit->processMinimum(&minimum);
 

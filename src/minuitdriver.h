@@ -34,6 +34,7 @@ public:
   ROOT::Minuit2::FunctionMinimum runMigrad(unsigned int stra = 1);
   ROOT::Minuit2::FunctionMinimum runMinimize(unsigned int stra = 1);
   ROOT::Minuit2::FunctionMinimum runSimplex(unsigned int stra = 1);
+  ROOT::Minuit2::FunctionMinimum runScan(unsigned int stra = 1);
 
   std::vector<ROOT::Minuit2::MinosError>
   runMinos(const ROOT::Minuit2::FunctionMinimum& minimum,
