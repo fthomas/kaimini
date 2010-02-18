@@ -20,7 +20,6 @@
 #include <cmath>
 #include <ostream>
 #include <string>
-#include <boost/random.hpp>
 #include "kaimini.h"
 
 namespace Kaimini {
@@ -52,23 +51,15 @@ struct DataPoint
     return wtSqResidual;
   }
 
-  double randomNormalError(double stddev)
+  double randomUniformError(double width)
   {
-    typedef boost::normal_distribution<> dist_type;
-    boost::variate_generator<random_generator_type&, dist_type>
-    random_error(random_generator, dist_type(0., stddev));
-
-    error = std::abs(random_error());
+    error = random_uniform(width);
     return error;
   }
 
-  double randomUniformError(double width)
+  double randomNormalError(double stddev)
   {
-    typedef boost::uniform_real<> dist_type;
-    boost::variate_generator<random_generator_type&, dist_type>
-    random_error(random_generator, dist_type(0., width));
-
-    error = std::abs(random_error());
+    error = std::abs(random_normal(stddev));
     return error;
   }
 

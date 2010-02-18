@@ -35,6 +35,40 @@ random_generator(static_cast<unsigned int>(time(0)) +
                  static_cast<unsigned int>(clock()));
 
 
+double random_uniform(double width)
+{
+  typedef boost::uniform_real<> dist_type;
+  boost::variate_generator<random_generator_type&, dist_type>
+  rnd_uniform(random_generator, dist_type(0., width));
+  return rnd_uniform();
+}
+
+
+double random_normal(double stddev)
+{
+  typedef boost::normal_distribution<> dist_type;
+  boost::variate_generator<random_generator_type&, dist_type>
+  rnd_normal(random_generator, dist_type(0., stddev));
+  return rnd_normal();
+}
+
+
+string random_string(size_t length)
+{
+  static const std::string alnum = "0123456789"
+    "abcdefghijklmnopqrstuvwxyz"
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  typedef boost::uniform_int<> dist_type;
+  boost::variate_generator<random_generator_type&, dist_type>
+  rnd(random_generator, dist_type(0, alnum.length()-1));
+
+  string retval;
+  while (0 != length--) retval += alnum[rnd()];
+  return retval;
+}
+
+
 void exit_field_not_found(const string& key)
 {
   cerr << "Error: could not find field referenced by ‘" << key
@@ -131,22 +165,6 @@ void parse_command_line(int argc, char** argv,
   }
 
   if (vm.count("quiet")) verbose_output = false;
-}
-
-
-string random_string(size_t length)
-{
-  static const std::string alnum = "0123456789"
-    "abcdefghijklmnopqrstuvwxyz"
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-  typedef boost::uniform_int<> dist_type;
-  boost::variate_generator<random_generator_type&, dist_type>
-  rnd(random_generator, dist_type(0, alnum.length()-1));
-
-  string retval;
-  while (0 != length--) retval += alnum[rnd()];
-  return retval;
 }
 
 

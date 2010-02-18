@@ -28,9 +28,15 @@ const std::string kaimini_version = "0.0.4";
 
 extern bool verbose_output;
 
-// Random number generator that is used in Kaimini.
+// Random number generator and associated auxiliary functions.
 typedef boost::mt19937 random_generator_type;
 extern random_generator_type random_generator;
+
+double random_uniform(double width);
+
+double random_normal(double stddev);
+
+std::string random_string(size_t length = 6);
 
 // Auxiliary functions/classes for error handling:
 void exit_field_not_found(const std::string& key);
@@ -53,8 +59,6 @@ public:
 // Miscellaneous auxiliary functions:
 void parse_command_line(int argc, char** argv,
                         std::string* ifile, std::string* ofile);
-
-std::string random_string(size_t length = 6);
 
 boost::filesystem::path
 temp_path(const boost::filesystem::path& p_template);
