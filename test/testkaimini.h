@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <string>
 #include "kaimini.h"
 
 using namespace std;
@@ -28,6 +29,35 @@ BOOST_AUTO_TEST_CASE(test_random_string)
     BOOST_CHECK(random_string(i).length() == i);
     BOOST_CHECK(random_string() != random_string());
   }
+}
+
+BOOST_AUTO_TEST_CASE(test_parse_error_string)
+{
+  double value  = 1.;
+  string errstr = "0.5";
+  BOOST_CHECK_CLOSE(parse_error_string(value, errstr), 0.5, 1e-6);
+
+  errstr = "5%";
+  BOOST_CHECK_CLOSE(parse_error_string(value, errstr), 0.05, 1e-6);
+
+  errstr = "110%";
+  BOOST_CHECK_CLOSE(parse_error_string(value, errstr), 1.1, 1e-6);
+
+  errstr = "uniform:0.25";
+  BOOST_CHECK_LE(parse_error_string(value, errstr), 0.25);
+  BOOST_CHECK_LE(0., parse_error_string(value, errstr));
+
+  errstr = "uniform:50%";
+  BOOST_CHECK_LE(parse_error_string(value, errstr), 0.50);
+  BOOST_CHECK_LE(0., parse_error_string(value, errstr));
+
+  errstr = "normal:0.25";
+  BOOST_CHECK_LE(parse_error_string(value, errstr), 4.*0.25);
+  BOOST_CHECK_LE(0., parse_error_string(value, errstr));
+
+  errstr = "normal:50%";
+  BOOST_CHECK_LE(parse_error_string(value, errstr), 4.*0.50);
+  BOOST_CHECK_LE(0., parse_error_string(value, errstr));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

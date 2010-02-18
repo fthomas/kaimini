@@ -56,45 +56,18 @@ void SLHAFit::setDataPoints(const SLHA& input)
       continue;
     }
 
-    // Parse the error string.
-    string error_str = (*line)[5];
-    bool normal_dist = false;
-    if (error_str.compare(0, 7, "normal:") == 0)
-    {
-      error_str = error_str.substr(7);
-      normal_dist = true;
-    }
-
-    string::iterator last_char = error_str.end()-1;
-    bool percentage = false;
-    if ('%' == *last_char)
-    {
-      error_str.erase(last_char);
-      percentage = true;
-    }
-
     DataPoint dp;
-    double error = 0.;
-
     try
     {
       dp.name  = (*line)[1];
       dp.use   = to_<bool>((*line)[3]);
       dp.value = to_<double>((*line)[4]);
-      error    = to_<double>(error_str);
+      dp.error = parse_error_string(dp.value, (*line)[5]);
     }
     catch (bad_lexical_cast&)
     {
       exit_line_not_parsed("KaiminiDataPoints", line->str());
     }
-
-    if (percentage)
-    { error *= 0.01 * dp.value; }
-
-    if (normal_dist)
-    { dp.randomNormalError(error); }
-    else
-    { dp.error = error; }
 
     mDataPoints.push_back(dp);
     mDataPointsKeys.push_back((*line)[2]);
@@ -152,18 +125,8 @@ void SLHAFit::setParameters(const SLHA& input)
 
     try
     {
-      // Parse the error string.
-      double error = 0.;
-      string error_str = (*line)[4];
-      string::iterator last_char = error_str.end()-1;
-      if ('%' == *last_char)
-      {
-        error_str.erase(last_char);
-        error = to_<double>(error_str) * 0.01 * mParamsExt.Value(name);
-      }
-      else
-      { error = to_<double>(error_str); }
-      mParamsExt.SetError(name, error);
+      mParamsExt.SetError(name,
+        parse_error_string(mParamsExt.Value(name), (*line)[4]));
 
       if (!to_<bool>((*line)[3])) mParamsExt.Fix(name);
 

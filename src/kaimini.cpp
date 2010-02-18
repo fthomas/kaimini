@@ -17,8 +17,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <ostream>
+#include <stdexcept>
 #include <string>
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
 #include "kaimini.h"
 
@@ -198,6 +200,48 @@ fs::path create_temp_directory(const fs::path& dp_template)
 
   fs::create_directory(temp_dir);
   return temp_dir;
+}
+
+
+double parse_error_string(double value, string error_str)
+{
+  if (error_str.empty())
+  { throw invalid_argument("parse_error_string(): error_str is empty"); }
+
+  bool normal  = false;
+  bool uniform = false;
+
+  if (error_str.compare(0, 7, "normal:") == 0)
+  {
+    error_str = error_str.substr(7);
+    normal = true;
+  }
+  else if (error_str.compare(0, 8, "uniform:") == 0)
+  {
+    error_str = error_str.substr(8);
+    uniform = true;
+  }
+
+  bool percentage = false;
+  string::iterator last_char = error_str.end()-1;
+
+  if ('%' == *last_char)
+  {
+    error_str.erase(last_char);
+    percentage = true;
+  }
+
+  double error = boost::lexical_cast<double>(error_str);
+
+  if (percentage)
+  { error *= 0.01 * value; }
+
+  if (normal)
+  { error = std::abs(random_normal(error)); }
+  else if (uniform)
+  { error = random_uniform(error); }
+
+  return error;
 }
 
 } // namespace Kaimini

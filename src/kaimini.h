@@ -28,7 +28,7 @@ const std::string kaimini_version = "0.0.4";
 
 extern bool verbose_output;
 
-// Random number generator and associated auxiliary functions.
+// Random number generator and associated auxiliary functions:
 typedef boost::mt19937 random_generator_type;
 extern random_generator_type random_generator;
 
@@ -65,6 +65,8 @@ temp_path(const boost::filesystem::path& p_template);
 
 boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dp_template);
+
+double parse_error_string(double value, std::string error_str);
 
 } // namespace Kaimini
 
