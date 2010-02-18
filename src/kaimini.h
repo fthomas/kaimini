@@ -32,9 +32,9 @@ extern bool verbose_output;
 typedef boost::mt19937 random_generator_type;
 extern random_generator_type random_generator;
 
-double random_uniform(double width);
+double random_uniform(double width = 1.);
 
-double random_normal(double stddev);
+double random_normal(double stddev = 1.);
 
 std::string random_string(size_t length = 6);
 

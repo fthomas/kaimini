@@ -63,6 +63,12 @@ public:
     mParamsExt = paramTransformIntToExt(intPar);
   }
 
+  std::vector<DataPoint> getDataPoints() const
+  { return mDataPoints; }
+
+  void setDataPoints(const std::vector<DataPoint>& dataPoints)
+  { mDataPoints = dataPoints; }
+
   virtual void
   processParams(const Parameters*) {}
 
