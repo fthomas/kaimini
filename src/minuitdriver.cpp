@@ -33,51 +33,54 @@ using namespace ROOT::Minuit2;
 
 namespace Kaimini {
 
-FunctionMinimum MinuitDriver::runMigrad(unsigned int stra)
+Parameters MinuitDriver::runMigrad(unsigned int stra)
 {
   MnMigrad minimizer(*mpFit, mpFit->getIntParameters(), stra);
-  FunctionMinimum minimum = minimizer();
-  mpFit->processMinimum(&minimum);
+  mpMinimum.reset(new FunctionMinimum(minimizer()));
+  mpFit->processMinimum(mpMinimum.get());
 
-  mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();
-  return minimum;
+  return mpMinimum->UserParameters();
 }
 
 
-FunctionMinimum MinuitDriver::runMinimize(unsigned int stra)
+Parameters MinuitDriver::runMinimize(unsigned int stra)
 {
   MnMinimize minimizer(*mpFit, mpFit->getIntParameters(), stra);
-  FunctionMinimum minimum = minimizer();
-  mpFit->processMinimum(&minimum);
+  mpMinimum.reset(new FunctionMinimum(minimizer()));
+  mpFit->processMinimum(mpMinimum.get());
 
-  mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();
-  return minimum;
+  return mpMinimum->UserParameters();
 }
 
 
-FunctionMinimum MinuitDriver::runScan(unsigned int stra)
+Parameters MinuitDriver::runScan(unsigned int stra)
 {
   MnScan minimizer(*mpFit, mpFit->getIntParameters(), stra);
-  FunctionMinimum minimum = minimizer();
-  mpFit->processMinimum(&minimum);
+  mpMinimum.reset(new FunctionMinimum(minimizer()));
+  mpFit->processMinimum(mpMinimum.get());
 
-  mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();
-  return minimum;
+  return mpMinimum->UserParameters();
 }
 
 
-FunctionMinimum MinuitDriver::runSimplex(unsigned int stra)
+Parameters MinuitDriver::runSimplex(unsigned int stra)
 {
   MnSimplex minimizer(*mpFit, mpFit->getIntParameters(), stra);
-  FunctionMinimum minimum = minimizer();
-  mpFit->processMinimum(&minimum);
+  mpMinimum.reset(new FunctionMinimum(minimizer()));
+  mpFit->processMinimum(mpMinimum.get());
 
-  mpMinimum.reset(new FunctionMinimum(minimum));
   sanitize();
-  return minimum;
+  return mpMinimum->UserParameters();
+}
+
+
+FunctionMinimum MinuitDriver::getFunctionMinimum()
+{
+  if (!mpMinimum) runMinimize();
+  return *mpMinimum;
 }
 
 

@@ -19,6 +19,7 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <Minuit2/MnPrint.h>
+//#include "erroranalysis.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
@@ -50,9 +51,12 @@ int main(int argc, char* argv[])
   //gsl_dr.runSimulatedAnnealing();
 
   MinuitDriver minuit_dr(&fit);
-  cout << minuit_dr.runMigrad();
-  //cout << minuit_dr.runMinimize();
+  //cout << minuit_dr.runMigrad();
+  cout << minuit_dr.runMinimize();
+  cout << minuit_dr.getFunctionMinimum();
   //cout << minuit_dr.runMinos();
+
+  //bounding_box(&fit, &minuit_dr, &MinuitDriver::runSimplex, fit.getIntParameters());
 
   fit.tearDown(output_file);
 

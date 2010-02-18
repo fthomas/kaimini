@@ -31,10 +31,23 @@ class MinuitDriver
 public:
   explicit MinuitDriver(GenericFit* fit) : mpFit(fit) {}
 
-  ROOT::Minuit2::FunctionMinimum runMigrad(unsigned int stra = 1);
-  ROOT::Minuit2::FunctionMinimum runMinimize(unsigned int stra = 1);
-  ROOT::Minuit2::FunctionMinimum runSimplex(unsigned int stra = 1);
-  ROOT::Minuit2::FunctionMinimum runScan(unsigned int stra = 1);
+  Parameters runMigrad(unsigned int stra);
+  Parameters runMigrad()
+  { return runMigrad(1); }
+
+  Parameters runMinimize(unsigned int stra);
+  Parameters runMinimize()
+  { return runMinimize(1); }
+
+  Parameters runScan(unsigned int stra);
+  Parameters runScan()
+  { return runScan(1); }
+
+  Parameters runSimplex(unsigned int stra);
+  Parameters runSimplex()
+  { return runSimplex(1); }
+
+  ROOT::Minuit2::FunctionMinimum getFunctionMinimum();
 
   std::vector<ROOT::Minuit2::MinosError>
   runMinos(const ROOT::Minuit2::FunctionMinimum& minimum,
