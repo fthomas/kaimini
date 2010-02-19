@@ -19,7 +19,7 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <Minuit2/MnPrint.h>
-//#include "erroranalysis.h"
+#include "erroranalysis.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
   //cout << minuit_dr.runMinos();
 
   //bounding_box(&fit, fit.getIntParameters(), &minuit_dr,
-  //  &MinuitDriver::runMinimize);
+  //  &MinuitDriver::runSimplex);
   //cout << minuit_dr.getFunctionMinimum();
 
   fit.tearDown(output_file);

@@ -1,5 +1,6 @@
 set(TEST_SOURCES
     testall.cpp
+    ../src/erroranalysis.cpp
     ../src/gsldriver.cpp
     ../src/kaimini.cpp
     ../src/minuitdriver.cpp

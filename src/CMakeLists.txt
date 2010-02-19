@@ -1,5 +1,6 @@
 set(Kaimini_TARGET kaimini)
 set(Kaimini_SOURCES
+    erroranalysis.cpp
     gsldriver.cpp
     kaimini.cpp
     main.cpp
