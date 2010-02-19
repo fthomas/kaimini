@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
+#include <iostream>
 #include <ostream>
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
@@ -23,8 +24,10 @@
 #include <Minuit2/MnMigrad.h>
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnMinos.h>
+#include <Minuit2/MnPrint.h>
 #include <Minuit2/MnScan.h>
 #include <Minuit2/MnSimplex.h>
+#include "kaimini.h"
 #include "minuitdriver.h"
 #include "parameters.h"
 
@@ -40,6 +43,7 @@ Parameters MinuitDriver::runMigrad(unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  if (verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -51,6 +55,7 @@ Parameters MinuitDriver::runMinimize(unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  if (verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -62,6 +67,7 @@ Parameters MinuitDriver::runScan(unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  if (verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -73,6 +79,7 @@ Parameters MinuitDriver::runSimplex(unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  if (verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -101,6 +108,7 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum, unsigned int stra)
 
   mpFit->processErrors(&errors);
   sanitize();
+  if (verbose_output) cout << errors;
   return errors;
 }
 

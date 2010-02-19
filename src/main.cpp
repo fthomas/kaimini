@@ -52,11 +52,13 @@ int main(int argc, char* argv[])
 
   MinuitDriver minuit_dr(&fit);
   //cout << minuit_dr.runMigrad();
-  cout << minuit_dr.runMinimize();
-  cout << minuit_dr.getFunctionMinimum();
+  minuit_dr.runMinimize();
+  //cout << minuit_dr.getFunctionMinimum();
   //cout << minuit_dr.runMinos();
 
-  //bounding_box(&fit, &minuit_dr, &MinuitDriver::runSimplex, fit.getIntParameters());
+  //bounding_box(&fit, fit.getIntParameters(), &minuit_dr,
+  //  &MinuitDriver::runMinimize);
+  //cout << minuit_dr.getFunctionMinimum();
 
   fit.tearDown(output_file);
 
