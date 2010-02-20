@@ -66,9 +66,7 @@ gsl_vector* Parameters::getVarParamsGSLVec() const
        mp != mps.end(); ++mp)
   {
     if (!mp->IsFixed() && !mp->IsConst())
-    {
-      gsl_vector_set(par, i++, mp->Value());
-    }
+    { gsl_vector_set(par, i++, mp->Value()); }
   }
   return par;
 }
@@ -84,9 +82,7 @@ gsl_vector* Parameters::getVarStepSizesGSLVec() const
        mp != mps.end(); ++mp)
   {
     if (!mp->IsFixed() && !mp->IsConst())
-    {
-      gsl_vector_set(step_sizes, i++, mp->Error());
-    }
+    { gsl_vector_set(step_sizes, i++, mp->Error()); }
   }
   return step_sizes;
 }
@@ -98,9 +94,7 @@ Parameters& Parameters::setVarParams(const vector<double>& v)
   for (size_t i = 0, j = 0; i < Params().size(); ++i)
   {
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
-    {
-      SetValue(i, v.at(j++));
-    }
+    { SetValue(i, v.at(j++)); }
   }
   return *this;
 }
@@ -112,9 +106,7 @@ Parameters& Parameters::setVarParams(const gsl_vector* v)
   for (size_t i = 0, j = 0; i < Params().size(); ++i)
   {
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
-    {
-      SetValue(i, gsl_vector_get(v, j++));
-    }
+    { SetValue(i, gsl_vector_get(v, j++)); }
   }
   return *this;
 }

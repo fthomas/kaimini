@@ -71,7 +71,7 @@ struct DataPoint
 };
 
 
-template<class InputIterator> inline double
+template<typename InputIterator> inline double
 sumWtSqResiduals(InputIterator first, InputIterator last)
 {
   double sum = 0.;

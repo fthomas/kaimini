@@ -36,7 +36,7 @@ using namespace ROOT::Minuit2;
 
 namespace Kaimini {
 
-Parameters MinuitDriver::runMigrad(unsigned int stra)
+Parameters MinuitDriver::runMigrad(const unsigned int stra)
 {
   MnMigrad minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
@@ -48,7 +48,7 @@ Parameters MinuitDriver::runMigrad(unsigned int stra)
 }
 
 
-Parameters MinuitDriver::runMinimize(unsigned int stra)
+Parameters MinuitDriver::runMinimize(const unsigned int stra)
 {
   MnMinimize minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
@@ -60,7 +60,7 @@ Parameters MinuitDriver::runMinimize(unsigned int stra)
 }
 
 
-Parameters MinuitDriver::runScan(unsigned int stra)
+Parameters MinuitDriver::runScan(const unsigned int stra)
 {
   MnScan minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
@@ -72,7 +72,7 @@ Parameters MinuitDriver::runScan(unsigned int stra)
 }
 
 
-Parameters MinuitDriver::runSimplex(unsigned int stra)
+Parameters MinuitDriver::runSimplex(const unsigned int stra)
 {
   MnSimplex minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
@@ -92,7 +92,8 @@ FunctionMinimum MinuitDriver::getFunctionMinimum()
 
 
 vector<MinosError>
-MinuitDriver::runMinos(const FunctionMinimum& minimum, unsigned int stra)
+MinuitDriver::runMinos(const FunctionMinimum& minimum,
+                       const unsigned int stra)
 {
   MnMinos minos(*mpFit, minimum, stra);
 
@@ -114,7 +115,7 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum, unsigned int stra)
 
 
 vector<MinosError>
-MinuitDriver::runMinos(unsigned int stra)
+MinuitDriver::runMinos(const unsigned int stra)
 {
   if (!mpMinimum) runMinimize();
   return runMinos(*mpMinimum, stra);

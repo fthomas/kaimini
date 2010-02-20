@@ -37,7 +37,7 @@ random_generator(static_cast<unsigned int>(time(0)) +
                  static_cast<unsigned int>(clock()));
 
 
-double random_uniform(double width)
+double random_uniform(const double width)
 {
   typedef boost::uniform_real<> dist_type;
   boost::variate_generator<random_generator_type&, dist_type>
@@ -46,7 +46,7 @@ double random_uniform(double width)
 }
 
 
-double random_normal(double stddev)
+double random_normal(const double stddev)
 {
   typedef boost::normal_distribution<> dist_type;
   boost::variate_generator<random_generator_type&, dist_type>
@@ -203,7 +203,7 @@ fs::path create_temp_directory(const fs::path& dp_template)
 }
 
 
-double parse_error_string(double value, string error_str)
+double parse_error_string(const double value, string error_str)
 {
   if (error_str.empty())
   { throw invalid_argument("parse_error_string(): error_str is empty"); }

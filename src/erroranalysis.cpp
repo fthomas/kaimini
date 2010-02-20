@@ -28,7 +28,7 @@ using namespace std;
 
 namespace Kaimini {
 
-template<class Driver> void
+template<typename Driver> void
 bounding_box(GenericFit* fit, const Parameters& minPar,
              Driver* driver, Parameters (Driver::*minimize)())
 {

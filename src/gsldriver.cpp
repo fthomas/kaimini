@@ -140,7 +140,7 @@ void GSLDriver::runSimulatedAnnealing()
 }
 
 
-double gsl_vector_minkowski_dist(void* v1, void* v2, double p)
+double gsl_vector_minkowski_dist(void* v1, void* v2, const double p)
 {
   gsl_vector* vx = static_cast<gsl_vector*>(v1);
   gsl_vector* vy = static_cast<gsl_vector*>(v2);
@@ -159,7 +159,7 @@ double gsl_vector_minkowski_dist(void* v1, void* v2, double p)
 }
 
 
-void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
+void gsl_vector_step_random(const gsl_rng* r, void* v, const double step_size)
 {
   gsl_vector* v_old = static_cast<gsl_vector*>(v);
   const size_t n = v_old->size;
