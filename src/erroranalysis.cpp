@@ -59,8 +59,7 @@ bounding_box(GenericFit* fit, const Parameters& minPar,
   }
 
   cout << endl;
-  pair_first_less<double, Parameters> cmp_obj;
-  sort(rnd_params.begin(), rnd_params.end(), cmp_obj);
+  sort(rnd_params.begin(), rnd_params.end());
 
   //cout << endl;
   for (int i= 0; i < 10; ++i)

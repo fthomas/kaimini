@@ -18,6 +18,7 @@
 #define KAIMINI_PARAMETERS_H
 
 #include <ostream>
+#include <utility>
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/MinuitParameter.h>
@@ -65,6 +66,11 @@ operator<<(std::ostream& os, const ROOT::Minuit2::MinuitParameter& mp);
 
 std::ostream&
 operator<<(std::ostream& os, const Parameters& par);
+
+template<class T1> inline bool
+operator<(const std::pair<T1, Parameters>& x,
+          const std::pair<T1, Parameters>& y)
+{ return x.first < y.first; }
 
 } // namespace Kaimini
 

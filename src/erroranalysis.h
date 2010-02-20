@@ -17,22 +17,10 @@
 #ifndef KAIMINI_ERRORANALYSIS_H
 #define KAIMINI_ERRORANALYSIS_H
 
-#include <functional>
-#include <utility>
 #include "genericfit.h"
 #include "parameters.h"
 
 namespace Kaimini {
-
-template<class T1, class T2>
-struct pair_first_less :
-  public std::binary_function<std::pair<T1, T2>, std::pair<T1, T2>, bool>
-{
-  inline bool
-  operator()(const std::pair<T1, T2>& x, const std::pair<T1, T2>& y) const
-  { return x.first < y.first; }
-};
-
 
 template<class Driver> void
 bounding_box(GenericFit* fit, const Parameters& minPar,
