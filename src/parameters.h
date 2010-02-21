@@ -67,10 +67,22 @@ operator<<(std::ostream& os, const ROOT::Minuit2::MinuitParameter& mp);
 std::ostream&
 operator<<(std::ostream& os, const Parameters& par);
 
-template<class T1> inline bool
-operator<(const std::pair<T1, Parameters>& x,
-          const std::pair<T1, Parameters>& y)
-{ return x.first < y.first; }
+inline bool
+operator<(const Parameters& a, const Parameters& b)
+{ return a.Params() < b.Params()
+  || (!(b.Params() < a.Params()) && a.Errors() < b.Errors()); }
+
+inline bool
+operator>(const Parameters& a, const Parameters& b)
+{ return b < a; }
+
+inline bool
+operator<=(const Parameters& a, const Parameters& b)
+{ return !(b < a); }
+
+inline bool
+operator>=(const Parameters& a, const Parameters& b)
+{ return !(a < b); }
 
 } // namespace Kaimini
 
