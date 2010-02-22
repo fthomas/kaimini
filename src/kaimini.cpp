@@ -57,7 +57,7 @@ double random_normal(const double stddev)
 
 string random_string(size_t length)
 {
-  static const std::string alnum = "0123456789"
+  static const string alnum = "0123456789"
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -203,35 +203,35 @@ fs::path create_temp_directory(const fs::path& dp_template)
 }
 
 
-double parse_error_string(const double value, string error_str)
+double parse_error_string(const double value, string errorStr)
 {
-  if (error_str.empty())
-  { throw invalid_argument("parse_error_string(): error_str is empty"); }
+  if (errorStr.empty())
+  { throw invalid_argument("parse_error_string(): errorStr is empty"); }
 
   bool normal  = false;
   bool uniform = false;
 
-  if (error_str.compare(0, 7, "normal:") == 0)
+  if (errorStr.compare(0, 7, "normal:") == 0)
   {
-    error_str = error_str.substr(7);
+    errorStr = errorStr.substr(7);
     normal = true;
   }
-  else if (error_str.compare(0, 8, "uniform:") == 0)
+  else if (errorStr.compare(0, 8, "uniform:") == 0)
   {
-    error_str = error_str.substr(8);
+    errorStr = errorStr.substr(8);
     uniform = true;
   }
 
   bool percentage = false;
-  string::iterator last_char = error_str.end()-1;
+  string::iterator last_char = errorStr.end()-1;
 
   if ('%' == *last_char)
   {
-    error_str.erase(last_char);
+    errorStr.erase(last_char);
     percentage = true;
   }
 
-  double error = boost::lexical_cast<double>(error_str);
+  double error = boost::lexical_cast<double>(errorStr);
 
   if (percentage)
   { error *= 0.01 * value; }

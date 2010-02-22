@@ -66,7 +66,7 @@ temp_path(const boost::filesystem::path& p_template);
 boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dp_template);
 
-double parse_error_string(double value, std::string error_str);
+double parse_error_string(double value, std::string errorStr);
 
 } // namespace Kaimini
 
