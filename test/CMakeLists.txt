@@ -1,12 +1,6 @@
-set(TEST_SOURCES
-    testall.cpp
-    ../src/erroranalysis.cpp
-    ../src/gsldriver.cpp
-    ../src/kaimini.cpp
-    ../src/minuitdriver.cpp
-    ../src/parameters.cpp
-    ../src/simpleslhafit.cpp
-    ../src/slhafit.cpp)
+file(GLOB Kaimini_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ../src/*.cpp)
+list(REMOVE_ITEM Kaimini_SOURCES ../src/main.cpp)
+set(TEST_SOURCES testall.cpp ${Kaimini_SOURCES})
 set(TEST_LIBRARIES
     ${Boost_LIBRARIES}
     ${Minuit2_LIBRARIES}

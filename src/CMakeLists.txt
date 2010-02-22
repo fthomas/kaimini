@@ -1,13 +1,5 @@
+file(GLOB Kaimini_SOURCES *.cpp)
 set(Kaimini_TARGET kaimini)
-set(Kaimini_SOURCES
-    erroranalysis.cpp
-    gsldriver.cpp
-    kaimini.cpp
-    main.cpp
-    minuitdriver.cpp
-    parameters.cpp
-    simpleslhafit.cpp
-    slhafit.cpp)
 set(Kaimini_LIBRARIES
     ${Boost_FILESYSTEM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARIES}
     ${Minuit2_LIBRARIES}
