@@ -14,18 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <algorithm>
 #include <cmath>
-#include <gsl/gsl_rng.h>
+#include <functional>
+#include <vector>
 #include <gsl/gsl_vector.h>
 #include "gslaux.h"
-#include "gsldriver.h"
+#include "random.h"
 
 using namespace std;
 using namespace Kaimini;
 
-BOOST_AUTO_TEST_SUITE(TestGSLDriver)
+BOOST_AUTO_TEST_SUITE(TestGSLAux)
 
-BOOST_AUTO_TEST_CASE(testDistance)
+BOOST_AUTO_TEST_CASE(test_gsl_vector_minkowski_dist)
 {
   // Test with 1D vectors.
   gsl_vector* d1x = gsl_vector_alloc(1);
@@ -74,70 +76,50 @@ BOOST_AUTO_TEST_CASE(testDistance)
   gsl_vector_free(d2y);
 }
 
-BOOST_AUTO_TEST_CASE(testStepRandom)
+void test_gsl_vector_step_random_helper(int dim, double radius)
 {
-  const gsl_rng_type* T;
-  gsl_rng* r;
+  const int bins = 5;
+  const int n = 5000;
+  vector<double> shell(bins, 0.);
 
-  gsl_rng_env_setup();
-
-  T = gsl_rng_default;
-  r = gsl_rng_alloc(T);
-
-  // Test gsl_vector_step_random in 2D.
-  gsl_vector* zero = gsl_vector_alloc(2);
-  gsl_vector* x    = gsl_vector_alloc(2);
+  gsl_vector* zero = gsl_vector_alloc(dim);
+  gsl_vector* x    = gsl_vector_alloc(dim);
   gsl_vector_set_zero(zero);
 
-  int lt1 = 0, lt2 = 0, lt3 = 0;
-
-  for (int i = 0; i < 1000; ++i)
+  for (int i = 0; i < n; ++i)
   {
     gsl_vector_set_zero(x);
-    gsl_vector_step_random(r, x, 3.);
+    gsl_vector_step_random(g_rnd.gsl_engine, x, radius);
 
-    if      (gsl_vector_dist(zero, x) < sqrt(1./3.)*3.) ++lt1;
-    else if (gsl_vector_dist(zero, x) < sqrt(2./3.)*3.) ++lt2;
-    else if (gsl_vector_dist(zero, x) < sqrt(3./3.)*3.) ++lt3;
+    for (int j = 0; j < bins; ++j)
+    {
+      double f = static_cast<double>(j+1) / bins;
+      if (gsl_vector_dist(zero, x) < (pow(f, 1./dim) * radius))
+      {
+        shell[j] += 1.;
+        break;
+      }
+    }
   }
+
+  transform(shell.begin(), shell.end(), shell.begin(),
+            bind2nd(divides<double>(), static_cast<double>(n)));
+
+  for (vector<double>::const_iterator it = shell.begin(); it != shell.end();
+       ++it)
+  { BOOST_CHECK_CLOSE(*it, 1./bins, 10); }
 
   gsl_vector_free(zero);
   gsl_vector_free(x);
+}
 
-  BOOST_CHECK(233 <= lt1 && lt1 < 433);
-  BOOST_CHECK(233 <= lt2 && lt2 < 433);
-  BOOST_CHECK(233 <= lt3 && lt3 < 433);
-  BOOST_CHECK(lt1 + lt2 + lt3 == 1000);
-
-  // Test gsl_vector_step_random in 6D.
-  zero = gsl_vector_alloc(6);
-  x    = gsl_vector_alloc(6);
-  gsl_vector_set_zero(zero);
-
-  lt3 = lt2 = lt1 = 0;
-  int lt4 = 0;
-
-  for (int i = 0; i < 1000; ++i)
-  {
-    gsl_vector_set_zero(x);
-    gsl_vector_step_random(r, x, 8.);
-
-    if      (gsl_vector_dist(zero, x) < pow(1./4., 1./6.) * 8.) ++lt1;
-    else if (gsl_vector_dist(zero, x) < pow(2./4., 1./6.) * 8.) ++lt2;
-    else if (gsl_vector_dist(zero, x) < pow(3./4., 1./6.) * 8.) ++lt3;
-    else if (gsl_vector_dist(zero, x) < pow(4./4., 1./6.) * 8.) ++lt4;
-  }
-
-  gsl_vector_free(zero);
-  gsl_vector_free(x);
-
-  BOOST_CHECK(150 <= lt1 && lt1 < 350);
-  BOOST_CHECK(150 <= lt2 && lt2 < 350);
-  BOOST_CHECK(150 <= lt3 && lt3 < 350);
-  BOOST_CHECK(150 <= lt4 && lt4 < 350);
-  BOOST_CHECK(lt1 + lt2 + lt3 + lt4 == 1000);
-
-  gsl_rng_free(r);
+BOOST_AUTO_TEST_CASE(test_gsl_vector_step_random)
+{
+  test_gsl_vector_step_random_helper(2, 1.);
+  test_gsl_vector_step_random_helper(3, 2.);
+  test_gsl_vector_step_random_helper(4, 3.5);
+  test_gsl_vector_step_random_helper(10, 0.02);
+  test_gsl_vector_step_random_helper(20, 5.1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
