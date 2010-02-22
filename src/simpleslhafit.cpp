@@ -123,7 +123,7 @@ double SimpleSLHAFit::chiSquare(const vector<double>& v) const
   ifs.close();
   readDataPoints(output);
 
-  mChiSq = sumWtSqResiduals(mDataPoints.begin(), mDataPoints.end());
+  mChiSq = sum_wt_sq_residuals(mDataPoints);
 
   if (verbose_output)
   {

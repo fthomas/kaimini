@@ -72,20 +72,18 @@ struct DataPoint
 };
 
 
-template<typename InputIterator> inline double
-sumWtSqResiduals(InputIterator first, InputIterator last)
+template<template <typename E, typename A = std::allocator<E> > class Cont>
+inline double sum_wt_sq_residuals(const Cont<DataPoint>& dps)
 {
   double sum = 0.;
-  for (; first != last; ++first)
-  {
-    if (first->use) sum += first->calcWtSqResidual();
-  }
+  for (typename Cont<DataPoint>::const_iterator dp = dps.begin();
+       dp != dps.end(); ++dp)
+  { if (dp->use) sum += dp->calcWtSqResidual(); }
   return sum;
 }
 
 
-inline std::ostream&
-operator<<(std::ostream& os, const DataPoint& dp)
+inline std::ostream& operator<<(std::ostream& os, const DataPoint& dp)
 {
   os << "DataPoint:"                             << std::endl
      << "    name         : " << dp.name         << std::endl
@@ -98,8 +96,7 @@ operator<<(std::ostream& os, const DataPoint& dp)
 }
 
 template<template <typename E, typename A = std::allocator<E> > class Cont>
-inline std::ostream&
-operator<<(std::ostream& os, const Cont<DataPoint>& dps)
+inline std::ostream& operator<<(std::ostream& os, const Cont<DataPoint>& dps)
 {
   os << "DataPoints:" << std::endl;
   for (typename Cont<DataPoint>::const_iterator dp = dps.begin();
