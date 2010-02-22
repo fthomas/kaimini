@@ -1,10 +1,10 @@
 #ifndef BOOST_RANDOM_UNIFORM_IN_SPHERE_HPP
 #define BOOST_RANDOM_UNIFORM_IN_SPHERE_HPP
 
-#include <algorithm>
+#include <algorithm>    // std::transform
 #include <cassert>
-#include <cmath>
-#include <functional>
+#include <cmath>        // std::pow, std::sqrt
+#include <functional>   // std::bind2nd, std::multiplies
 #include <vector>
 #include <boost/random/detail/config.hpp>
 #include <boost/random/normal_distribution.hpp>
@@ -51,6 +51,25 @@ public:
                    std::bind2nd(std::multiplies<RealType>(), scale));
     return _container;
   }
+
+#ifndef BOOST_RANDOM_NO_STREAM_OPERATORS
+  template<class CharT, class Traits>
+  friend std::basic_ostream<CharT, Traits>&
+  operator<<(std::basic_ostream<CharT, Traits>& os, const uniform_in_sphere& sd)
+  {
+    os << sd._dim << " " << sd._radius;
+    return os;
+  }
+
+  template<class CharT, class Traits>
+  friend std::basic_istream<CharT, Traits>&
+  operator>>(std::basic_istream<CharT, Traits>& is, uniform_in_sphere& sd)
+  {
+    is >> std::ws >> sd._dim >> std::ws >> sd._radius;
+    sd._container.resize(sd._dim);
+    return is;
+  }
+#endif
 
 private:
   normal_distribution<RealType> _normal;
