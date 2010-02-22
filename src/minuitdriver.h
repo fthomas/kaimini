@@ -17,6 +17,7 @@
 #ifndef KAIMINI_MINUITDRIVER_H
 #define KAIMINI_MINUITDRIVER_H
 
+#include <memory>
 #include <ostream>
 #include <vector>
 #include <boost/scoped_ptr.hpp>
@@ -65,9 +66,22 @@ private:
 };
 
 
-std::ostream&
-operator<<(std::ostream& os,
-           const std::vector<ROOT::Minuit2::MinosError>& errors);
+template<template <typename E, typename A = std::allocator<E> > class Cont>
+inline std::ostream&
+operator<<(std::ostream& os, const Cont<ROOT::Minuit2::MinosError>& errors)
+{
+  os << "MinosErrors:" << std::endl;
+  for (typename Cont<ROOT::Minuit2::MinosError>::const_iterator
+       err = errors.begin(); err != errors.end(); ++err)
+  {
+    os << "    - number : "  << err->Parameter() << std::endl
+       << "      valid  : "  << err->IsValid()   << std::endl
+       << "      lower  : "  << err->Lower()     << std::endl
+       << "      upper  :  " << err->Upper()     << std::endl
+       << std::endl;
+  }
+  return os;
+}
 
 } // namespace Kaimini
 
