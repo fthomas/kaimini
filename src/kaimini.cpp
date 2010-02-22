@@ -14,8 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstdlib>
-#include <ctime>
+#include <cstddef>
 #include <ostream>
 #include <stdexcept>
 #include <string>
@@ -23,6 +22,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
 #include "kaimini.h"
+#include "random.h"
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -30,45 +30,7 @@ namespace po = boost::program_options;
 
 namespace Kaimini {
 
-bool verbose_output = true;
-
-random_generator_type
-random_generator(static_cast<unsigned int>(time(0)) +
-                 static_cast<unsigned int>(clock()));
-
-
-double random_uniform(const double width)
-{
-  typedef boost::uniform_real<> dist_type;
-  boost::variate_generator<random_generator_type&, dist_type>
-  rnd_uniform(random_generator, dist_type(0., width));
-  return rnd_uniform();
-}
-
-
-double random_normal(const double stddev)
-{
-  typedef boost::normal_distribution<> dist_type;
-  boost::variate_generator<random_generator_type&, dist_type>
-  rnd_normal(random_generator, dist_type(0., stddev));
-  return rnd_normal();
-}
-
-
-string random_string(size_t length)
-{
-  static const string alnum = "0123456789"
-    "abcdefghijklmnopqrstuvwxyz"
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-  typedef boost::uniform_int<> dist_type;
-  boost::variate_generator<random_generator_type&, dist_type>
-  rnd(random_generator, dist_type(0, alnum.length()-1));
-
-  string retval;
-  while (0 != length--) retval += alnum[rnd()];
-  return retval;
-}
+bool g_verbose_output = true;
 
 
 void exit_field_not_found(const string& key)
@@ -162,44 +124,11 @@ void parse_command_line(int argc, char** argv,
 
   if (vm.count("version"))
   {
-    cout << "kaimini " << kaimini_version << endl;
+    cout << "kaimini " << g_kaimini_version << endl;
     exit(EXIT_SUCCESS);
   }
 
-  if (vm.count("quiet")) verbose_output = false;
-}
-
-
-fs::path temp_path(const fs::path& p_template)
-{
-  string name = p_template.leaf();
-  size_t len = 0;
-
-  string::reverse_iterator it = name.rbegin();
-  while (it != name.rend() && 'X' == *it++) ++len;
-
-  size_t pos = name.length() - len;
-  if (len < 6)
-  {
-    name.resize(pos + 6, 'X');
-    len = 6;
-  }
-  name.replace(pos, len, random_string(len));
-
-  fs::path temp_p = p_template.branch_path() / name;
-  return temp_p;
-}
-
-
-fs::path create_temp_directory(const fs::path& dp_template)
-{
-  fs::path temp_dir;
-
-  do temp_dir = temp_path(dp_template);
-  while (fs::exists(temp_dir));
-
-  fs::create_directory(temp_dir);
-  return temp_dir;
+  if (vm.count("quiet")) g_verbose_output = false;
 }
 
 
@@ -237,11 +166,44 @@ double parse_error_string(const double value, string errorStr)
   { error *= 0.01 * value; }
 
   if (normal)
-  { error = std::abs(random_normal(error)); }
+  { error = std::abs(g_rnd.randNormal(error)); }
   else if (uniform)
-  { error = random_uniform(error); }
+  { error = g_rnd.randUniformReal(error); }
 
   return error;
+}
+
+
+fs::path temp_path(const fs::path& p_template)
+{
+  string name = p_template.leaf();
+  size_t len = 0;
+
+  string::reverse_iterator it = name.rbegin();
+  while (it != name.rend() && 'X' == *it++) ++len;
+
+  size_t pos = name.length() - len;
+  if (len < 6)
+  {
+    name.resize(pos + 6, 'X');
+    len = 6;
+  }
+  name.replace(pos, len, g_rnd.randString(len));
+
+  fs::path temp_p = p_template.branch_path() / name;
+  return temp_p;
+}
+
+
+fs::path create_temp_directory(const fs::path& dp_template)
+{
+  fs::path temp_dir;
+
+  do temp_dir = temp_path(dp_template);
+  while (fs::exists(temp_dir));
+
+  fs::create_directory(temp_dir);
+  return temp_dir;
 }
 
 } // namespace Kaimini

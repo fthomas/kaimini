@@ -22,6 +22,7 @@
 #include <ostream>
 #include <string>
 #include "kaimini.h"
+#include "random.h"
 
 namespace Kaimini {
 
@@ -54,13 +55,13 @@ struct DataPoint
 
   double randomUniformError(double width)
   {
-    error = random_uniform(width);
+    error = g_rnd.randUniformReal(width);
     return error;
   }
 
   double randomNormalError(double stddev)
   {
-    error = std::abs(random_normal(stddev));
+    error = std::abs(g_rnd.randNormal(stddev));
     return error;
   }
 

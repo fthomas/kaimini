@@ -20,23 +20,12 @@
 #include <stdexcept>
 #include <string>
 #include <boost/filesystem.hpp>
-#include <boost/random.hpp>
 
 namespace Kaimini {
 
-const std::string kaimini_version = "0.0.4";
+const std::string g_kaimini_version = "0.0.4-25-g920b824";
 
-extern bool verbose_output;
-
-// Random number generator and associated auxiliary functions:
-typedef boost::mt19937 random_generator_type;
-extern random_generator_type random_generator;
-
-double random_uniform(double width = 1.);
-
-double random_normal(double stddev = 1.);
-
-std::string random_string(size_t length = 6);
+extern bool g_verbose_output;
 
 // Auxiliary functions/classes for error handling:
 void exit_field_not_found(const std::string& key);
@@ -60,13 +49,13 @@ public:
 void parse_command_line(int argc, char** argv,
                         std::string* ifile, std::string* ofile);
 
+double parse_error_string(double value, std::string errorStr);
+
 boost::filesystem::path
 temp_path(const boost::filesystem::path& p_template);
 
 boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dp_template);
-
-double parse_error_string(double value, std::string errorStr);
 
 } // namespace Kaimini
 

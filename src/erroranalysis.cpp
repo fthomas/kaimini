@@ -23,6 +23,7 @@
 #include "gsldriver.h"
 #include "minuitdriver.h"
 #include "parameters.h"
+#include "random.h"
 
 using namespace std;
 
@@ -47,7 +48,7 @@ bounding_box(GenericFit* fit, const Parameters& minPar,
     rnd_dps = min_dps;
     for (vector<DataPoint>::iterator dp = rnd_dps.begin();
          dp != rnd_dps.end(); ++dp)
-    { if (dp->use) dp->value += random_normal(dp->error); }
+    { if (dp->use) dp->value += g_rnd.randNormal(dp->error); }
 
     fit->setDataPoints(rnd_dps);
     Parameters par = (driver->*minimize)();

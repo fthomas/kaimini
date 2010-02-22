@@ -304,7 +304,7 @@ const SLHA& SLHAFit::result()
 
   block = "KaiminiInfo";
   mResult[block]["BLOCK"] = "BLOCK " + block;
-  mResult[block][""] << "1" << kaimini_version << "# version number";
+  mResult[block][""] << "1" << g_kaimini_version << "# version number";
   return mResult;
 }
 

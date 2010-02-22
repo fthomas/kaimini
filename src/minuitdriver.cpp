@@ -43,7 +43,7 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
-  if (verbose_output) cout << *mpMinimum;
+  if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -55,7 +55,7 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
-  if (verbose_output) cout << *mpMinimum;
+  if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -67,7 +67,7 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
-  if (verbose_output) cout << *mpMinimum;
+  if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -79,7 +79,7 @@ Parameters MinuitDriver::runSimplex(const unsigned int stra)
   mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
-  if (verbose_output) cout << *mpMinimum;
+  if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
 
@@ -109,7 +109,7 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum,
 
   mpFit->processErrors(&errors);
   sanitize();
-  if (verbose_output) cout << errors;
+  if (g_verbose_output) cout << errors;
   return errors;
 }
 

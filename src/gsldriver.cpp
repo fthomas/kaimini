@@ -95,7 +95,7 @@ Parameters GSLDriver::runSimplex()
   // cached variables in mspFit correspond to the found minimum.
   chiSquare(minimizer->x);
 
-  if (verbose_output)
+  if (g_verbose_output)
   {
     cout << "iter   :  " << iter << endl;
     for (size_t i = 0; i < func.n; ++i)
