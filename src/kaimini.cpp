@@ -33,6 +33,14 @@ namespace Kaimini {
 bool g_verbose_output = true;
 
 
+void exit_block_not_found(const string& block)
+{
+  cerr << "Error: could not find block ‘" << block
+       << "’ in SLHA structure" << endl;
+  exit(EXIT_FAILURE);
+}
+
+
 void exit_field_not_found(const string& key)
 {
   cerr << "Error: could not find field referenced by ‘" << key

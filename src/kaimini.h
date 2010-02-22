@@ -17,7 +17,6 @@
 #ifndef KAIMINI_KAIMINI_H
 #define KAIMINI_KAIMINI_H
 
-#include <stdexcept>
 #include <string>
 #include <boost/filesystem.hpp>
 
@@ -28,6 +27,8 @@ const std::string g_kaimini_version = "0.0.4-25-g920b824";
 extern bool g_verbose_output;
 
 // Auxiliary functions/classes for error handling:
+void exit_block_not_found(const std::string& block);
+
 void exit_field_not_found(const std::string& key);
 
 void exit_file_open_failed(const std::string& filename);
@@ -37,13 +38,6 @@ void exit_line_not_parsed(const std::string& block, const std::string& line);
 void exit_value_not_parsed(const std::string& key, const std::string& value);
 
 void warn_line_ignored(const std::string& block, const std::string& line);
-
-class ExBlockNotFound : public std::runtime_error
-{
-public:
-  explicit ExBlockNotFound(const std::string& msg)
-    : std::runtime_error(msg) {}
-};
 
 // Miscellaneous auxiliary functions:
 void parse_command_line(int argc, char** argv,

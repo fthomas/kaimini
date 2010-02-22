@@ -41,7 +41,7 @@ void SLHAFit::setDataPoints(const SLHA& input)
 {
   SLHA::const_iterator block = input.find("KaiminiDataPoints");
   if (input.end() == block)
-  { throw ExBlockNotFound("SLHAFit::setDataPoints(): KaiminiDataPoints"); }
+  { exit_block_not_found("KaiminiDataPoints"); }
 
   mDataPoints.clear();
   mDataPointsKeys.clear();
@@ -79,7 +79,7 @@ void SLHAFit::setParameters(const SLHA& input)
 {
   SLHA::const_iterator block = input.find("KaiminiParameters");
   if (input.end() == block)
-  { throw ExBlockNotFound("SLHAFit::setParameters(): KaiminiParameters"); }
+  { exit_block_not_found("KaiminiParameters"); }
 
   mParamsExt = Parameters(); // Erase old parameters.
   mParamsKeys.clear();
