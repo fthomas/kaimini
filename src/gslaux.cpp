@@ -43,14 +43,12 @@ gsl_vector* stl_to_gsl_vector(const vector<double>& v)
 }
 
 
-double gsl_vector_minkowski_dist(void* v1, void* v2, const double p)
+double gsl_vector_minkowski_dist(const gsl_vector* v1,
+                                 const gsl_vector* v2, const double p)
 {
-  gsl_vector* vx = static_cast<gsl_vector*>(v1);
-  gsl_vector* vy = static_cast<gsl_vector*>(v2);
-
-  gsl_vector* diff = gsl_vector_alloc(vx->size);
-  gsl_vector_memcpy(diff, vx);
-  gsl_vector_sub(diff, vy);
+  gsl_vector* diff = gsl_vector_alloc(v1->size);
+  gsl_vector_memcpy(diff, v1);
+  gsl_vector_sub(diff, v2);
 
   double retval = 0.;
   for (size_t i = 0; i < diff->size; ++i)
@@ -62,30 +60,30 @@ double gsl_vector_minkowski_dist(void* v1, void* v2, const double p)
 }
 
 
-void gsl_vector_step_random(const gsl_rng* r, void* v, const double step_size)
+void gsl_vector_step_random(const gsl_rng* r, gsl_vector* v,
+                            const double step_size)
 {
-  gsl_vector* v_old = static_cast<gsl_vector*>(v);
-  const size_t n = v_old->size;
-  gsl_vector* v_new = gsl_vector_alloc(n);
+  const size_t n = v->size;
+  gsl_vector* vp = gsl_vector_alloc(n);
 
   // Set normal distributed random numbers as elements of v_new and
   // compute the euclidean norm of this vector.
   double length = 0.;
   for (size_t i = 0; i < n; ++i)
   {
-    double* v_new_i = gsl_vector_ptr(v_new, i);
-    *v_new_i = gsl_ran_ugaussian(r);
-    length += pow(*v_new_i, 2);
+    double* vp_i = gsl_vector_ptr(vp, i);
+    *vp_i = gsl_ran_ugaussian(r);
+    length += pow(*vp_i, 2);
   }
   length = sqrt(length);
 
-  // Scale v_new so that the elements of v_new are uniformly distributed
+  // Scale vp so that the elements of vp are uniformly distributed
   // within an n-sphere of radius step_size.
   const double scale = pow(pow(step_size, static_cast<int>(n))
     * gsl_rng_uniform_pos(r), 1.0/n) / length;
-  gsl_vector_scale(v_new, scale);
+  gsl_vector_scale(vp, scale);
 
-  gsl_vector_add(v_old, v_new);
+  gsl_vector_add(v, vp);
 }
 
 } // namespace Kaimini

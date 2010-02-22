@@ -23,16 +23,35 @@
 
 namespace Kaimini {
 
-std::vector<double> gsl_to_stl_vector(const gsl_vector* v);
+std::vector<double>
+gsl_to_stl_vector(const gsl_vector* v);
 
-gsl_vector* stl_to_gsl_vector(const std::vector<double>& v);
+gsl_vector*
+stl_to_gsl_vector(const std::vector<double>& v);
 
-double gsl_vector_minkowski_dist(void* v1, void* v2, double p);
+double
+gsl_vector_minkowski_dist(const gsl_vector* v1, const gsl_vector* v2,
+                          double p);
 
-inline double gsl_vector_dist(void* v1, void* v2)
+inline double
+gsl_vector_minkowski_dist(void* v1, void* v2, double p)
+{ return gsl_vector_minkowski_dist(static_cast<gsl_vector*>(v1),
+                                   static_cast<gsl_vector*>(v2), p); }
+
+inline double
+gsl_vector_dist(const gsl_vector* v1, const gsl_vector* v2)
 { return gsl_vector_minkowski_dist(v1, v2, 2.); }
 
-void gsl_vector_step_random(const gsl_rng* r, void* v, double step_size);
+inline double
+gsl_vector_dist(void* v1, void* v2)
+{ return gsl_vector_minkowski_dist(v1, v2, 2.); }
+
+void
+gsl_vector_step_random(const gsl_rng* r, gsl_vector* v, double step_size);
+
+inline void
+gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
+{ return gsl_vector_step_random(r, static_cast<gsl_vector*>(v), step_size); }
 
 } // namespace Kaimini
 
