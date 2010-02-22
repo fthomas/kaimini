@@ -17,6 +17,7 @@
 #include <cmath>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
+#include "gslaux.h"
 #include "gsldriver.h"
 
 using namespace std;

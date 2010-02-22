@@ -20,6 +20,7 @@
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_siman.h>
 #include <gsl/gsl_vector.h>
+#include "gslaux.h"
 #include "gsldriver.h"
 
 using namespace std;
@@ -137,52 +138,6 @@ void GSLDriver::runSimulatedAnnealing()
 
   gsl_vector_free(x_initial);
   gsl_rng_free(r);
-}
-
-
-double gsl_vector_minkowski_dist(void* v1, void* v2, const double p)
-{
-  gsl_vector* vx = static_cast<gsl_vector*>(v1);
-  gsl_vector* vy = static_cast<gsl_vector*>(v2);
-
-  gsl_vector* diff = gsl_vector_alloc(vx->size);
-  gsl_vector_memcpy(diff, vx);
-  gsl_vector_sub(diff, vy);
-
-  double retval = 0.;
-  for (size_t i = 0; i < diff->size; ++i)
-  { retval += pow(abs(gsl_vector_get(diff, i)), p); }
-  retval = pow(retval, 1./p);
-
-  gsl_vector_free(diff);
-  return retval;
-}
-
-
-void gsl_vector_step_random(const gsl_rng* r, void* v, const double step_size)
-{
-  gsl_vector* v_old = static_cast<gsl_vector*>(v);
-  const size_t n = v_old->size;
-  gsl_vector* v_new = gsl_vector_alloc(n);
-
-  // Set normal distributed random numbers as elements of v_new and
-  // compute the euclidean norm of this vector.
-  double length = 0.;
-  for (size_t i = 0; i < n; ++i)
-  {
-    double* v_new_i = gsl_vector_ptr(v_new, i);
-    *v_new_i = gsl_ran_ugaussian(r);
-    length += pow(*v_new_i, 2);
-  }
-  length = sqrt(length);
-
-  // Scale v_new so that the elements of v_new are uniformly distributed
-  // within an n-sphere of radius step_size.
-  const double scale = pow(pow(step_size, static_cast<int>(n))
-    * gsl_rng_uniform_pos(r), 1.0/n) / length;
-  gsl_vector_scale(v_new, scale);
-
-  gsl_vector_add(v_old, v_new);
 }
 
 } // namespace Kaimini
