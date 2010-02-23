@@ -187,7 +187,7 @@ void SimpleSLHAFit::selectCalculator(const SLHABlock& block)
   for(SLHABlock::const_iterator line = block.begin(); line != block.end();
       ++line)
   {
-    size_t size = line->data_count();
+    size_t size = line->data_size();
     if (size < 2) continue;
 
     if ("1" == (*line)[0])
