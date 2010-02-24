@@ -14,42 +14,52 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_SLHAFIT_H
-#define KAIMINI_SLHAFIT_H
+#ifndef KAIMINI_RESULTPROCESSOR_H
+#define KAIMINI_RESULTPROCESSOR_H
 
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
-#include "genericfit.h"
 #include "parameters.h"
-#include "slhaea.h"
 
 namespace Kaimini {
 
-class SLHAFit : public GenericFit
+class ResultProcessor
 {
+public:
+  ResultProcessor() : mProcess(true) {}
+
+  void enableProcessing()
+  { mProcess = true; }
+
+  void disableProcessing()
+  { mProcess = false; }
+
+  void processParams(const Parameters* params)
+  { if (mProcess) processParamsImpl(params); }
+
+  void processMinimum(const ROOT::Minuit2::FunctionMinimum* minimum)
+  { if (mProcess) processMinimumImpl(minimum); }
+
+  void processErrors(const std::vector<ROOT::Minuit2::MinosError>* errors)
+  { if (mProcess) processErrorsImpl(errors); }
+
 protected:
-  void setDataPoints(const SLHAea::SLHA& input);
-  void setParameters(const SLHAea::SLHA& input);
+  virtual void
+  processParamsImpl(const Parameters*) {}
 
-  void readDataPoints(const SLHAea::SLHA& input) const;
-  void writeParameters(const std::vector<double>& v,
-                       SLHAea::SLHA& output) const;
+  virtual void
+  processMinimumImpl(const ROOT::Minuit2::FunctionMinimum*) {}
 
-  void processParamsImpl(const Parameters* intPar);
-  void processMinimumImpl(const ROOT::Minuit2::FunctionMinimum* intMin);
-  void processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*
-                         intErr);
-  const SLHAea::SLHA& result();
+  virtual void
+  processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*) {}
 
 private:
-  std::vector<SLHAea::SLHAKey> mDataPointsKeys;
-  std::vector<SLHAea::SLHAKey> mParamsKeys;
-  SLHAea::SLHA mResult;
+  bool mProcess;
 };
 
 } // namespace Kaimini
 
-#endif // KAIMINI_SLHAFIT_H
+#endif // KAIMINI_RESULTPROCESSOR_H
 
 // vim: sw=2 tw=78

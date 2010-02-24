@@ -188,7 +188,7 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 }
 
 
-void SLHAFit::processParams(const Parameters* intPar)
+void SLHAFit::processParamsImpl(const Parameters* intPar)
 {
   if (intPar->getParams().empty()) return;
 
@@ -217,7 +217,7 @@ void SLHAFit::processParams(const Parameters* intPar)
 }
 
 
-void SLHAFit::processMinimum(const FunctionMinimum* intMin)
+void SLHAFit::processMinimumImpl(const FunctionMinimum* intMin)
 {
   Parameters intPar = intMin->UserParameters();
   processParams(&intPar);
@@ -243,7 +243,7 @@ void SLHAFit::processMinimum(const FunctionMinimum* intMin)
 }
 
 
-void SLHAFit::processErrors(const vector<MinosError>* intErr)
+void SLHAFit::processErrorsImpl(const vector<MinosError>* intErr)
 {
   if (intErr->empty()) return;
 

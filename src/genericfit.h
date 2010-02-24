@@ -19,14 +19,13 @@
 
 #include <vector>
 #include <Minuit2/FCNBase.h>
-#include <Minuit2/FunctionMinimum.h>
-#include <Minuit2/MinosError.h>
 #include "datapoint.h"
 #include "parameters.h"
+#include "resultprocessor.h"
 
 namespace Kaimini {
 
-class GenericFit : public ROOT::Minuit2::FCNBase
+class GenericFit : public ROOT::Minuit2::FCNBase, public ResultProcessor
 {
 public:
   GenericFit() : mChiSq(-1.), mErrorDef(1.) {}
@@ -68,15 +67,6 @@ public:
 
   void setDataPoints(const std::vector<DataPoint>& dataPoints)
   { mDataPoints = dataPoints; }
-
-  virtual void
-  processParams(const Parameters*) {}
-
-  virtual void
-  processMinimum(const ROOT::Minuit2::FunctionMinimum*) {}
-
-  virtual void
-  processErrors(const std::vector<ROOT::Minuit2::MinosError>*) {}
 
 protected:
   virtual Parameters
