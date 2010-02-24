@@ -46,6 +46,7 @@ int main(int argc, char* argv[])
   }
 
   SimpleSLHAFit fit(input_file);
+  //fit.disableProcessing();
   //GSLDriver gsl_dr(&fit);
   //gsl_dr.runSimplex();
   //gsl_dr.runSimulatedAnnealing();
@@ -56,7 +57,7 @@ int main(int argc, char* argv[])
   //cout << minuit_dr.getFunctionMinimum();
   //cout << minuit_dr.runMinos();
 
-  //bounding_box(&fit, fit.getIntParameters(), &minuit_dr,
+  //bootstrapping(&fit, fit.getIntParameters(), &minuit_dr,
   //  &MinuitDriver::runSimplex);
   //cout << minuit_dr.getFunctionMinimum();
 

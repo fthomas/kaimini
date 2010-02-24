@@ -23,8 +23,8 @@
 namespace Kaimini {
 
 template<typename Driver> void
-bounding_box(GenericFit* fit, const Parameters& minPar,
-             Driver* driver, Parameters (Driver::*minimize)());
+bootstrapping(GenericFit* fit, const Parameters& minPar,
+              Driver* driver, Parameters (Driver::*minimize)());
 
 } // namespace Kaimini
 

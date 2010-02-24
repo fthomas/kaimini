@@ -30,8 +30,8 @@ using namespace std;
 namespace Kaimini {
 
 template<typename Driver> void
-bounding_box(GenericFit* fit, const Parameters& minPar,
-             Driver* driver, Parameters (Driver::*minimize)())
+bootstrapping(GenericFit* fit, const Parameters& minPar,
+              Driver* driver, Parameters (Driver::*minimize)())
 {
   fit->chiSquare(minPar);
 
@@ -70,12 +70,12 @@ bounding_box(GenericFit* fit, const Parameters& minPar,
 
 
 template void
-bounding_box<GSLDriver>(GenericFit*, const Parameters&,
+bootstrapping<GSLDriver>(GenericFit*, const Parameters&,
   GSLDriver*, Parameters (GSLDriver::*)());
 
 
 template void
-bounding_box<MinuitDriver>(GenericFit*, const Parameters&,
+bootstrapping<MinuitDriver>(GenericFit*, const Parameters&,
   MinuitDriver*, Parameters (MinuitDriver::*)());
 
 } // namespace Kaimini
