@@ -125,7 +125,8 @@ void parse_command_line(int argc, char** argv,
 
   if (vm.count("help"))
   {
-    cout << "Usage: kaimini [options]" << endl << endl;
+    cout << "Usage: kaimini [options] [input-file] [output-file]" << endl
+         << endl;
     cout << cmdline_options;
     exit(EXIT_SUCCESS);
   }
