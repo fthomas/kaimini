@@ -36,9 +36,7 @@ bootstrapping(GenericFit* fit, const Parameters& minPar,
   fit->chiSquare(minPar);
 
   vector<DataPoint> min_dps = fit->getDataPoints();
-  for (vector<DataPoint>::iterator dp = min_dps.begin();
-       dp != min_dps.end(); ++dp)
-  { if (dp->use) dp->value = dp->calcValue; }
+  swap_values_with_cached_values(min_dps);
 
   vector<DataPoint> rnd_dps = min_dps;
   vector<pair<double, Parameters> > rnd_params;
@@ -46,9 +44,7 @@ bootstrapping(GenericFit* fit, const Parameters& minPar,
   for (int i= 0; i < 10; ++i)
   {
     rnd_dps = min_dps;
-    for (vector<DataPoint>::iterator dp = rnd_dps.begin();
-         dp != rnd_dps.end(); ++dp)
-    { if (dp->use) dp->value += g_rnd.randNormal(dp->error); }
+    smear_values(rnd_dps);
 
     fit->setDataPoints(rnd_dps);
     Parameters par = (driver->*minimize)();

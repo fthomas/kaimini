@@ -59,10 +59,10 @@ void SLHAFit::setDataPoints(const SLHA& input)
     DataPoint dp;
     try
     {
-      dp.name  = (*line)[1];
-      dp.use   = to_<bool>((*line)[3]);
-      dp.value = to_<double>((*line)[4]);
-      dp.error = parse_error_string(dp.value, (*line)[5]);
+      dp.name(  (*line)[1] );
+      dp.use(   to_<bool>((*line)[3]) );
+      dp.value( to_<double>((*line)[4]) );
+      dp.error( parse_error_string(dp.value(), (*line)[5]) );
     }
     catch (bad_lexical_cast&)
     {
@@ -154,8 +154,8 @@ void SLHAFit::readDataPoints(const SLHA& input) const
   {
     try
     {
-      mDataPoints[i].calcValue =
-        to_<double>(input.field(mDataPointsKeys[i]));
+      mDataPoints[i].cachedValue(
+        to_<double>(input.field(mDataPointsKeys[i])));
     }
     catch (bad_lexical_cast&)
     {
@@ -281,11 +281,11 @@ const SLHA& SLHAFit::result()
       mResult[block][""] = str(
         format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E %6$16.8E")
           % (i+1)
-          % mDataPoints[i].name
-          % mDataPoints[i].use
-          % mDataPoints[i].calcValue
-          % mDataPoints[i].value
-          % mDataPoints[i].error);
+          % mDataPoints[i].name()
+          % mDataPoints[i].use()
+          % mDataPoints[i].cachedValue()
+          % mDataPoints[i].value()
+          % mDataPoints[i].error());
     }
 
     block = "KaiminiChiSquare";
@@ -297,8 +297,8 @@ const SLHA& SLHAFit::result()
       mResult[block][""] = str(
         format(" %1% %|4t|%2% %|15t|%3$15.8E")
           % (i+1)
-          % mDataPoints[i].name
-          % mDataPoints[i].wtSqResidual);
+          % mDataPoints[i].name()
+          % mDataPoints[i].wtSqResidual());
     }
   }
 

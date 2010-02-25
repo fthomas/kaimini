@@ -17,6 +17,7 @@
 #ifndef KAIMINI_DATAPOINT_H
 #define KAIMINI_DATAPOINT_H
 
+#include <algorithm>
 #include <cmath>
 #include <ostream>
 #include <string>
@@ -25,50 +26,76 @@
 
 namespace Kaimini {
 
-struct DataPoint
+class DataPoint
 {
-  std::string name;
-  bool use;
-  double value;
-  double error;
-  mutable double calcValue;
-  mutable double wtSqResidual;
-
+public:
   DataPoint(
     const std::string& _name = "",
     bool _use = false,
     double _value = 0.,
     double _error = 0.)
-    : name(_name),
-      use(_use),
-      value(_value),
-      error(_error),
-      calcValue(0.),
-      wtSqResidual(-1.) {}
+    : mName(_name),
+      mUse(_use),
+      mValue(_value),
+      mError(_error),
+      mErrorSq(_error * _error),
+      mCachedValue(0.) {}
 
-  double calcWtSqResidual() const
+  const std::string& name(const std::string& newName)
+  { return mName = newName; }
+
+  const std::string& name() const
+  { return mName; }
+
+  bool use(bool useDataPoint)
+  { return mUse = useDataPoint; }
+
+  bool use() const
+  { return mUse; }
+
+  double value(double newValue)
+  { return mValue = newValue; }
+
+  double value() const
+  { return mValue; }
+
+  double error(double newError)
   {
-    wtSqResidual = std::pow(value - calcValue, 2) / std::pow(error, 2);
-    return wtSqResidual;
+    mErrorSq = newError * newError;
+    return mError = newError;
   }
 
-  double randomUniformError(double width)
-  {
-    error = g_rnd.randUniformReal(width);
-    return error;
-  }
+  double error() const
+  { return mError; }
 
-  double randomNormalError(double stddev)
-  {
-    error = std::abs(g_rnd.randNormal(stddev));
-    return error;
-  }
+  double cachedValue(double newCachedValue) const
+  { return mCachedValue = newCachedValue; }
 
-  void reset()
-  {
-    calcValue    =  0.;
-    wtSqResidual = -1.;
-  }
+  double cachedValue() const
+  { return mCachedValue; }
+
+  double wtSqResidual() const
+  { return std::pow(mValue - mCachedValue, 2) / mErrorSq; }
+
+  void swapValues()
+  { std::swap(mValue, mCachedValue); }
+
+  double smearValue()
+  { return mValue += g_rnd.randNormal(mError); }
+
+  double randUniformError(double width)
+  { return error(g_rnd.randUniformReal(width)); }
+
+  double randNormalError(double stddev)
+  { return error(std::abs(g_rnd.randNormal(stddev))); }
+
+private:
+  std::string mName;
+  bool mUse;
+  double mValue;
+  double mError;
+  double mErrorSq;
+  mutable double mCachedValue;
 };
 
 
@@ -76,23 +103,38 @@ inline double
 sum_wt_sq_residuals(const std::vector<DataPoint>& dps)
 {
   double sum = 0.;
-  for (std::vector<DataPoint>::const_iterator dp = dps.begin();
-       dp != dps.end(); ++dp)
-  { if (dp->use) sum += dp->calcWtSqResidual(); }
+  std::vector<DataPoint>::const_iterator dp = dps.begin();
+  for (; dp != dps.end(); ++dp) if (dp->use()) sum += dp->wtSqResidual();
   return sum;
+}
+
+
+inline void
+swap_values_with_cached_values(std::vector<DataPoint>& dps)
+{
+  std::vector<DataPoint>::iterator dp = dps.begin();
+  for (; dp != dps.end(); ++dp) if (dp->use()) dp->swapValues();
+}
+
+
+inline void
+smear_values(std::vector<DataPoint>& dps)
+{
+  std::vector<DataPoint>::iterator dp = dps.begin();
+  for (; dp != dps.end(); ++dp) if (dp->use()) dp->smearValue();
 }
 
 
 inline std::ostream&
 operator<<(std::ostream& os, const DataPoint& dp)
 {
-  os << "DataPoint:"                             << std::endl
-     << "    name         : " << dp.name         << std::endl
-     << "    use          : " << dp.use          << std::endl
-     << "    value        : " << dp.value        << std::endl
-     << "    error        : " << dp.error        << std::endl
-     << "    calcValue    : " << dp.calcValue    << std::endl
-     << "    wtSqResidual : " << dp.wtSqResidual << std::endl;
+  os << "DataPoint:"                               << std::endl
+     << "    name         : " << dp.name()         << std::endl
+     << "    use          : " << dp.use()          << std::endl
+     << "    value        : " << dp.value()        << std::endl
+     << "    error        : " << dp.error()        << std::endl
+     << "    cachedValue  : " << dp.cachedValue()  << std::endl
+     << "    wtSqResidual : " << dp.wtSqResidual() << std::endl;
   return os;
 }
 
@@ -104,12 +146,12 @@ operator<<(std::ostream& os, const std::vector<DataPoint>& dps)
   for (std::vector<DataPoint>::const_iterator dp = dps.begin();
        dp != dps.end(); ++dp)
   {
-    os << "    - name         : " << dp->name         << std::endl
-       << "      use          : " << dp->use          << std::endl
-       << "      value        : " << dp->value        << std::endl
-       << "      error        : " << dp->error        << std::endl
-       << "      calcValue    : " << dp->calcValue    << std::endl
-       << "      wtSqResidual : " << dp->wtSqResidual << std::endl
+    os << "    - name         : " << dp->name()         << std::endl
+       << "      use          : " << dp->use()          << std::endl
+       << "      value        : " << dp->value()        << std::endl
+       << "      error        : " << dp->error()        << std::endl
+       << "      cachedValue  : " << dp->cachedValue()  << std::endl
+       << "      wtSqResidual : " << dp->wtSqResidual() << std::endl
        << std::endl;
   }
   return os;
