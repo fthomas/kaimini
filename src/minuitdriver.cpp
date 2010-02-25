@@ -129,6 +129,22 @@ void MinuitDriver::sanitize()
   mpFit->chiSquare(mpMinimum->UserParameters());
 }
 
+
+ostream& operator<<(ostream& os, const vector<MinosError>& errors)
+{
+  os << "MinosErrors:" << endl;
+  for (vector<MinosError>::const_iterator err = errors.begin();
+       err != errors.end(); ++err)
+  {
+    os << "    - number : "  << err->Parameter() << endl
+       << "      valid  : "  << err->IsValid()   << endl
+       << "      lower  : "  << err->Lower()     << endl
+       << "      upper  :  " << err->Upper()     << endl
+       << endl;
+  }
+  return os;
+}
+
 } // namespace Kaimini
 
 // vim: sw=2 tw=78

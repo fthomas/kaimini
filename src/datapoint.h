@@ -18,7 +18,6 @@
 #define KAIMINI_DATAPOINT_H
 
 #include <cmath>
-#include <memory>
 #include <ostream>
 #include <string>
 #include "kaimini.h"
@@ -73,18 +72,19 @@ struct DataPoint
 };
 
 
-template<template <typename E, typename A = std::allocator<E> > class Cont>
-inline double sum_wt_sq_residuals(const Cont<DataPoint>& dps)
+inline double
+sum_wt_sq_residuals(const std::vector<DataPoint>& dps)
 {
   double sum = 0.;
-  for (typename Cont<DataPoint>::const_iterator dp = dps.begin();
+  for (std::vector<DataPoint>::const_iterator dp = dps.begin();
        dp != dps.end(); ++dp)
   { if (dp->use) sum += dp->calcWtSqResidual(); }
   return sum;
 }
 
 
-inline std::ostream& operator<<(std::ostream& os, const DataPoint& dp)
+inline std::ostream&
+operator<<(std::ostream& os, const DataPoint& dp)
 {
   os << "DataPoint:"                             << std::endl
      << "    name         : " << dp.name         << std::endl
@@ -96,11 +96,12 @@ inline std::ostream& operator<<(std::ostream& os, const DataPoint& dp)
   return os;
 }
 
-template<template <typename E, typename A = std::allocator<E> > class Cont>
-inline std::ostream& operator<<(std::ostream& os, const Cont<DataPoint>& dps)
+
+inline std::ostream&
+operator<<(std::ostream& os, const std::vector<DataPoint>& dps)
 {
   os << "DataPoints:" << std::endl;
-  for (typename Cont<DataPoint>::const_iterator dp = dps.begin();
+  for (std::vector<DataPoint>::const_iterator dp = dps.begin();
        dp != dps.end(); ++dp)
   {
     os << "    - name         : " << dp->name         << std::endl
