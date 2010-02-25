@@ -29,6 +29,8 @@ class ResultProcessor
 public:
   ResultProcessor() : mProcess(true) {}
 
+  virtual ~ResultProcessor() {}
+
   void enableProcessing()
   { mProcess = true; }
 
