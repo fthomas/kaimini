@@ -29,7 +29,7 @@ public:
   void reset() { _normal.reset(); }
 
   template<class Engine>
-  const result_type& operator()(Engine& eng)
+  const result_type& operator()(Engine& eng, RealType radius)
   {
     RealType length = 0.;
     for (typename Cont::iterator it = _container.begin();
@@ -44,12 +44,18 @@ public:
     using std::sqrt;
 #endif
     length = sqrt(length);
-    const RealType scale = pow(pow(_radius, _dim) * eng(), 1./_dim) / length;
+    const RealType scale = pow(pow(radius, _dim) * eng(), 1./_dim) / length;
 
     // for all i: _container[i] *= scale
     std::transform(_container.begin(), _container.end(), _container.begin(),
                    std::bind2nd(std::multiplies<RealType>(), scale));
     return _container;
+  }
+
+  template<class Engine>
+  const result_type& operator()(Engine& eng)
+  {
+    return operator()(eng, _radius);
   }
 
 #ifndef BOOST_RANDOM_NO_STREAM_OPERATORS
