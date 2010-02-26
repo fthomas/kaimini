@@ -183,9 +183,9 @@ double parse_error_string(const double value, string errorStr)
 }
 
 
-fs::path temp_path(const fs::path& p_template)
+fs::path temp_path(const fs::path& pathTemplate)
 {
-  string name = p_template.leaf();
+  string name = pathTemplate.leaf();
   size_t len = 0;
 
   string::reverse_iterator it = name.rbegin();
@@ -199,16 +199,16 @@ fs::path temp_path(const fs::path& p_template)
   }
   name.replace(pos, len, g_rnd.randString(len));
 
-  fs::path temp_p = p_template.branch_path() / name;
+  fs::path temp_p = pathTemplate.branch_path() / name;
   return temp_p;
 }
 
 
-fs::path create_temp_directory(const fs::path& dp_template)
+fs::path create_temp_directory(const fs::path& dirTemplate)
 {
   fs::path temp_dir;
 
-  do temp_dir = temp_path(dp_template);
+  do temp_dir = temp_path(dirTemplate);
   while (fs::exists(temp_dir));
 
   fs::create_directory(temp_dir);

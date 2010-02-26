@@ -17,6 +17,7 @@
 #ifndef KAIMINI_KAIMINI_H
 #define KAIMINI_KAIMINI_H
 
+#include <limits>
 #include <string>
 #include <boost/filesystem.hpp>
 
@@ -46,10 +47,17 @@ void parse_command_line(int argc, char** argv,
 double parse_error_string(double value, std::string errorStr);
 
 boost::filesystem::path
-temp_path(const boost::filesystem::path& p_template);
+temp_path(const boost::filesystem::path& pathTemplate);
 
 boost::filesystem::path
-create_temp_directory(const boost::filesystem::path& dp_template);
+create_temp_directory(const boost::filesystem::path& dirTemplate);
+
+template<typename RealType> inline bool
+close_to_zero(RealType x)
+{
+  RealType eps = 100. * std::numeric_limits<RealType>::epsilon();
+  return -eps <= x && x <= eps;
+}
 
 } // namespace Kaimini
 
