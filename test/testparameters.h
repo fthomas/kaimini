@@ -19,6 +19,7 @@
 
 using namespace std;
 using namespace Kaimini;
+using namespace ROOT::Minuit2;
 
 BOOST_AUTO_TEST_SUITE(TestParameters)
 
@@ -49,6 +50,47 @@ BOOST_AUTO_TEST_CASE(testVarParams)
   par.Release("p3");
   BOOST_CHECK(par.getVarParams().size() == 2);
   BOOST_CHECK(par.getVarStepSizes().size() == 2);
+}
+
+BOOST_AUTO_TEST_CASE(testTranspose)
+{
+  vector<Parameters> vecPar;
+
+  Parameters par;
+  par.Add("p00", 1.1, 0.);
+  par.Add("p01", 1.2, 0.);
+  par.Add("p02", 1.3, 0.);
+  vecPar.push_back(par);
+
+  par = Parameters();
+  par.Add("p10", 2.1, 0.);
+  par.Add("p11", 2.2, 0.);
+  par.Add("p12", 2.3, 0.);
+  vecPar.push_back(par);
+
+  par = Parameters();
+  par.Add("p20", 3.1, 0.);
+  par.Add("p21", 3.2, 0.);
+  par.Add("p22", 3.3, 0.);
+  vecPar.push_back(par);
+
+  vector<vector<MinuitParameter> > transPar = transpose(vecPar);
+  BOOST_CHECK(transPar.size() == 3);
+  BOOST_CHECK(transPar[0].size() == 3);
+  BOOST_CHECK(transPar[1].size() == 3);
+  BOOST_CHECK(transPar[2].size() == 3);
+
+  BOOST_CHECK(transPar[0][0].GetName() == "p00");
+  BOOST_CHECK(transPar[0][1].GetName() == "p10");
+  BOOST_CHECK(transPar[0][2].GetName() == "p20");
+
+  BOOST_CHECK(transPar[1][0].GetName() == "p01");
+  BOOST_CHECK(transPar[1][1].GetName() == "p11");
+  BOOST_CHECK(transPar[1][2].GetName() == "p21");
+
+  BOOST_CHECK(transPar[2][0].GetName() == "p02");
+  BOOST_CHECK(transPar[2][1].GetName() == "p12");
+  BOOST_CHECK(transPar[2][2].GetName() == "p22");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

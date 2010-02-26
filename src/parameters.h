@@ -61,6 +61,9 @@ public:
 };
 
 
+std::vector<std::vector<ROOT::Minuit2::MinuitParameter> >
+transpose(const std::vector<Parameters>& vecPar);
+
 // stream operators
 std::ostream&
 operator<<(std::ostream& os, const ROOT::Minuit2::MinuitParameter& mp);

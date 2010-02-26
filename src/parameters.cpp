@@ -112,6 +112,32 @@ Parameters& Parameters::setVarParams(const gsl_vector* v)
 }
 
 
+vector<vector<MinuitParameter> > transpose(const vector<Parameters>& vecPar)
+{
+  vector<vector<MinuitParameter> > retval;
+  if (vecPar.empty()) return retval;
+
+  const unsigned int inner_size = vecPar[0].getMinuitParameters().size();
+  const unsigned int outer_size = vecPar.size();
+
+  // Assert that every element of vecPar is of the same size.
+  for (vector<Parameters>::const_iterator it = vecPar.begin(); it !=
+       vecPar.end(); ++it)
+  { assert(it->getMinuitParameters().size() == inner_size); }
+
+  for (unsigned int i = 0; i < inner_size; ++i)
+  {
+    vector<MinuitParameter> vec_mp;
+    for (unsigned int j = 0; j < outer_size; ++j)
+    {
+      vec_mp.push_back(vecPar[j].Parameter(i));
+    }
+    retval.push_back(vec_mp);
+  }
+  return retval;
+}
+
+
 ostream& operator<<(ostream& os, const MinuitParameter& mp)
 {
   stringstream limits; limits << "[ ";
