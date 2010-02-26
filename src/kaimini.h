@@ -55,7 +55,7 @@ create_temp_directory(const boost::filesystem::path& dirTemplate);
 template<typename RealType> inline bool
 close_to_zero(RealType x)
 {
-  RealType eps = 100. * std::numeric_limits<RealType>::epsilon();
+  const RealType eps = 100. * std::numeric_limits<RealType>::epsilon();
   return -eps <= x && x <= eps;
 }
 
