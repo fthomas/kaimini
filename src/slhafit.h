@@ -37,9 +37,9 @@ protected:
                        SLHAea::SLHA& output) const;
 
   void processParamsImpl(const Parameters* intPar);
-  void processMinimumImpl(const ROOT::Minuit2::FunctionMinimum* intMin);
+  void processMinimumImpl(const ROOT::Minuit2::FunctionMinimum* minimum);
   void processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*
-                         intErr);
+                         errors);
   const SLHAea::SLHA& result();
 
 private:

@@ -197,6 +197,7 @@ void SLHAFit::processParamsImpl(const Parameters* intPar)
 
   string block = "KaiminiParametersOut";
   mResult[block]["BLOCK"] = "BLOCK " + block;
+
   for (vector<MinuitParameter>::const_iterator mp = mps.begin();
        mp != mps.end(); ++mp)
   {
@@ -217,42 +218,41 @@ void SLHAFit::processParamsImpl(const Parameters* intPar)
 }
 
 
-void SLHAFit::processMinimumImpl(const FunctionMinimum* intMin)
+void SLHAFit::processMinimumImpl(const FunctionMinimum* minimum)
 {
-  Parameters intPar = intMin->UserParameters();
-  processParams(&intPar);
+  Parameters minPar = minimum->UserParameters();
+  processParams(&minPar);
 
   string block;
 
-  if (intMin->HasCovariance() && intMin->HasValidCovariance())
+  if (minimum->HasCovariance() && minimum->HasValidCovariance())
   {
-    const MnUserCovariance& intCovar = intMin->UserCovariance();
-    // << Transform intCovar to external covariance matrix here. >>
+    const MnUserCovariance& covar = minimum->UserCovariance();
 
     block = "KaiminiCovarianceMatrix";
     mResult[block]["BLOCK"] = "BLOCK " + block;
-    for (unsigned int row = 0; row < intCovar.Nrow(); ++row)
+
+    for (unsigned int row = 0; row < covar.Nrow(); ++row)
     {
-      for (unsigned int col = row; col < intCovar.Nrow(); ++col)
+      for (unsigned int col = row; col < covar.Nrow(); ++col)
       {
         mResult[block][""] = str(format(" %1% %|4t|%2% %3$16.8E")
-          % (row+1) % (col+1) % intCovar(row, col));
+          % (row+1) % (col+1) % covar(row, col));
       }
     }
   }
 }
 
 
-void SLHAFit::processErrorsImpl(const vector<MinosError>* intErr)
+void SLHAFit::processErrorsImpl(const vector<MinosError>* errors)
 {
-  if (intErr->empty()) return;
-
-  // << Transform intErr to external errors here. >>
+  if (errors->empty()) return;
 
   string block = "KaiminiMinosErrors";
   mResult[block]["BLOCK"] = "BLOCK " + block;
-  for (vector<MinosError>::const_iterator me = intErr->begin();
-       me != intErr->end(); ++me)
+
+  for (vector<MinosError>::const_iterator me = errors->begin();
+       me != errors->end(); ++me)
   {
     MinuitParameter mp = mParamsExt.Parameter(me->Parameter());
 

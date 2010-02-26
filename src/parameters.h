@@ -61,12 +61,14 @@ public:
 };
 
 
+// stream operators
 std::ostream&
 operator<<(std::ostream& os, const ROOT::Minuit2::MinuitParameter& mp);
 
 std::ostream&
 operator<<(std::ostream& os, const Parameters& par);
 
+// relational operators
 inline bool
 operator<(const Parameters& a, const Parameters& b)
 { return a.Params() < b.Params()
@@ -83,6 +85,18 @@ operator<=(const Parameters& a, const Parameters& b)
 inline bool
 operator>=(const Parameters& a, const Parameters& b)
 { return !(a < b); }
+
+inline bool
+operator==(const Parameters& a, const Parameters& b)
+{
+  // Poor man's comparison of a and b. The right thing to do is to
+  // check if a.getMinuitParameters() == b.getMinuitParameters().
+  return !(a < b) && !(b < a);
+}
+
+inline bool
+operator!=(const Parameters& a, const Parameters& b)
+{ return !(a == b); }
 
 } // namespace Kaimini
 
