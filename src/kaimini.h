@@ -17,6 +17,7 @@
 #ifndef KAIMINI_KAIMINI_H
 #define KAIMINI_KAIMINI_H
 
+#include <functional>
 #include <limits>
 #include <string>
 #include <boost/filesystem.hpp>
@@ -52,12 +53,39 @@ temp_path(const boost::filesystem::path& pathTemplate);
 boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dirTemplate);
 
+
 template<typename RealType> inline bool
 close_to_zero(RealType x)
 {
   const RealType eps = 100. * std::numeric_limits<RealType>::epsilon();
   return -eps <= x && x <= eps;
 }
+
+
+template<typename Pair> struct pair_select1st
+  : public std::unary_function<Pair, typename Pair::first_type>
+{
+  typename Pair::first_type&
+  operator()(Pair& x) const
+  { return x.first; }
+
+  const typename Pair::first_type&
+  operator()(const Pair& x) const
+  { return x.first; }
+};
+
+
+template<typename Pair> struct pair_select2nd
+  : public std::unary_function<Pair, typename Pair::second_type>
+{
+  typename Pair::second_type&
+  operator()(Pair& x) const
+  { return x.second; }
+
+  const typename Pair::second_type&
+  operator()(const Pair& x) const
+  { return x.second; }
+};
 
 } // namespace Kaimini
 
