@@ -138,22 +138,27 @@ vector<vector<MinuitParameter> > transpose(const vector<Parameters>& vecPar)
 }
 
 
-ostream& operator<<(ostream& os, const MinuitParameter& mp)
+string mp_limits_str(const MinuitParameter& mp)
 {
   stringstream limits; limits << "[ ";
   if (mp.HasLowerLimit()) limits << mp.LowerLimit();
   limits << ", ";
   if (mp.HasUpperLimit()) limits << mp.UpperLimit() << " ";
   limits << "]";
+  return limits.str();
+}
 
-  os << "MinuitParameter:"                  << endl
-     << "    number    : " << mp.Number()   << endl
-     << "    name      : " << mp.GetName()  << endl
-     << "    value     : " << mp.Value()    << endl
-     << "    step_size : " << mp.Error()    << endl
-     << "    limits    : " << limits.str()  << endl
-     << "    fixed     : " << mp.IsFixed()  << endl
-     << "    constant  : " << mp.IsConst()  << endl;
+
+ostream& operator<<(ostream& os, const MinuitParameter& mp)
+{
+  os << "MinuitParameter:"                      << endl
+     << "    number    : " << mp.Number()       << endl
+     << "    name      : " << mp.GetName()      << endl
+     << "    value     : " << mp.Value()        << endl
+     << "    step_size : " << mp.Error()        << endl
+     << "    limits    : " << mp_limits_str(mp) << endl
+     << "    fixed     : " << mp.IsFixed()      << endl
+     << "    constant  : " << mp.IsConst()      << endl;
   return os;
 }
 
@@ -166,19 +171,13 @@ ostream& operator<<(ostream& os, const Parameters& par)
   for (vector<MinuitParameter>::const_iterator mp = mps.begin();
        mp != mps.end(); ++mp)
   {
-    stringstream limits; limits << "[ ";
-    if (mp->HasLowerLimit()) limits << mp->LowerLimit();
-    limits << ", ";
-    if (mp->HasUpperLimit()) limits << mp->UpperLimit() << " ";
-    limits << "]";
-
-    os << "    - number    : " << mp->Number()  << endl
-       << "      name      : " << mp->GetName() << endl
-       << "      value     : " << mp->Value()   << endl
-       << "      step_size : " << mp->Error()   << endl
-       << "      limits    : " << limits.str()  << endl
-       << "      fixed     : " << mp->IsFixed() << endl
-       << "      constant  : " << mp->IsConst() << endl
+    os << "    - number    : " << mp->Number()       << endl
+       << "      name      : " << mp->GetName()      << endl
+       << "      value     : " << mp->Value()        << endl
+       << "      step_size : " << mp->Error()        << endl
+       << "      limits    : " << mp_limits_str(*mp) << endl
+       << "      fixed     : " << mp->IsFixed()      << endl
+       << "      constant  : " << mp->IsConst()      << endl
        << endl;
   }
   return os;

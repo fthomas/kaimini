@@ -64,6 +64,8 @@ public:
 std::vector<std::vector<ROOT::Minuit2::MinuitParameter> >
 transpose(const std::vector<Parameters>& vecPar);
 
+std::string mp_limits_str(const ROOT::Minuit2::MinuitParameter& mp);
+
 // stream operators
 std::ostream&
 operator<<(std::ostream& os, const ROOT::Minuit2::MinuitParameter& mp);
