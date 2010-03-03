@@ -138,7 +138,7 @@ vector<vector<MinuitParameter> > transpose(const vector<Parameters>& vecPar)
 }
 
 
-string mp_limits_str(const MinuitParameter& mp)
+inline string mp_limits_str(const MinuitParameter& mp)
 {
   stringstream limits; limits << "[ ";
   if (mp.HasLowerLimit()) limits << mp.LowerLimit();

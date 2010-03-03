@@ -89,9 +89,10 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 INPUT                  = src/
 INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.h
+FILE_PATTERNS          = *.h *.hpp
 RECURSIVE              = NO
-EXCLUDE                = src/slhaea.h src/uniform_in_sphere.hpp
+EXCLUDE                = src/minuitaddition.h src/slhaea.h \
+                         src/uniform_in_sphere.hpp
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        =
