@@ -18,12 +18,10 @@
 #define KAIMINI_PARAMETERS_H
 
 #include <ostream>
-#include <utility>
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include <Minuit2/MinuitParameter.h>
 #include <Minuit2/MnUserParameters.h>
-#include "minuitaddition.h"
 
 namespace Kaimini {
 
@@ -73,6 +71,68 @@ std::ostream&
 operator<<(std::ostream& os, const Parameters& par);
 
 } // namespace Kaimini
+
+
+/// \cond NAMESPACE_ROOT_MINUIT2
+namespace ROOT {
+namespace Minuit2 {
+
+// relational operators for MinuitParameter
+inline bool
+operator<(const MinuitParameter& a, const MinuitParameter& b)
+{ return a.Value() < b.Value()
+    || (!(b.Value() < a.Value()) && a.Error() < b.Error()); }
+
+inline bool
+operator>(const MinuitParameter& a, const MinuitParameter& b)
+{ return b < a; }
+
+inline bool
+operator<=(const MinuitParameter& a, const MinuitParameter& b)
+{ return !(b < a); }
+
+inline bool
+operator>=(const MinuitParameter& a, const MinuitParameter& b)
+{ return !(a < b); }
+
+inline bool
+operator==(const MinuitParameter& a, const MinuitParameter& b)
+{ return !(a < b) && !(b < a); }
+
+inline bool
+operator!=(const MinuitParameter& a, const MinuitParameter& b)
+{ return !(a == b); }
+
+
+// relational operators for MnUserParameters
+inline bool
+operator<(const MnUserParameters& a, const MnUserParameters& b)
+{ return a.Params() < b.Params()
+    || (!(b.Params() < a.Params()) && a.Errors() < b.Errors()); }
+
+inline bool
+operator>(const MnUserParameters& a, const MnUserParameters& b)
+{ return b < a; }
+
+inline bool
+operator<=(const MnUserParameters& a, const MnUserParameters& b)
+{ return !(b < a); }
+
+inline bool
+operator>=(const MnUserParameters& a, const MnUserParameters& b)
+{ return !(a < b); }
+
+inline bool
+operator==(const MnUserParameters& a, const MnUserParameters& b)
+{ return !(a < b) && !(b < a); }
+
+inline bool
+operator!=(const MnUserParameters& a, const MnUserParameters& b)
+{ return !(a == b); }
+
+} // namespace Minuit2
+} // namespace ROOT
+/// \endcond
 
 #endif // KAIMINI_PARAMETERS_H
 
