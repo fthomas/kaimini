@@ -62,6 +62,7 @@ close_to_zero(RealType x)
 }
 
 
+/// \cond SIMPLE_FUNCTION_OBJECTS
 template<typename Pair> struct pair_select1st
   : public std::unary_function<Pair, typename Pair::first_type>
 {
@@ -86,6 +87,7 @@ template<typename Pair> struct pair_select2nd
   operator()(const Pair& x) const
   { return x.second; }
 };
+/// \endcond
 
 } // namespace Kaimini
 
