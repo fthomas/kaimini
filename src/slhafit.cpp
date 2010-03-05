@@ -24,6 +24,7 @@
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
 #include <Minuit2/MnUserCovariance.h>
+#include "error.h"
 #include "datapoint.h"
 #include "kaimini.h"
 #include "parameters.h"
@@ -261,8 +262,37 @@ void SLHAFit::processErrorsImpl(const vector<MinosError>* errors)
         % (me->Parameter()+1)
         % mp.GetName()
         % me->IsValid()
-        % me->Lower()
-        % me->Upper());
+        % me->Upper()
+        % me->Lower());
+  }
+}
+
+
+void SLHAFit::processBootstrapImpl(const vector<vector<Error> >* errors,
+                                   const unsigned int iterations)
+{
+  if (errors->empty()) return;
+
+  string block = "KaiminiBootstrap";
+  mResult[block]["BLOCK"] << "BLOCK " << block << "# iterations= "
+                          << iterations;
+
+  for (vector<vector<Error> >::const_iterator vec_err = errors->begin();
+       vec_err != errors->end(); ++ vec_err)
+  {
+    size_t i = 0;
+    for (vector<Error>::const_iterator err = vec_err->begin();
+         err != vec_err->end(); ++err)
+    {
+      mResult[block][""] = str(
+        format(" %1% %|4t|%2% %|8t|%3% %4$16.8E %5$16.8E %6$16.8E")
+          % (err->number()+1)
+          % ++i
+          % err->name()
+          % err->upper()
+          % err->lower()
+          % err->mean());
+    }
   }
 }
 
@@ -279,7 +309,7 @@ const SLHA& SLHAFit::result()
     for (size_t i = 0; i < mDataPoints.size(); ++i)
     {
       mResult[block][""] = str(
-        format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E %6$16.8E")
+        format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E %6$16.8E")
           % (i+1)
           % mDataPoints[i].name()
           % mDataPoints[i].use()

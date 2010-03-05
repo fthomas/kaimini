@@ -48,7 +48,7 @@ public:
   { if (mProcess) processErrorsImpl(errors); }
 
   void processBootstrap(const std::vector<std::vector<Error> >* errors,
-                        int iterations)
+                        unsigned int iterations)
   { if (mProcess) processBootstrapImpl(errors, iterations); }
 
 protected:
@@ -62,7 +62,8 @@ protected:
   processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*) {}
 
   virtual void
-  processBootstrapImpl(const std::vector<std::vector<Error> >*, int) {}
+  processBootstrapImpl(const std::vector<std::vector<Error> >*,
+                       unsigned int) {}
 
 private:
   bool mProcess;

@@ -20,6 +20,7 @@
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
+#include "error.h"
 #include "genericfit.h"
 #include "parameters.h"
 #include "slhaea.h"
@@ -40,6 +41,8 @@ protected:
   void processMinimumImpl(const ROOT::Minuit2::FunctionMinimum* minimum);
   void processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*
                          errors);
+  void processBootstrapImpl(const std::vector<std::vector<Error> >* errors,
+                            unsigned int iterations);
   const SLHAea::SLHA& result();
 
 private:
