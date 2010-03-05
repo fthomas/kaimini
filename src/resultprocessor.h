@@ -20,6 +20,7 @@
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
+#include "error.h"
 #include "parameters.h"
 
 namespace Kaimini {
@@ -46,6 +47,10 @@ public:
   void processErrors(const std::vector<ROOT::Minuit2::MinosError>* errors)
   { if (mProcess) processErrorsImpl(errors); }
 
+  void processBootstrap(const std::vector<std::vector<Error> >* errors,
+                        int iterations)
+  { if (mProcess) processBootstrapImpl(errors, iterations); }
+
 protected:
   virtual void
   processParamsImpl(const Parameters*) {}
@@ -55,6 +60,9 @@ protected:
 
   virtual void
   processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*) {}
+
+  virtual void
+  processBootstrapImpl(const std::vector<std::vector<Error> >*, int) {}
 
 private:
   bool mProcess;
