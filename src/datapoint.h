@@ -80,7 +80,10 @@ public:
   void swapValues()
   { std::swap(mValue, mCachedValue); }
 
-  double smearValue()
+  double smearValueUniform()
+  { return mValue += g_rnd.randUniformReal(-mError/2., mError/2.); }
+
+  double smearValueNormal()
   { return mValue += g_rnd.randNormal(mError); }
 
   double randUniformError(double width)
@@ -100,7 +103,7 @@ private:
 
 
 inline double
-sum_wt_sq_residuals(const std::vector<DataPoint>& dps)
+dps_add_up_wt_sq_residuals(const std::vector<DataPoint>& dps)
 {
   double sum = 0.;
   std::vector<DataPoint>::const_iterator dp = dps.begin();
@@ -110,7 +113,7 @@ sum_wt_sq_residuals(const std::vector<DataPoint>& dps)
 
 
 inline void
-swap_values_with_cached_values(std::vector<DataPoint>& dps)
+dps_swap_values_with_cached_values(std::vector<DataPoint>& dps)
 {
   std::vector<DataPoint>::iterator dp = dps.begin();
   for (; dp != dps.end(); ++dp) if (dp->use()) dp->swapValues();
@@ -118,10 +121,10 @@ swap_values_with_cached_values(std::vector<DataPoint>& dps)
 
 
 inline void
-smear_values(std::vector<DataPoint>& dps)
+dps_smear_values_normal(std::vector<DataPoint>& dps)
 {
   std::vector<DataPoint>::iterator dp = dps.begin();
-  for (; dp != dps.end(); ++dp) if (dp->use()) dp->smearValue();
+  for (; dp != dps.end(); ++dp) if (dp->use()) dp->smearValueNormal();
 }
 
 

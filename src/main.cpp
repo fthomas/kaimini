@@ -53,12 +53,13 @@ int main(int argc, char* argv[])
 
   MinuitDriver minuit_dr(&fit);
   //cout << minuit_dr.runMigrad();
-  minuit_dr.runMinimize();
+  Parameters min = minuit_dr.runMinimize();
   //cout << minuit_dr.getFunctionMinimum();
   //cout << minuit_dr.runMinos();
 
-  //bootstrapping(&fit, fit.getIntParameters(), &minuit_dr,
-  //  &MinuitDriver::runSimplex);
+  //bootstrap(&fit, fit.getIntParameters(), &minuit_dr,
+  //bootstrap(&fit, min, &minuit_dr,
+  //  &MinuitDriver::runMinimize, 100);
   //cout << minuit_dr.getFunctionMinimum();
 
   fit.tearDown(output_file);

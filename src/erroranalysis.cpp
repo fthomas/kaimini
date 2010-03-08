@@ -15,9 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <algorithm>
+#include <iterator>
 #include <vector>
 #include <utility>
+#include <Minuit2/MinuitParameter.h>
 #include "datapoint.h"
+#include "error.h"
 #include "erroranalysis.h"
 #include "genericfit.h"
 #include "gsldriver.h"
@@ -26,53 +29,144 @@
 #include "random.h"
 
 using namespace std;
+using namespace ROOT::Minuit2;
 
 namespace Kaimini {
 
-template<typename Driver> void
-bootstrapping(GenericFit* fit, const Parameters& minPar,
-              Driver* driver, Parameters (Driver::*minimize)())
+template<typename Driver> vector<vector<Error> >
+bootstrap(GenericFit* fit, const Parameters& minParams,
+          Driver* driver, Parameters (Driver::*minimize)(),
+          const unsigned int iterations)
 {
-  fit->chiSquare(minPar);
+  fit->disableProcessing();
+
+  const Parameters orig_params = fit->getIntParameters();
+  const vector<DataPoint> orig_dps = fit->getDataPoints();
+
+  fit->setIntParameters(minParams);
+
+  // Ensure that all cached values of fit's data points were
+  // calculated with minParams.
+  fit->chiSquare(minParams);
 
   vector<DataPoint> min_dps = fit->getDataPoints();
-  swap_values_with_cached_values(min_dps);
+  dps_swap_values_with_cached_values(min_dps);
 
-  vector<DataPoint> rnd_dps = min_dps;
-  vector<pair<double, Parameters> > rnd_params;
+  vector<DataPoint> synthetic_dps;
+  vector<pair<double, Parameters> > sim_map;
 
-  for (int i= 0; i < 10; ++i)
+
+  const int iters = static_cast<int>(iterations);
+  for (int i = 0; i < iters; ++i)
   {
-    rnd_dps = min_dps;
-    smear_values(rnd_dps);
+    synthetic_dps = min_dps;
+    dps_smear_values_normal(synthetic_dps);
 
-    fit->setDataPoints(rnd_dps);
-    Parameters par = (driver->*minimize)();
+    // Repeat the fit procedure with the synthetic data points to
+    // obtain simulated minimal parameters for these data points.
+    fit->setDataPoints(synthetic_dps);
+    const Parameters sim_params = (driver->*minimize)();
 
+    // Use the cached minimal data points to calculate the
+    // corresponding chi^2 of the simulated parameters.
     fit->setDataPoints(min_dps);
-    rnd_params.push_back(make_pair(fit->chiSquare(par), par));
-    // check if chi^2 is zero!
-    cout << rnd_params[i].first << "  " << rnd_params[i].second.Value(0)<< endl;
+    const double sim_chisq = fit->chiSquare(sim_params);
+
+    // If sim_chisq is close to zero the actual minimal parameters
+    // have been reproduced. These should not be taken into account
+    // for estimation of the confidence intervalls.
+    if (close_to_zero(sim_chisq)) { --i; continue; }
+
+    sim_map.push_back(make_pair(sim_chisq, sim_params));
+
+    if (g_verbose_output)
+    {
+      cout << "bootstrap_pass:"               << endl
+           << "  iteration : "  << (i+1)      << endl
+           << "  chi^2     : "  << sim_chisq  << endl
+           << "  "              << sim_params << endl;
+    }
   }
 
-  cout << endl;
-  sort(rnd_params.begin(), rnd_params.end());
+  sort(sim_map.begin(), sim_map.end());
 
-  //cout << endl;
-  for (int i= 0; i < 10; ++i)
-    cout << rnd_params[i].first << "  " << rnd_params[i].second.Value(0)<< endl;
-  // run chi^2 again
+  if (g_verbose_output)
+  {
+    cout << "bootstrap_parameters:" << endl;
+    for (vector<pair<double, Parameters> >::const_iterator it =
+         sim_map.begin(); it != sim_map.end(); ++it)
+    {
+      const vector<double> vpar = it->second.getVarParams();
+      if (vpar.empty()) continue;
+
+      cout << "    - chi^2      : " << it->first << endl;
+      cout << "      var_params : [";
+      copy(vpar.begin(), vpar.end()-1, ostream_iterator<double>(cout, ", "));
+      cout << vpar.back() << "]" << endl << endl;
+    }
+  }
+
+  // The vector tmp_params is the same as sim_map but without the
+  // corresponding chi^2 values.
+  vector<Parameters> tmp_params;
+  tmp_params.reserve(iterations);
+  transform(sim_map.begin(), sim_map.end(), back_inserter(tmp_params),
+            pair_select2nd<pair<double, Parameters> >());
+
+  const vector<vector<MinuitParameter> > all_sim_par = transpose(tmp_params);
+  vector<vector<Error> > retval;
+
+  const int limit[] = { int(iterations * 0.682689492137),
+                        int(iterations * 0.954499736104),
+                        int(iterations * 0.997300203937) };
+
+  for (size_t i = 0; i < all_sim_par.size(); ++i)
+  {
+    MinuitParameter orig_par = minParams.Parameter(i);
+    if (orig_par.IsFixed()) continue;
+
+    vector<MinuitParameter> vpar = all_sim_par[i];
+
+    vector<MinuitParameter> min_par;
+    vector<MinuitParameter> max_par;
+    double upper[3];
+    double lower[3];
+
+    vector<Error> verr;
+
+    for (size_t j = 0; j < 3; ++j)
+    {
+      min_par.push_back(*min_element(vpar.begin(), vpar.begin() + limit[j]));
+      max_par.push_back(*max_element(vpar.begin(), vpar.begin() + limit[j]));
+
+      upper[j] = max_par[j].Value() - orig_par.Value();
+      lower[j] = orig_par.Value() - min_par[j].Value();
+
+      verr.push_back(
+        Error(orig_par.Number(), orig_par.GetName(), upper[j], lower[j]));
+    }
+
+    retval.push_back(verr);
+  }
+
+  fit->setDataPoints(orig_dps);
+  fit->setIntParameters(orig_params);
+  fit->chiSquare(orig_params);
+
+  fit->enableProcessing();
+  fit->processBootstrap(&retval, iterations);
+  return retval;
 }
 
 
-template void
-bootstrapping<GSLDriver>(GenericFit*, const Parameters&,
-  GSLDriver*, Parameters (GSLDriver::*)());
+template vector<vector<Error> >
+bootstrap<GSLDriver>(GenericFit*, const Parameters&,
+  GSLDriver*, Parameters (GSLDriver::*)(), unsigned int);
 
 
-template void
-bootstrapping<MinuitDriver>(GenericFit*, const Parameters&,
-  MinuitDriver*, Parameters (MinuitDriver::*)());
+template vector<vector<Error> >
+bootstrap<MinuitDriver>(GenericFit*, const Parameters&,
+  MinuitDriver*, Parameters (MinuitDriver::*)(), unsigned int);
 
 } // namespace Kaimini
 

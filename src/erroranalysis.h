@@ -17,14 +17,17 @@
 #ifndef KAIMINI_ERRORANALYSIS_H
 #define KAIMINI_ERRORANALYSIS_H
 
+#include <vector>
+#include "error.h"
 #include "genericfit.h"
 #include "parameters.h"
 
 namespace Kaimini {
 
-template<typename Driver> void
-bootstrapping(GenericFit* fit, const Parameters& minPar,
-              Driver* driver, Parameters (Driver::*minimize)());
+template<typename Driver> std::vector<std::vector<Error> >
+bootstrap(GenericFit* fit, const Parameters& minParams,
+          Driver* driver, Parameters (Driver::*minimize)(),
+          unsigned int iterations = 1000);
 
 } // namespace Kaimini
 
