@@ -22,6 +22,7 @@
 #include <gsl/gsl_vector.h>
 #include "gslaux.h"
 #include "gsldriver.h"
+#include "kaimini.h"
 
 using namespace std;
 

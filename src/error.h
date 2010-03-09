@@ -19,87 +19,126 @@
 
 #include <ostream>
 #include <string>
+#include <vector>
 
 namespace Kaimini {
 
 class Error
 {
 public:
-  Error(
-    unsigned int _number = 0,
-    const std::string& _name = "",
-    double _mean = 0.)
-    : mNumber(_number),
-      mName(_name),
-      mMean(_mean),
-      mUpper(_mean),
-      mLower(_mean) {}
+  explicit Error(
+    int number_ = 0,
+    const std::string& name_ = "",
+    double mean_ = 0.)
+    : mNumber(number_),
+      mName(name_),
+      mMean(mean_),
+      mUpper(mean_),
+      mLower(mean_) {}
 
   Error(
-    unsigned int _number,
-    const std::string& _name,
-    double _upper,
-    double _lower)
-    : mNumber(_number),
-      mName(_name),
-      mMean((_upper + _lower)/2.),
-      mUpper(_upper),
-      mLower(_lower) {}
+    int number_,
+    const std::string& name_,
+    double upper_,
+    double lower_)
+    : mNumber(number_),
+      mName(name_),
+      mMean((upper_ + lower_) / 2.),
+      mUpper(upper_),
+      mLower(lower_) {}
 
-  unsigned int number(unsigned int newNumber)
-  { return mNumber = newNumber; }
+  int number(int newNumber)
+  {
+    return mNumber = newNumber;
+  }
 
-  unsigned int number() const
-  { return mNumber; }
+  int number() const
+  {
+    return mNumber;
+  }
 
   const std::string& name(const std::string& newName)
-  { return mName = newName; }
+  {
+    return mName = newName;
+  }
 
   const std::string& name() const
-  { return mName; }
+  {
+    return mName;
+  }
 
   double mean(double newMean)
-  { return mMean = (mLower = (mUpper = newMean)); }
+  {
+    return mMean = (mLower = (mUpper = newMean));
+  }
 
   double mean() const
-  { return mMean; }
+  {
+    return mMean;
+  }
 
   double upper(double newUpper)
   {
-    mMean = (newUpper + mLower)/2.;
+    mMean = (newUpper + mLower) / 2.;
     return mUpper = newUpper;
   }
 
   double upper() const
-  { return mUpper; }
+  {
+    return mUpper;
+  }
 
   double lower(double newLower)
   {
-    mMean = (mUpper + newLower)/2.;
+    mMean = (mUpper + newLower) / 2.;
     return mLower = newLower;
   }
 
   double lower() const
-  { return mLower; }
+  {
+    return mLower;
+  }
 
 private:
-  unsigned int mNumber;
+  int mNumber;
   std::string mName;
   double mMean;
   double mUpper;
   double mLower;
+
+friend std::ostream& operator<<(std::ostream&, const Error&);
+friend std::ostream& operator<<(std::ostream&, const std::vector<Error>&);
 };
 
 
+// stream operators
 inline std::ostream&
-operator<<(std::ostream& os, const Error& err)
+operator<<(std::ostream& os, const Error& error)
 {
-  os << "Error:"                        << std::endl
-     << "    number : " << err.number() << std::endl
-     << "    name   : " << err.name()   << std::endl
-     << "    mean   : " << err.mean()   << std::endl
-     << "    upper  : " << err.upper()  << std::endl
-     << "    lower  : " << err.lower()  << std::endl;
+  os << "Error:"                         << std::endl
+     << "    number : " << error.mNumber << std::endl
+     << "    name   : " << error.mName   << std::endl
+     << "    mean   : " << error.mMean   << std::endl
+     << "    upper  : " << error.mUpper  << std::endl
+     << "    lower  : " << error.mLower  << std::endl;
+  return os;
+}
+
+
+inline std::ostream&
+operator<<(std::ostream& os, const std::vector<Error>& errors)
+{
+  os << "Errors:" << std::endl;
+  for (std::vector<Error>::const_iterator error = errors.begin();
+       error != errors.end(); ++error)
+  {
+    os << "    - number : " << error->mNumber << std::endl
+       << "      name   : " << error->mName   << std::endl
+       << "      mean   : " << error->mMean   << std::endl
+       << "      upper  : " << error->mUpper  << std::endl
+       << "      lower  : " << error->mLower  << std::endl
+       <<                                        std::endl;
+  }
   return os;
 }
 

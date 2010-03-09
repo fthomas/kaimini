@@ -21,7 +21,7 @@
 #include <cmath>
 #include <ostream>
 #include <string>
-#include "kaimini.h"
+#include <vector>
 #include "random.h"
 
 namespace Kaimini {
@@ -29,32 +29,42 @@ namespace Kaimini {
 class DataPoint
 {
 public:
-  DataPoint(
-    const std::string& _name = "",
-    bool _use = false,
-    double _value = 0.,
-    double _error = 0.)
-    : mName(_name),
-      mUse(_use),
-      mValue(_value),
-      mError(_error),
-      mErrorSq(_error * _error),
+  explicit DataPoint(
+    const std::string& name_ = "",
+    bool use_ = false,
+    double value_ = 0.,
+    double error_ = 0.)
+    : mName(name_),
+      mUse(use_),
+      mValue(value_),
+      mError(error_),
+      mErrorSq(error_ * error_),
       mCachedValue(0.) {}
 
   const std::string& name(const std::string& newName)
-  { return mName = newName; }
+  {
+    return mName = newName;
+  }
 
   const std::string& name() const
-  { return mName; }
+  {
+    return mName;
+  }
 
   bool use(bool useDataPoint)
-  { return mUse = useDataPoint; }
+  {
+    return mUse = useDataPoint;
+  }
 
   bool use() const
-  { return mUse; }
+  {
+    return mUse;
+  }
 
   double value(double newValue)
-  { return mValue = newValue; }
+  {
+    return mValue = newValue;
+  }
 
   double value() const
   { return mValue; }
@@ -66,31 +76,49 @@ public:
   }
 
   double error() const
-  { return mError; }
+  {
+    return mError;
+  }
 
   double cachedValue(double newCachedValue) const
-  { return mCachedValue = newCachedValue; }
+  {
+    return mCachedValue = newCachedValue;
+  }
 
   double cachedValue() const
-  { return mCachedValue; }
+  {
+    return mCachedValue;
+  }
 
   double wtSqResidual() const
-  { return std::pow(mValue - mCachedValue, 2) / mErrorSq; }
+  {
+    return std::pow(mValue - mCachedValue, 2) / mErrorSq;
+  }
 
   void swapValues()
-  { std::swap(mValue, mCachedValue); }
+  {
+    std::swap(mValue, mCachedValue);
+  }
 
   double smearValueUniform()
-  { return mValue += g_rnd.randUniformReal(-mError/2., mError/2.); }
+  {
+    return mValue += g_rnd.randUniformReal(-mError / 2., mError / 2.);
+  }
 
   double smearValueNormal()
-  { return mValue += g_rnd.randNormal(mError); }
+  {
+    return mValue += g_rnd.randNormal(mError);
+  }
 
-  double randUniformError(double width)
-  { return error(g_rnd.randUniformReal(width)); }
+  double randErrorUniform(double width)
+  {
+    return error(g_rnd.randUniformReal(width));
+  }
 
-  double randNormalError(double stddev)
-  { return error(std::abs(g_rnd.randNormal(stddev))); }
+  double randErrorNormal(double stddev)
+  {
+    return error(std::abs(g_rnd.randNormal(stddev)));
+  }
 
 private:
   std::string mName;
@@ -99,44 +127,57 @@ private:
   double mError;
   double mErrorSq;
   mutable double mCachedValue;
+
+friend std::ostream& operator<<(std::ostream&, const DataPoint&);
+friend std::ostream& operator<<(std::ostream&, const std::vector<DataPoint>&);
 };
 
 
 inline double
-dps_add_up_wt_sq_residuals(const std::vector<DataPoint>& dps)
+dps_add_residuals(const std::vector<DataPoint>& dps)
 {
   double sum = 0.;
-  std::vector<DataPoint>::const_iterator dp = dps.begin();
-  for (; dp != dps.end(); ++dp) if (dp->use()) sum += dp->wtSqResidual();
+  for (std::vector<DataPoint>::const_iterator dp = dps.begin();
+       dp != dps.end(); ++dp)
+  {
+    if (dp->use()) sum += dp->wtSqResidual();
+  }
   return sum;
 }
 
 
 inline void
-dps_swap_values_with_cached_values(std::vector<DataPoint>& dps)
+dps_swap_values(std::vector<DataPoint>& dps)
 {
-  std::vector<DataPoint>::iterator dp = dps.begin();
-  for (; dp != dps.end(); ++dp) if (dp->use()) dp->swapValues();
+  for (std::vector<DataPoint>::iterator dp = dps.begin();
+       dp != dps.end(); ++dp)
+  {
+    if (dp->use()) dp->swapValues();
+  }
 }
 
 
 inline void
-dps_smear_values_normal(std::vector<DataPoint>& dps)
+dps_smear_normal(std::vector<DataPoint>& dps)
 {
-  std::vector<DataPoint>::iterator dp = dps.begin();
-  for (; dp != dps.end(); ++dp) if (dp->use()) dp->smearValueNormal();
+  for (std::vector<DataPoint>::iterator dp = dps.begin();
+       dp != dps.end(); ++dp)
+  {
+    if (dp->use()) dp->smearValueNormal();
+  }
 }
 
 
+// stream operators
 inline std::ostream&
 operator<<(std::ostream& os, const DataPoint& dp)
 {
   os << "DataPoint:"                               << std::endl
-     << "    name         : " << dp.name()         << std::endl
-     << "    use          : " << dp.use()          << std::endl
-     << "    value        : " << dp.value()        << std::endl
-     << "    error        : " << dp.error()        << std::endl
-     << "    cachedValue  : " << dp.cachedValue()  << std::endl
+     << "    name         : " << dp.mName          << std::endl
+     << "    use          : " << dp.mUse           << std::endl
+     << "    value        : " << dp.mValue         << std::endl
+     << "    error        : " << dp.mError         << std::endl
+     << "    cachedValue  : " << dp.mCachedValue   << std::endl
      << "    wtSqResidual : " << dp.wtSqResidual() << std::endl;
   return os;
 }
@@ -149,13 +190,13 @@ operator<<(std::ostream& os, const std::vector<DataPoint>& dps)
   for (std::vector<DataPoint>::const_iterator dp = dps.begin();
        dp != dps.end(); ++dp)
   {
-    os << "    - name         : " << dp->name()         << std::endl
-       << "      use          : " << dp->use()          << std::endl
-       << "      value        : " << dp->value()        << std::endl
-       << "      error        : " << dp->error()        << std::endl
-       << "      cachedValue  : " << dp->cachedValue()  << std::endl
+    os << "    - name         : " << dp->mName          << std::endl
+       << "      use          : " << dp->mUse           << std::endl
+       << "      value        : " << dp->mValue         << std::endl
+       << "      error        : " << dp->mError         << std::endl
+       << "      cachedValue  : " << dp->mCachedValue   << std::endl
        << "      wtSqResidual : " << dp->wtSqResidual() << std::endl
-       << std::endl;
+       <<                                                  std::endl;
   }
   return os;
 }

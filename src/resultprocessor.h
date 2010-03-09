@@ -33,23 +33,35 @@ public:
   virtual ~ResultProcessor() {}
 
   void enableProcessing()
-  { mProcess = true; }
+  {
+    mProcess = true;
+  }
 
   void disableProcessing()
-  { mProcess = false; }
+  {
+    mProcess = false;
+  }
 
   void processParams(const Parameters* params)
-  { if (mProcess) processParamsImpl(params); }
+  {
+    if (mProcess) processParamsImpl(params);
+  }
 
   void processMinimum(const ROOT::Minuit2::FunctionMinimum* minimum)
-  { if (mProcess) processMinimumImpl(minimum); }
+  {
+    if (mProcess) processMinimumImpl(minimum);
+  }
 
   void processErrors(const std::vector<ROOT::Minuit2::MinosError>* errors)
-  { if (mProcess) processErrorsImpl(errors); }
+  {
+    if (mProcess) processErrorsImpl(errors);
+  }
 
   void processBootstrap(const std::vector<std::vector<Error> >* errors,
                         unsigned int iterations)
-  { if (mProcess) processBootstrapImpl(errors, iterations); }
+  {
+    if (mProcess) processBootstrapImpl(errors, iterations);
+  }
 
 protected:
   virtual void

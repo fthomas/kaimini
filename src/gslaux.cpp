@@ -29,7 +29,9 @@ vector<double> gsl_to_stl_vector(const gsl_vector* v)
 {
   vector<double> retval(v->size);
   for (size_t i = 0; i < v->size; ++i)
-  { retval[i] = gsl_vector_get(v, i); }
+  {
+    retval[i] = gsl_vector_get(v, i);
+  }
   return retval;
 }
 
@@ -38,7 +40,9 @@ gsl_vector* stl_to_gsl_vector(const vector<double>& v)
 {
   gsl_vector* retval = gsl_vector_alloc(v.size());
   for (size_t i = 0; i < v.size(); ++i)
-  { gsl_vector_set(retval, i, v[i]); }
+  {
+    gsl_vector_set(retval, i, v[i]);
+  }
   return retval;
 }
 
@@ -52,7 +56,9 @@ double gsl_vector_minkowski_dist(const gsl_vector* v1,
 
   double retval = 0.;
   for (size_t i = 0; i < diff->size; ++i)
-  { retval += pow(abs(gsl_vector_get(diff, i)), p); }
+  {
+    retval += pow(abs(gsl_vector_get(diff, i)), p);
+  }
   retval = pow(retval, 1./p);
 
   gsl_vector_free(diff);

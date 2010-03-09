@@ -24,6 +24,7 @@
 #include "erroranalysis.h"
 #include "genericfit.h"
 #include "gsldriver.h"
+#include "kaimini.h"
 #include "minuitdriver.h"
 #include "parameters.h"
 #include "random.h"
@@ -50,7 +51,7 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
   fit->chiSquare(minParams);
 
   vector<DataPoint> min_dps = fit->getDataPoints();
-  dps_swap_values_with_cached_values(min_dps);
+  dps_swap_values(min_dps);
 
   vector<DataPoint> synthetic_dps;
   vector<pair<double, Parameters> > sim_map;
@@ -60,7 +61,7 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
   for (int i = 0; i < iters; ++i)
   {
     synthetic_dps = min_dps;
-    dps_smear_values_normal(synthetic_dps);
+    dps_smear_normal(synthetic_dps);
 
     // Repeat the fit procedure with the synthetic data points to
     // obtain simulated minimal parameters for these data points.
