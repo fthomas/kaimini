@@ -25,26 +25,59 @@ namespace Kaimini {
 class Error
 {
 public:
-  Error(unsigned int _number, const std::string& _name, double _mean)
-    : mNumber(_number), mName(_name), mMean(_mean), mUpper(_mean),
+  Error(
+    unsigned int _number = 0,
+    const std::string& _name = "",
+    double _mean = 0.)
+    : mNumber(_number),
+      mName(_name),
+      mMean(_mean),
+      mUpper(_mean),
       mLower(_mean) {}
 
-  Error(unsigned int _number, const std::string& _name, double _upper,
-        double _lower)
-    : mNumber(_number), mName(_name), mMean((_upper + _lower)/2.),
-      mUpper(_upper), mLower(_lower) {}
+  Error(
+    unsigned int _number,
+    const std::string& _name,
+    double _upper,
+    double _lower)
+    : mNumber(_number),
+      mName(_name),
+      mMean((_upper + _lower)/2.),
+      mUpper(_upper),
+      mLower(_lower) {}
+
+  unsigned int number(unsigned int newNumber)
+  { return mNumber = newNumber; }
 
   unsigned int number() const
   { return mNumber; }
 
+  const std::string& name(const std::string& newName)
+  { return mName = newName; }
+
   const std::string& name() const
   { return mName; }
+
+  double mean(double newMean)
+  { return mMean = (mLower = (mUpper = newMean)); }
 
   double mean() const
   { return mMean; }
 
+  double upper(double newUpper)
+  {
+    mMean = (newUpper + mLower)/2.;
+    return mUpper = newUpper;
+  }
+
   double upper() const
   { return mUpper; }
+
+  double lower(double newLower)
+  {
+    mMean = (mUpper + newLower)/2.;
+    return mLower = newLower;
+  }
 
   double lower() const
   { return mLower; }
