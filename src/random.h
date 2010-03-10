@@ -31,15 +31,21 @@ public:
 
   int randUniformInt(int min, int max);
   int randUniformInt(int max = 9)
-  { return randUniformInt(0, max); }
+  {
+    return randUniformInt(0, max);
+  }
 
   double randUniformReal(double min, double max);
   double randUniformReal(double max = 1.)
-  { return randUniformReal(0., max); }
+  {
+    return randUniformReal(0., max);
+  }
 
   double randNormal(double mean, double stddev);
   double randNormal(double stddev = 1.)
-  { return randNormal(0., stddev); }
+  {
+    return randNormal(0., stddev);
+  }
 
   std::string randString(std::size_t length = 6);
 

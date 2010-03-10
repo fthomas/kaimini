@@ -24,10 +24,9 @@ using namespace std;
 namespace Kaimini {
 
 // static
-const string Random::mAlnum =
-    "0123456789"
-    "abcdefghijklmnopqrstuvwxyz"
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const string Random::mAlnum = "0123456789"
+                              "abcdefghijklmnopqrstuvwxyz"
+                              "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
 Random::Random()
@@ -71,7 +70,10 @@ double Random::randNormal(const double mean, const double stddev)
 string Random::randString(const size_t length)
 {
   string retval(length, char());
-  for (size_t i = 0; i < length; ++i) retval[i] = mAlnum[mAlnumGen()];
+  for (string::iterator ch = retval.begin(); ch != retval.end(); ++ch)
+  {
+      *ch = mAlnum[mAlnumGen()];
+  }
   return retval;
 }
 

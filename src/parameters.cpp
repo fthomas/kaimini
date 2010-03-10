@@ -128,8 +128,8 @@ vector<vector<MinuitParameter> > transpose(const vector<Parameters>& vecPar)
   vector<vector<MinuitParameter> > retval;
   if (vecPar.empty()) return retval;
 
-  const unsigned int inner_size = vecPar[0].getMinuitParameters().size();
-  const unsigned int outer_size = vecPar.size();
+  size_t inner_size = vecPar[0].getMinuitParameters().size();
+  size_t outer_size = vecPar.size();
 
   // Assert that every element of vecPar is of the same size.
   for (vector<Parameters>::const_iterator params = vecPar.begin();
@@ -138,10 +138,10 @@ vector<vector<MinuitParameter> > transpose(const vector<Parameters>& vecPar)
     assert(params->getMinuitParameters().size() == inner_size);
   }
 
-  for (unsigned int i = 0; i < inner_size; ++i)
+  for (size_t i = 0; i < inner_size; ++i)
   {
     vector<MinuitParameter> vec_mp;
-    for (unsigned int j = 0; j < outer_size; ++j)
+    for (size_t j = 0; j < outer_size; ++j)
     {
       vec_mp.push_back(vecPar[j].Parameter(i));
     }
