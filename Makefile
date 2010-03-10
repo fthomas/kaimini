@@ -15,6 +15,7 @@ else ifneq (,$(findstring icc,$(CXX)))
 endif
 
 INCPATH  = $(shell gsl-config --cflags) -I$(MINUIT_INCPATH)
+LDFLAGS  = 
 LIBS     = -lboost_filesystem-mt -lboost_program_options-mt \
            $(shell gsl-config --libs) \
            -L$(MINUIT_LIBS) -lMinuit2 -lgomp -Wl,-rpath=$(MINUIT_LIBS)
@@ -25,7 +26,6 @@ OBJDIR   = src/.obj
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(subst $(SRCDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
 KAIMINI    = input/kaimini
-KAIMINI_SO = input/kaimini.so
 
 all: $(KAIMINI)
 
@@ -40,10 +40,11 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 ### Build and clean rules:
 
 $(KAIMINI): $(OBJECTS)
-	$(CXX) -o "$@" $(OBJECTS) $(LIBS)
+	$(CXX) $(LDFLAGS) -o "$@" $(OBJECTS) $(LIBS)
 
-$(KAIMINI_SO): $(filter-out %main.o,$(OBJECTS))
-	$(CXX) -o "$@" -shared $(filter-out %main.o,$(OBJECTS)) $(LIBS)
+gprof: CXXFLAGS += -pg
+gprof: LDFLAGS  += -pg
+gprof: $(KAIMINI)
 
 
 doc:
@@ -76,4 +77,4 @@ set_version:
 	    src/kaimini.h; \
 	fi
 
-.PHONY: all doc clean cleanall set_version
+.PHONY: all doc clean cleanall gprof set_version
