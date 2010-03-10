@@ -33,19 +33,27 @@ public:
 
   Parameters runMigrad(unsigned int stra);
   Parameters runMigrad()
-  { return runMigrad(1); }
+  {
+    return runMigrad(1);
+  }
 
   Parameters runMinimize(unsigned int stra);
   Parameters runMinimize()
-  { return runMinimize(1); }
+  {
+    return runMinimize(1);
+  }
 
   Parameters runScan(unsigned int stra);
   Parameters runScan()
-  { return runScan(1); }
+  {
+    return runScan(1);
+  }
 
   Parameters runSimplex(unsigned int stra);
   Parameters runSimplex()
-  { return runSimplex(1); }
+  {
+    return runSimplex(1);
+  }
 
   ROOT::Minuit2::FunctionMinimum getFunctionMinimum();
 

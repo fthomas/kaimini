@@ -42,9 +42,14 @@ public:
     mProcess = false;
   }
 
-  void processParams(const Parameters* params)
+  void processParameters(const Parameters* params)
   {
-    if (mProcess) processParamsImpl(params);
+    if (mProcess) processParametersImpl(params);
+  }
+
+  void processDataPoints()
+  {
+    if (mProcess) processDataPointsImpl();
   }
 
   void processMinimum(const ROOT::Minuit2::FunctionMinimum* minimum)
@@ -65,7 +70,10 @@ public:
 
 protected:
   virtual void
-  processParamsImpl(const Parameters*) {}
+  processParametersImpl(const Parameters*) {}
+
+  virtual void
+  processDataPointsImpl() {}
 
   virtual void
   processMinimumImpl(const ROOT::Minuit2::FunctionMinimum*) {}

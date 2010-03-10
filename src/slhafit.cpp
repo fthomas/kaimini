@@ -60,8 +60,9 @@ void SLHAFit::setDataPoints(const SLHA& input)
     DataPoint dp;
     try
     {
-      dp.name(  (*line)[1] );
-      dp.use(   to_<bool>((*line)[3]) );
+      dp.number(   to_<int>((*line)[0]) );
+      dp.name(              (*line)[1]  );
+      dp.use(     to_<bool>((*line)[3]) );
       dp.value( to_<double>((*line)[4]) );
       dp.error( parse_error_string(dp.value(), (*line)[5]) );
     }
@@ -189,7 +190,7 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 }
 
 
-void SLHAFit::processParamsImpl(const Parameters* intPar)
+void SLHAFit::processParametersImpl(const Parameters* intPar)
 {
   if (intPar->getParams().empty()) return;
 
@@ -208,7 +209,7 @@ void SLHAFit::processParamsImpl(const Parameters* intPar)
     if (mp->HasUpperLimit()) limits << mp->UpperLimit();
 
     mResult[block][""] = str(
-      format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E   %6%")
+      format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E   %6%")
         % (mp->Number()+1)
         % mp->GetName()
         % !mp->IsFixed()
@@ -219,10 +220,50 @@ void SLHAFit::processParamsImpl(const Parameters* intPar)
 }
 
 
+void SLHAFit::processDataPointsImpl()
+{
+  if (mDataPoints.empty()) return;
+
+  string block = "KaiminiDataPointsOut";
+  mResult[block]["BLOCK"] = "BLOCK " + block;
+
+  vector<DataPoint>::const_iterator dp;
+
+  for (dp = mDataPoints.begin(); dp != mDataPoints.end(); ++dp)
+  {
+    mResult[block][""] = str(
+      format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E %6$16.8E")
+        % dp->number()
+        % dp->name()
+        % dp->use()
+        % dp->cachedValue()
+        % dp->value()
+        % dp->error());
+  }
+
+  mChiSq = dps_add_residuals(mDataPoints);
+
+  block = "KaiminiChiSquare";
+  mResult[block]["BLOCK"] = "BLOCK " + block;
+
+  string fmt_str = " %1% %|4t|%2% %|16t|%3% %4$16.8E";
+  mResult[block][""] = str(format(fmt_str) % 0 % "chi^2" % 1 % mChiSq);
+
+  for (dp = mDataPoints.begin(); dp != mDataPoints.end(); ++dp)
+  {
+    mResult[block][""] = str(format(fmt_str)
+      % dp->number()
+      % dp->name()
+      % dp->use()
+      % dp->wtSqResidual());
+  }
+}
+
+
 void SLHAFit::processMinimumImpl(const FunctionMinimum* minimum)
 {
-  Parameters minPar = minimum->UserParameters();
-  processParams(&minPar);
+  Parameters min_par = minimum->UserParameters();
+  processParameters(&min_par);
 
   string block;
 
@@ -300,37 +341,6 @@ void SLHAFit::processBootstrapImpl(const vector<vector<Error> >* errors,
 const SLHA& SLHAFit::result()
 {
   string block;
-
-  if (!mDataPoints.empty())
-  {
-    block = "KaiminiDataPointsOut";
-    mResult[block]["BLOCK"] = "BLOCK " + block;
-
-    for (size_t i = 0; i < mDataPoints.size(); ++i)
-    {
-      mResult[block][""] = str(
-        format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E %6$16.8E")
-          % (i+1)
-          % mDataPoints[i].name()
-          % mDataPoints[i].use()
-          % mDataPoints[i].cachedValue()
-          % mDataPoints[i].value()
-          % mDataPoints[i].error());
-    }
-
-    block = "KaiminiChiSquare";
-    mResult[block]["BLOCK"] = "BLOCK " + block;
-    mResult[block][""] = str(format(" 0  chi^2 %|15t|%1$15.8E") % mChiSq);
-
-    for (size_t i = 0; i < mDataPoints.size(); ++i)
-    {
-      mResult[block][""] = str(
-        format(" %1% %|4t|%2% %|15t|%3$15.8E")
-          % (i+1)
-          % mDataPoints[i].name()
-          % mDataPoints[i].wtSqResidual());
-    }
-  }
 
   block = "KaiminiInfo";
   mResult[block]["BLOCK"] = "BLOCK " + block;

@@ -37,7 +37,8 @@ protected:
   void writeParameters(const std::vector<double>& v,
                        SLHAea::SLHA& output) const;
 
-  void processParamsImpl(const Parameters* intPar);
+  void processParametersImpl(const Parameters* intPar);
+  void processDataPointsImpl();
   void processMinimumImpl(const ROOT::Minuit2::FunctionMinimum* minimum);
   void processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*
                          errors);

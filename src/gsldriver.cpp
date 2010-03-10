@@ -111,7 +111,8 @@ Parameters GSLDriver::runSimplex()
   gsl_vector_free(v);
   gsl_multimin_fminimizer_free(minimizer);
 
-  mspFit->processParams(&msPar);
+  mspFit->processParameters(&msPar);
+  mspFit->processDataPoints();
   return msPar;
 }
 

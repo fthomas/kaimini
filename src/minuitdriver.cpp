@@ -40,9 +40,11 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
 {
   MnMigrad minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
-  mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  mpFit->processMinimum(mpMinimum.get());
+  mpFit->processDataPoints();
+
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
@@ -52,9 +54,11 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
 {
   MnMinimize minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
-  mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  mpFit->processMinimum(mpMinimum.get());
+  mpFit->processDataPoints();
+
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
@@ -64,9 +68,11 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
 {
   MnScan minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
-  mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  mpFit->processMinimum(mpMinimum.get());
+  mpFit->processDataPoints();
+
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
@@ -76,9 +82,11 @@ Parameters MinuitDriver::runSimplex(const unsigned int stra)
 {
   MnSimplex minimizer(*mpFit, mpFit->getIntParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
-  mpFit->processMinimum(mpMinimum.get());
 
   sanitize();
+  mpFit->processMinimum(mpMinimum.get());
+  mpFit->processDataPoints();
+
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
 }
@@ -104,11 +112,14 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum,
        mp != mps.end(); ++mp)
   {
     if (!mp->IsFixed() && !mp->IsConst())
-    { errors.push_back(minos.Minos(mp->Number())); }
+    {
+      errors.push_back(minos.Minos(mp->Number()));
+    }
   }
 
-  mpFit->processErrors(&errors);
   sanitize();
+  mpFit->processErrors(&errors);
+
   if (g_verbose_output) cout << errors;
   return errors;
 }
@@ -133,14 +144,14 @@ void MinuitDriver::sanitize()
 ostream& operator<<(ostream& os, const vector<MinosError>& errors)
 {
   os << "MinosErrors:" << endl;
-  for (vector<MinosError>::const_iterator err = errors.begin();
-       err != errors.end(); ++err)
+  for (vector<MinosError>::const_iterator error = errors.begin();
+       error != errors.end(); ++error)
   {
-    os << "    - number : "  << err->Parameter() << endl
-       << "      valid  : "  << err->IsValid()   << endl
-       << "      lower  : "  << err->Lower()     << endl
-       << "      upper  :  " << err->Upper()     << endl
-       << endl;
+    os << "    - number : " << error->Parameter() << endl
+       << "      valid  : " << error->IsValid()   << endl
+       << "      upper  : " << error->Upper()     << endl
+       << "      lower  : " << error->Lower()     << endl
+       <<                                            endl;
   }
   return os;
 }
