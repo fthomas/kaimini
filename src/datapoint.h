@@ -30,16 +30,28 @@ class DataPoint
 {
 public:
   explicit DataPoint(
+    int number_ = 0,
     const std::string& name_ = "",
     bool use_ = false,
     double value_ = 0.,
     double error_ = 0.)
-    : mName(name_),
+    : mNumber(number_),
+      mName(name_),
       mUse(use_),
       mValue(value_),
       mError(error_),
       mErrorSq(error_ * error_),
       mCachedValue(0.) {}
+
+  int number(int newNumber)
+  {
+    return mNumber = newNumber;
+  }
+
+  int number() const
+  {
+    return mNumber;
+  }
 
   const std::string& name(const std::string& newName)
   {
@@ -67,7 +79,9 @@ public:
   }
 
   double value() const
-  { return mValue; }
+  {
+    return mValue;
+  }
 
   double error(double newError)
   {
@@ -110,17 +124,18 @@ public:
     return mValue += g_rnd.randNormal(mError);
   }
 
-  double randErrorUniform(double width)
+  double randomErrorUniform(double width)
   {
     return error(g_rnd.randUniformReal(width));
   }
 
-  double randErrorNormal(double stddev)
+  double randomErrorNormal(double stddev)
   {
     return error(std::abs(g_rnd.randNormal(stddev)));
   }
 
 private:
+  int mNumber;
   std::string mName;
   bool mUse;
   double mValue;
@@ -173,6 +188,7 @@ inline std::ostream&
 operator<<(std::ostream& os, const DataPoint& dp)
 {
   os << "DataPoint:"                               << std::endl
+     << "    number       : " << dp.mNumber        << std::endl
      << "    name         : " << dp.mName          << std::endl
      << "    use          : " << dp.mUse           << std::endl
      << "    value        : " << dp.mValue         << std::endl
@@ -190,7 +206,8 @@ operator<<(std::ostream& os, const std::vector<DataPoint>& dps)
   for (std::vector<DataPoint>::const_iterator dp = dps.begin();
        dp != dps.end(); ++dp)
   {
-    os << "    - name         : " << dp->mName          << std::endl
+    os << "    - number       : " << dp->mNumber        << std::endl
+       << "      name         : " << dp->mName          << std::endl
        << "      use          : " << dp->mUse           << std::endl
        << "      value        : " << dp->mValue         << std::endl
        << "      error        : " << dp->mError         << std::endl
