@@ -31,7 +31,9 @@ public:
   Parameters() {}
 
   Parameters(const ROOT::Minuit2::MnUserParameters& par)
-  { ROOT::Minuit2::MnUserParameters::operator=(par); }
+  {
+    ROOT::Minuit2::MnUserParameters::operator=(par);
+  }
 
   Parameters& operator=(const ROOT::Minuit2::MnUserParameters& par)
   {
@@ -41,13 +43,19 @@ public:
 
   const std::vector<ROOT::Minuit2::MinuitParameter>&
   getMinuitParameters() const
-  { return ROOT::Minuit2::MnUserParameters::Parameters(); }
+  {
+    return ROOT::Minuit2::MnUserParameters::Parameters();
+  }
 
   std::vector<double> getParams() const
-  { return Params(); }
+  {
+    return Params();
+  }
 
   std::vector<double> getStepSizes() const
-  { return Errors(); }
+  {
+    return Errors();
+  }
 
   std::vector<double> getVarParams() const;
   std::vector<double> getVarStepSizes() const;
@@ -80,55 +88,79 @@ namespace Minuit2 {
 // relational operators for MinuitParameter
 inline bool
 operator<(const MinuitParameter& a, const MinuitParameter& b)
-{ return a.Value() < b.Value()
-    || (!(b.Value() < a.Value()) && a.Error() < b.Error()); }
+{
+  return a.Value() < b.Value()
+    || (!(b.Value() < a.Value()) && a.Error() < b.Error());
+}
 
 inline bool
 operator>(const MinuitParameter& a, const MinuitParameter& b)
-{ return b < a; }
+{
+  return b < a;
+}
 
 inline bool
 operator<=(const MinuitParameter& a, const MinuitParameter& b)
-{ return !(b < a); }
+{
+  return !(b < a);
+}
 
 inline bool
 operator>=(const MinuitParameter& a, const MinuitParameter& b)
-{ return !(a < b); }
+{
+  return !(a < b);
+}
 
 inline bool
 operator==(const MinuitParameter& a, const MinuitParameter& b)
-{ return !(a < b) && !(b < a); }
+{
+  return !(a < b) && !(b < a);
+}
 
 inline bool
 operator!=(const MinuitParameter& a, const MinuitParameter& b)
-{ return !(a == b); }
+{
+  return !(a == b);
+}
 
 
 // relational operators for MnUserParameters
 inline bool
 operator<(const MnUserParameters& a, const MnUserParameters& b)
-{ return a.Params() < b.Params()
-    || (!(b.Params() < a.Params()) && a.Errors() < b.Errors()); }
+{
+  return a.Params() < b.Params()
+    || (!(b.Params() < a.Params()) && a.Errors() < b.Errors());
+}
 
 inline bool
 operator>(const MnUserParameters& a, const MnUserParameters& b)
-{ return b < a; }
+{
+  return b < a;
+}
 
 inline bool
 operator<=(const MnUserParameters& a, const MnUserParameters& b)
-{ return !(b < a); }
+{
+  return !(b < a);
+}
 
 inline bool
 operator>=(const MnUserParameters& a, const MnUserParameters& b)
-{ return !(a < b); }
+{
+  return !(a < b);
+}
 
 inline bool
 operator==(const MnUserParameters& a, const MnUserParameters& b)
-{ return !(a < b) && !(b < a); }
+{
+  return !(a < b) && !(b < a);
+}
 
 inline bool
 operator!=(const MnUserParameters& a, const MnUserParameters& b)
-{ return !(a == b); }
+{
+  return !(a == b);
+}
 
 } // namespace Minuit2
 } // namespace ROOT

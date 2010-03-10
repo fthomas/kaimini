@@ -50,7 +50,10 @@ vector<double> Parameters::getVarStepSizes() const
   for (vector<MinuitParameter>::const_iterator mp = mps.begin();
        mp != mps.end(); ++mp)
   {
-    if (!mp->IsFixed() && !mp->IsConst()) step_sizes.push_back(mp->Error());
+    if (!mp->IsFixed() && !mp->IsConst())
+    {
+      step_sizes.push_back(mp->Error());
+    }
   }
   return step_sizes;
 }
@@ -66,7 +69,9 @@ gsl_vector* Parameters::getVarParamsGSLVec() const
        mp != mps.end(); ++mp)
   {
     if (!mp->IsFixed() && !mp->IsConst())
-    { gsl_vector_set(par, i++, mp->Value()); }
+    {
+      gsl_vector_set(par, i++, mp->Value());
+    }
   }
   return par;
 }
@@ -82,7 +87,9 @@ gsl_vector* Parameters::getVarStepSizesGSLVec() const
        mp != mps.end(); ++mp)
   {
     if (!mp->IsFixed() && !mp->IsConst())
-    { gsl_vector_set(step_sizes, i++, mp->Error()); }
+    {
+      gsl_vector_set(step_sizes, i++, mp->Error());
+    }
   }
   return step_sizes;
 }
@@ -94,7 +101,9 @@ Parameters& Parameters::setVarParams(const vector<double>& v)
   for (size_t i = 0, j = 0; i < Params().size(); ++i)
   {
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
-    { SetValue(i, v.at(j++)); }
+    {
+      SetValue(i, v.at(j++));
+    }
   }
   return *this;
 }
@@ -106,7 +115,9 @@ Parameters& Parameters::setVarParams(const gsl_vector* v)
   for (size_t i = 0, j = 0; i < Params().size(); ++i)
   {
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
-    { SetValue(i, gsl_vector_get(v, j++)); }
+    {
+      SetValue(i, gsl_vector_get(v, j++));
+    }
   }
   return *this;
 }
@@ -121,9 +132,11 @@ vector<vector<MinuitParameter> > transpose(const vector<Parameters>& vecPar)
   const unsigned int outer_size = vecPar.size();
 
   // Assert that every element of vecPar is of the same size.
-  for (vector<Parameters>::const_iterator it = vecPar.begin(); it !=
-       vecPar.end(); ++it)
-  { assert(it->getMinuitParameters().size() == inner_size); }
+  for (vector<Parameters>::const_iterator params = vecPar.begin();
+       params != vecPar.end(); ++params)
+  {
+    assert(params->getMinuitParameters().size() == inner_size);
+  }
 
   for (unsigned int i = 0; i < inner_size; ++i)
   {
@@ -140,7 +153,8 @@ vector<vector<MinuitParameter> > transpose(const vector<Parameters>& vecPar)
 
 inline string mp_limits_str(const MinuitParameter& mp)
 {
-  stringstream limits; limits << "[ ";
+  stringstream limits;
+  limits << "[ ";
   if (mp.HasLowerLimit()) limits << mp.LowerLimit();
   limits << ", ";
   if (mp.HasUpperLimit()) limits << mp.UpperLimit() << " ";
@@ -178,7 +192,7 @@ ostream& operator<<(ostream& os, const Parameters& par)
        << "      limits    : " << mp_limits_str(*mp) << endl
        << "      fixed     : " << mp->IsFixed()      << endl
        << "      constant  : " << mp->IsConst()      << endl
-       << endl;
+       <<                                               endl;
   }
   return os;
 }
