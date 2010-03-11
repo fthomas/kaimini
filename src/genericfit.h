@@ -33,30 +33,54 @@ public:
   virtual double chiSquare(const std::vector<double>& v) const = 0;
 
   double chiSquare(const Parameters& par) const
-  { return chiSquare(par.getParams()); }
+  {
+    return chiSquare(par.getParams());
+  }
 
   double operator()(const std::vector<double>& v) const
-  { return chiSquare(v); }
+  {
+    return chiSquare(v);
+  }
+
+  double operator()(const Parameters& par) const
+  {
+    return chiSquare(par.getParams());
+  }
 
   double Up() const
-  { return mErrorDef; }
+  {
+    return mErrorDef;
+  }
 
-  void setErrorDef(double up)
-  { mErrorDef = up; }
+  double ErrorDef() const
+  {
+    return mErrorDef;
+  }
 
-  Parameters getParameters() const
-  { return mParams; }
+  void SetErrorDef(double up)
+  {
+    mErrorDef = up;
+  }
+
+  const Parameters& getParameters() const
+  {
+    return mParams;
+  }
 
   void setParameters(const Parameters& par)
   {
     mParams = par;
   }
 
-  std::vector<DataPoint> getDataPoints() const
-  { return mDataPoints; }
+  const std::vector<DataPoint>& getDataPoints() const
+  {
+    return mDataPoints;
+  }
 
-  void setDataPoints(const std::vector<DataPoint>& dataPoints)
-  { mDataPoints = dataPoints; }
+  void setDataPoints(const std::vector<DataPoint>& dps)
+  {
+    mDataPoints = dps;
+  }
 
 protected:
   Parameters mParams;
