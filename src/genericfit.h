@@ -28,7 +28,7 @@ namespace Kaimini {
 class GenericFit : public ROOT::Minuit2::FCNBase, public ResultProcessor
 {
 public:
-  GenericFit() : mChiSq(-1.), mErrorDef(1.) {}
+  GenericFit() : mErrorDef(1.) {}
 
   virtual double chiSquare(const std::vector<double>& v) const = 0;
 
@@ -52,7 +52,6 @@ public:
     mParams = par;
   }
 
-
   std::vector<DataPoint> getDataPoints() const
   { return mDataPoints; }
 
@@ -62,7 +61,6 @@ public:
 protected:
   Parameters mParams;
   std::vector<DataPoint> mDataPoints;
-  mutable double mChiSq;
 
 private:
   double mErrorDef;
