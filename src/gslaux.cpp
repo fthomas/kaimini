@@ -16,12 +16,14 @@
 
 #include <cmath>
 #include <cstddef>
+#include <boost/numeric/conversion/cast.hpp>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
 #include "gslaux.h"
 
 using namespace std;
+using namespace boost;
 
 namespace Kaimini {
 
@@ -85,7 +87,7 @@ void gsl_vector_step_random(const gsl_rng* r, gsl_vector* v,
 
   // Scale vp so that the elements of vp are uniformly distributed
   // within an n-sphere of radius step_size.
-  const double scale = pow(pow(step_size, static_cast<int>(n))
+  const double scale = pow(pow(step_size, numeric_cast<int>(n))
     * gsl_rng_uniform_pos(r), 1.0/n) / length;
   gsl_vector_scale(vp, scale);
 
