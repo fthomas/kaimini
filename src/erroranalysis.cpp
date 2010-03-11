@@ -19,10 +19,10 @@
 #include <vector>
 #include <utility>
 #include <Minuit2/MinuitParameter.h>
+#include "chisqfunction.h"
 #include "datapoint.h"
 #include "error.h"
 #include "erroranalysis.h"
-#include "genericfit.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
@@ -35,7 +35,7 @@ using namespace ROOT::Minuit2;
 namespace Kaimini {
 
 template<typename Driver> vector<vector<Error> >
-bootstrap(GenericFit* fit, const Parameters& minParams,
+bootstrap(ChiSqFunction* fit, const Parameters& minParams,
           Driver* driver, Parameters (Driver::*minimize)(),
           const unsigned int iterations)
 {
@@ -48,7 +48,7 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
 
   // Ensure that all cached values of fit's data points were
   // calculated with minParams.
-  fit->chiSquare(minParams);
+  fit->chiSq(minParams);
 
   vector<DataPoint> min_dps = fit->getDataPoints();
   dps_swap_values(min_dps);
@@ -71,7 +71,7 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
     // Use the cached minimal data points to calculate the
     // corresponding chi^2 of the simulated parameters.
     fit->setDataPoints(min_dps);
-    const double sim_chisq = fit->chiSquare(sim_params);
+    const double sim_chisq = fit->chiSq(sim_params);
 
     // If sim_chisq is close to zero the actual minimal parameters
     // have been reproduced. These should not be taken into account
@@ -152,7 +152,7 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
 
   fit->setDataPoints(orig_dps);
   fit->setParameters(orig_params);
-  fit->chiSquare(orig_params);
+  fit->chiSq(orig_params);
 
   fit->enableProcessing();
   fit->processBootstrap(&retval, iterations);
@@ -161,12 +161,12 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
 
 
 template vector<vector<Error> >
-bootstrap<GSLDriver>(GenericFit*, const Parameters&,
+bootstrap<GSLDriver>(ChiSqFunction*, const Parameters&,
   GSLDriver*, Parameters (GSLDriver::*)(), unsigned int);
 
 
 template vector<vector<Error> >
-bootstrap<MinuitDriver>(GenericFit*, const Parameters&,
+bootstrap<MinuitDriver>(ChiSqFunction*, const Parameters&,
   MinuitDriver*, Parameters (MinuitDriver::*)(), unsigned int);
 
 } // namespace Kaimini

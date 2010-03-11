@@ -22,14 +22,14 @@
 #include <boost/scoped_ptr.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
-#include "genericfit.h"
+#include "chisqfunction.h"
 
 namespace Kaimini {
 
 class MinuitDriver
 {
 public:
-  explicit MinuitDriver(GenericFit* fit) : mpFit(fit) {}
+  explicit MinuitDriver(ChiSqFunction* func) : mpFunc(func) {}
 
   Parameters runMigrad(unsigned int stra);
   Parameters runMigrad()
@@ -68,7 +68,7 @@ private:
   void sanitize();
 
 private:
-  GenericFit* mpFit;
+  ChiSqFunction* mpFunc;
   boost::scoped_ptr<ROOT::Minuit2::FunctionMinimum> mpMinimum;
 };
 

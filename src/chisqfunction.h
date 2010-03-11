@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_GENERICFIT_H
-#define KAIMINI_GENERICFIT_H
+#ifndef KAIMINI_CHISQFUNCTION_H
+#define KAIMINI_CHISQFUNCTION_H
 
 #include <vector>
 #include <Minuit2/FCNBase.h>
@@ -25,26 +25,26 @@
 
 namespace Kaimini {
 
-class GenericFit : public ROOT::Minuit2::FCNBase, public ResultProcessor
+class ChiSqFunction : public ROOT::Minuit2::FCNBase, public ResultProcessor
 {
 public:
-  GenericFit() : mErrorDef(1.) {}
+  ChiSqFunction() : mErrorDef(1.) {}
 
-  virtual double chiSquare(const std::vector<double>& v) const = 0;
+  virtual double chiSq(const std::vector<double>& v) const = 0;
 
-  double chiSquare(const Parameters& par) const
+  double chiSq(const Parameters& par) const
   {
-    return chiSquare(par.getParams());
+    return chiSq(par.getParams());
   }
 
   double operator()(const std::vector<double>& v) const
   {
-    return chiSquare(v);
+    return chiSq(v);
   }
 
   double operator()(const Parameters& par) const
   {
-    return chiSquare(par.getParams());
+    return chiSq(par.getParams());
   }
 
   double Up() const
@@ -92,6 +92,6 @@ private:
 
 } // namespace Kaimini
 
-#endif // KAIMINI_GENERICFIT_H
+#endif // KAIMINI_CHISQFUNCTION_H
 
 // vim: sw=2 tw=78

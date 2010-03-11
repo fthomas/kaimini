@@ -34,7 +34,7 @@ public:
   void setUp(const std::string& inputFile);
   void tearDown(const std::string& outputFile);
 
-  double chiSquare(const std::vector<double>& v) const;
+  double chiSq(const std::vector<double>& v) const;
 
   void selectSOFTSUSY();
   void selectSPheno();

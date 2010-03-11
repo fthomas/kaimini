@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstddef>
-#include <iostream>
 #include <ostream>
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
@@ -38,12 +36,12 @@ namespace Kaimini {
 
 Parameters MinuitDriver::runMigrad(const unsigned int stra)
 {
-  MnMigrad minimizer(*mpFit, mpFit->getParameters(), stra);
+  MnMigrad minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFit->processMinimum(mpMinimum.get());
-  mpFit->processDataPoints();
+  mpFunc->processMinimum(mpMinimum.get());
+  mpFunc->processDataPoints();
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -52,12 +50,12 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
 
 Parameters MinuitDriver::runMinimize(const unsigned int stra)
 {
-  MnMinimize minimizer(*mpFit, mpFit->getParameters(), stra);
+  MnMinimize minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFit->processMinimum(mpMinimum.get());
-  mpFit->processDataPoints();
+  mpFunc->processMinimum(mpMinimum.get());
+  mpFunc->processDataPoints();
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -66,12 +64,12 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
 
 Parameters MinuitDriver::runScan(const unsigned int stra)
 {
-  MnScan minimizer(*mpFit, mpFit->getParameters(), stra);
+  MnScan minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFit->processMinimum(mpMinimum.get());
-  mpFit->processDataPoints();
+  mpFunc->processMinimum(mpMinimum.get());
+  mpFunc->processDataPoints();
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -80,12 +78,12 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
 
 Parameters MinuitDriver::runSimplex(const unsigned int stra)
 {
-  MnSimplex minimizer(*mpFit, mpFit->getParameters(), stra);
+  MnSimplex minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFit->processMinimum(mpMinimum.get());
-  mpFit->processDataPoints();
+  mpFunc->processMinimum(mpMinimum.get());
+  mpFunc->processDataPoints();
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -103,7 +101,7 @@ vector<MinosError>
 MinuitDriver::runMinos(const FunctionMinimum& minimum,
                        const unsigned int stra)
 {
-  MnMinos minos(*mpFit, minimum, stra);
+  MnMinos minos(*mpFunc, minimum, stra);
 
   vector<MinosError> errors;
   const vector<MinuitParameter>& mps = minimum.UserParameters().Parameters();
@@ -118,7 +116,7 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum,
   }
 
   sanitize();
-  mpFit->processErrors(&errors);
+  mpFunc->processErrors(&errors);
 
   if (g_verbose_output) cout << errors;
   return errors;
@@ -135,9 +133,9 @@ MinuitDriver::runMinos(const unsigned int stra)
 
 void MinuitDriver::sanitize()
 {
-  // Run chiSquare with the minimal parameter values again so that
-  // cached variables in mpFit correspond to the found minimum.
-  mpFit->chiSquare(mpMinimum->UserParameters());
+  // Run chiSq with the minimal parameter values again so that cached
+  // variables in mpFunc correspond to the found minimum.
+  (*mpFunc)(mpMinimum->UserParameters());
 }
 
 

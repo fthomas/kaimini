@@ -20,14 +20,14 @@
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
+#include "chisqfunction.h"
 #include "error.h"
-#include "genericfit.h"
 #include "parameters.h"
 #include "slhaea.h"
 
 namespace Kaimini {
 
-class SLHAFit : public GenericFit
+class SLHAFit : public ChiSqFunction
 {
 protected:
   void setDataPoints(const SLHAea::SLHA& input);

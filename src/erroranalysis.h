@@ -18,14 +18,14 @@
 #define KAIMINI_ERRORANALYSIS_H
 
 #include <vector>
+#include "chisqfunction.h"
 #include "error.h"
-#include "genericfit.h"
 #include "parameters.h"
 
 namespace Kaimini {
 
 template<typename Driver> std::vector<std::vector<Error> >
-bootstrap(GenericFit* fit, const Parameters& minParams,
+bootstrap(ChiSqFunction* fit, const Parameters& minParams,
           Driver* driver, Parameters (Driver::*minimize)(),
           unsigned int iterations = 1000);
 

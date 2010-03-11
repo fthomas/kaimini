@@ -20,6 +20,7 @@
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_siman.h>
 #include <gsl/gsl_vector.h>
+#include "chisqfunction.h"
 #include "gslaux.h"
 #include "gsldriver.h"
 #include "kaimini.h"
@@ -29,14 +30,14 @@ using namespace std;
 namespace Kaimini {
 
 // static
-GenericFit* GSLDriver::mspFit = 0;
+ChiSqFunction* GSLDriver::mspFit = 0;
 
 // static
 Parameters GSLDriver::msPar = Parameters();
 
 
 // explicit
-GSLDriver::GSLDriver(GenericFit* fit)
+GSLDriver::GSLDriver(ChiSqFunction* fit)
 {
   mspFit = fit;
   msPar  = fit->getParameters();
@@ -54,7 +55,7 @@ GSLDriver::~GSLDriver()
 double GSLDriver::chiSquare(const gsl_vector* v, void*)
 {
   msPar.setVarParams(v);
-  return mspFit->chiSquare(msPar);
+  return mspFit->chiSq(msPar);
 }
 
 

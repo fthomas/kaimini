@@ -18,7 +18,7 @@
 #define KAIMINI_GSLDRIVER_H
 
 #include <gsl/gsl_vector.h>
-#include "genericfit.h"
+#include "chisqfunction.h"
 #include "parameters.h"
 
 namespace Kaimini {
@@ -26,7 +26,7 @@ namespace Kaimini {
 class GSLDriver
 {
 public:
-  explicit GSLDriver(GenericFit* fit);
+  explicit GSLDriver(ChiSqFunction* fit);
   ~GSLDriver();
 
   static double chiSquare(const gsl_vector* v, void* = 0);
@@ -38,7 +38,7 @@ public:
   void runSimulatedAnnealing();
 
 private:
-  static GenericFit* mspFit;
+  static ChiSqFunction* mspFit;
   static Parameters msPar;
 };
 

@@ -104,7 +104,7 @@ void SimpleSLHAFit::tearDown(const string& outputFile)
 }
 
 
-double SimpleSLHAFit::chiSquare(const vector<double>& v) const
+double SimpleSLHAFit::chiSq(const vector<double>& v) const
 {
   // Write the parameters ‘v’ into the calculator's input file.
   writeParameters(v, mSLHAInput);
