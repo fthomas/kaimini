@@ -38,7 +38,7 @@ namespace Kaimini {
 
 Parameters MinuitDriver::runMigrad(const unsigned int stra)
 {
-  MnMigrad minimizer(*mpFit, mpFit->getIntParameters(), stra);
+  MnMigrad minimizer(*mpFit, mpFit->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
@@ -52,7 +52,7 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
 
 Parameters MinuitDriver::runMinimize(const unsigned int stra)
 {
-  MnMinimize minimizer(*mpFit, mpFit->getIntParameters(), stra);
+  MnMinimize minimizer(*mpFit, mpFit->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
@@ -66,7 +66,7 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
 
 Parameters MinuitDriver::runScan(const unsigned int stra)
 {
-  MnScan minimizer(*mpFit, mpFit->getIntParameters(), stra);
+  MnScan minimizer(*mpFit, mpFit->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
@@ -80,7 +80,7 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
 
 Parameters MinuitDriver::runSimplex(const unsigned int stra)
 {
-  MnSimplex minimizer(*mpFit, mpFit->getIntParameters(), stra);
+  MnSimplex minimizer(*mpFit, mpFit->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();

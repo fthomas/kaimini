@@ -41,10 +41,10 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
 {
   fit->disableProcessing();
 
-  const Parameters orig_params = fit->getIntParameters();
+  const Parameters orig_params = fit->getParameters();
   const vector<DataPoint> orig_dps = fit->getDataPoints();
 
-  fit->setIntParameters(minParams);
+  fit->setParameters(minParams);
 
   // Ensure that all cached values of fit's data points were
   // calculated with minParams.
@@ -151,7 +151,7 @@ bootstrap(GenericFit* fit, const Parameters& minParams,
   }
 
   fit->setDataPoints(orig_dps);
-  fit->setIntParameters(orig_params);
+  fit->setParameters(orig_params);
   fit->chiSquare(orig_params);
 
   fit->enableProcessing();

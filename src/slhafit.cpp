@@ -83,7 +83,7 @@ void SLHAFit::setParameters(const SLHA& input)
   if (input.end() == block)
   { exit_block_not_found("KaiminiParameters"); }
 
-  mParamsExt = Parameters(); // Erase old parameters.
+  mParams = Parameters(); // Erase old parameters.
   mParamsKeys.clear();
 
   for (SLHABlock::const_iterator line = block->begin();
@@ -109,12 +109,12 @@ void SLHAFit::setParameters(const SLHA& input)
 
     const string name = (*line)[1];
     const SLHAKey key((*line)[2]);
-    mParamsExt.Add(name, 0., 0.);
+    mParams.Add(name, 0., 0.);
     mParamsKeys.push_back(key);
 
     try
     {
-      mParamsExt.SetValue(name, to_<double>(input.field(key)));
+      mParams.SetValue(name, to_<double>(input.field(key)));
     }
     catch (bad_lexical_cast&)
     {
@@ -127,24 +127,23 @@ void SLHAFit::setParameters(const SLHA& input)
 
     try
     {
-      mParamsExt.SetError(name,
-        parse_error_string(mParamsExt.Value(name), (*line)[4]));
+      mParams.SetError(name,
+        parse_error_string(mParams.Value(name), (*line)[4]));
 
-      if (!to_<bool>((*line)[3])) mParamsExt.Fix(name);
+      if (!to_<bool>((*line)[3])) mParams.Fix(name);
 
       if (!lower.empty() && !upper.empty())
-      { mParamsExt.SetLimits(name, to_<double>(lower), to_<double>(upper)); }
+      { mParams.SetLimits(name, to_<double>(lower), to_<double>(upper)); }
       else if (!lower.empty())
-      { mParamsExt.SetLowerLimit(name, to_<double>(lower)); }
+      { mParams.SetLowerLimit(name, to_<double>(lower)); }
       else if (!upper.empty())
-      { mParamsExt.SetUpperLimit(name, to_<double>(upper)); }
+      { mParams.SetUpperLimit(name, to_<double>(upper)); }
     }
     catch (bad_lexical_cast&)
     {
       exit_line_not_parsed("KaiminiParameters", line->str());
     }
   }
-  mParamsInt = paramTransformExtToInt(mParamsExt);
 }
 
 
@@ -190,12 +189,11 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 }
 
 
-void SLHAFit::processParametersImpl(const Parameters* intPar)
+void SLHAFit::processParametersImpl(const Parameters* par)
 {
-  if (intPar->getParams().empty()) return;
+  if (par->getParams().empty()) return;
 
-  Parameters extPar = paramTransformIntToExt(*intPar);
-  const vector<MinuitParameter>& mps = extPar.getMinuitParameters();
+  const vector<MinuitParameter>& mps = par->getMinuitParameters();
 
   string block = "KaiminiParametersOut";
   mResult[block]["BLOCK"] = "BLOCK " + block;
@@ -211,10 +209,10 @@ void SLHAFit::processParametersImpl(const Parameters* intPar)
     mResult[block][""] = str(
       format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E   %6%")
         % (mp->Number()+1)
-        % mp->GetName()
+        %  mp->GetName()
         % !mp->IsFixed()
-        % mp->Value()
-        % mp->Error()
+        %  mp->Value()
+        %  mp->Error()
         % limits.str());
   }
 }
@@ -297,7 +295,7 @@ void SLHAFit::processErrorsImpl(const vector<MinosError>* errors)
   for (vector<MinosError>::const_iterator me = errors->begin();
        me != errors->end(); ++me)
   {
-    MinuitParameter mp = mParamsExt.Parameter(me->Parameter());
+    MinuitParameter mp = mParams.Parameter(me->Parameter());
 
     mResult[block][""] = str(
       format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E")

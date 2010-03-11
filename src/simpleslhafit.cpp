@@ -107,7 +107,7 @@ void SimpleSLHAFit::tearDown(const string& outputFile)
 double SimpleSLHAFit::chiSquare(const vector<double>& v) const
 {
   // Write the parameters ‘v’ into the calculator's input file.
-  writeParameters(paramTransformIntToExt(v), mSLHAInput);
+  writeParameters(v, mSLHAInput);
   fs::ofstream ofs(mTmpInFile, ios_base::out | ios_base::trunc);
   if (!ofs) exit_file_open_failed(mTmpInFile.file_string());
   ofs << mSLHAInput;

@@ -44,23 +44,14 @@ public:
   void setErrorDef(double up)
   { mErrorDef = up; }
 
-  Parameters getExtParameters() const
-  { return mParamsExt; }
+  Parameters getParameters() const
+  { return mParams; }
 
-  Parameters getIntParameters() const
-  { return mParamsInt; }
-
-  void setExtParameters(const Parameters& extPar)
+  void setParameters(const Parameters& par)
   {
-    mParamsExt = extPar;
-    mParamsInt = paramTransformExtToInt(extPar);
+    mParams = par;
   }
 
-  void setIntParameters(const Parameters& intPar)
-  {
-    mParamsInt = intPar;
-    mParamsExt = paramTransformIntToExt(intPar);
-  }
 
   std::vector<DataPoint> getDataPoints() const
   { return mDataPoints; }
@@ -69,22 +60,7 @@ public:
   { mDataPoints = dataPoints; }
 
 protected:
-  virtual Parameters
-  paramTransformExtToInt(const Parameters& extPar) const
-  { return extPar; }
-
-  virtual Parameters
-  paramTransformIntToExt(const Parameters& intPar) const
-  { return intPar; }
-
-  virtual std::vector<double>
-  paramTransformIntToExt(const std::vector<double>& intPar) const
-  { return intPar; }
-
-protected:
-  Parameters mParamsExt;
-  Parameters mParamsInt;
-
+  Parameters mParams;
   std::vector<DataPoint> mDataPoints;
   mutable double mChiSq;
 

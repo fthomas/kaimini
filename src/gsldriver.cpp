@@ -39,7 +39,7 @@ Parameters GSLDriver::msPar = Parameters();
 GSLDriver::GSLDriver(GenericFit* fit)
 {
   mspFit = fit;
-  msPar  = fit->getIntParameters();
+  msPar  = fit->getParameters();
 }
 
 
