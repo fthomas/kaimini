@@ -65,6 +65,9 @@ public:
   runMinos(unsigned int stra = 1);
 
 private:
+  MinuitDriver(const MinuitDriver&);
+  MinuitDriver& operator=(const MinuitDriver&);
+
   void sanitize();
 
 private:

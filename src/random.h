@@ -49,6 +49,10 @@ public:
 
   std::string randString(std::size_t length = 6);
 
+private:
+  Random(const Random&);
+  Random& operator=(const Random&);
+
 public:
   typedef boost::uniform_int<> uniform_int_distribution;
   typedef boost::uniform_real<> uniform_real_distribution;
