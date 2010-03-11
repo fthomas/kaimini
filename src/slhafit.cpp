@@ -300,10 +300,10 @@ void SLHAFit::processErrorsImpl(const vector<MinosError>* errors)
     mResult[block][""] = str(
       format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E")
         % (me->Parameter()+1)
-        % mp.GetName()
-        % me->IsValid()
-        % me->Upper()
-        % me->Lower());
+        %  mp.GetName()
+        %  me->IsValid()
+        %  me->Upper()
+        %  me->Lower());
   }
 }
 
@@ -327,11 +327,11 @@ void SLHAFit::processBootstrapImpl(const vector<vector<Error> >* errors,
       mResult[block][""] = str(
         format(" %1% %|4t|%2% %|8t|%3% %4$16.8E %5$16.8E %6$16.8E")
           % (err->number()+1)
-          % ++i
-          % err->name()
-          % err->upper()
-          % err->lower()
-          % err->mean());
+          %  ++i
+          %  err->name()
+          %  err->upper()
+          %  err->lower()
+          %  err->mean());
     }
   }
 }
