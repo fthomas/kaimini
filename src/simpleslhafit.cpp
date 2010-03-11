@@ -123,16 +123,16 @@ double SimpleSLHAFit::chiSquare(const vector<double>& v) const
   ifs.close();
   readDataPoints(output);
 
-  mChiSq = dps_add_residuals(mDataPoints);
+  double chisq = dps_add_residuals(mDataPoints);
 
   if (g_verbose_output)
   {
     for (size_t i = 0; i < v.size(); ++i)
     { cout << "par_" << i << " :  " << v[i] << endl; }
-    cout << "chi^2 :  " << mChiSq << endl << endl;
+    cout << "chi^2 :  " << chisq << endl << endl;
   }
 
-  return mChiSq;
+  return chisq;
 }
 
 

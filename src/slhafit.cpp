@@ -228,7 +228,6 @@ void SLHAFit::processDataPointsImpl()
   mResult[block]["BLOCK"] = "BLOCK " + block;
 
   vector<DataPoint>::const_iterator dp;
-
   for (dp = mDataPoints.begin(); dp != mDataPoints.end(); ++dp)
   {
     mResult[block][""] = str(
@@ -241,13 +240,15 @@ void SLHAFit::processDataPointsImpl()
         % dp->error());
   }
 
-  mChiSq = dps_add_residuals(mDataPoints);
-
   block = "KaiminiChiSquare";
   mResult[block]["BLOCK"] = "BLOCK " + block;
 
   string fmt_str = " %1% %|4t|%2% %|16t|%3% %4$16.8E";
-  mResult[block][""] = str(format(fmt_str) % 0 % "chi^2" % 1 % mChiSq);
+  mResult[block][""] = str(format(fmt_str)
+    % "0"
+    % "chi^2"
+    % "1"
+    % dps_add_residuals(mDataPoints));
 
   for (dp = mDataPoints.begin(); dp != mDataPoints.end(); ++dp)
   {
