@@ -316,7 +316,7 @@ void SLHAInterface::processBootstrapImpl(
 
   string block = "KaiminiBootstrap";
   mResult[block]["BLOCK"] = "BLOCK " + block + "# iterations= "
-                          + to_<string>(iterations);
+                          + to_string(iterations);
 
   for (vector<vector<Error> >::const_iterator vec_err = errors->begin();
        vec_err != errors->end(); ++ vec_err)

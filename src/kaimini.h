@@ -24,7 +24,7 @@
 
 namespace Kaimini {
 
-const std::string g_kaimini_version = "0.0.4-42-ge63688e";
+const std::string g_kaimini_version = "0.0.5";
 
 extern bool g_verbose_output;
 
