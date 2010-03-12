@@ -62,16 +62,6 @@ public:
     mErrorDef = up;
   }
 
-  const Parameters& getParameters() const
-  {
-    return mParams;
-  }
-
-  void setParameters(const Parameters& par)
-  {
-    mParams = par;
-  }
-
   const std::vector<DataPoint>& getDataPoints() const
   {
     return mDataPoints;
@@ -82,9 +72,19 @@ public:
     mDataPoints = dps;
   }
 
+  const Parameters& getParameters() const
+  {
+    return mParams;
+  }
+
+  void setParameters(const Parameters& par)
+  {
+    mParams = par;
+  }
+
 protected:
-  Parameters mParams;
   std::vector<DataPoint> mDataPoints;
+  Parameters mParams;
 
 private:
   double mErrorDef;

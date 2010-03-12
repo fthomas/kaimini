@@ -29,7 +29,7 @@
 #include "kaimini.h"
 #include "parameters.h"
 #include "slhaea.h"
-#include "slhafit.h"
+#include "slhainterface.h"
 
 using namespace std;
 using namespace boost;
@@ -38,7 +38,7 @@ using namespace SLHAea;
 
 namespace Kaimini {
 
-void SLHAFit::setDataPoints(const SLHA& input)
+void SLHAInterface::setDataPoints(const SLHA& input)
 {
   SLHA::const_iterator block = input.find("KaiminiDataPoints");
   if (input.end() == block)
@@ -77,7 +77,7 @@ void SLHAFit::setDataPoints(const SLHA& input)
 }
 
 
-void SLHAFit::setParameters(const SLHA& input)
+void SLHAInterface::setParameters(const SLHA& input)
 {
   SLHA::const_iterator block = input.find("KaiminiParameters");
   if (input.end() == block)
@@ -147,7 +147,7 @@ void SLHAFit::setParameters(const SLHA& input)
 }
 
 
-void SLHAFit::readDataPoints(const SLHA& input) const
+void SLHAInterface::readDataPoints(const SLHA& input) const
 {
   assert(mDataPoints.size() == mDataPointsKeys.size());
 
@@ -171,7 +171,7 @@ void SLHAFit::readDataPoints(const SLHA& input) const
 }
 
 
-void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
+void SLHAInterface::writeParameters(const vector<double>& v, SLHA& output) const
 {
   assert(v.size() == mParamsKeys.size());
 
@@ -189,36 +189,7 @@ void SLHAFit::writeParameters(const vector<double>& v, SLHA& output) const
 }
 
 
-void SLHAFit::processParametersImpl(const Parameters* par)
-{
-  if (par->getParams().empty()) return;
-
-  const vector<MinuitParameter>& mps = par->getMinuitParameters();
-
-  string block = "KaiminiParametersOut";
-  mResult[block]["BLOCK"] = "BLOCK " + block;
-
-  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
-       mp != mps.end(); ++mp)
-  {
-    stringstream limits;
-    if (mp->HasLowerLimit()) limits << mp->LowerLimit();
-    limits << ":";
-    if (mp->HasUpperLimit()) limits << mp->UpperLimit();
-
-    mResult[block][""] = str(
-      format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E   %6%")
-        % (mp->Number()+1)
-        %  mp->GetName()
-        % !mp->IsFixed()
-        %  mp->Value()
-        %  mp->Error()
-        % limits.str());
-  }
-}
-
-
-void SLHAFit::processDataPointsImpl()
+void SLHAInterface::processDataPointsImpl()
 {
   if (mDataPoints.empty()) return;
 
@@ -259,10 +230,38 @@ void SLHAFit::processDataPointsImpl()
 }
 
 
-void SLHAFit::processMinimumImpl(const FunctionMinimum* minimum)
+void SLHAInterface::processParametersImpl(const Parameters* params)
 {
-  Parameters min_par = minimum->UserParameters();
-  processParameters(&min_par);
+  if (params->getParams().empty()) return;
+
+  string block = "KaiminiParametersOut";
+  mResult[block]["BLOCK"] = "BLOCK " + block;
+
+  const vector<MinuitParameter>& mps = params->getMinuitParameters();
+  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
+       mp != mps.end(); ++mp)
+  {
+    stringstream limits;
+    if (mp->HasLowerLimit()) limits << mp->LowerLimit();
+    limits << ":";
+    if (mp->HasUpperLimit()) limits << mp->UpperLimit();
+
+    mResult[block][""] = str(
+      format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E   %6%")
+        % (mp->Number()+1)
+        %  mp->GetName()
+        % !mp->IsFixed()
+        %  mp->Value()
+        %  mp->Error()
+        %  limits.str());
+  }
+}
+
+
+void SLHAInterface::processMinimumImpl(const FunctionMinimum* minimum)
+{
+  Parameters params = minimum->UserParameters();
+  processParameters(&params);
 
   string block;
 
@@ -278,14 +277,16 @@ void SLHAFit::processMinimumImpl(const FunctionMinimum* minimum)
       for (unsigned int col = row; col < covar.Nrow(); ++col)
       {
         mResult[block][""] = str(format(" %1% %|4t|%2% %3$16.8E")
-          % (row+1) % (col+1) % covar(row, col));
+          % (row+1)
+          % (col+1)
+          % covar(row, col));
       }
     }
   }
 }
 
 
-void SLHAFit::processErrorsImpl(const vector<MinosError>* errors)
+void SLHAInterface::processErrorsImpl(const vector<MinosError>* errors)
 {
   if (errors->empty()) return;
 
@@ -308,19 +309,19 @@ void SLHAFit::processErrorsImpl(const vector<MinosError>* errors)
 }
 
 
-void SLHAFit::processBootstrapImpl(const vector<vector<Error> >* errors,
-                                   const unsigned int iterations)
+void SLHAInterface::processBootstrapImpl(
+        const vector<vector<Error> >* errors, const unsigned int iterations)
 {
   if (errors->empty()) return;
 
   string block = "KaiminiBootstrap";
-  mResult[block]["BLOCK"] << "BLOCK " << block << "# iterations= "
-                          << iterations;
+  mResult[block]["BLOCK"] = "BLOCK " + block + "# iterations= "
+                          + to_<string>(iterations);
 
   for (vector<vector<Error> >::const_iterator vec_err = errors->begin();
        vec_err != errors->end(); ++ vec_err)
   {
-    size_t i = 0;
+    int i = 0;
     for (vector<Error>::const_iterator err = vec_err->begin();
          err != vec_err->end(); ++err)
     {
@@ -337,7 +338,7 @@ void SLHAFit::processBootstrapImpl(const vector<vector<Error> >* errors,
 }
 
 
-const SLHA& SLHAFit::result()
+const SLHA& SLHAInterface::result()
 {
   string block;
 

@@ -21,11 +21,11 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include "slhaea.h"
-#include "slhafit.h"
+#include "slhainterface.h"
 
 namespace Kaimini {
 
-class SimpleSLHAFit : public SLHAFit
+class SimpleSLHAFit : public SLHAInterface
 {
 public:
   explicit SimpleSLHAFit(const std::string& inputFile)

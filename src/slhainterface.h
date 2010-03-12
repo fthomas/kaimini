@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_SLHAFIT_H
-#define KAIMINI_SLHAFIT_H
+#ifndef KAIMINI_SLHAINTERFACE_H
+#define KAIMINI_SLHAINTERFACE_H
 
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
@@ -27,7 +27,7 @@
 
 namespace Kaimini {
 
-class SLHAFit : public ChiSqFunction
+class SLHAInterface : public ChiSqFunction
 {
 protected:
   void setDataPoints(const SLHAea::SLHA& input);
@@ -37,13 +37,19 @@ protected:
   void writeParameters(const std::vector<double>& v,
                        SLHAea::SLHA& output) const;
 
-  void processParametersImpl(const Parameters* intPar);
   void processDataPointsImpl();
+
+  void processParametersImpl(const Parameters* params);
+
   void processMinimumImpl(const ROOT::Minuit2::FunctionMinimum* minimum);
-  void processErrorsImpl(const std::vector<ROOT::Minuit2::MinosError>*
-                         errors);
-  void processBootstrapImpl(const std::vector<std::vector<Error> >* errors,
-                            unsigned int iterations);
+
+  void processErrorsImpl(
+          const std::vector<ROOT::Minuit2::MinosError>* errors);
+
+  void processBootstrapImpl(
+          const std::vector<std::vector<Error> >* errors,
+          unsigned int iterations);
+
   const SLHAea::SLHA& result();
 
 private:
@@ -54,6 +60,6 @@ private:
 
 } // namespace Kaimini
 
-#endif // KAIMINI_SLHAFIT_H
+#endif // KAIMINI_SLHAINTERFACE_H
 
 // vim: sw=2 tw=78
