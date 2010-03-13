@@ -29,6 +29,9 @@ namespace Kaimini {
 
 class SLHAInterface : public ChiSqFunction
 {
+public:
+    SLHAInterface();
+
 protected:
   void setDataPoints(const SLHAea::SLHA& input);
   void setParameters(const SLHAea::SLHA& input);

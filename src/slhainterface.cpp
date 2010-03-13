@@ -38,6 +38,14 @@ using namespace SLHAea;
 
 namespace Kaimini {
 
+SLHAInterface::SLHAInterface()
+{
+  string block = "KaiminiInfo";
+  mResult[block][""] << "BLOCK" << block;
+  mResult[block][""] << "1" << g_kaimini_version << "# version number";
+}
+
+
 void SLHAInterface::setDataPoints(const SLHA& input)
 {
   SLHA::const_iterator block = input.find("KaiminiDataPoints");
@@ -316,7 +324,7 @@ void SLHAInterface::processBootstrapImpl(
 
   string block = "KaiminiBootstrap";
   mResult[block]["BLOCK"] = "BLOCK " + block + "# iterations= "
-                          + to_string(iterations);
+                            + to_string(iterations);
 
   for (vector<vector<Error> >::const_iterator vec_err = errors->begin();
        vec_err != errors->end(); ++ vec_err)
@@ -340,11 +348,6 @@ void SLHAInterface::processBootstrapImpl(
 
 const SLHA& SLHAInterface::result()
 {
-  string block;
-
-  block = "KaiminiInfo";
-  mResult[block]["BLOCK"] = "BLOCK " + block;
-  mResult[block][""] << "1" << g_kaimini_version << "# version number";
   return mResult;
 }
 

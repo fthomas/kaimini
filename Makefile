@@ -25,7 +25,7 @@ SRCDIR   = src
 OBJDIR   = src/.obj
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(subst $(SRCDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
-KAIMINI    = input/kaimini
+KAIMINI  = input/kaimini
 
 all: $(KAIMINI)
 
