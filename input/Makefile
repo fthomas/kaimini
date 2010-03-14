@@ -8,13 +8,4 @@ clean:
 cleanall: clean
 	$(MAKE) -C .. cleanall
 
-switch:
-	TARGET=`readlink -n kaimini.in`; \
-	rm kaimini.in; \
-	if [ "$$TARGET" == "input.MSSM" ]; then \
-	  ln -s input.mSUGRA kaimini.in; \
-	else \
-	  ln -s input.MSSM   kaimini.in; \
-	fi
-
-.PHONY: kaimini clean cleanall switch
+.PHONY: kaimini clean cleanall
