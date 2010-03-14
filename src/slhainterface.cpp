@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
@@ -161,39 +162,55 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
 {
   assert(mDataPoints.size() == mDataPointsKeys.size());
 
-  for (size_t i = 0; i < mDataPoints.size(); ++i)
+  vector<DataPoint>::const_iterator dp     = mDataPoints.begin();
+  vector<SLHAKey>::const_iterator   dp_key = mDataPointsKeys.begin();
+
+  for (; dp != mDataPoints.end(); ++dp)
   {
+    string value;
     try
     {
-      mDataPoints[i].cachedValue(
-        to_<double>(input.field(mDataPointsKeys[i])));
-    }
-    catch (bad_lexical_cast&)
-    {
-      exit_value_not_parsed(
-        mDataPointsKeys[i].str(), input.field(mDataPointsKeys[i]));
+      value = input.field(*dp_key++);
+      dp->cachedValue(to_<double>(value));
     }
     catch (out_of_range&)
     {
-      exit_field_not_found(mDataPointsKeys[i].str());
+      exit_field_not_found(dp_key->str());
+    }
+    catch (bad_lexical_cast&)
+    {
+      if (iequals("NaN", value)) continue;
+
+      exit_value_not_parsed(dp_key->str(), value);
     }
   }
 }
 
 
-void SLHAInterface::writeParameters(const vector<double>& v, SLHA& output) const
+void SLHAInterface::writeParameters(const vector<double>& v, SLHA& output)
+        const
 {
   assert(v.size() == mParamsKeys.size());
 
-  for (size_t i = 0; i < v.size(); ++i)
+  vector<double>::const_iterator  par     = v.begin();
+  vector<SLHAKey>::const_iterator par_key = mParamsKeys.begin();
+
+  stringstream par_ss;
+  par_ss.precision(8);
+  par_ss.setf(ios_base::scientific);
+
+  for (; par != v.end(); ++par)
   {
+    par_ss.str("");
+    par_ss << *par;
+
     try
     {
-      output.field(mParamsKeys[i]) = to_string(v[i]);
+      output.field(*par_key++) = par_ss.str();
     }
     catch (out_of_range&)
     {
-      exit_field_not_found(mParamsKeys[i].str());
+      exit_field_not_found(par_key->str());
     }
   }
 }
@@ -362,6 +379,7 @@ void SLHAInterface::processDriverInfoImpl(const map<string, string>* infos)
        entry != infos->end(); ++entry)
   {
     if (entry->first == "number" || entry->first == "name") continue;
+
     mResult[block][""] << number << ("- " + entry->first) << entry->second;
   }
 }

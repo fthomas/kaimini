@@ -98,7 +98,7 @@ protected:
                        unsigned int) {}
 
   virtual void
-      processDriverInfoImpl(const std::map<std::string, std::string>*) {}
+  processDriverInfoImpl(const std::map<std::string, std::string>*) {}
 
 private:
   bool mProcess;
