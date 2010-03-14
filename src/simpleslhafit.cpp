@@ -17,6 +17,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <fstream>
+#include <iomanip>
 #include <ostream>
 #include <string>
 #include <vector>
@@ -128,8 +129,12 @@ double SimpleSLHAFit::chiSq(const vector<double>& v) const
   if (g_verbose_output)
   {
     for (size_t i = 0; i < v.size(); ++i)
-    { cout << "par_" << i << " :  " << v[i] << endl; }
-    cout << "chi^2 :  " << chisq << endl << endl;
+    {
+      cout << "par_" << i << " : ";
+      cout << setprecision(8) << setw(15) << v[i] << endl;
+    }
+    cout << "chi^2 : ";
+    cout << setprecision(8) << setw(15) << chisq << endl << endl;
   }
 
   return chisq;
