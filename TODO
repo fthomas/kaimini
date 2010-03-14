@@ -2,11 +2,6 @@ Input:
  - BLOCK Kaimini???:
    - add entries to select the driver and its options
 
-Output:
- - BLOCK KaiminiInfo:
-   - add number of function calls
-   - add information about the used driver
-
 GSLDriver:
  - runSimplex:
    - determine the parameter errors

@@ -17,6 +17,8 @@
 #ifndef KAIMINI_RESULTPROCESSOR_H
 #define KAIMINI_RESULTPROCESSOR_H
 
+#include <map>
+#include <string>
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
@@ -31,6 +33,11 @@ public:
   ResultProcessor() : mProcess(true) {}
 
   virtual ~ResultProcessor() {}
+
+  bool processingEnabled() const
+  {
+    return mProcess;
+  }
 
   void enableProcessing()
   {
@@ -68,6 +75,11 @@ public:
     if (mProcess) processBootstrapImpl(errors, iterations);
   }
 
+  void processDriverInfo(const std::map<std::string, std::string>* infos)
+  {
+    if (mProcess) processDriverInfoImpl(infos);
+  }
+
 protected:
   virtual void
   processDataPointsImpl() {}
@@ -84,6 +96,9 @@ protected:
   virtual void
   processBootstrapImpl(const std::vector<std::vector<Error> >*,
                        unsigned int) {}
+
+  virtual void
+      processDriverInfoImpl(const std::map<std::string, std::string>*) {}
 
 private:
   bool mProcess;

@@ -22,6 +22,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
+#include <Minuit2/MnApplication.h>
 #include "chisqfunction.h"
 
 namespace Kaimini {
@@ -69,6 +70,8 @@ private:
   MinuitDriver& operator=(const MinuitDriver&);
 
   void sanitize();
+  void processResults(const std::string& number, const std::string& name,
+                      const ROOT::Minuit2::MnApplication& app);
 
 private:
   ChiSqFunction* mpFunc;

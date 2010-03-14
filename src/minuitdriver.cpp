@@ -14,11 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <map>
+#include <string>
 #include <ostream>
 #include <vector>
+#include <boost/lexical_cast.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
+#include <Minuit2/MnApplication.h>
 #include <Minuit2/MnMigrad.h>
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnMinos.h>
@@ -30,6 +34,7 @@
 #include "parameters.h"
 
 using namespace std;
+using namespace boost;
 using namespace ROOT::Minuit2;
 
 namespace Kaimini {
@@ -40,8 +45,7 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFunc->processMinimum(mpMinimum.get());
-  mpFunc->processDataPoints();
+  processResults("2", "MnMigrad", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -54,8 +58,7 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFunc->processMinimum(mpMinimum.get());
-  mpFunc->processDataPoints();
+  processResults("3", "MnMinimize", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -68,8 +71,7 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFunc->processMinimum(mpMinimum.get());
-  mpFunc->processDataPoints();
+  processResults("4", "MnScan", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -82,8 +84,7 @@ Parameters MinuitDriver::runSimplex(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  mpFunc->processMinimum(mpMinimum.get());
-  mpFunc->processDataPoints();
+  processResults("5", "MnSimplex", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -134,8 +135,25 @@ MinuitDriver::runMinos(const unsigned int stra)
 void MinuitDriver::sanitize()
 {
   // Run chiSq with the minimal parameter values again so that cached
-  // variables in mpFunc correspond to the found minimum.
+  // variables in *mpFunc correspond to the found minimum.
   (*mpFunc)(mpMinimum->UserParameters());
+}
+
+
+void MinuitDriver::processResults(const string& number, const string& name,
+                                  const MnApplication& app)
+{
+  if (!mpFunc->processingEnabled()) return;
+
+  map<string, string> infos;
+  infos["number"]   = number;
+  infos["name"]     = "Minuit2::" + name;
+  infos["calls"]    = lexical_cast<string>(app.NumOfCalls());
+  infos["strategy"] = lexical_cast<string>(app.Strategy().Strategy());
+
+  mpFunc->processDriverInfo(&infos);
+  mpFunc->processMinimum(mpMinimum.get());
+  mpFunc->processDataPoints();
 }
 
 

@@ -16,8 +16,10 @@
 
 #include <cassert>
 #include <cstddef>
+#include <map>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 #include <vector>
 #include <boost/format.hpp>
 #include <Minuit2/FunctionMinimum.h>
@@ -342,6 +344,25 @@ void SLHAInterface::processBootstrapImpl(
           %  err->lower()
           %  err->mean());
     }
+  }
+}
+
+
+void SLHAInterface::processDriverInfoImpl(const map<string, string>* infos)
+{
+  if (infos->empty()) return;
+
+  string number = infos->find("number")->second;
+  string name   = infos->find("name")->second;
+
+  string block = "KaiminiInfo";
+  mResult[block][""] << number << name;
+
+  for (map<string, string>::const_iterator entry = infos->begin();
+       entry != infos->end(); ++entry)
+  {
+    if (entry->first == "number" || entry->first == "name") continue;
+    mResult[block][""] << number << ("- " + entry->first) << entry->second;
   }
 }
 

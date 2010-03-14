@@ -17,6 +17,8 @@
 #ifndef KAIMINI_SLHAINTERFACE_H
 #define KAIMINI_SLHAINTERFACE_H
 
+#include <map>
+#include <string>
 #include <vector>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
@@ -52,6 +54,8 @@ protected:
   void processBootstrapImpl(
           const std::vector<std::vector<Error> >* errors,
           unsigned int iterations);
+
+  void processDriverInfoImpl(const std::map<std::string, std::string>* infos);
 
   const SLHAea::SLHA& result();
 
