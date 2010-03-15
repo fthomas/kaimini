@@ -39,7 +39,7 @@ protected:
   void setParameters(const SLHAea::SLHA& input);
 
   void readDataPoints(const SLHAea::SLHA& input) const;
-  void writeParameters(const std::vector<double>& v,
+  void writeParameters(const std::vector<double>& params,
                        SLHAea::SLHA& output) const;
 
   void processDataPointsImpl();

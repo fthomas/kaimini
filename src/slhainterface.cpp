@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
@@ -52,8 +51,7 @@ SLHAInterface::SLHAInterface()
 void SLHAInterface::setDataPoints(const SLHA& input)
 {
   SLHA::const_iterator block = input.find("KaiminiDataPoints");
-  if (input.end() == block)
-  { exit_block_not_found("KaiminiDataPoints"); }
+  if (input.end() == block) exit_block_not_found("KaiminiDataPoints");
 
   mDataPoints.clear();
   mDataPointsKeys.clear();
@@ -83,7 +81,7 @@ void SLHAInterface::setDataPoints(const SLHA& input)
     }
 
     mDataPoints.push_back(dp);
-    mDataPointsKeys.push_back((*line)[2]);
+    mDataPointsKeys.push_back(SLHAKey((*line)[2]));
   }
 }
 
@@ -91,10 +89,9 @@ void SLHAInterface::setDataPoints(const SLHA& input)
 void SLHAInterface::setParameters(const SLHA& input)
 {
   SLHA::const_iterator block = input.find("KaiminiParameters");
-  if (input.end() == block)
-  { exit_block_not_found("KaiminiParameters"); }
+  if (input.end() == block) exit_block_not_found("KaiminiParameters");
 
-  mParams = Parameters(); // Erase old parameters.
+  mParams = Parameters();
   mParamsKeys.clear();
 
   for (SLHABlock::const_iterator line = block->begin();
@@ -109,7 +106,8 @@ void SLHAInterface::setParameters(const SLHA& input)
 
     // Parse lower/upper bounds.
     const string bounds = (*line)[5];
-    string lower = "", upper = "";
+    string lower = "";
+    string upper = "";
 
     if (bounds.length() > 1)
     {
@@ -120,6 +118,7 @@ void SLHAInterface::setParameters(const SLHA& input)
 
     const string name = (*line)[1];
     const SLHAKey key((*line)[2]);
+
     mParams.Add(name, 0., 0.);
     mParamsKeys.push_back(key);
 
@@ -127,28 +126,34 @@ void SLHAInterface::setParameters(const SLHA& input)
     {
       mParams.SetValue(name, to_<double>(input.field(key)));
     }
-    catch (bad_lexical_cast&)
-    {
-      exit_value_not_parsed(key.str(), input.field(key));
-    }
     catch (out_of_range&)
     {
       exit_field_not_found(key.str());
     }
+    catch (bad_lexical_cast&)
+    {
+      exit_value_not_parsed(key.str(), input.field(key));
+    }
 
     try
     {
-      mParams.SetError(name,
-        parse_error_string(mParams.Value(name), (*line)[4]));
+      double error = parse_error_string(mParams.Value(name), (*line)[4]);
+      mParams.SetError(name, error);
 
       if (!to_<bool>((*line)[3])) mParams.Fix(name);
 
       if (!lower.empty() && !upper.empty())
-      { mParams.SetLimits(name, to_<double>(lower), to_<double>(upper)); }
+      {
+        mParams.SetLimits(name, to_<double>(lower), to_<double>(upper));
+      }
       else if (!lower.empty())
-      { mParams.SetLowerLimit(name, to_<double>(lower)); }
+      {
+        mParams.SetLowerLimit(name, to_<double>(lower));
+      }
       else if (!upper.empty())
-      { mParams.SetUpperLimit(name, to_<double>(upper)); }
+      {
+        mParams.SetUpperLimit(name, to_<double>(upper));
+      }
     }
     catch (bad_lexical_cast&)
     {
@@ -179,27 +184,25 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
     }
     catch (bad_lexical_cast&)
     {
-      if (iequals("NaN", value)) continue;
-
       exit_value_not_parsed(dp_key->str(), value);
     }
   }
 }
 
 
-void SLHAInterface::writeParameters(const vector<double>& v, SLHA& output)
-        const
+void SLHAInterface::writeParameters(const vector<double>& params,
+                                    SLHA& output) const
 {
-  assert(v.size() == mParamsKeys.size());
+  assert(params.size() == mParamsKeys.size());
 
-  vector<double>::const_iterator  par     = v.begin();
+  vector<double>::const_iterator  par     = params.begin();
   vector<SLHAKey>::const_iterator par_key = mParamsKeys.begin();
 
   stringstream par_ss;
   par_ss.precision(8);
   par_ss.setf(ios_base::scientific);
 
-  for (; par != v.end(); ++par)
+  for (; par != params.end(); ++par)
   {
     par_ss.str("");
     par_ss << *par;
