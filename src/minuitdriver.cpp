@@ -150,6 +150,7 @@ void MinuitDriver::processResults(const string& number, const string& name,
   infos["name"]     = "Minuit2::" + name;
   infos["calls"]    = lexical_cast<string>(app.NumOfCalls());
   infos["strategy"] = lexical_cast<string>(app.Strategy().Strategy());
+  infos["valid_minimum"] = mpMinimum->IsValid() ? "true" : "false";
 
   mpFunc->processDriverInfo(&infos);
   mpFunc->processMinimum(mpMinimum.get());
