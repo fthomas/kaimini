@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_SIMPLESLHAFIT_H
-#define KAIMINI_SIMPLESLHAFIT_H
+#ifndef KAIMINI_SLHAWORKER_H
+#define KAIMINI_SLHAWORKER_H
 
 #include <vector>
 #include <string>
@@ -25,42 +25,48 @@
 
 namespace Kaimini {
 
-class SimpleSLHAFit : public SLHAInterface
+class SLHAWorker : public SLHAInterface
 {
 public:
-  explicit SimpleSLHAFit(const std::string& inputFile)
-  { setUp(inputFile); }
+  explicit SLHAWorker(const std::string& inputFile)
+  {
+    initialize(inputFile);
+  }
 
-  void setUp(const std::string& inputFile);
-  void tearDown(const std::string& outputFile);
+  void initialize(const std::string& inputFile);
+  void shutdown(const std::string& outputFile);
 
-  double chiSq(const std::vector<double>& v) const;
+  double chiSq(const std::vector<double>& params) const;
 
+private:
   void selectSOFTSUSY();
   void selectSPheno();
   void selectSuSpect();
   void selectXSUSY();
 
-private:
   void selectCalculator(const SLHAea::SLHABlock& block);
 
 private:
   boost::filesystem::path mInitialDir;
   boost::filesystem::path mWorkingDir;
-  boost::filesystem::path mTmpInFile;
-  boost::filesystem::path mTmpOutFile;
+  boost::filesystem::path mTempInputFile;
+  boost::filesystem::path mTempOutputFile;
 
-  std::string mWorkingDirStr;
-  std::string mTmpInFileStr;
-  std::string mTmpOutFileStr;
-  std::string mCommand;
-  std::string mCmdline;
+  struct CalculatorInfo
+  {
+    std::string workingDir;
+    std::string inputFile;
+    std::string outputFile;
+    std::string path;
+    std::string cmdline;
+    std::string command;
+  } mCalcInfo;
 
   mutable SLHAea::SLHA mSLHAInput;
 };
 
 } // namespace Kaimini
 
-#endif // KAIMINI_SIMPLESLHAFIT_H
+#endif // KAIMINI_SLHAWORKER_H
 
 // vim: sw=2 tw=78

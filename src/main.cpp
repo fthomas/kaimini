@@ -23,7 +23,7 @@
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
-#include "simpleslhafit.h"
+#include "slhaworker.h"
 
 using namespace std;
 using namespace Kaimini;
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
     exit(EXIT_FAILURE);
   }
 
-  SimpleSLHAFit fit(input_file);
+  SLHAWorker fit(input_file);
   //fit.disableProcessing();
   //GSLDriver gsl_dr(&fit);
   //gsl_dr.runSimplex();
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
   //  &MinuitDriver::runMinimize, 100);
   //cout << minuit_dr.getFunctionMinimum();
 
-  fit.tearDown(output_file);
+  fit.shutdown(output_file);
 
   return 0;
 }
