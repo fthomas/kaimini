@@ -10,7 +10,7 @@ CXXFLAGS = -fPIC -O2 -g -Wall
 
 ifneq (,$(findstring g++,$(CXX)))
   CXXFLAGS += -Wextra -pedantic
-else ifneq (,$(findstring icc,$(CXX)))
+else ifneq (,$(foreach CMD,icc icpc,$(findstring $(CMD),$(CXX))))
   CXXFLAGS += -strict-ansi -Wcheck -wd383 -wd981
 endif
 
