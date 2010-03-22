@@ -184,6 +184,8 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
     }
     catch (bad_lexical_cast&)
     {
+      if ("NaN" == value) continue;
+
       exit_value_not_parsed(dp_key->str(), value);
     }
   }
@@ -268,8 +270,9 @@ void SLHAInterface::processParametersImpl(const Parameters* params)
   mResult[block]["BLOCK"] = "BLOCK " + block;
 
   const vector<MinuitParameter>& mps = params->getMinuitParameters();
-  for (vector<MinuitParameter>::const_iterator mp = mps.begin();
-       mp != mps.end(); ++mp)
+  vector<MinuitParameter>::const_iterator mp;
+
+  for (mp = mps.begin(); mp != mps.end(); ++mp)
   {
     stringstream limits;
     if (mp->HasLowerLimit()) limits << mp->LowerLimit();
@@ -284,6 +287,27 @@ void SLHAInterface::processParametersImpl(const Parameters* params)
         %  mp->Value()
         %  mp->Error()
         %  limits.str());
+  }
+
+  block = "KaiminiParameterDifferences";
+  mResult[block]["BLOCK"] = "BLOCK " + block;
+
+  const vector<MinuitParameter>& orig_mps = mParams.getMinuitParameters();
+  vector<MinuitParameter>::const_iterator orig_mp;
+
+  for(mp = mps.begin(), orig_mp = orig_mps.begin();
+      mp != mps.end() && orig_mp != orig_mps.end(); ++mp, ++orig_mp)
+  {
+    double abs_diff = mp->Value() - orig_mp->Value();
+    double rel_diff = abs_diff / orig_mp->Value() * 100.;
+
+    mResult[block][""] = str(
+      format(" %1% %|4t|%2% %|14t|%3$16.8E %4$16.8E %5$10.2E%%")
+        % (mp->Number()+1)
+        %  mp->GetName()
+        %  orig_mp->Value()
+        %  abs_diff
+        %  rel_diff);
   }
 }
 
