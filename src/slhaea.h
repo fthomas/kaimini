@@ -21,6 +21,7 @@
 #include <climits>
 #include <cstddef>
 #include <iostream>
+#include <iterator>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -40,43 +41,73 @@ template<class Source> inline std::string
 to_string(const Source& arg)
 { return boost::lexical_cast<std::string>(arg); }
 
-template<class T> inline std::vector<std::string>
-to_string_vector(const std::vector<T>& cont)
+/**
+ * \brief Converts all elements of a container to strings.
+ * \param cont Container whose elements will be converted.
+ * \return \c std::vector that contains the converted elements.
+ */
+template<class Container> inline std::vector<std::string>
+cont_to_string_vector(const Container& cont)
 {
-  std::vector<std::string> vec;
-  for (typename std::vector<T>::const_iterator it = cont.begin();
-       it != cont.end(); ++it) vec.push_back(to_string(*it));
-  return vec;
+  std::vector<std::string> result;
+  result.reserve(cont.size());
+  std::transform(cont.begin(), cont.end(), std::back_inserter(result),
+                 to_string<typename Container::value_type>);
+  return result;
 }
 
+/**
+ * \brief Splits a string into tokens separated by white space.
+ * \param str String that will be searched for tokens.
+ * \return \c std::vector that contains all tokens.
+ */
 inline std::vector<std::string>
-to_string_vector(const std::string& str)
+split_string(const std::string& str)
 {
-  std::vector<std::string> vec;
-  boost::split(vec, str, boost::is_space(), boost::token_compress_on);
-  return vec;
+  std::vector<std::string> result;
+  boost::split(result, str, boost::is_space(), boost::token_compress_on);
+  return result;
 }
 
+/**
+ * \brief Splits a string into tokens separated by a separator.
+ * \param str String that will be searched for tokens.
+ * \param sep Separator that delimits tokens.
+ * \return \c std::vector that contains all tokens.
+ */
 inline std::vector<std::string>
-to_string_vector(const std::string& str, const std::string& sep)
+split_string(const std::string& str, std::string sep)
 {
-  std::vector<std::string> vec;
-  boost::split(vec, str, boost::is_any_of(sep), boost::token_compress_on);
-  return vec;
+  std::vector<std::string> result;
+  boost::split(result, str, boost::is_any_of(sep), boost::token_compress_on);
+  return result;
 }
 
+/**
+ * \brief Joins all elements in an input range into one string.
+ * \param first, last Input iterators to the initial and final
+ *   positions of the sequence to use.
+ * \param sep String that will separate the joined elements.
+ * \return Concatenated string.
+ */
 template<class InputIterator> inline std::string
-concat(InputIterator first, InputIterator last, const std::string& sep = " ")
+join(InputIterator first, InputIterator last, const std::string& sep = " ")
 {
-  std::string retval;
-  for (; first != last; ++first) retval += to_string(*first) + sep;
-  if (retval.size() > 0) boost::erase_last(retval, sep);
-  return retval;
+  std::stringstream result;
+  if (first != last) result << *first++;
+  for (; first != last; ++first) result << sep << *first;
+  return result.str();
 }
 
+/**
+ * \brief Joins all elements of a container into one string.
+ * \param cont Container whose elements will be joined.
+ * \param sep String that will separate the joined elements.
+ * \return Concatenated string.
+ */
 template<class Container> inline std::string
-concat(const Container& cont, const std::string& sep = " ")
-{ return concat(cont.begin(), cont.end(), sep); }
+join(const Container& cont, const std::string& sep = " ")
+{ return join(cont.begin(), cont.end(), sep); }
 
 
 struct SLHAKey
@@ -94,12 +125,12 @@ struct SLHAKey
   SLHAKey&
   str(const std::string& keyStr)
   {
-    std::vector<std::string> vec = to_string_vector(keyStr, ";");
+    std::vector<std::string> vec = split_string(keyStr, ";");
     if (3 != vec.size())
     { throw std::invalid_argument("SLHAKey::str(\"" + keyStr + "\");"); }
 
     block = vec[0];
-    line  = to_string_vector(vec[1], ",");
+    line  = split_string(vec[1], ",");
     field = to_<std::size_t>(vec[2]);
     return *this;
   }
@@ -108,7 +139,7 @@ struct SLHAKey
   str() const
   {
     std::stringstream ss("");
-    ss << block << ";" << concat(line, ",") << ";" << field;
+    ss << block << ";" << join(line, ",") << ";" << field;
     return ss.str();
   }
 };
@@ -245,8 +276,10 @@ public:
   bool
   is_block_def() const
   {
-    return !empty() &&
-      (boost::iequals("BLOCK", front()) || boost::iequals("DECAY", front()));
+    if (empty()) return false;
+
+    const value_type first = boost::to_upper_copy(front());
+    return ("BLOCK" == first) || ("DECAY" == first);
   }
 
   /** Returns true if the %SLHALine begins with \c "#". */
@@ -337,7 +370,7 @@ public:
       data    = boost::trim_copy(line_tr.substr(0, comment_pos)),
       comment = boost::trim_copy(line_tr.substr(comment_pos));
 
-    if (!data.empty()) impl_ = to_string_vector(data);
+    if (!data.empty()) impl_ = split_string(data);
     if (!comment.empty()) impl_.push_back(comment);
 
     // Construct the format string for line.
@@ -366,7 +399,7 @@ public:
   /** Returns all strings of the %SLHALine concatenated with a space. */
   std::string
   str_plain() const
-  { return concat(impl_); }
+  { return join(impl_); }
 
   // element access
   /**
@@ -639,7 +672,8 @@ public:
    * \brief Constructs an empty %SLHABlock.
    * \param name Name of the %SLHABlock.
    */
-  explicit SLHABlock(const std::string& name = "") : name_(name) {}
+  explicit
+  SLHABlock(const std::string& name = "") : name_(name) {}
 
   // NOTE: The compiler-generated copy constructor and assignment
   //   operator for this class are just fine, so we don't need to
@@ -691,22 +725,22 @@ public:
 
   reference
   operator[](const std::vector<int>& keys)
-  { return (*this)[to_string_vector(keys)]; }
+  { return (*this)[cont_to_string_vector(keys)]; }
 
   reference
   operator[](const std::string& keys)
-  { return (*this)[to_string_vector(keys)]; }
+  { return (*this)[split_string(keys)]; }
 
   reference
   operator[](int key)
-  { return (*this)[to_string_vector(to_string(key))]; }
+  { return (*this)[std::vector<std::string>(1, to_string(key))]; }
 
   reference
   at(const key_type& keys)
   {
     iterator it = find(keys);
     if (end() == it)
-    { throw std::out_of_range("SLHABlock::at(\"" + concat(keys) + "\")"); }
+    { throw std::out_of_range("SLHABlock::at(\"" + join(keys) + "\")"); }
     return *it;
   }
 
@@ -715,17 +749,17 @@ public:
   {
     const_iterator it = find(keys);
     if (end() == it)
-    { throw std::out_of_range("SLHABlock::at(\"" + concat(keys) + "\")"); }
+    { throw std::out_of_range("SLHABlock::at(\"" + join(keys) + "\")"); }
     return *it;
   }
 
   reference
   at(const std::vector<int>& keys)
-  { return at(to_string_vector(keys)); }
+  { return at(cont_to_string_vector(keys)); }
 
   const_reference
   at(const std::vector<int>& keys) const
-  { return at(to_string_vector(keys)); }
+  { return at(cont_to_string_vector(keys)); }
 
   reference
   at(const std::string& s0 = "", const std::string& s1 = "",
@@ -846,12 +880,15 @@ public:
   find(const key_type& keys)
   {
     if (keys.empty()) return end();
-    for (iterator it = begin(); it != end(); ++it)
+
+    iterator it = begin();
+    for (; it != end(); ++it)
     {
       if (keys.size() > it->size()) continue;
-      if (std::equal(keys.begin(), keys.end(), it->begin())) return it;
+      if (std::equal(keys.begin(), keys.end(), it->begin(), index_equal))
+      { return it; }
     }
-    return end();
+    return it;
   }
 
   /**
@@ -870,10 +907,13 @@ public:
   find(const key_type& keys) const
   {
     if (keys.empty()) return end();
-    for (const_iterator it = begin(); it != end(); ++it)
+
+    const_iterator it = begin();
+    for (; it != end(); ++it)
     {
       if (keys.size() > it->size()) continue;
-      if (std::equal(keys.begin(), keys.end(), it->begin())) return it;
+      if (std::equal(keys.begin(), keys.end(), it->begin(), index_equal))
+      { return it; }
     }
     return end();
   }
@@ -1075,6 +1115,14 @@ public:
   }
 
 private:
+  static bool
+  index_equal(const std::string& a, const std::string& b)
+  {
+    if ("(any)" == a || "(any)" == b) return true;
+    return a == b;
+  }
+
+private:
   std::string name_;
   impl_type impl_;
   static const int nind = INT_MIN;
@@ -1105,7 +1153,8 @@ public:
   //   operator for this class are just fine, so we don't need to
   //   write our own.
 
-  explicit SLHA(std::istream& is)
+  explicit
+  SLHA(std::istream& is)
   { read(is); }
 
   SLHALine::reference
@@ -1129,15 +1178,16 @@ public:
   read(std::istream& is)
   {
     std::string line_str, curr_name;
+    SLHALine line_slha;
 
     while (std::getline(is, line_str))
     {
-      if (boost::trim_copy(line_str).empty()) continue;
+      if (boost::all(line_str, boost::is_space())) continue;
 
-      const SLHALine line_slha(line_str);
-      if (line_slha.is_block_def() && line_slha.size() > 1)
+      line_slha.str(line_str);
+      if (line_slha.is_block_def() && line_slha.data_size() > 1)
       {
-        if ('#' != line_slha[1][0]) curr_name = line_slha[1];
+        curr_name = line_slha[1];
       }
       (*this)[curr_name].push_back(line_slha);
     }
@@ -1146,15 +1196,15 @@ public:
 
   /**
    * \brief Transforms data from a string into the %SLHA container.
-   * \param slhaStr String to read data from.
+   * \param slhaString String to read data from.
    * \returns Reference to \c *this.
    * \sa read()
    */
   SLHA&
-  str(const std::string& slhaStr)
+  str(const std::string& slhaString)
   {
     std::stringstream ss("");
-    ss << slhaStr;
+    ss << slhaString;
     return read(ss);
   }
 
@@ -1383,9 +1433,10 @@ public:
   iterator
   find(const key_type& blockName)
   {
-    for (iterator it = begin(); it != end(); ++it)
+    iterator it = begin();
+    for (; it != end(); ++it)
     { if (boost::iequals(it->name(), blockName)) return it; }
-    return end();
+    return it;
   }
 
   /**
@@ -1402,9 +1453,10 @@ public:
   const_iterator
   find(const key_type& blockName) const
   {
-    for (const_iterator it = begin(); it != end(); ++it)
+    const_iterator it = begin();
+    for (; it != end(); ++it)
     { if (boost::iequals(it->name(), blockName)) return it; }
-    return end();
+    return it;
   }
 
   // capacity
