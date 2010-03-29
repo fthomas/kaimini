@@ -170,12 +170,13 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
   vector<DataPoint>::const_iterator dp     = mDataPoints.begin();
   vector<SLHAKey>::const_iterator   dp_key = mDataPointsKeys.begin();
 
-  for (; dp != mDataPoints.end(); ++dp)
+  for (; dp != mDataPoints.end() && dp_key != mDataPointsKeys.end();
+       ++dp, ++dp_key)
   {
     string value;
     try
     {
-      value = input.field(*dp_key++);
+      value = input.field(*dp_key);
       dp->cachedValue(to_<double>(value));
     }
     catch (out_of_range&)
@@ -197,21 +198,22 @@ void SLHAInterface::writeParameters(const vector<double>& params,
 {
   assert(params.size() == mParamsKeys.size());
 
+  stringstream par_out;
+  par_out.precision(8);
+  par_out.setf(ios_base::scientific);
+
   vector<double>::const_iterator  par     = params.begin();
   vector<SLHAKey>::const_iterator par_key = mParamsKeys.begin();
 
-  stringstream par_ss;
-  par_ss.precision(8);
-  par_ss.setf(ios_base::scientific);
-
-  for (; par != params.end(); ++par)
+  for (; par != params.end() && par_key != mParamsKeys.end();
+       ++par, ++par_key)
   {
-    par_ss.str("");
-    par_ss << *par;
+    par_out.str("");
+    par_out << *par;
 
     try
     {
-      output.field(*par_key++) = par_ss.str();
+      output.field(*par_key) = par_out.str();
     }
     catch (out_of_range&)
     {
