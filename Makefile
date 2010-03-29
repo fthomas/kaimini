@@ -7,19 +7,19 @@ MINUIT_LIBS    = /usr/local/lib
 
 CXX      = g++
 CXXFLAGS = -fPIC -O2 -g -Wall
-
-ifneq (,$(findstring g++,$(CXX)))
-  CXXFLAGS += -Wextra -pedantic
-else ifneq (,$(foreach CMD,icc icpc,$(findstring $(CMD),$(CXX))))
-  CXXFLAGS += -strict-ansi -Wcheck -wd383 -wd981
-endif
-
 INCPATH  = $(shell gsl-config --cflags) -I$(MINUIT_INCPATH)
 LDFLAGS  = 
 LIBS     = -lboost_filesystem-mt -lboost_program_options-mt \
            $(shell gsl-config --libs) \
            -L$(MINUIT_LIBS) -lMinuit2 -lgomp -Wl,-rpath=$(MINUIT_LIBS)
 DEFINES  = 
+
+ifneq (,$(findstring g++,$(CXX)))
+  CXXFLAGS += -Wextra -pedantic -fopenmp
+else ifneq (,$(foreach CMD,icc icpc,$(findstring $(CMD),$(CXX))))
+  CXXFLAGS += -strict-ansi -Wcheck -wd383 -wd981 -openmp
+  LDFLAGS  += -openmp
+endif
 
 SRCDIR   = src
 OBJDIR   = src/.obj
