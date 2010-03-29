@@ -1,18 +1,9 @@
 // SLHAea - another SUSY Les Houches Accord input/output library
 // Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef SLHAEA_H
 #define SLHAEA_H
@@ -20,6 +11,7 @@
 #include <algorithm>
 #include <climits>
 #include <cstddef>
+#include <functional>
 #include <iostream>
 #include <iterator>
 #include <sstream>
@@ -33,10 +25,25 @@
 namespace SLHAea {
 
 // auxiliary functions
+/**
+ * \brief Converts an object of type \c Source to an object of type
+ *   \c Target.
+ * \param arg Object that will be converted.
+ * \return Result of the conversion of \p arg to \c Target.
+ *
+ * This function is a wrapper for \c boost::lexical_cast().
+ */
 template<class Target, class Source> inline Target
 to_(const Source& arg)
 { return boost::lexical_cast<Target>(arg); }
 
+/**
+ * \brief Converts an object of type \c Source to a string.
+ * \param arg Object that will be converted.
+ * \return Result of the conversion of \p arg to \c std::string.
+ *
+ * This function is an alias for to_<std::string>().
+ */
 template<class Source> inline std::string
 to_string(const Source& arg)
 { return boost::lexical_cast<std::string>(arg); }
@@ -110,37 +117,85 @@ join(const Container& cont, const std::string& sep = " ")
 { return join(cont.begin(), cont.end(), sep); }
 
 
+/**
+ * Reference to a single field in a %SLHA structure.
+ * This struct represents a reference to a single field in a %SLHA
+ * structure, but which is independent of any concrete SLHA object.
+ * That means that only the keys and the index of the SLHA, SLHABlock,
+ * and SLHALine containers of the corresponding field are stored. One
+ * of the main purposes of this struct is the conversion to string and
+ * vice versa in a way that the string representation of a %SLHAKey
+ * can be used as a single field in a %SLHA structure. For example,
+ * the string representation of a %SLHAKey that refers to the entry in
+ * the first row and third column of the RVHMIX matrix is
+ * \c "RVHMIX;1,3;2". Further examples are \c "1000022;DECAY;2" which
+ * refers to the total decay width of the lightest neutralino or
+ * \c "1000022;(any),2,11,24;0" which refers to the branching ratio of
+ * the decay of the lightest neutralino into an electron and a W
+ * boson.
+ */
 struct SLHAKey
 {
+  /** Name of the SLHABlock that contains the field. */
   std::string block;
+
+  /** First field(s) of the SLHALine that contains the field. */
   std::vector<std::string> line;
+
+  /** Index of the field in the SLHALine. */
   std::size_t field;
 
-  SLHAKey(const std::string& _block, const std::vector<std::string>& _line,
-    std::size_t _field) : block(_block), line(_line), field(_field) {}
+  /**
+   * \brief Constructs a %SLHAKey from explicit key values.
+   * \param _block Name of the SLHABlock that contains the field.
+   * \param _line First field(s) of the SLHALine that contains the
+   *   field.
+   * \param _field Index of the field in the SLHALine.
+   */
+  SLHAKey(
+    const std::string& _block,
+    const std::vector<std::string>& _line,
+    std::size_t _field)
+      : block(_block),
+        line(_line),
+        field(_field) {}
 
-  SLHAKey(const std::string& keyStr)
-  { str(keyStr); }
+  /**
+   * \brief Constructs a %SLHAKey from a string.
+   * \param keyString String from which the %SLHAKey is constructed.
+   * \sa str()
+   */
+  SLHAKey(const std::string& keyString)
+  { str(keyString); }
 
+  /**
+   * \brief Converts a string to a %SLHAKey.
+   * \param keyString String that represents a %SLHAKey.
+   * \return Reference to \c *this.
+   */
   SLHAKey&
-  str(const std::string& keyStr)
+  str(const std::string& keyString)
   {
-    std::vector<std::string> vec = split_string(keyStr, ";");
-    if (3 != vec.size())
-    { throw std::invalid_argument("SLHAKey::str(\"" + keyStr + "\");"); }
+    std::vector<std::string> keys = split_string(keyString, ";");
+    if (keys.size() != 3)
+    { throw std::invalid_argument("SLHAKey::str(\"" + keyString + "\");"); }
 
-    block = vec[0];
-    line  = split_string(vec[1], ",");
-    field = to_<std::size_t>(vec[2]);
+    block = keys[0];
+    line  = split_string(keys[1], ",");
+    field = to_<std::size_t>(keys[2]);
     return *this;
   }
 
+  /**
+   * \brief Converts a %SLHAKey into its string representation.
+   * \return String that represents the %SLHAKey.
+   */
   std::string
   str() const
   {
-    std::stringstream ss("");
-    ss << block << ";" << join(line, ",") << ";" << field;
-    return ss.str();
+    std::stringstream result("");
+    result << block << ";" << join(line, ",") << ";" << field;
+    return result.str();
   }
 };
 
@@ -915,7 +970,7 @@ public:
       if (std::equal(keys.begin(), keys.end(), it->begin(), index_equal))
       { return it; }
     }
-    return end();
+    return it;
   }
 
   /**
@@ -1433,10 +1488,8 @@ public:
   iterator
   find(const key_type& blockName)
   {
-    iterator it = begin();
-    for (; it != end(); ++it)
-    { if (boost::iequals(it->name(), blockName)) return it; }
-    return it;
+    name_iequals_.name = blockName;
+    return std::find_if(begin(), end(), name_iequals_);
   }
 
   /**
@@ -1453,10 +1506,8 @@ public:
   const_iterator
   find(const key_type& blockName) const
   {
-    const_iterator it = begin();
-    for (; it != end(); ++it)
-    { if (boost::iequals(it->name(), blockName)) return it; }
-    return it;
+    name_iequals_.name = blockName;
+    return std::find_if(begin(), end(), name_iequals_);
   }
 
   // capacity
@@ -1534,6 +1585,16 @@ public:
   void
   clear()
   { impl_.clear(); }
+
+private:
+  struct name_iequals : public std::unary_function<value_type, bool>
+  {
+    mutable key_type name;
+
+    bool
+    operator()(const value_type& block) const
+    { return boost::iequals(name, block.name()); }
+  } name_iequals_;
 
 private:
   impl_type impl_;
