@@ -100,7 +100,7 @@ split_string(const std::string& str, std::string sep)
 template<class InputIterator> inline std::string
 join(InputIterator first, InputIterator last, const std::string& sep = " ")
 {
-  std::stringstream result;
+  std::stringstream result("");
   if (first != last) result << *first++;
   for (; first != last; ++first) result << sep << *first;
   return result.str();
@@ -169,6 +169,14 @@ struct SLHAKey
   { str(keyString); }
 
   /**
+   * \brief Constructs a %SLHAKey from a string.
+   * \param keyString String from which the %SLHAKey is constructed.
+   * \sa str()
+   */
+  SLHAKey(const char* keyString)
+  { str(keyString); }
+
+  /**
    * \brief Converts a string to a %SLHAKey.
    * \param keyString String that represents a %SLHAKey.
    * \return Reference to \c *this.
@@ -211,23 +219,22 @@ inline std::ostream& operator<<(std::ostream& os, const SLHA& slha);
 
 
 /**
- * Container of string that represents a line in a %SLHA structure.
- * This class is a container of string that represents a line in a
+ * Container of strings that represents a line in a %SLHA structure.
+ * This class is a container of strings that represents a line in a
  * %SLHA structure. The elements of a %SLHALine are the so called
  * fields of an ordinary %SLHA line, which are its
  * whitespace-separated substrings and the comment. For example, if a
  * %SLHALine is constructed from the line <tt>" 1 2 0.123 # a comment
  * "</tt> its elements would be \c "1", \c "2", \c "0.123", and
  * \c "# a comment". Array-style access to the elements with integer
- * indicies is provided by the operator[]() and at() functions.
+ * indices is provided by the operator[]() and at() functions.
  *
  * In addition to storing the fields of a %SLHA line, a %SLHALine also
  * stores its formatting (the exact position of the fields in the
  * line). A formatted representation of a %SLHALine can be produced
- * with str() const while str_plain() const produces an unformatted
- * representation where each element is concatenated with a space.
- * The reformat() function clears the previous formatting and indents
- * all elements with a appropriate number of spaces.
+ * with str() const. The reformat() function clears the previous
+ * formatting and indents all elements with a appropriate number of
+ * spaces.
  */
 class SLHALine
 {
@@ -262,8 +269,8 @@ public:
   { str(line); }
 
   /**
-   * \brief Assigns new content to the %SLHALine based on a string.
-   * \param line String whose fields are used as new content of the
+   * \brief Assigns content to the %SLHALine based on a string.
+   * \param line String whose fields are used as content of the
    *   %SLHALine.
    * \return Reference to \c *this.
    *
@@ -325,32 +332,6 @@ public:
   { return str(str() + rhs); }
 
   /**
-   * Returns true if the %SLHALine begins with \c "BLOCK" or
-   * \c "DECAY". Comparison is done case-insensitive.
-   */
-  bool
-  is_block_def() const
-  {
-    if (empty()) return false;
-
-    const value_type first = boost::to_upper_copy(front());
-    return ("BLOCK" == first) || ("DECAY" == first);
-  }
-
-  /** Returns true if the %SLHALine begins with \c "#". */
-  bool
-  is_comment_line() const
-  { return !empty() && ('#' == front()[0]); }
-
-  /**
-   * Returns true if the %SLHALine is not empty and if neither
-   * is_block_def() nor is_comment_line() returns true.
-   */
-  bool
-  is_data_line() const
-  { return !empty() && !is_block_def() && !is_comment_line(); }
-
-  /**
    * \brief Reformats the string representation of the %SLHALine.
    * \return Reference to \c *this.
    */
@@ -400,14 +381,14 @@ public:
   }
 
   /**
-   * \brief Assigns new content to the %SLHALine based on a string.
-   * \param line String whose fields are used as new content of the
+   * \brief Assigns content to the %SLHALine based on a string.
+   * \param line String whose fields are used as content of the
    *   %SLHALine.
    * \return Reference to \c *this.
    *
-   * This function parses \p line and sets the found fields as new
-   * content of the %SLHALine. If \p line contains newlines
-   * everything after the first newline is ignored.
+   * This function parses \p line and sets the found fields as content
+   * of the %SLHALine. If \p line contains newlines everything after
+   * the first newline is ignored.
    *
    * The exact formatting of \p line is stored internally and can be
    * reproduced with str() const.
@@ -451,16 +432,11 @@ public:
     return fmter.str();
   }
 
-  /** Returns all strings of the %SLHALine concatenated with a space. */
-  std::string
-  str_plain() const
-  { return join(impl_); }
-
   // element access
   /**
    * \brief Subscript access to the strings contained in the
    *   %SLHALine.
-   * \param n The index of the string which should be accessed.
+   * \param n Index of the string which should be accessed.
    * \return Read/write reference to the accessed string.
    *
    * This operator allows for easy, array-style, data access. Note
@@ -474,7 +450,7 @@ public:
   /**
    * \brief Subscript access to the strings contained in the
    *   %SLHALine.
-   * \param n The index of the string which should be accessed.
+   * \param n Index of the string which should be accessed.
    * \return Read-only (constant) reference to the accessed string.
    *
    * This operator allows for easy, array-style, data access. Note
@@ -487,7 +463,7 @@ public:
 
   /**
    * \brief Provides access to the strings contained in the %SLHALine.
-   * \param n The index of the string which should be accessed.
+   * \param n Index of the string which should be accessed.
    * \return Read/write reference to the accessed string.
    * \throw std::out_of_range If \p n is an invalid index.
    */
@@ -497,7 +473,7 @@ public:
 
   /**
    * \brief Provides access to the strings contained in the %SLHALine.
-   * \param n The index of the string which should be accessed.
+   * \param n Index of the string which should be accessed.
    * \return Read-only (constant) reference to the accessed string.
    * \throw std::out_of_range If \p n is an invalid index.
    */
@@ -645,6 +621,33 @@ public:
   crend() const
   { return impl_.rend(); }
 
+  // introspection
+  /**
+   * Returns true if the %SLHALine begins with \c "BLOCK" or
+   * \c "DECAY". Comparison is done case-insensitive.
+   */
+  bool
+  is_block_def() const
+  {
+    if (empty()) return false;
+
+    const value_type first = boost::to_upper_copy(front());
+    return ("BLOCK" == first) || ("DECAY" == first);
+  }
+
+  /** Returns true if the %SLHALine begins with \c "#". */
+  bool
+  is_comment_line() const
+  { return !empty() && ('#' == front()[0]); }
+
+  /**
+   * Returns true if the %SLHALine is not empty and if neither
+   * is_block_def() nor is_comment_line() returns true.
+   */
+  bool
+  is_data_line() const
+  { return !empty() && !is_block_def() && !is_comment_line(); }
+
   // capacity
   /** Returns the number of elements in the %SLHALine. */
   size_type
@@ -693,6 +696,33 @@ public:
     lineFormat_.clear();
   }
 
+  /**
+   * Comments the %SLHALine. This function prefixes the %SLHALine
+   * with a \c "#" and packetizes all its elements into one.
+   */
+  void
+  comment()
+  {
+    if (empty()) return;
+    str("#" + str());
+  }
+
+  /**
+   * Uncomments the %SLHALine. This function removes the first
+   * character of the %SLHALine if it is a \c "#" and splits the
+   * former comment into the corresponding number of fields.
+   */
+  void
+  uncomment()
+  {
+    if (empty()) return;
+    if ('#' == front()[0])
+    {
+      front().erase(0, 1);
+      str(str());
+    }
+  }
+
 private:
   impl_type impl_;
   std::string lineFormat_;
@@ -700,11 +730,23 @@ private:
 
 
 /**
- * Container of SLHALine that resembles a block in a %SLHA structure.
- * This class is a named container of SLHALine that resembles a block
- * in a %SLHA structure. In contrast to a block in a %SLHA structure,
- * a %SLHABlock can contain zero, one, or more SLHALine that are
- * block definitions or it can be completely empty.
+ * Container of \SLHALines that resembles a block in a %SLHA
+ * structure. This class is a named container of \SLHALines that
+ * resembles a block in a %SLHA structure. Unlike to a block in a
+ * %SLHA structure, a %SLHABlock can contain any number of block
+ * definitions or it can be completely empty.
+ *
+ * Access to the elements of the %SLHABlock is provided by the
+ * operator[]() and at() functions. These take one or more strings
+ * resp. ints as argument(s) and compare them against the first
+ * strings of the contained \SLHALines (the ints are converted to
+ * strings before comparison). The first SLHALine that matches the
+ * provided arguments is then returned, or if no matching SLHALine is
+ * found, an empty SLHALine is appended to the %SLHABlock
+ * (operator[]()) or \c std::out_of_range is thrown (at()). The
+ * special argument \c "(any)" will be considered equal to all strings
+ * in the \SLHALines. For example, <tt>at("(any)", "2")</tt> returns
+ * the first SLHALine whose second element is \c "2".
  */
 class SLHABlock
 {
@@ -734,29 +776,72 @@ public:
   //   operator for this class are just fine, so we don't need to
   //   write our own.
 
-  SLHABlock&
+  /**
+   * \brief Sets the name of the %SLHABlock.
+   * \param newName New name of the %SLHABlock.
+   *
+   * Notice that this function only changes a property of the
+   * %SLHABlock. No contained SLHALine (in particular no block
+   * definition) is changed.
+   */
+  void
   name(const std::string& newName)
-  {
-    name_ = newName;
-    return *this;
-  }
+  { name_ = newName; }
 
   /** Returns the name of the %SLHABlock. */
   const std::string&
   name() const
   { return name_; }
 
+  /**
+   * \brief Assigns content from input stream to the %SLHABlock.
+   * \param is Input stream to read content from.
+   * \return Reference to \c *this.
+   *
+   * This functions clears the content of the %SLHABlock, reads
+   * non-empty lines from \p is, transforms them into \SLHALines
+   * and adds them to the end of the %SLHABlock.
+   */
   SLHABlock&
-  str(const std::string& block)
+  read(std::istream& is)
   {
-    std::string line;
-    std::stringstream ss(block);
+    std::string line_str;
+    value_type line;
+    bool nameless = true;
 
     clear();
-    while (std::getline(ss, line)) push_back(line);
+    while (std::getline(is, line_str))
+    {
+      if (boost::all(line_str, boost::is_space())) continue;
+
+      line = line_str;
+      if (nameless && line.is_block_def() && line.data_size() > 1)
+      {
+        name(line[1]);
+        nameless = false;
+      }
+      push_back(line);
+    }
     return *this;
   }
 
+  /**
+   * \brief Assigns content to the %SLHABlock based on a string.
+   * \param block String that is used as content for the %SLHABlock.
+   * \return Reference to \c *this.
+   *
+   * This functions clears the content of the %SLHABlock and adds
+   * every non-empty line found in \p block as SLHALine to the end of
+   * the %SLHABlock.
+   */
+  SLHABlock&
+  str(const std::string& block)
+  {
+    std::stringstream ss(block);
+    return read(ss);
+  }
+
+  /** Returns a string representation of the %SLHABlock. */
   std::string
   str() const
   {
@@ -766,30 +851,83 @@ public:
   }
 
   // element access
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param keys First strings of the SLHALine to be located.
+   * \return Read/write reference to sought-after SLHALine.
+   *
+   * This function takes a key (which is a vector of strings) and
+   * locates the SLHALine whose first strings are equal to the strings
+   * in \p keys. If no such SLHALine exists, this function creates an
+   * empty SLHALine at the end of the %SLHABlock and returns a
+   * reference to it.
+   */
   reference
   operator[](const key_type& keys)
   {
     iterator it = find(keys);
     if (end() == it)
     {
-      push_back(SLHALine());
+      push_back(value_type());
       return back();
     }
     return *it;
   }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param keys Integers that are used to locate the SLHALine.
+   * \return Read/write reference to sought-after SLHALine.
+   *
+   * This function takes a key (which is a vector of ints) and locates
+   * the SLHALine whose first strings are equal to the to strings
+   * converted ints in \p keys. If no such SLHALine exists, this
+   * function creates an empty SLHALine at the end of the %SLHABlock
+   * and returns a reference to it.
+   */
   reference
   operator[](const std::vector<int>& keys)
   { return (*this)[cont_to_string_vector(keys)]; }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param key String that is used to locate the SLHALine.
+   * \return Read/write reference to sought-after SLHALine.
+   *
+   * This function locates the SLHALine whose first string is equal to
+   * \p key. If no such SLHALine exists, this function creates an
+   * empty SLHALine at the end of the %SLHABlock and returns a
+   * reference to it.
+   */
   reference
-  operator[](const std::string& keys)
-  { return (*this)[split_string(keys)]; }
+  operator[](const std::string& key)
+  { return (*this)[std::vector<std::string>(1, key)]; }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param key Integer that is used to locate the SLHALine.
+   * \return Read/write reference to sought-after SLHALine.
+   *
+   * This function locates the SLHALine whose first string is equal to
+   * the to string converted \p key. If no such SLHALine exists, this
+   * function creates an empty SLHALine at the end of the %SLHABlock
+   * and returns a reference to it.
+   */
   reference
   operator[](int key)
   { return (*this)[std::vector<std::string>(1, to_string(key))]; }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param keys First strings of the SLHALine to be located.
+   * \return Read/write reference to sought-after SLHALine.
+   * \throw std::out_of_range If \p keys does not match any SLHALine.
+   *
+   * This function takes a key (which is a vector of strings) and
+   * locates the SLHALine whose first strings are equal to the strings
+   * in \p keys. If no such SLHALine exists, \c std::out_of_range is
+   * thrown.
+   */
   reference
   at(const key_type& keys)
   {
@@ -799,6 +937,17 @@ public:
     return *it;
   }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param keys First strings of the SLHALine to be located.
+   * \return Read-only (constant) reference to sought-after SLHALine.
+   * \throw std::out_of_range If \p keys does not match any SLHALine.
+   *
+   * This function takes a key (which is a vector of strings) and
+   * locates the SLHALine whose first strings are equal to the strings
+   * in \p keys. If no such SLHALine exists, \c std::out_of_range is
+   * thrown.
+   */
   const_reference
   at(const key_type& keys) const
   {
@@ -808,16 +957,50 @@ public:
     return *it;
   }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param keys Integers that are used to locate the SLHALine.
+   * \return Read/write reference to sought-after SLHALine.
+   * \throw std::out_of_range If \p keys does not match any SLHALine.
+   *
+   * This function takes a key (which is a vector of ints) and locates
+   * the SLHALine whose first strings are equal to the to strings
+   * converted ints in \p keys. If no such SLHALine exists,
+   * \c std::out_of_range is thrown.
+   */
   reference
   at(const std::vector<int>& keys)
   { return at(cont_to_string_vector(keys)); }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param keys Integers that are used to locate the SLHALine.
+   * \return Read-only (constant) reference to sought-after SLHALine.
+   * \throw std::out_of_range If \p keys does not match any SLHALine.
+   *
+   * This function takes a key (which is a vector of ints) and locates
+   * the SLHALine whose first strings are equal to the to strings
+   * converted ints in \p keys. If no such SLHALine exists,
+   * \c std::out_of_range is thrown.
+   */
   const_reference
   at(const std::vector<int>& keys) const
   { return at(cont_to_string_vector(keys)); }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param s0, s1, s2, s3 First strings of the SLHALine to be
+   *   located.
+   * \return Read/write reference to sought-after SLHALine.
+   * \throw std::out_of_range If provided strings do not match any
+   *   SLHALine.
+   *
+   * This function takes up to four strings and locates the SLHALine
+   * whose first strings are equal to all provided non-empty strings.
+   * If no such SLHALine exists, \c std::out_of_range is thrown.
+   */
   reference
-  at(const std::string& s0 = "", const std::string& s1 = "",
+  at(const std::string& s0,      const std::string& s1 = "",
      const std::string& s2 = "", const std::string& s3 = "")
   {
     std::vector<std::string> keys;
@@ -834,8 +1017,20 @@ public:
     return at(keys);
   }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param s0, s1, s2, s3 First strings of the SLHALine to be
+   *   located.
+   * \return Read-only (constant) reference to sought-after SLHALine.
+   * \throw std::out_of_range If provided strings do not match any
+   *   SLHALine.
+   *
+   * This function takes up to four strings and locates the SLHALine
+   * whose first strings are equal to all provided non-empty strings.
+   * If no such SLHALine exists, \c std::out_of_range is thrown.
+   */
   const_reference
-  at(const std::string& s0 = "", const std::string& s1 = "",
+  at(const std::string& s0,      const std::string& s1 = "",
      const std::string& s2 = "", const std::string& s3 = "") const
   {
     std::vector<std::string> keys;
@@ -852,6 +1047,18 @@ public:
     return at(keys);
   }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param i0, i1, i2, i3 Integers that are used to locate the
+   *   SLHALine.
+   * \return Read/write reference to sought-after SLHALine.
+   * \throw std::out_of_range If provided ints do not match any
+   *   SLHALine.
+   *
+   * This function takes up to four ints and locates the SLHALine
+   * whose first strings are equal to all provided to string converted
+   * ints. If no such SLHALine exists, \c std::out_of_range is thrown.
+   */
   reference
   at(int i0, int i1 = nind, int i2 = nind, int i3 = nind)
   {
@@ -869,6 +1076,18 @@ public:
     return at(keys);
   }
 
+  /**
+   * \brief Locates a SLHALine in the %SLHABlock.
+   * \param i0, i1, i2, i3 Integers that are used to locate the
+   *   SLHALine.
+   * \return Read-only (constant) reference to sought-after SLHALine.
+   * \throw std::out_of_range If provided ints do not match any
+   *   SLHALine.
+   *
+   * This function takes up to four ints and locates the SLHALine
+   * whose first strings are equal to all provided to string converted
+   * ints. If no such SLHALine exists, \c std::out_of_range is thrown.
+   */
   const_reference
   at(int i0, int i1 = nind, int i2 = nind, int i3 = nind) const
   {
@@ -887,92 +1106,38 @@ public:
   }
 
   /**
-   * Returns a read/write reference to the %SLHALine at the first
-   * element of the %SLHABlock.
+   * Returns a read/write reference to the first element of the
+   * %SLHABlock.
    */
   reference
   front()
   { return impl_.front(); }
 
   /**
-   * Returns a read-only (constant) reference to the %SLHALine at the
-   * first element of the %SLHABlock.
+   * Returns a read-only (constant) reference to the first element of
+   * the %SLHABlock.
    */
   const_reference
   front() const
   { return impl_.front(); }
 
   /**
-   * Returns a read/write reference to the %SLHALine at the last
-   * element of the %SLHABlock.
+   * Returns a read/write reference to the last element of the
+   * %SLHABlock.
    */
   reference
   back()
   { return impl_.back(); }
 
   /**
-   * Returns a read-only (constant) reference to the %SLHALine at the
-   * last element of the %SLHABlock.
+   * Returns a read-only (constant) reference to the last element of
+   * the %SLHABlock.
    */
   const_reference
   back() const
   { return impl_.back(); }
 
   // iterators
-  /**
-   * \brief Tries to locate a SLHALine in the %SLHABlock.
-   * \param keys First strings of the SLHALine to be located.
-   * \return Read/write iterator pointing to sought-after element, or
-   *   end() if not found.
-   *
-   * This function takes a key (which is a vector of strings) and
-   * tries to locate the SLHALine whose first strings are equal to the
-   * strings in \p keys. If successful the function returns a
-   * read/write iterator pointing to the sought after SLHALine. If
-   * unsuccessful it returns end().
-   */
-  iterator
-  find(const key_type& keys)
-  {
-    if (keys.empty()) return end();
-
-    iterator it = begin();
-    for (; it != end(); ++it)
-    {
-      if (keys.size() > it->size()) continue;
-      if (std::equal(keys.begin(), keys.end(), it->begin(), index_equal))
-      { return it; }
-    }
-    return it;
-  }
-
-  /**
-   * \brief Tries to locate a SLHALine in the %SLHABlock.
-   * \param keys First strings of the SLHALine to be located.
-   * \return Read-only (constant) iterator pointing to sought-after
-   *   element, or end() const if not found.
-   *
-   * This function takes a key (which is a vector of strings) and
-   * tries to locate the SLHALine whose first strings are equal to the
-   * strings in \p keys. If successful the function returns a
-   * read-only (constant) iterator pointing to the sought after
-   * SLHALine. If unsuccessful it returns end() const.
-   */
-  const_iterator
-  find(const key_type& keys) const
-  {
-    if (keys.empty()) return end();
-
-    const_iterator it = begin();
-    for (; it != end(); ++it)
-    {
-      if (keys.size() > it->size()) continue;
-      if (std::equal(keys.begin(), keys.end(), it->begin(), index_equal))
-      { return it; }
-    }
-    return it;
-  }
-
   /**
    * Returns a read/write iterator that points to the first element in
    * the %SLHABlock. Iteration is done in ordinary element order.
@@ -1080,6 +1245,61 @@ public:
   crend() const
   { return impl_.rend(); }
 
+  // operations
+  /**
+   * \brief Tries to locate a SLHALine in the %SLHABlock.
+   * \param keys First strings of the SLHALine to be located.
+   * \return Read/write iterator pointing to sought-after element, or
+   *   end() if not found.
+   *
+   * This function takes a key (which is a vector of strings) and
+   * tries to locate the SLHALine whose first strings are equal to the
+   * strings in \p keys. If successful the function returns a
+   * read/write iterator pointing to the sought after SLHALine. If
+   * unsuccessful it returns end().
+   */
+  iterator
+  find(const key_type& keys)
+  {
+    if (keys.empty()) return end();
+
+    iterator it = begin();
+    for (; it != end(); ++it)
+    {
+      if (keys.size() > it->size()) continue;
+      if (std::equal(keys.begin(), keys.end(), it->begin(), index_iequal))
+      { return it; }
+    }
+    return it;
+  }
+
+  /**
+   * \brief Tries to locate a SLHALine in the %SLHABlock.
+   * \param keys First strings of the SLHALine to be located.
+   * \return Read-only (constant) iterator pointing to sought-after
+   *   element, or end() const if not found.
+   *
+   * This function takes a key (which is a vector of strings) and
+   * tries to locate the SLHALine whose first strings are equal to the
+   * strings in \p keys. If successful the function returns a
+   * read-only (constant) iterator pointing to the sought after
+   * SLHALine. If unsuccessful it returns end() const.
+   */
+  const_iterator
+  find(const key_type& keys) const
+  {
+    if (keys.empty()) return end();
+
+    const_iterator it = begin();
+    for (; it != end(); ++it)
+    {
+      if (keys.size() > it->size()) continue;
+      if (std::equal(keys.begin(), keys.end(), it->begin(), index_iequal))
+      { return it; }
+    }
+    return it;
+  }
+
   // capacity
   /** Returns the number of elements in the %SLHABlock. */
   size_type
@@ -1108,9 +1328,17 @@ public:
   push_back(const value_type& line)
   { impl_.push_back(line); }
 
+  /**
+   * \brief Adds a SLHALine to the end of the %SLHABlock.
+   * \param line String that is used to construct the SLHALine that
+   *   will be added.
+   *
+   * This function creates an element at the end of the %SLHABlock and
+   * assigns the SLHALine that is constructed from \p line to it.
+   */
   void
   push_back(const std::string& line)
-  { impl_.push_back(SLHALine(line)); }
+  { impl_.push_back(value_type(line)); }
 
   /**
    * Removes the last element. This function shrinks the size() of the
@@ -1121,12 +1349,39 @@ public:
   { impl_.pop_back(); }
 
   /**
+   * \brief Inserts a SLHALine before given \p position.
+   * \param position Iterator into the %SLHABlock.
+   * \param line SLHALine to be inserted.
+   * \return Iterator pointing to the inserted element.
+   *
+   * This function inserts a copy of \p line before the specified
+   * \p position and thus enlarges the %SLHABlock by one.
+   */
+  iterator
+  insert(iterator position, const value_type& line)
+  { return impl_.insert(position, line); }
+
+  /**
+   * \brief Inserts a range into the %SLHABlock.
+   * \param position Iterator into the %SLHABlock.
+   * \param first Input iterator.
+   * \param last Input iterator.
+   *
+   * This function inserts copies of the \SLHALines in the range
+   * [\p first, \p last) into the %SLHABlock before the specified
+   * \p position and thus enlarges the %SLHABlock accordingly.
+   */
+  template<class InputIterator> void
+  insert(iterator position, InputIterator first, InputIterator last)
+  { impl_.insert(position, first, last); }
+
+  /**
    * \brief Removes element at given \p position.
    * \param position Iterator pointing to the element to be erased.
-   * \return An iterator pointing to the next element (or end()).
+   * \return Iterator pointing to the next element (or end()).
    *
    * This function erases the element at the given \p position and
-   * thus shorten the %SLHABlock by one.
+   * thus shortens the %SLHABlock by one.
    */
   iterator
   erase(iterator position)
@@ -1137,11 +1392,11 @@ public:
    * \param first Iterator pointing to the first element to be erased.
    * \param last Iterator pointing to one past the last element to be
    *   erased.
-   * \return An iterator pointing to the element pointed to by \p last
+   * \return Iterator pointing to the element pointed to by \p last
    *   prior to erasing (or end()).
    *
-   * This function will erase the elements in the range [\p first,
-   * \p last) and shorten the %SLHABlock accordingly.
+   * This function erases the elements in the range [\p first,
+   * \p last) and shortens the %SLHABlock accordingly.
    */
   iterator
   erase(iterator first, iterator last)
@@ -1169,12 +1424,28 @@ public:
     impl_.clear();
   }
 
+  /**
+   * \brief Comments all \SLHALines in the %SLHABlock.
+   * \sa SLHALine::comment()
+   */
+  void
+  comment()
+  { std::for_each(begin(), end(), std::mem_fun_ref(&value_type::comment)); }
+
+  /**
+   * \brief Uncomments all \SLHALines in the %SLHABlock.
+   * \sa SLHALine::uncomment()
+   */
+  void
+  uncomment()
+  { std::for_each(begin(), end(), std::mem_fun_ref(&value_type::uncomment)); }
+
 private:
   static bool
-  index_equal(const std::string& a, const std::string& b)
+  index_iequal(const std::string& a, const std::string& b)
   {
-    if ("(any)" == a || "(any)" == b) return true;
-    return a == b;
+    if ("(any)" == a) return true;
+    return boost::iequals(a, b);
   }
 
 private:
@@ -1184,6 +1455,15 @@ private:
 };
 
 
+/**
+ * Container of \SLHABlocks that resembles a complete %SLHA structure.
+ * This class is a container of \SLHABlocks that resembles a complete
+ * %SLHA structure. The elements of the SLHA objects can be accessed
+ * via their names with the operator[]() and at() functions and access
+ * to single fields is provided by the field() functions. To fill this
+ * container, the functions read() or str() can be used which read
+ * data from an input stream or a string, respectively.
+ */
 class SLHA
 {
 private:
@@ -1208,58 +1488,76 @@ public:
   //   operator for this class are just fine, so we don't need to
   //   write our own.
 
+  /**
+   * \brief Constructs %SLHA container with content from input stream.
+   * \param is Input stream to read content from.
+   * \sa read()
+   */
   explicit
   SLHA(std::istream& is)
   { read(is); }
 
+  /**
+   * \brief Accesses a single field in the %SLHA container.
+   * \param key SLHAKey that refers to the field that should be
+   *   accessed.
+   * \return Read/write reference to the field referred to by \p key.
+   * \throw std::out_of_range If \p key refers to a non-existing
+   *   field.
+   */
   SLHALine::reference
   field(const SLHAKey& key)
   { return at(key.block).at(key.line).at(key.field); }
 
+  /**
+   * \brief Accesses a single field in the %SLHA container.
+   * \param key SLHAKey that refers to the field that should be
+   *   accessed.
+   * \return Read-only (constant) reference to the field referred to
+   *   by \p key.
+   * \throw std::out_of_range If \p key refers to a non-existing
+   *   field.
+   */
   SLHALine::const_reference
   field(const SLHAKey& key) const
   { return at(key.block).at(key.line).at(key.field); }
 
   /**
-   * \brief Transforms data from a stream into the %SLHA container.
-   * \param is Input stream to read data from.
+   * \brief Assigns content from input stream to the %SLHA container.
+   * \param is Input stream to read content from.
    * \returns Reference to \c *this.
    *
-   * This function reads lines from \p is, transforms them into
-   * SLHALine objects, which are collected into the corresponding
-   * SLHABlock objects that are added to this %SLHA container.
+   * This function reads non-empty lines from \p is, transforms them
+   * into \SLHALines, which are collected into the corresponding
+   * \SLHABlocks that are added to the %SLHA container.
    */
   SLHA&
   read(std::istream& is)
   {
-    std::string line_str, curr_name;
-    SLHALine line_slha;
+    std::string line_str, name;
+    SLHALine line;
 
     while (std::getline(is, line_str))
     {
       if (boost::all(line_str, boost::is_space())) continue;
 
-      line_slha.str(line_str);
-      if (line_slha.is_block_def() && line_slha.data_size() > 1)
-      {
-        curr_name = line_slha[1];
-      }
-      (*this)[curr_name].push_back(line_slha);
+      line = line_str;
+      if (line.is_block_def() && line.data_size() > 1) name = line[1];
+      (*this)[name].push_back(line);
     }
     return *this;
   }
 
   /**
-   * \brief Transforms data from a string into the %SLHA container.
-   * \param slhaString String to read data from.
+   * \brief Assigns content to the %SLHA container based on a string.
+   * \param slhaString String that is used as content for the %SLHA
+   *   container.
    * \returns Reference to \c *this.
-   * \sa read()
    */
   SLHA&
   str(const std::string& slhaString)
   {
-    std::stringstream ss("");
-    ss << slhaString;
+    std::stringstream ss(slhaString);
     return read(ss);
   }
 
@@ -1274,16 +1572,14 @@ public:
 
   // element access
   /**
-   * \brief Subscript access to an element of the %SLHA container.
-   * \param blockName Name of the SLHABlock to be retrieved.
-   * \return Read/write reference to the SLHABlock with the name
-   *   \p blockName.
+   * \brief Locates a SLHABlock in the %SLHA container.
+   * \param blockName Name of the SLHABlock to be located.
+   * \return Read/write reference to sought-after SLHABlock.
    *
-   * This function allows for easy lookup with the subscript (\c [])
-   * operator. It returns the first SLHABlock with the name
+   * This function locates the first SLHABlock whose name equals
    * \p blockName. If no such SLHABlock is present, an empty SLHABlock
-   * with this name is added to the end of the %SLHA container, which
-   * is then returned.
+   * with this name is added to the end of the %SLHA container and a
+   * reference to it is then returned.
    */
   reference
   operator[](const key_type& blockName)
@@ -1298,11 +1594,11 @@ public:
   }
 
   /**
-   * \brief Provides access to an element of the %SLHA container.
-   * \param blockName Name of the SLHABlock to be retrieved.
-   * \return Read/write reference to the SLHABlock with the name
-   *   \p blockName.
-   * \throw std::out_of_range If no such SLHABlock is present.
+   * \brief Locates a SLHABlock in the %SLHA container.
+   * \param blockName Name of the SLHABlock to be located.
+   * \return Read/write reference to sought-after SLHABlock.
+   * \throw std::out_of_range If no SLHABlock with the name
+   *   \p blockName exists.
    */
   reference
   at(const key_type& blockName)
@@ -1314,11 +1610,11 @@ public:
   }
 
   /**
-   * \brief Provides access to an element of the %SLHA container.
-   * \param blockName Name of the SLHABlock to be retrieved.
-   * \return Read-only (constant) reference to the SLHABlock with the
-   *   name \p blockName.
-   * \throw std::out_of_range If no such SLHABlock is present.
+   * \brief Locates a SLHABlock in the %SLHA container.
+   * \param blockName Name of the SLHABlock to be located.
+   * \return Read-only (constant) reference to sought-after SLHABlock.
+   * \throw std::out_of_range If no SLHABlock with the name
+   *   \p blockName exists.
    */
   const_reference
   at(const key_type& blockName) const
@@ -1330,32 +1626,32 @@ public:
   }
 
   /**
-   * Returns a read/write reference to the %SLHABlock at the first
-   * element of the %SLHA container.
+   * Returns a read/write reference to the first element of the %SLHA
+   * container.
    */
   reference
   front()
   { return impl_.front(); }
 
   /**
-   * Returns a read-only (constant) reference to the %SLHABlock at the
-   * first element of the %SLHA container.
+   * Returns a read-only (constant) reference to the first element of
+   * the %SLHA container.
    */
   const_reference
   front() const
   { return impl_.front(); }
 
   /**
-   * Returns a read/write reference to the %SLHABlock at the last
-   * element of the %SLHA container.
+   * Returns a read/write reference to the last element of the %SLHA
+   * container.
    */
   reference
   back()
   { return impl_.back(); }
 
   /**
-   * Returns a read-only (constant) reference to the %SLHABlock at the
-   * last element of the %SLHA container.
+   * Returns a read-only (constant) reference to the last element of
+   * the %SLHA container.
    */
   const_reference
   back() const
@@ -1470,10 +1766,6 @@ public:
   { return impl_.rend(); }
 
   // operations
-  size_type
-  count(const key_type& blockName) const
-  { return (find(blockName) != end()) ? 1 : 0; }
-
   /**
    * \brief Tries to locate a SLHABlock in the %SLHA container.
    * \param blockName Name of the SLHABlock to be located.
@@ -1481,16 +1773,13 @@ public:
    *   end() if not found.
    *
    * This function takes a key and tries to locate the SLHABlock whose
-   * name matches \p blockName. If successful the function returns a
-   * read/write iterator pointing to the sought after SLHABlock. If
-   * unsuccessful it returns end().
+   * name matches \p blockName (comparison is case-insensitive). If
+   * successful the function returns a read/write iterator pointing to
+   * the sought after SLHABlock. If unsuccessful it returns end().
    */
   iterator
   find(const key_type& blockName)
-  {
-    name_iequals_.name = blockName;
-    return std::find_if(begin(), end(), name_iequals_);
-  }
+  { return std::find_if(begin(), end(), name_iequals(blockName)); }
 
   /**
    * \brief Tries to locate a SLHABlock in the %SLHA container.
@@ -1499,16 +1788,27 @@ public:
    *   element, or end() const if not found.
    *
    * This function takes a key and tries to locate the SLHABlock whose
-   * name matches \p blockName. If successful the function returns a
-   * read-only (constant) iterator pointing to the sought after
-   * SLHABlock. If unsuccessful it returns end() const.
+   * name matches \p blockName (comparison is case-insensitive). If
+   * successful the function returns a read-only (constant) iterator
+   * pointing to the sought after SLHABlock. If unsuccessful it
+   * returns end() const.
    */
   const_iterator
   find(const key_type& blockName) const
-  {
-    name_iequals_.name = blockName;
-    return std::find_if(begin(), end(), name_iequals_);
-  }
+  { return std::find_if(begin(), end(), name_iequals(blockName)); }
+
+  // introspection
+  /**
+   * \brief Counts all \SLHABlocks with a given name.
+   * \param blockName Name of the \SLHABlocks that will be counted.
+   * \return Number of blocks whose name equals \p blockName.
+   *
+   * Notice that the comparison of \p blockName and the names of the
+   * \SLHABlocks is case-insensitive.
+   */
+  size_type
+  count(const key_type& blockName) const
+  { return std::count_if(begin(), end(), name_iequals(blockName)); }
 
   // capacity
   /** Returns the number of elements in the %SLHA container. */
@@ -1539,6 +1839,23 @@ public:
   { impl_.push_back(block); }
 
   /**
+   * \brief Adds a SLHABlock to the end of the %SLHA container.
+   * \param blockString String that is used to construct the SLHABlock
+   *   that will be added.
+   *
+   * This function creates an element at the end of the %SLHA
+   * container and assigns the SLHABlock that is constructed from
+   * \p blockString to it.
+   */
+  void
+  push_back(const std::string& blockString)
+  {
+    value_type block;
+    block.str(blockString);
+    impl_.push_back(block);
+  }
+
+  /**
    * Removes the last element. This function shrinks the size() of the
    * %SLHA container by one.
    */
@@ -1547,12 +1864,39 @@ public:
   { impl_.pop_back(); }
 
   /**
+   * \brief Inserts a SLHABlock before given \p position.
+   * \param position Iterator into the %SLHA container.
+   * \param block SLHABlock to be inserted.
+   * \return Iterator pointing to the inserted element.
+   *
+   * This function inserts a copy of \p block before the specified
+   * \p position and thus enlarges the %SLHA container by one.
+   */
+  iterator
+  insert(iterator position, const value_type& block)
+  { return impl_.insert(position, block); }
+
+  /**
+   * \brief Inserts a range into the %SLHA container.
+   * \param position Iterator into the %SLHA container.
+   * \param first Input iterator.
+   * \param last Input iterator.
+   *
+   * This function inserts copies of the \SLHABlocks in the range
+   * [\p first, \p last) into the %SLHA container before the specified
+   * \p position and thus enlarges the %SLHA container accordingly.
+   */
+  template<class InputIterator> void
+  insert(iterator position, InputIterator first, InputIterator last)
+  { impl_.insert(position, first, last); }
+
+  /**
    * \brief Removes element at given \p position.
    * \param position Iterator pointing to the element to be erased.
-   * \return An iterator pointing to the next element (or end()).
+   * \return Iterator pointing to the next element (or end()).
    *
    * This function erases the element at the given \p position and
-   * thus shorten the %SLHA container by one.
+   * thus shortens the %SLHA container by one.
    */
   iterator
   erase(iterator position)
@@ -1563,11 +1907,11 @@ public:
    * \param first Iterator pointing to the first element to be erased.
    * \param last Iterator pointing to one past the last element to be
    *   erased.
-   * \return An iterator pointing to the element pointed to by \p last
+   * \return Iterator pointing to the element pointed to by \p last
    *   prior to erasing (or end()).
    *
-   * This function will erase the elements in the range [\p first,
-   * \p last) and shorten the %SLHA container accordingly.
+   * This function erases the elements in the range [\p first,
+   * \p last) and shortens the %SLHA container accordingly.
    */
   iterator
   erase(iterator first, iterator last)
@@ -1589,12 +1933,16 @@ public:
 private:
   struct name_iequals : public std::unary_function<value_type, bool>
   {
-    mutable key_type name;
+    explicit
+    name_iequals(const key_type& blockName) : name_(blockName) {}
 
     bool
     operator()(const value_type& block) const
-    { return boost::iequals(name, block.name()); }
-  } name_iequals_;
+    { return boost::iequals(name_, block.name()); }
+
+  private:
+    key_type name_;
+  };
 
 private:
   impl_type impl_;
@@ -1602,6 +1950,13 @@ private:
 
 
 // stream operators
+inline std::istream&
+operator>>(std::istream& is, SLHABlock& block)
+{
+  block.read(is);
+  return is;
+}
+
 inline std::istream&
 operator>>(std::istream& is, SLHA& slha)
 {
@@ -1620,16 +1975,16 @@ operator<<(std::ostream& os, const SLHALine& line)
 inline std::ostream&
 operator<<(std::ostream& os, const SLHABlock& block)
 {
-  for (SLHABlock::const_iterator it = block.begin(); it != block.end(); ++it)
-  { os << *it << std::endl; }
+  std::copy(block.begin(), block.end(),
+            std::ostream_iterator<SLHABlock::value_type>(os, "\n"));
   return os;
 }
 
 inline std::ostream&
 operator<<(std::ostream& os, const SLHA& slha)
 {
-  for (SLHA::const_iterator it = slha.begin(); it != slha.end(); ++it)
-  { os << *it; }
+  std::copy(slha.begin(), slha.end(),
+            std::ostream_iterator<SLHA::value_type>(os));
   return os;
 }
 
