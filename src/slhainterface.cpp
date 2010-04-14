@@ -44,7 +44,9 @@ SLHAInterface::SLHAInterface()
 {
   string block = "KaiminiInfo";
   mResult[block][""] << "BLOCK" << block;
-  mResult[block][""] << "1" << g_kaimini_version << "# version number";
+  mResult[block][""] = str(format(" 1 %|4t|%1% %|16t|%2%")
+    % g_kaimini_version
+    % "# version number");
 }
 
 
@@ -411,6 +413,31 @@ void SLHAInterface::processDriverInfoImpl(const map<string, string>* infos)
 
     mResult[block][""] << number << ("- " + entry->first) << entry->second;
   }
+}
+
+
+void SLHAInterface::processRuntimeImpl(const double wallTime,
+                                       const double procTime)
+{
+  string block = "KaiminiInfo";
+
+  vector<string> version_key;
+  version_key.push_back("1");
+  SLHABlock::iterator after_version = mResult[block].find(version_key);
+  if (after_version != mResult[block].end()) after_version++;
+
+  vector<SLHALine> lines;
+  lines.push_back(SLHALine(str(
+    format(" 2 %|4t|%1% %|16t|%2%")
+      % wallTime
+      % "# approx. wall clock time [s]")));
+
+  lines.push_back(SLHALine(str(
+    format(" 3 %|4t|%1$.3f %|16t|%2%")
+      % procTime
+      % "# approx. process time [s]")));
+
+  mResult[block].insert(after_version, lines.begin(), lines.end());
 }
 
 

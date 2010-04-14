@@ -16,6 +16,7 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <ostream>
@@ -37,6 +38,9 @@ namespace Kaimini {
 
 void SLHAWorker::initialize(const string& inputFile)
 {
+  mWallTimeStart = time(0);
+  mProcTimeStart = clock();
+
   ifstream src(inputFile.c_str());
   if (!src) exit_file_open_failed(inputFile);
 
@@ -85,6 +89,12 @@ void SLHAWorker::shutdown(const string& outputFile)
 {
   // fs::current_path(mInitialDir);
   chdir(mInitialDir.file_string().c_str());
+
+  mWallTimeStop = time(0);
+  mProcTimeStop = clock();
+  double wall_time = difftime(mWallTimeStop, mWallTimeStart);
+  double proc_time = double(mProcTimeStop - mProcTimeStart) / CLOCKS_PER_SEC;
+  processRuntime(wall_time, proc_time);
 
   ofstream dest(outputFile.c_str());
   if (!dest) exit_file_open_failed(outputFile);

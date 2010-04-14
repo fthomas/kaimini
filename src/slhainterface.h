@@ -57,6 +57,8 @@ protected:
 
   void processDriverInfoImpl(const std::map<std::string, std::string>* infos);
 
+  void processRuntimeImpl(double wallTime, double procTime);
+
   const SLHAea::SLHA& result();
 
 private:
