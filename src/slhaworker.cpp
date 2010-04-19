@@ -250,17 +250,21 @@ void SLHAWorker::selectCalculator(const SLHABlock& block)
       mCalcInfo.path    = path;
       mCalcInfo.command = path;
     }
-    else if ((*line)[1] == "outputfile")
+    else if ((*line)[1] == "inputfile")
     {
       mCalcInfo.inputFile = (*line)[2];
     }
-    else if ((*line)[1] == "inputfile")
+    else if ((*line)[1] == "outputfile")
     {
       mCalcInfo.outputFile = (*line)[2];
     }
     else if ((*line)[1] == "cmdline")
     {
-      mCalcInfo.cmdline = (*line)[2];
+      string cmdline = line->str();
+      cmdline = cmdline.substr(cmdline.find((*line)[2]));
+      cmdline = boost::trim_copy(cmdline.substr(0, cmdline.find('#')));
+
+      mCalcInfo.cmdline = cmdline;
       mCalcInfo.command = mCalcInfo.path + " " + mCalcInfo.cmdline;
     }
   }
