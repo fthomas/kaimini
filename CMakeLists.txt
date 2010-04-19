@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
-project(Kaimini CXX)
+project(Kaimini)
 
 set(Kaimini_VERSION_MAJOR "0")
 set(Kaimini_VERSION_MINOR "0")
@@ -22,6 +22,7 @@ endif()
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 find_package(Boost COMPONENTS unit_test_framework)
 find_package(Minuit2 REQUIRED)
+find_package(OpenMP)
 
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
