@@ -1,6 +1,10 @@
 file(GLOB Kaimini_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ../src/*.cpp)
 list(REMOVE_ITEM Kaimini_SOURCES ../src/main.cpp)
-set(TEST_SOURCES testall.cpp ${Kaimini_SOURCES})
+
+file(GLOB TEST_SOURCES *.cpp)
+file(GLOB TEST_HEADERS *.h)
+set(TEST_SOURCES ${TEST_SOURCES} ${Kaimini_SOURCES})
+
 set(TEST_LIBRARIES
     ${Boost_LIBRARIES}
     ${Minuit2_LIBRARIES}
@@ -14,7 +18,7 @@ link_directories(
     ${Boost_LIBRARY_DIRS}
     ${Minuit2_LIBRARY_DIRS})
 
-add_executable(testall ${TEST_SOURCES})
+add_executable(testall ${TEST_SOURCES} ${TEST_HEADERS})
 target_link_libraries(testall ${TEST_LIBRARIES})
 
 add_custom_target(test ${CMAKE_CURRENT_BINARY_DIR}/testall DEPENDS testall)

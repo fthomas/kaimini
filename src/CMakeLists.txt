@@ -1,4 +1,6 @@
 file(GLOB Kaimini_SOURCES *.cpp)
+file(GLOB Kaimini_HEADERS *.h)
+
 set(Kaimini_TARGET kaimini)
 set(Kaimini_LIBRARIES
     ${Boost_FILESYSTEM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARIES}
@@ -15,7 +17,7 @@ link_directories(
     ${Boost_LIBRARY_DIRS}
     ${Minuit2_LIBRARY_DIRS})
 
-add_executable(${Kaimini_TARGET} ${Kaimini_SOURCES})
+add_executable(${Kaimini_TARGET} ${Kaimini_SOURCES} ${Kaimini_HEADERS})
 target_link_libraries(${Kaimini_TARGET} ${Kaimini_LIBRARIES})
 set_target_properties(${Kaimini_TARGET} PROPERTIES
     INSTALL_RPATH_USE_LINK_PATH TRUE
