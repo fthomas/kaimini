@@ -19,11 +19,12 @@
 
 #include <string>
 #include <boost/random.hpp>
+#include <boost/utility.hpp>
 #include <gsl/gsl_rng.h>
 
 namespace Kaimini {
 
-class Random
+class Random : private boost::noncopyable
 {
 public:
   Random();
@@ -50,9 +51,6 @@ public:
   std::string randString(std::size_t length = 6);
 
 private:
-  Random(const Random&);
-  Random& operator=(const Random&);
-
   const unsigned int mSeed;
 
 public:

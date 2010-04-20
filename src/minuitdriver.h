@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <boost/scoped_ptr.hpp>
+#include <boost/utility.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MnApplication.h>
@@ -31,7 +32,7 @@
 
 namespace Kaimini {
 
-class MinuitDriver
+class MinuitDriver : private boost::noncopyable
 {
 public:
   explicit MinuitDriver(ChiSqFunction* func) : mpFunc(func)
@@ -80,9 +81,6 @@ public:
   std::map<std::string, minimizer, iless_than> minimizerMap;
 
 private:
-  MinuitDriver(const MinuitDriver&);
-  MinuitDriver& operator=(const MinuitDriver&);
-
   void sanitize();
   void processResults(const std::string& number, const std::string& name,
                       const ROOT::Minuit2::MnApplication& app);

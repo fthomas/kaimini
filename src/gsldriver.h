@@ -17,13 +17,14 @@
 #ifndef KAIMINI_GSLDRIVER_H
 #define KAIMINI_GSLDRIVER_H
 
+#include <boost/utility.hpp>
 #include <gsl/gsl_vector.h>
 #include "chisqfunction.h"
 #include "parameters.h"
 
 namespace Kaimini {
 
-class GSLDriver
+class GSLDriver : private boost::noncopyable
 {
 public:
   explicit GSLDriver(ChiSqFunction* fit);
