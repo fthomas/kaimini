@@ -45,7 +45,7 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  processResults("10", "MnMigrad", minimizer);
+  processResults("10", "Migrad", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -58,7 +58,7 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  processResults("11", "MnMinimize", minimizer);
+  processResults("11", "Minimize", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -71,7 +71,7 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  processResults("12", "MnScan", minimizer);
+  processResults("12", "Scan", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -84,7 +84,7 @@ Parameters MinuitDriver::runSimplex(const unsigned int stra)
   mpMinimum.reset(new FunctionMinimum(minimizer()));
 
   sanitize();
-  processResults("13", "MnSimplex", minimizer);
+  processResults("13", "Simplex", minimizer);
 
   if (g_verbose_output) cout << *mpMinimum;
   return mpMinimum->UserParameters();
@@ -147,7 +147,7 @@ void MinuitDriver::processResults(const string& number, const string& name,
 
   map<string, string> infos;
   infos["number"]   = number;
-  infos["name"]     = "Minuit2::" + name;
+  infos["name"]     = "Minuit" + name;
   infos["calls"]    = lexical_cast<string>(app.NumOfCalls());
   infos["strategy"] = lexical_cast<string>(app.Strategy().Strategy());
   infos["valid_minimum"] = mpMinimum->IsValid() ? "true" : "false";
