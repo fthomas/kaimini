@@ -152,7 +152,7 @@ bootstrap(ChiSqFunction* fit, const Parameters& minParams,
 
   fit->setDataPoints(orig_dps);
   fit->setParameters(orig_params);
-  fit->chiSq(orig_params);
+  fit->chiSq(minParams);
 
   fit->enableProcessing();
   fit->processBootstrap(&retval, iterations);
