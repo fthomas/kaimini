@@ -225,7 +225,9 @@ void SLHAWorker::selectCalculator(const SLHABlock& block)
   {
     if (line->data_size() < 3) continue;
 
-    if ((*line)[1] == "calculator")
+    const string key = (*line)[1];
+
+    if (boost::iequals(key, "calculator"))
     {
       const string calculator = (*line)[2];
       mCalcInfo.path          = calculator;
@@ -248,7 +250,7 @@ void SLHAWorker::selectCalculator(const SLHABlock& block)
         selectXSUSY();
       }
     }
-    else if ((*line)[1] == "path")
+    else if (boost::iequals(key, "path"))
     {
       const string path = (*line)[2];
       if (!fs::exists(path))
@@ -259,15 +261,15 @@ void SLHAWorker::selectCalculator(const SLHABlock& block)
       mCalcInfo.path    = path;
       mCalcInfo.command = path;
     }
-    else if ((*line)[1] == "inputfile")
+    else if (boost::iequals(key, "inputfile"))
     {
       mCalcInfo.inputFile = (*line)[2];
     }
-    else if ((*line)[1] == "outputfile")
+    else if (boost::iequals(key, "outputfile"))
     {
       mCalcInfo.outputFile = (*line)[2];
     }
-    else if ((*line)[1] == "cmdline")
+    else if (boost::iequals(key, "cmdline"))
     {
       string cmdline = line->str();
       cmdline = cmdline.substr(cmdline.find((*line)[2]));
