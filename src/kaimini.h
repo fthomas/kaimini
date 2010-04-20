@@ -96,6 +96,14 @@ struct iequal_to
   bool operator()(const std::string& a, const std::string& b) const
   { return boost::iequals(a, b); }
 };
+
+
+struct iless_than
+  : public std::binary_function<std::string, std::string, bool>
+{
+  bool operator()(const std::string& a, const std::string& b) const
+  { return boost::to_lower_copy(a) < boost::to_lower_copy(b); }
+};
 /// \endcond
 
 } // namespace Kaimini
