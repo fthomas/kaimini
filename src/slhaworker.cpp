@@ -38,15 +38,24 @@ namespace Kaimini {
 
 void SLHAWorker::initialize(const string& inputFile)
 {
-  mWallTimeStart = time(0);
-  mProcTimeStart = clock();
-
   ifstream src(inputFile.c_str());
   if (!src) exit_file_open_failed(inputFile);
 
   mSLHAInput.clear();
   src >> mSLHAInput;
   src.close();
+
+  initialize(mSLHAInput);
+}
+
+
+void SLHAWorker::initialize(const SLHA& input)
+{
+  mWallTimeStart = time(0);
+  mProcTimeStart = clock();
+
+  // Avoid self-assignment if we are called by initialize(const string&).
+  if (&mSLHAInput != &input) mSLHAInput = input;
 
   setDataPoints(mSLHAInput);
   setParameters(mSLHAInput);
@@ -72,7 +81,9 @@ void SLHAWorker::initialize(const string& inputFile)
     mTempOutputFile = mWorkingDir / mCalcInfo.outputFile;
 
     if (fs::exists(mTempInputFile)) fs::remove(mTempInputFile);
-    fs::copy_file(fs::path(inputFile), mTempInputFile);
+    ofstream dest(mTempInputFile.file_string().c_str());
+    dest << mSLHAInput;
+    dest.close();
   }
   catch (fs::basic_filesystem_error<fs::path>& ex)
   {
@@ -80,14 +91,12 @@ void SLHAWorker::initialize(const string& inputFile)
     exit(EXIT_FAILURE);
   }
 
-  // fs::current_path(mWorkingDir);
   chdir(mWorkingDir.file_string().c_str());
 }
 
 
 void SLHAWorker::shutdown(const string& outputFile)
 {
-  // fs::current_path(mInitialDir);
   chdir(mInitialDir.file_string().c_str());
 
   mWallTimeStop = time(0);

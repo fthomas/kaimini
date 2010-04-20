@@ -34,7 +34,13 @@ public:
     initialize(inputFile);
   }
 
+  explicit SLHAWorker(const SLHAea::SLHA& input)
+  {
+    initialize(input);
+  }
+
   void initialize(const std::string& inputFile);
+  void initialize(const SLHAea::SLHA& input);
   void shutdown(const std::string& outputFile);
 
   double chiSq(const std::vector<double>& params) const;
