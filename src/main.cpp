@@ -15,18 +15,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdlib>
+#include <fstream>
 #include <ostream>
 #include <string>
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <Minuit2/MnPrint.h>
 #include "erroranalysis.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
+#include "slhaea.h"
 #include "slhaworker.h"
 
 using namespace std;
+using namespace boost;
 using namespace Kaimini;
+using namespace SLHAea;
 namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[])
@@ -45,22 +50,100 @@ int main(int argc, char* argv[])
     exit(EXIT_FAILURE);
   }
 
-  SLHAWorker fit(input_file);
-  //fit.disableProcessing();
-  //GSLDriver gsl_dr(&fit);
-  //gsl_dr.runSimplex();
-  //gsl_dr.runSimulatedAnnealing();
+  ifstream input_fs(input_file.c_str());
+  SLHA input_slha(input_fs);
+  input_fs.close();
 
-  MinuitDriver minuit_dr(&fit);
-  //cout << minuit_dr.runMigrad();
-  Parameters min = minuit_dr.runMinimize();
-  //cout << minuit_dr.getFunctionMinimum();
-  //cout << minuit_dr.runMinos();
+  SLHAWorker fit(input_slha);
 
-  //bootstrap(&fit, fit.getIntParameters(), &minuit_dr,
-  //bootstrap(&fit, min, &minuit_dr,
-  //  &MinuitDriver::runMinimize, 100);
-  //cout << minuit_dr.getFunctionMinimum();
+  GSLDriver gsl_driver(&fit);
+  MinuitDriver mn_driver(&fit);
+
+  Parameters min_params = fit.getParameters();
+
+  if (input_slha.count("KaiminiControl") == 0)
+  {
+    min_params = mn_driver.runMinimize(2);
+    fit.shutdown(output_file);
+    return 0;
+  }
+
+  SLHABlock kaimini_control = input_slha.at("KaiminiControl");
+
+  // Default number of iterations for bootstrapping.
+  int bootstrap_iter = 1000;
+
+  for (SLHABlock::iterator line = kaimini_control.begin();
+       line != kaimini_control.end(); ++line)
+  {
+    if (line->data_size() < 2 || (*line)[0] != "0") continue;
+
+    const size_t data_size = line->data_size();
+    const string key = (*line)[1];
+
+    try
+    {
+      if (boost::iequals(key, "MinuitErrorDef") && data_size > 2)
+      {
+        fit.SetErrorDef(to_<double>((*line)[2]));
+      }
+      else if (boost::iequals(key, "BootstrapIter") && data_size > 2)
+      {
+        bootstrap_iter = to_<int>((*line)[2]);
+      }
+      else warn_line_ignored(kaimini_control.name(), line->str());
+    }
+    catch (bad_lexical_cast&)
+    {
+      exit_line_not_parsed(kaimini_control.name(), line->str());
+    }
+  }
+
+  for (SLHABlock::iterator line = kaimini_control.begin();
+       line != kaimini_control.end(); ++line)
+  {
+    if (line->data_size() < 2 || (*line)[0] != "1") continue;
+
+    const size_t data_size = line->data_size();
+    const string key = (*line)[1];
+
+    unsigned int mn_strategy = 1;
+
+    try
+    {
+      if (mn_driver.minimizerMap.find(key) != mn_driver.minimizerMap.end())
+      {
+        if (data_size > 2) mn_strategy = to_<unsigned int>((*line)[2]);
+        min_params = (mn_driver.*(mn_driver.minimizerMap[key]))(mn_strategy);
+        fit.setParameters(min_params);
+      }
+      else if (boost::iequals(key, "MinuitMinos"))
+      {
+        if (data_size > 2) mn_strategy = to_<unsigned int>((*line)[2]);
+        mn_driver.runMinos(mn_strategy);
+      }
+      else if (boost::iequals(key, "GSLSimplex"))
+      {
+        min_params = gsl_driver.runSimplex();
+        fit.setParameters(min_params);
+      }
+      else if (boost::iequals(key, "GSLSimulatedAnnealing"))
+      {
+        min_params = gsl_driver.runSimulatedAnnealing();
+        fit.setParameters(min_params);
+      }
+      else if (boost::iequals(key, "Bootstrap"))
+      {
+        bootstrap(&fit, min_params, &mn_driver, &MinuitDriver::runMinimize,
+                  bootstrap_iter);
+      }
+      else warn_line_ignored(kaimini_control.name(), line->str());
+    }
+    catch (bad_lexical_cast&)
+    {
+      warn_line_not_parsed(kaimini_control.name(), line->str());
+    }
+  }
 
   fit.shutdown(output_file);
 
