@@ -121,7 +121,7 @@ Parameters GSLDriver::runSimplex()
 Parameters GSLDriver::runSimulatedAnnealing()
 {
   int n_tries       = 200;
-  int iters_fixed_t = 1000;
+  int iters_fixed_t = 2000;
   double step_size  = 1.0;
   double k          = 1.0;
   double t_initial  = 0.008;
@@ -135,10 +135,12 @@ Parameters GSLDriver::runSimulatedAnnealing()
 
   gsl_siman_solve(g_rnd.gsl_engine, x_initial,
     GSLDriver::chiSquare, gsl_vector_step_random, gsl_vector_dist,
-    NULL, NULL, NULL, NULL, sizeof(gsl_vector), params);
+    NULL, NULL, NULL, NULL, sizeof(*x_initial), params);
 
   gsl_vector_free(x_initial);
 
+  mspFit->processParameters(&msPar);
+  mspFit->processDataPoints();
   return msPar;
 }
 
