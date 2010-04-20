@@ -17,20 +17,30 @@
 #ifndef KAIMINI_MINUITDRIVER_H
 #define KAIMINI_MINUITDRIVER_H
 
+#include <map>
 #include <ostream>
+#include <string>
 #include <vector>
 #include <boost/scoped_ptr.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MnApplication.h>
 #include "chisqfunction.h"
+#include "kaimini.h"
+#include "parameters.h"
 
 namespace Kaimini {
 
 class MinuitDriver
 {
 public:
-  explicit MinuitDriver(ChiSqFunction* func) : mpFunc(func) {}
+  explicit MinuitDriver(ChiSqFunction* func) : mpFunc(func)
+  {
+    minimizerMap["MinuitMigrad"]   = &MinuitDriver::runMigrad;
+    minimizerMap["MinuitMinimize"] = &MinuitDriver::runMinimize;
+    minimizerMap["MinuitScan"]     = &MinuitDriver::runScan;
+    minimizerMap["MinuitSimplex"]  = &MinuitDriver::runSimplex;
+  }
 
   Parameters runMigrad(unsigned int stra);
   Parameters runMigrad()
@@ -64,6 +74,10 @@ public:
 
   std::vector<ROOT::Minuit2::MinosError>
   runMinos(unsigned int stra = 1);
+
+public:
+  typedef Parameters (MinuitDriver::*minimizer)(unsigned int);
+  std::map<std::string, minimizer, iless_than> minimizerMap;
 
 private:
   MinuitDriver(const MinuitDriver&);
