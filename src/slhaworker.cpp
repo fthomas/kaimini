@@ -109,11 +109,14 @@ void SLHAWorker::shutdown(const string& outputFile)
   if (!dest) exit_file_open_failed(outputFile);
   dest << result();
 
-  fs::ifstream src(mTempOutputFile);
-  if (!src) exit_file_open_failed(mTempOutputFile.file_string());
-  dest << src.rdbuf();
+  if (fs::exists(mTempOutputFile))
+  {
+    fs::ifstream src(mTempOutputFile);
+    if (!src) exit_file_open_failed(mTempOutputFile.file_string());
+    dest << src.rdbuf();
+    src.close();
+  }
 
-  src.close();
   dest.close();
 
   try
