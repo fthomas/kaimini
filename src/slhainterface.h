@@ -34,6 +34,9 @@ class SLHAInterface : public ChiSqFunction
 public:
     SLHAInterface();
 
+    using ChiSqFunction::setDataPoints;
+    using ChiSqFunction::setParameters;
+
 protected:
   void setDataPoints(const SLHAea::SLHA& input);
   void setParameters(const SLHAea::SLHA& input);
