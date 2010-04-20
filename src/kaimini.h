@@ -20,6 +20,7 @@
 #include <functional>
 #include <limits>
 #include <string>
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
 namespace Kaimini {
@@ -86,6 +87,14 @@ template<typename Pair> struct pair_select2nd
   const typename Pair::second_type&
   operator()(const Pair& x) const
   { return x.second; }
+};
+
+
+struct iequal_to
+  : public std::binary_function<std::string, std::string, bool>
+{
+  bool operator()(const std::string& a, const std::string& b) const
+  { return boost::iequals(a, b); }
 };
 /// \endcond
 
