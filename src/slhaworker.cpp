@@ -276,6 +276,7 @@ void SLHAWorker::selectCalculator(const SLHABlock& block)
       mCalcInfo.cmdline = cmdline;
       mCalcInfo.command = mCalcInfo.path + " " + mCalcInfo.cmdline;
     }
+    else warn_line_ignored(block.name(), line->str());
   }
 }
 
