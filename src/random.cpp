@@ -30,12 +30,12 @@ const string Random::mAlnum = "0123456789"
 
 
 Random::Random()
-  : engine(static_cast<unsigned int>(time(0)) +
-           static_cast<unsigned int>(clock())),
+  : mSeed(static_cast<unsigned int>(time(0)) +
+          static_cast<unsigned int>(clock())),
+    engine(mSeed),
     mAlnumGen(engine, uniform_int_distribution(0, mAlnum.length()-1))
 {
-  gsl_rng_default_seed = static_cast<unsigned int>(time(0)) +
-                         static_cast<unsigned int>(clock());
+  gsl_rng_default_seed = mSeed;
   gsl_engine = gsl_rng_alloc(gsl_rng_mt19937);
 }
 
