@@ -1,7 +1,3 @@
-Input:
- - BLOCK Kaimini???:
-   - add entries to select the driver and its options
-
 GSLDriver:
  - runSimplex:
    - determine the parameter errors
