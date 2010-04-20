@@ -223,7 +223,12 @@ void SLHAWorker::selectCalculator(const SLHABlock& block)
   for(SLHABlock::const_iterator line = block.begin();
       line != block.end(); ++line)
   {
-    if (line->data_size() < 3) continue;
+    if (!line->is_data_line()) continue;
+    if (line->data_size() < 3)
+    {
+      warn_line_ignored(block.name(), line->str());
+      continue;
+    }
 
     const string key = (*line)[1];
 

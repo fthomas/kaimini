@@ -64,7 +64,7 @@ void SLHAInterface::setDataPoints(const SLHA& input)
     if (!line->is_data_line()) continue;
     if (line->size() < 6)
     {
-      warn_line_ignored("KaiminiDataPoints", line->str());
+      warn_line_ignored(block->name(), line->str());
       continue;
     }
 
@@ -79,7 +79,7 @@ void SLHAInterface::setDataPoints(const SLHA& input)
     }
     catch (bad_lexical_cast&)
     {
-      exit_line_not_parsed("KaiminiDataPoints", line->str());
+      exit_line_not_parsed(block->name(), line->str());
     }
 
     mDataPoints.push_back(dp);
@@ -102,7 +102,7 @@ void SLHAInterface::setParameters(const SLHA& input)
     if (!line->is_data_line()) continue;
     if (line->size() < 6)
     {
-      warn_line_ignored("KaiminiParameters", line->str());
+      warn_line_ignored(block->name(), line->str());
       continue;
     }
 
@@ -159,7 +159,7 @@ void SLHAInterface::setParameters(const SLHA& input)
     }
     catch (bad_lexical_cast&)
     {
-      exit_line_not_parsed("KaiminiParameters", line->str());
+      exit_line_not_parsed(block->name(), line->str());
     }
   }
 }
