@@ -79,6 +79,13 @@ void warn_line_ignored(const string& block, const string& line)
 }
 
 
+void warn_line_not_parsed(const string& block, const string& line)
+{
+  cerr << "Warning: could not parse line in block ‘" << block << "’: "
+       << line << endl;
+}
+
+
 void parse_command_line(int argc, char** argv,
                         string* ifile, string* ofile)
 {
