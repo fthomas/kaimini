@@ -120,27 +120,25 @@ Parameters GSLDriver::runSimplex()
 
 Parameters GSLDriver::runSimulatedAnnealing()
 {
-  const gsl_rng_type* T;
-  gsl_rng* r;
+  int n_tries       = 200;
+  int iters_fixed_t = 1000;
+  double step_size  = 1.0;
+  double k          = 1.0;
+  double t_initial  = 0.008;
+  double mu_t       = 1.003;
+  double t_min      = 2.0e-6;
 
-  gsl_rng_env_setup();
-
-  T = gsl_rng_default;
-  r = gsl_rng_alloc(T);
-
-  gsl_siman_params_t params
-       = {20, 10, 0.0005,
-          1.0, 0.0008, 1.03, 2.0e-6};
+  gsl_siman_params_t params =
+    { n_tries, iters_fixed_t, step_size, k, t_initial, mu_t, t_min };
 
   gsl_vector* x_initial = msPar.getVarParamsGSLVec();
 
-  gsl_siman_solve(r, x_initial, GSLDriver::chiSquare,
-    gsl_vector_step_random, gsl_vector_dist, NULL,
-    NULL, NULL, NULL,
-    sizeof(gsl_vector), params);
+  gsl_siman_solve(g_rnd.gsl_engine, x_initial,
+    GSLDriver::chiSquare, gsl_vector_step_random, gsl_vector_dist,
+    NULL, NULL, NULL, NULL, sizeof(gsl_vector), params);
 
   gsl_vector_free(x_initial);
-  gsl_rng_free(r);
+
   return msPar;
 }
 
