@@ -35,7 +35,7 @@ public:
   { return chiSquare(static_cast<gsl_vector*>(v)); }
 
   Parameters runSimplex();
-  void runSimulatedAnnealing();
+  Parameters runSimulatedAnnealing();
 
 private:
   static ChiSqFunction* mspFit;

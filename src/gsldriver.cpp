@@ -118,7 +118,7 @@ Parameters GSLDriver::runSimplex()
 }
 
 
-void GSLDriver::runSimulatedAnnealing()
+Parameters GSLDriver::runSimulatedAnnealing()
 {
   const gsl_rng_type* T;
   gsl_rng* r;
@@ -141,6 +141,7 @@ void GSLDriver::runSimulatedAnnealing()
 
   gsl_vector_free(x_initial);
   gsl_rng_free(r);
+  return msPar;
 }
 
 } // namespace Kaimini
