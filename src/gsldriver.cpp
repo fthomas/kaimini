@@ -15,8 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_rng.h>
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_siman.h>
 #include <gsl/gsl_vector.h>
@@ -24,6 +22,7 @@
 #include "gslaux.h"
 #include "gsldriver.h"
 #include "kaimini.h"
+#include "random.h"
 
 using namespace std;
 
