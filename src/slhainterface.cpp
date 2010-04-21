@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <Minuit2/FunctionMinimum.h>
 #include <Minuit2/MinosError.h>
@@ -68,14 +69,26 @@ void SLHAInterface::setDataPoints(const SLHA& input)
       continue;
     }
 
+    vector<string> flags_str;
+    split(flags_str, (*line)[3], is_any_of(","));
+
     DataPoint dp;
     try
     {
       dp.number(   to_<int>((*line)[0]) );
       dp.name(              (*line)[1]  );
-      dp.use(     to_<bool>((*line)[3]) );
+      dp.use(     to_<bool>(flags_str[0]) );
       dp.value( to_<double>((*line)[4]) );
       dp.error( parse_error_string(dp.value(), (*line)[5]) );
+
+      if (flags_str.size() > 1 && !flags_str[1].empty())
+      {
+        dp.ifAbsent(to_<int>(flags_str[1]));
+      }
+      if (flags_str.size() > 2 && !flags_str[2].empty())
+      {
+        dp.ifNaN(to_<int>(flags_str[2]));
+      }
     }
     catch (bad_lexical_cast&)
     {
@@ -183,11 +196,26 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
     }
     catch (out_of_range&)
     {
+      switch (dp->ifAbsent())
+      {
+      case 1: continue;
+      case 2: dp->cachedValue(0.);
+              continue;
+      }
+
       exit_field_not_found(dp_key->str());
     }
     catch (bad_lexical_cast&)
     {
-      if ("NaN" == value) continue;
+      if ("NaN" == value)
+      {
+        switch (dp->ifNaN())
+        {
+        case 1: continue;
+        case 2: dp->cachedValue(0.);
+                continue;
+        }
+      }
 
       exit_value_not_parsed(dp_key->str(), value);
     }

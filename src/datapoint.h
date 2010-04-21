@@ -34,14 +34,18 @@ public:
     const std::string& name_ = "",
     bool use_ = false,
     double value_ = 0.,
-    double error_ = 0.)
+    double error_ = 0.,
+    int if_absent_ = 0,
+    int if_nan_ = 1)
     : mNumber(number_),
       mName(name_),
       mUse(use_),
       mValue(value_),
       mError(error_),
       mErrorSq(error_ * error_),
-      mCachedValue(0.) {}
+      mCachedValue(0.),
+      mIfAbsent(if_absent_),
+      mIfNaN(if_nan_) {}
 
   int number(int newNumber)
   {
@@ -109,6 +113,26 @@ public:
     return std::pow(mValue - mCachedValue, 2) / mErrorSq;
   }
 
+  int ifAbsent(int ifAbsent_)
+  {
+    return mIfAbsent = ifAbsent_;
+  }
+
+  int ifAbsent() const
+  {
+    return mIfAbsent;
+  }
+
+  int ifNaN(int ifNaN_)
+  {
+    return mIfNaN = ifNaN_;
+  }
+
+  int ifNaN() const
+  {
+    return mIfNaN;
+  }
+
   void swapValues()
   {
     std::swap(mValue, mCachedValue);
@@ -142,6 +166,8 @@ private:
   double mError;
   double mErrorSq;
   mutable double mCachedValue;
+  int mIfAbsent;
+  int mIfNaN;
 
 friend std::ostream& operator<<(std::ostream&, const DataPoint&);
 friend std::ostream& operator<<(std::ostream&, const std::vector<DataPoint>&);
