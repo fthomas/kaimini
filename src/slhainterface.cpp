@@ -198,8 +198,11 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
     {
       switch (dp->ifAbsent())
       {
-      case 1: continue;
-      case 2: dp->cachedValue(0.);
+      case 1: info_ignore_absent_field(dp_key->str());
+              continue;
+
+      case 2: info_include_absent_field(dp_key->str());
+              dp->cachedValue(0.);
               continue;
       }
 
@@ -211,8 +214,11 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
       {
         switch (dp->ifNaN())
         {
-        case 1: continue;
-        case 2: dp->cachedValue(0.);
+        case 1: info_ignore_nan(dp_key->str());
+                continue;
+
+        case 2: info_include_nan(dp_key->str());
+                dp->cachedValue(0.);
                 continue;
         }
       }

@@ -72,6 +72,46 @@ void exit_value_not_parsed(const string& key, const string& value)
 }
 
 
+void info_ignore_absent_field(const string& key)
+{
+  if (g_verbose_output)
+  {
+    cout << "Info: ignoring absent field referenced by ‘" << key << "’"
+         << endl;
+  }
+}
+
+
+void info_include_absent_field(const string& key)
+{
+  if (g_verbose_output)
+  {
+    cout << "Info: treating absent field referenced by ‘" << key
+         << "’ as zero" << endl;
+  }
+}
+
+
+void info_ignore_nan(const string& key)
+{
+  if (g_verbose_output)
+  {
+    cout << "Info: ignoring NaN in field referenced by ‘" << key << "’"
+         << endl;
+  }
+}
+
+
+void info_include_nan(const string& key)
+{
+  if (g_verbose_output)
+  {
+    cout << "Info: treating NaN in field referenced by ‘" << key
+         << "’ as zero" << endl;
+  }
+}
+
+
 void warn_line_ignored(const string& block, const string& line)
 {
   cerr << "Warning: ignoring line in block ‘" << block << "’: "

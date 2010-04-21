@@ -40,6 +40,14 @@ void exit_line_not_parsed(const std::string& block, const std::string& line);
 
 void exit_value_not_parsed(const std::string& key, const std::string& value);
 
+void info_ignore_absent_field(const std::string& key);
+
+void info_include_absent_field(const std::string& key);
+
+void info_ignore_nan(const std::string& key);
+
+void info_include_nan(const std::string& key);
+
 void warn_line_ignored(const std::string& block, const std::string& line);
 
 void warn_line_not_parsed(const std::string& block, const std::string& line);
