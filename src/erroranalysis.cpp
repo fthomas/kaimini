@@ -38,19 +38,19 @@ vector<vector<Error> >
 bootstrap(Driver* driver, Driver::minimizer_t minFunc,
           const Parameters& minParams, const unsigned int iterations)
 {
-  ChiSqFunction* fit = driver->getFunction();
-  fit->disableProcessing();
+  ChiSqFunction* chisq_func = driver->getFunction();
+  chisq_func->disableProcessing();
 
-  const Parameters orig_params = fit->getParameters();
-  const vector<DataPoint> orig_dps = fit->getDataPoints();
+  const Parameters orig_params = chisq_func->getParameters();
+  const vector<DataPoint> orig_dps = chisq_func->getDataPoints();
 
-  fit->setParameters(minParams);
+  chisq_func->setParameters(minParams);
 
-  // Ensure that all cached values of fit's data points were
+  // Ensure that all cached values of chisq_func's data points were
   // calculated with minParams.
-  fit->chiSq(minParams);
+  chisq_func->chiSq(minParams);
 
-  vector<DataPoint> min_dps = fit->getDataPoints();
+  vector<DataPoint> min_dps = chisq_func->getDataPoints();
   dps_swap_values(min_dps);
 
   vector<DataPoint> synthetic_dps;
@@ -64,13 +64,13 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
 
     // Repeat the fit procedure with the synthetic data points to
     // obtain simulated minimal parameters for these data points.
-    fit->setDataPoints(synthetic_dps);
+    chisq_func->setDataPoints(synthetic_dps);
     const Parameters sim_params = (driver->*minFunc)();
 
     // Use the cached minimal data points to calculate the
     // corresponding chi^2 of the simulated parameters.
-    fit->setDataPoints(min_dps);
-    const double sim_chisq = fit->chiSq(sim_params);
+    chisq_func->setDataPoints(min_dps);
+    const double sim_chisq = chisq_func->chiSq(sim_params);
 
     // If sim_chisq is close to zero the actual minimal parameters
     // have been reproduced. These should not be taken into account
@@ -149,12 +149,12 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
     retval.push_back(verr);
   }
 
-  fit->setDataPoints(orig_dps);
-  fit->setParameters(orig_params);
-  fit->chiSq(minParams);
+  chisq_func->setDataPoints(orig_dps);
+  chisq_func->setParameters(orig_params);
+  chisq_func->chiSq(minParams);
 
-  fit->enableProcessing();
-  fit->processBootstrap(&retval, iterations);
+  chisq_func->enableProcessing();
+  chisq_func->processBootstrap(&retval, iterations);
   return retval;
 }
 
