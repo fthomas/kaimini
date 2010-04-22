@@ -103,7 +103,7 @@ void SLHAWorker::shutdown(const string& outputFile)
   mProcTimeStop = clock();
   double wall_time = difftime(mWallTimeStop, mWallTimeStart);
   double proc_time = double(mProcTimeStop - mProcTimeStart) / CLOCKS_PER_SEC;
-  processRuntimeImpl(wall_time, proc_time);
+  processRuntime(wall_time, proc_time);
 
   ofstream dest(outputFile.c_str());
   if (!dest) exit_file_open_failed(outputFile);

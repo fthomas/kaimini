@@ -80,10 +80,10 @@ public:
     if (mProcess) processDriverInfoImpl(infos);
   }
 
-  //void processRuntime(double wallTime, double procTime)
-  //{
-  //  if (mProcess) processRuntimeImpl(wallTime, procTime);
-  //}
+  void processRuntime(double wallTime, double procTime)
+  {
+    if (mProcess) processRuntimeImpl(wallTime, procTime);
+  }
 
 protected:
   virtual void
@@ -105,8 +105,8 @@ protected:
   virtual void
   processDriverInfoImpl(const std::map<std::string, std::string>*) {}
 
-  //virtual void
-  //processRuntimeImpl(double, double) {}
+  virtual void
+  processRuntimeImpl(double, double) {}
 
 private:
   bool mProcess;
