@@ -20,15 +20,21 @@
 #include <boost/utility.hpp>
 #include <gsl/gsl_vector.h>
 #include "chisqfunction.h"
+#include "driver.h"
 #include "parameters.h"
 
 namespace Kaimini {
 
-class GSLDriver : private boost::noncopyable
+class GSLDriver : public Driver, private boost::noncopyable
 {
 public:
-  explicit GSLDriver(ChiSqFunction* fit);
+  explicit GSLDriver(ChiSqFunction* func);
   ~GSLDriver();
+
+  ChiSqFunction* getFunction() const
+  {
+    return mspFunc;
+  }
 
   static double chiSquare(const gsl_vector* v, void* = 0);
 
@@ -42,7 +48,7 @@ private:
   void sanitize(const gsl_vector* v);
 
 private:
-  static ChiSqFunction* mspFit;
+  static ChiSqFunction* mspFunc;
   static Parameters msPar;
 };
 

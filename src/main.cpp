@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
   SLHABlock kaimini_control = input_slha.at("KaiminiControl");
 
   // Default number of iterations for bootstrapping.
-  int bootstrap_iter = 1000;
+  unsigned int bootstrap_iter = 1000;
 
   for (SLHABlock::iterator line = kaimini_control.begin();
        line != kaimini_control.end(); ++line)
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
       }
       else if (boost::iequals(key, "BootstrapIter") && data_size > 2)
       {
-        bootstrap_iter = to_<int>((*line)[2]);
+        bootstrap_iter = to_<unsigned int>((*line)[2]);
       }
       else warn_line_ignored(kaimini_control.name(), line->str());
     }
@@ -111,10 +111,13 @@ int main(int argc, char* argv[])
 
     try
     {
-      if (mn_driver.minimizerMap.find(key) != mn_driver.minimizerMap.end())
+      if (mn_driver.minimizer1Map.find(key) != mn_driver.minimizer1Map.end())
       {
         if (data_size > 2) mn_strategy = to_<unsigned int>((*line)[2]);
-        min_params = (mn_driver.*(mn_driver.minimizerMap[key]))(mn_strategy);
+
+        MinuitDriver::minimizer1_t min_func = mn_driver.minimizer1Map[key];
+        min_params = (mn_driver.*min_func)(mn_strategy);
+
         fit.setParameters(min_params);
       }
       else if (boost::iequals(key, "MinuitMinos"))
@@ -134,8 +137,16 @@ int main(int argc, char* argv[])
       }
       else if (boost::iequals(key, "Bootstrap"))
       {
-        bootstrap(&fit, min_params, &mn_driver, &MinuitDriver::runMinimize,
-                  bootstrap_iter);
+        // Cast &MinuitDriver::runMinimize to Driver::minimizer_t.
+        // The cast to MinuitDriver::minimizer0_t is required because
+        // runMinimize is an overloaded function and the compiler has
+        // no type information to select the version we want.
+        Driver::minimizer_t min_func =
+          static_cast<Driver::minimizer_t>(
+            static_cast<MinuitDriver::minimizer0_t>(
+              &MinuitDriver::runMinimize));
+
+        bootstrap(&mn_driver, min_func, min_params, bootstrap_iter);
       }
       else warn_line_ignored(kaimini_control.name(), line->str());
     }

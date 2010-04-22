@@ -14,23 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_ERRORANALYSIS_H
-#define KAIMINI_ERRORANALYSIS_H
-
-#include <vector>
 #include "chisqfunction.h"
-#include "driver.h"
-#include "error.h"
 #include "parameters.h"
+
+#ifndef KAIMINI_DRIVER_H
+#define KAIMINI_DRIVER_H
 
 namespace Kaimini {
 
-std::vector<std::vector<Error> >
-bootstrap(Driver* driver, Driver::minimizer_t minFunc,
-          const Parameters& minParams, unsigned int iterations);
+class Driver
+{
+public:
+  typedef Parameters (Driver::*minimizer_t)();
+
+  virtual ChiSqFunction* getFunction() const = 0;
+};
 
 } // namespace Kaimini
 
-#endif // KAIMINI_ERRORANALYSIS_H
+#endif // KAIMINI_DRIVER_H
 
 // vim: sw=2 tw=78

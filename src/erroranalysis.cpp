@@ -18,14 +18,14 @@
 #include <iterator>
 #include <vector>
 #include <utility>
+#include <boost/numeric/conversion/cast.hpp>
 #include <Minuit2/MinuitParameter.h>
 #include "chisqfunction.h"
 #include "datapoint.h"
+#include "driver.h"
 #include "error.h"
 #include "erroranalysis.h"
-#include "gsldriver.h"
 #include "kaimini.h"
-#include "minuitdriver.h"
 #include "parameters.h"
 #include "random.h"
 
@@ -34,11 +34,11 @@ using namespace ROOT::Minuit2;
 
 namespace Kaimini {
 
-template<typename Driver> vector<vector<Error> >
-bootstrap(ChiSqFunction* fit, const Parameters& minParams,
-          Driver* driver, Parameters (Driver::*minimize)(),
-          const unsigned int iterations)
+vector<vector<Error> >
+bootstrap(Driver* driver, Driver::minimizer_t minFunc,
+          const Parameters& minParams, const unsigned int iterations)
 {
+  ChiSqFunction* fit = driver->getFunction();
   fit->disableProcessing();
 
   const Parameters orig_params = fit->getParameters();
@@ -56,8 +56,7 @@ bootstrap(ChiSqFunction* fit, const Parameters& minParams,
   vector<DataPoint> synthetic_dps;
   vector<pair<double, Parameters> > sim_map;
 
-
-  const int iters = static_cast<int>(iterations);
+  const int iters = boost::numeric_cast<int>(iterations);
   for (int i = 0; i < iters; ++i)
   {
     synthetic_dps = min_dps;
@@ -66,7 +65,7 @@ bootstrap(ChiSqFunction* fit, const Parameters& minParams,
     // Repeat the fit procedure with the synthetic data points to
     // obtain simulated minimal parameters for these data points.
     fit->setDataPoints(synthetic_dps);
-    const Parameters sim_params = (driver->*minimize)();
+    const Parameters sim_params = (driver->*minFunc)();
 
     // Use the cached minimal data points to calculate the
     // corresponding chi^2 of the simulated parameters.
@@ -158,16 +157,6 @@ bootstrap(ChiSqFunction* fit, const Parameters& minParams,
   fit->processBootstrap(&retval, iterations);
   return retval;
 }
-
-
-template vector<vector<Error> >
-bootstrap<GSLDriver>(ChiSqFunction*, const Parameters&,
-  GSLDriver*, Parameters (GSLDriver::*)(), unsigned int);
-
-
-template vector<vector<Error> >
-bootstrap<MinuitDriver>(ChiSqFunction*, const Parameters&,
-  MinuitDriver*, Parameters (MinuitDriver::*)(), unsigned int);
 
 } // namespace Kaimini
 

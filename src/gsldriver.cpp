@@ -29,24 +29,24 @@ using namespace std;
 namespace Kaimini {
 
 // static
-ChiSqFunction* GSLDriver::mspFit = 0;
+ChiSqFunction* GSLDriver::mspFunc = 0;
 
 // static
 Parameters GSLDriver::msPar = Parameters();
 
 
 // explicit
-GSLDriver::GSLDriver(ChiSqFunction* fit)
+GSLDriver::GSLDriver(ChiSqFunction* func)
 {
-  mspFit = fit;
-  msPar  = fit->getParameters();
+  mspFunc = func;
+  msPar   = func->getParameters();
 }
 
 
 GSLDriver::~GSLDriver()
 {
-  mspFit = 0;
-  msPar  = Parameters();
+  mspFunc = 0;
+  msPar   = Parameters();
 }
 
 
@@ -54,7 +54,7 @@ GSLDriver::~GSLDriver()
 double GSLDriver::chiSquare(const gsl_vector* v, void*)
 {
   msPar.setVarParams(v);
-  return mspFit->chiSq(msPar);
+  return mspFunc->chiSq(msPar);
 }
 
 
@@ -109,8 +109,8 @@ Parameters GSLDriver::runSimplex()
   gsl_vector_free(v);
   gsl_multimin_fminimizer_free(minimizer);
 
-  mspFit->processParameters(&msPar);
-  mspFit->processDataPoints();
+  mspFunc->processParameters(&msPar);
+  mspFunc->processDataPoints();
   return msPar;
 }
 
@@ -137,8 +137,8 @@ Parameters GSLDriver::runSimulatedAnnealing()
   sanitize(x_initial);
   gsl_vector_free(x_initial);
 
-  mspFit->processParameters(&msPar);
-  mspFit->processDataPoints();
+  mspFunc->processParameters(&msPar);
+  mspFunc->processDataPoints();
   return msPar;
 }
 

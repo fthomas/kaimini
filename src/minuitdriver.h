@@ -27,20 +27,30 @@
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MnApplication.h>
 #include "chisqfunction.h"
+#include "driver.h"
 #include "kaimini.h"
 #include "parameters.h"
 
 namespace Kaimini {
 
-class MinuitDriver : private boost::noncopyable
+class MinuitDriver : public Driver, private boost::noncopyable
 {
 public:
   explicit MinuitDriver(ChiSqFunction* func) : mpFunc(func)
   {
-    minimizerMap["MinuitMigrad"]   = &MinuitDriver::runMigrad;
-    minimizerMap["MinuitMinimize"] = &MinuitDriver::runMinimize;
-    minimizerMap["MinuitScan"]     = &MinuitDriver::runScan;
-    minimizerMap["MinuitSimplex"]  = &MinuitDriver::runSimplex;
+    minimizer0Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
+    minimizer1Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
+    minimizer0Map["MinuitMinimize"] = &MinuitDriver::runMinimize;
+    minimizer1Map["MinuitMinimize"] = &MinuitDriver::runMinimize;
+    minimizer0Map["MinuitScan"]     = &MinuitDriver::runScan;
+    minimizer1Map["MinuitScan"]     = &MinuitDriver::runScan;
+    minimizer0Map["MinuitSimplex"]  = &MinuitDriver::runSimplex;
+    minimizer1Map["MinuitSimplex"]  = &MinuitDriver::runSimplex;
+  }
+
+  ChiSqFunction* getFunction() const
+  {
+    return mpFunc;
   }
 
   Parameters runMigrad(unsigned int stra);
@@ -77,8 +87,11 @@ public:
   runMinos(unsigned int stra = 1);
 
 public:
-  typedef Parameters (MinuitDriver::*minimizer)(unsigned int);
-  std::map<std::string, minimizer, iless_than> minimizerMap;
+  typedef Parameters (MinuitDriver::*minimizer0_t)();
+  typedef Parameters (MinuitDriver::*minimizer1_t)(unsigned int);
+
+  std::map<std::string, minimizer0_t, iless_than> minimizer0Map;
+  std::map<std::string, minimizer1_t, iless_than> minimizer1Map;
 
 private:
   void sanitize();
