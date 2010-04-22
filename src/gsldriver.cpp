@@ -92,9 +92,7 @@ Parameters GSLDriver::runSimplex()
   }
   while (GSL_CONTINUE == status && iter < 1000);
 
-  // Run chiSquare with the minimal parameter values again so that
-  // cached variables in mspFit correspond to the found minimum.
-  chiSquare(minimizer->x);
+  sanitize(minimizer->x);
 
   if (g_verbose_output)
   {
@@ -119,13 +117,13 @@ Parameters GSLDriver::runSimplex()
 
 Parameters GSLDriver::runSimulatedAnnealing()
 {
-  int n_tries       = 200;
-  int iters_fixed_t = 2000;
-  double step_size  = 1.0;
+  int n_tries       = 20;
+  int iters_fixed_t = 10;
+  double step_size  = 1.0e-4;
   double k          = 1.0;
-  double t_initial  = 0.008;
-  double mu_t       = 1.003;
-  double t_min      = 2.0e-6;
+  double t_initial  = 1.0e-3;
+  double mu_t       = 1.01;
+  double t_min      = 1.0e-5;
 
   gsl_siman_params_t params =
     { n_tries, iters_fixed_t, step_size, k, t_initial, mu_t, t_min };
@@ -136,11 +134,20 @@ Parameters GSLDriver::runSimulatedAnnealing()
     GSLDriver::chiSquare, gsl_vector_step_random, gsl_vector_dist,
     NULL, NULL, NULL, NULL, sizeof(*x_initial), params);
 
+  sanitize(x_initial);
   gsl_vector_free(x_initial);
 
   mspFit->processParameters(&msPar);
   mspFit->processDataPoints();
   return msPar;
+}
+
+
+void GSLDriver::sanitize(const gsl_vector* v)
+{
+  // Run chiSquare with the minimal parameter values again so that
+  // cached variables in *mspFit correspond to the found minimum.
+  chiSquare(v);
 }
 
 } // namespace Kaimini

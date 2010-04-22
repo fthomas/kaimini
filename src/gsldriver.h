@@ -39,6 +39,9 @@ public:
   Parameters runSimulatedAnnealing();
 
 private:
+  void sanitize(const gsl_vector* v);
+
+private:
   static ChiSqFunction* mspFit;
   static Parameters msPar;
 };
