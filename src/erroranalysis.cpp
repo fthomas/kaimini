@@ -116,9 +116,9 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
   const vector<vector<MinuitParameter> > all_sim_par = transpose(tmp_params);
   vector<vector<Error> > retval;
 
-  const int limit[] = { int(iterations * 0.682689492137),
-                        int(iterations * 0.954499736104),
-                        int(iterations * 0.997300203937) };
+  const int limit[] = { int(iterations * g_normal_1sigma),
+                        int(iterations * g_normal_2sigma),
+                        int(iterations * g_normal_3sigma) };
 
   for (size_t i = 0; i < all_sim_par.size(); ++i)
   {
