@@ -29,9 +29,12 @@ const std::string g_kaimini_version = "0.1.0";
 
 extern bool g_verbose_output;
 
-const double g_normal_1sigma = 0.68268949213709; // erf(1/sqrt(2))
-const double g_normal_2sigma = 0.95449973610364; // erf(2/sqrt(2))
-const double g_normal_3sigma = 0.99730020393674; // erf(3/sqrt(2))
+// erf(1/sqrt(2)):
+const long double g_normal_1sigma = 0.68268949213708589717046509126407L;
+// erf(2/sqrt(2)):
+const long double g_normal_2sigma = 0.95449973610364158559943472566693L;
+// erf(3/sqrt(2)):
+const long double g_normal_3sigma = 0.99730020393673981094669637046481L;
 
 // Auxiliary functions/classes for error handling:
 void exit_block_not_found(const std::string& block);
