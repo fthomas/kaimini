@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_ERRORANALYSIS_H
-#define KAIMINI_ERRORANALYSIS_H
+#ifndef KAIMINI_PARAMETERANALYSIS_H
+#define KAIMINI_PARAMETERANALYSIS_H
 
 #include <vector>
 #include "chisqfunction.h"
@@ -29,8 +29,10 @@ std::vector<std::vector<Error> >
 bootstrap(Driver* driver, Driver::minimizer_t minFunc,
           const Parameters& minParams, unsigned int iterations);
 
+void jolt_parameters(ChiSqFunction* chiSqFunc);
+
 } // namespace Kaimini
 
-#endif // KAIMINI_ERRORANALYSIS_H
+#endif // KAIMINI_PARAMETERANALYSIS_H
 
 // vim: sw=2 tw=78

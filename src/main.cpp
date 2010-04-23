@@ -21,10 +21,10 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <Minuit2/MnPrint.h>
-#include "erroranalysis.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
+#include "parameteranalysis.h"
 #include "slhaea.h"
 #include "slhaworker.h"
 

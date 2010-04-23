@@ -28,7 +28,6 @@ Block SPhenoInput   # SPheno specific input
  2    1                 # SPA conventions
  11   0                 # calculate branching ratios
  21   0                 # calculate cross section
-#91   1                 # fit neutrino data
 Block KaiminiParameters
  1  epsilon_1   RVKAPPAIN;1;1   1   1%  :
  2  epsilon_2   RVKAPPAIN;2;1   0   1%  :
@@ -44,21 +43,21 @@ Block KaiminiDataPoints
  3  tan^2_atm   SPhenoRP;9;1    0   1.000       0.734
  4  tan^2_sol   SPhenoRP;10;1   0   0.466       0.122
  5  U_e3^2      SPhenoRP;11;1   0   0.013       0.049
-#6  DW_chi_10   1000022;DECAY;2 0   3.78657845E-13  1%
+# 6  DW_chi_10   1000022;DECAY;2 0   3.78657845E-13  1%
 Block KaiminiCalculator
  0  Calculator  SPheno
  0  Path        /home/frank/susy/code/spheno/trunk/bin/SPheno
  0  InputFile   LesHouches.in
  0  OutputFile  SPheno.spc
-#0  CmdLine
+# 0  CmdLine
 Block KaiminiControl
  0  MinuitErrorDef  1.0
  0  BootstrapIter   1000
-#1  MinuitScan      0
-#1  MinuitSimplex   1
-#1  MinuitMigrad    2
+# 1  MinuitScan      0
+# 1  MinuitSimplex   1
+# 1  MinuitMigrad    2
  1  MinuitMinimize  2
-#1  MinuitMinos     2
-#1  GSLSimplex
-#1  GSLSimulatedAnnealing
-#1  Bootstrap
+# 1  MinuitMinos     2
+# 1  GSLSimplex
+# 1  GSLSimulatedAnnealing
+# 1  Bootstrap

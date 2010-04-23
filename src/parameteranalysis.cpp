@@ -24,8 +24,8 @@
 #include "datapoint.h"
 #include "driver.h"
 #include "error.h"
-#include "erroranalysis.h"
 #include "kaimini.h"
+#include "parameteranalysis.h"
 #include "parameters.h"
 #include "random.h"
 
