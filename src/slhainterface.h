@@ -32,10 +32,10 @@ namespace Kaimini {
 class SLHAInterface : public ChiSqFunction
 {
 public:
-    SLHAInterface();
+  SLHAInterface();
 
-    using ChiSqFunction::setDataPoints;
-    using ChiSqFunction::setParameters;
+  using ChiSqFunction::setDataPoints;
+  using ChiSqFunction::setParameters;
 
 protected:
   void setDataPoints(const SLHAea::SLHA& input);
@@ -57,6 +57,10 @@ protected:
   void processBootstrapImpl(
           const std::vector<std::vector<Error> >* errors,
           unsigned int iterations);
+
+  void processChiSqContribImpl(
+          const std::map<int, std::map<int, double> >* single,
+          const std::map<int, double>* total);
 
   void processDriverInfoImpl(const std::map<std::string, std::string>* infos);
 

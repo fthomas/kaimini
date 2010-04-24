@@ -341,7 +341,7 @@ void SLHAInterface::processParametersImpl(const Parameters* params)
 
     mResult[block][""] = str(
       format(" %1% %|4t|%2% %|14t|%3$16.8E %4$16.8E %5$10.2E%%")
-        % (mp->Number()+1)
+        % (mp->Number() + 1)
         %  mp->GetName()
         %  orig_mp->Value()
         %  abs_diff
@@ -392,7 +392,7 @@ void SLHAInterface::processErrorsImpl(const vector<MinosError>* errors)
 
     mResult[block][""] = str(
       format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E")
-        % (me->Parameter()+1)
+        % (me->Parameter() + 1)
         %  mp.GetName()
         %  me->IsValid()
         %  me->Upper()
@@ -419,12 +419,58 @@ void SLHAInterface::processBootstrapImpl(
     {
       mResult[block][""] = str(
         format(" %1% %|4t|%2% %|8t|%3% %4$16.8E %5$16.8E %6$16.8E")
-          % (err->number()+1)
+          % (err->number() + 1)
           %  ++i
           %  err->name()
           %  err->upper()
           %  err->lower()
           %  err->mean());
+    }
+  }
+}
+
+
+void SLHAInterface::processChiSqContribImpl(
+        const map<int, map<int, double> >* single,
+        const map<int, double>* total)
+{
+  string block;
+
+  if (!total->empty())
+  {
+    block = "KaiminiChiSquareContrib";
+    mResult[block]["BLOCK"] = "BLOCK " + block;
+
+    for (map<int, double>::const_iterator it = total->begin();
+         it != total->end(); ++it)
+    {
+      mResult[block][""] = str(
+        format(" %1% %|6t|%2$16.8E %|28t|# %3%")
+          % (it->first + 1)
+          %  it->second
+          %  mParams.Name(it->first));
+    }
+  }
+
+  if (!single->empty())
+  {
+    block = "KaiminiChiSquareContribSingle";
+    mResult[block]["BLOCK"] = "BLOCK " + block;
+
+    for (map<int, map<int, double> >::const_iterator it1 = single->begin();
+         it1 != single->end(); ++it1)
+    {
+      for (map<int, double>::const_iterator it2 = it1->second.begin();
+           it2 != it1->second.end(); ++it2)
+      {
+        mResult[block][""] = str(
+          format(" %1% %|4t|%2% %3$16.8E %|28t|# %4% %|44t|%5%")
+            % (it1->first + 1)
+            %  it2->first
+            %  it2->second
+            %  mParams.Name(it1->first)
+            %  mDataPoints.at(it2->first).name());
+      }
     }
   }
 }

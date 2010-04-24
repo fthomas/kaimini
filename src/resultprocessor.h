@@ -75,6 +75,13 @@ public:
     if (mProcess) processBootstrapImpl(errors, iterations);
   }
 
+  void processChiSqContrib(
+      const std::map<int, std::map<int, double> >* single,
+      const std::map<int, double>* total)
+  {
+    if (mProcess) processChiSqContribImpl(single, total);
+  }
+
   void processDriverInfo(const std::map<std::string, std::string>* infos)
   {
     if (mProcess) processDriverInfoImpl(infos);
@@ -101,6 +108,10 @@ protected:
   virtual void
   processBootstrapImpl(const std::vector<std::vector<Error> >*,
                        unsigned int) {}
+
+  virtual void
+  processChiSqContribImpl(const std::map<int, std::map<int, double> >*,
+                          const std::map<int, double>*) {}
 
   virtual void
   processDriverInfoImpl(const std::map<std::string, std::string>*) {}

@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <map>
 #include <vector>
 #include <utility>
 #include <boost/numeric/conversion/cast.hpp>
@@ -156,6 +157,57 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
   chisq_func->enableProcessing();
   chisq_func->processBootstrap(&retval, iterations);
   return retval;
+}
+
+
+void jolt_parameters(ChiSqFunction* chiSqFunc)
+{
+  const Parameters orig_params = chiSqFunc->getParameters();
+  Parameters jolted_params = orig_params;
+
+  map<int, double> chisq_total;
+  map<int, map<int, double> > chisq_single;
+
+  for (size_t i = 0; i < jolted_params.Params().size(); ++i)
+  {
+    if (orig_params.Parameter(i).IsFixed() ||
+        orig_params.Parameter(i).IsConst()) continue;
+
+    const double orig_par = jolted_params.Value(i);
+    const double orig_err = jolted_params.Error(i);
+
+    double par_up   = orig_par + orig_err;
+    double par_down = orig_par - orig_err;
+
+    jolted_params.SetValue(i, par_up);
+    const double chisq_up = chiSqFunc->chiSq(jolted_params);
+    vector<DataPoint> dps_up = chiSqFunc->getDataPoints();
+
+    jolted_params.SetValue(i, par_down);
+    const double chisq_down = chiSqFunc->chiSq(jolted_params);
+    vector<DataPoint> dps_down = chiSqFunc->getDataPoints();
+
+    const double chisq_mean = (chisq_up + chisq_down) / 2.;
+    chisq_total[i] = chisq_mean;
+
+    map<int, double> tmp_chisq_single;
+    for (size_t j = 0; j < dps_up.size(); ++j)
+    {
+      if (!dps_up[j].use()) continue;
+
+      tmp_chisq_single[dps_up[j].number()] =
+        (dps_up[j].wtSqResidual() + dps_down[j].wtSqResidual()) / 2.;
+    }
+    chisq_single[i] = tmp_chisq_single;
+
+    // Restore the original parameter value.
+    jolted_params.SetValue(i, orig_par);
+  }
+
+  chiSqFunc->setParameters(orig_params);
+  chiSqFunc->chiSq(orig_params);
+
+  chiSqFunc->processChiSqContrib(&chisq_single, &chisq_total);
 }
 
 } // namespace Kaimini

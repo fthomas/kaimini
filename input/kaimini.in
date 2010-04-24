@@ -30,7 +30,7 @@ Block SPhenoInput   # SPheno specific input
  21   0                 # calculate cross section
 Block KaiminiParameters
  1  epsilon_1   RVKAPPAIN;1;1   1   1%  :
- 2  epsilon_2   RVKAPPAIN;2;1   0   1%  :
+ 2  epsilon_2   RVKAPPAIN;2;1   1   1%  :
  3  epsilon_3   RVKAPPAIN;3;1   0   1%  :
  4  v_L_1       RVSNVEVIN;1;1   0   1%  :
  5  v_L_2       RVSNVEVIN;2;1   0   1%  :
@@ -39,7 +39,7 @@ Block KaiminiDataPoints
 # neutrino data taken from T. Schwetz, M. Tortola, and J. W. F. Valle
 # arXiv:0808.2016v3
  1  m^2_atm     SPhenoRP;7;1    1   2.40E-03    0.34E-03
- 2  m^2_sol     SPhenoRP;8;1    0   7.59E-05    0.62E-05
+ 2  m^2_sol     SPhenoRP;8;1    1   7.59E-05    0.62E-05
  3  tan^2_atm   SPhenoRP;9;1    0   1.000       0.734
  4  tan^2_sol   SPhenoRP;10;1   0   0.466       0.122
  5  U_e3^2      SPhenoRP;11;1   0   0.013       0.049
