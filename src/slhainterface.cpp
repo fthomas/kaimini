@@ -270,7 +270,7 @@ void SLHAInterface::processDataPointsImpl()
   for (dp = mDataPoints.begin(); dp != mDataPoints.end(); ++dp)
   {
     mResult[block][""] = str(
-      format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E %6$16.8E")
+      format(" %1% %|4t|%2% %|16t|%3% %|19t|%4$15.8E %5$16.8E %6$16.8E")
         % dp->number()
         % dp->name()
         % dp->use()
@@ -282,7 +282,7 @@ void SLHAInterface::processDataPointsImpl()
   block = "KaiminiChiSquare";
   mResult[block]["BLOCK"] = "BLOCK " + block;
 
-  string fmt_str = " %1% %|4t|%2% %|16t|%3% %4$16.8E";
+  string fmt_str = " %1% %|4t|%2% %|16t|%3% %|20t|%4$14.8E";
   mResult[block][""] = str(format(fmt_str)
     % "0"
     % "chi^2"
@@ -464,7 +464,7 @@ void SLHAInterface::processChiSqContribImpl(
            it2 != it1->second.end(); ++it2)
       {
         mResult[block][""] = str(
-          format(" %1% %|4t|%2% %3$16.8E %|28t|# %4% %|44t|%5%")
+          format(" %1% %|4t|%2% %|8t|%3$14.8E %|28t|# %4% %|44t|%5%")
             % (it1->first + 1)
             %  mDataPoints.at(it2->first).number()
             %  it2->second
