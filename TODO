@@ -10,3 +10,4 @@ SimpleSLHAFit:
 
 general:
  - the SLHAWorker hierarchy feels very stateful; can this be improved?
+ - keep the test suite up-to-date

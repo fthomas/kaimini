@@ -466,7 +466,7 @@ void SLHAInterface::processChiSqContribImpl(
         mResult[block][""] = str(
           format(" %1% %|4t|%2% %3$16.8E %|28t|# %4% %|44t|%5%")
             % (it1->first + 1)
-            %  it2->first
+            %  mDataPoints.at(it2->first).number()
             %  it2->second
             %  mParams.Name(it1->first)
             %  mDataPoints.at(it2->first).name());

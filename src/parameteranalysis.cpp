@@ -195,7 +195,7 @@ void jolt_parameters(ChiSqFunction* chiSqFunc)
     {
       if (!dps_up[j].use()) continue;
 
-      tmp_chisq_single[dps_up[j].number()] =
+      tmp_chisq_single[j] =
         (dps_up[j].wtSqResidual() + dps_down[j].wtSqResidual()) / 2.;
     }
     chisq_single[i] = tmp_chisq_single;
