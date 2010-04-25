@@ -21,6 +21,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <Minuit2/MnPrint.h>
+#include "genericdriver.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "minuitdriver.h"
@@ -56,6 +57,7 @@ int main(int argc, char* argv[])
 
   SLHAWorker fit(input_slha);
 
+  GenericDriver gen_driver(&fit);
   GSLDriver gsl_driver(&fit);
   MinuitDriver mn_driver(&fit);
 
@@ -134,6 +136,11 @@ int main(int argc, char* argv[])
       else if (boost::iequals(key, "GSLSimulatedAnnealing"))
       {
         min_params = gsl_driver.runSimulatedAnnealing();
+        fit.setParameters(min_params);
+      }
+      else if (boost::iequals(key, "SimulatedAnnealing"))
+      {
+        min_params = gen_driver.runSimulatedAnnealing();
         fit.setParameters(min_params);
       }
       else if (boost::iequals(key, "Bootstrap"))

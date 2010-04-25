@@ -22,6 +22,7 @@
 #include <gsl/gsl_vector.h>
 #include <Minuit2/MinuitParameter.h>
 #include "parameters.h"
+#include "random.h"
 
 using namespace std;
 using namespace ROOT::Minuit2;
@@ -117,6 +118,19 @@ Parameters& Parameters::setVarParams(const gsl_vector* v)
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
     {
       SetValue(i, gsl_vector_get(v, j++));
+    }
+  }
+  return *this;
+}
+
+
+Parameters& Parameters::stepRandom()
+{
+  for (size_t i = 0; i < Params().size(); ++i)
+  {
+    if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
+    {
+      SetValue(i, g_rnd.randNormal(Value(i), abs(Error(i))));
     }
   }
   return *this;

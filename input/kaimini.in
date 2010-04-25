@@ -60,4 +60,5 @@ Block KaiminiControl
 # 1  MinuitMinos     2
 # 1  GSLSimplex
 # 1  GSLSimulatedAnnealing
+# 1  SimulatedAnnealing
 # 1  Bootstrap
