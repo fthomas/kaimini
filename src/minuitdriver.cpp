@@ -139,8 +139,11 @@ MinuitDriver::runMinos(const unsigned int stra)
 
 void MinuitDriver::runHesse(const unsigned int stra)
 {
-  MnHesse hesse(stra);
-  hesse(*mpFunc, *mpMinimum);
+  if (mpMinimum->IsValid())
+  {
+    MnHesse hesse(stra);
+    hesse(*mpFunc, *mpMinimum);
+  }
 }
 
 
