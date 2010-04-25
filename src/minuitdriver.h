@@ -94,6 +94,7 @@ public:
   std::map<std::string, minimizer1_t, iless_than> minimizer1Map;
 
 private:
+  void runHesse(unsigned int stra);
   void sanitize();
   void processResults(const std::string& number, const std::string& name,
                       const ROOT::Minuit2::MnApplication& app);

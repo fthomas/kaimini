@@ -23,6 +23,7 @@
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
 #include <Minuit2/MnApplication.h>
+#include <Minuit2/MnHesse.h>
 #include <Minuit2/MnMigrad.h>
 #include <Minuit2/MnMinimize.h>
 #include <Minuit2/MnMinos.h>
@@ -43,6 +44,7 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
 {
   MnMigrad minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
+  runHesse(stra);
 
   sanitize();
   processResults("10", "Migrad", minimizer);
@@ -56,6 +58,7 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
 {
   MnMinimize minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
+  runHesse(stra);
 
   sanitize();
   processResults("11", "Minimize", minimizer);
@@ -69,6 +72,7 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
 {
   MnScan minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
+  runHesse(stra);
 
   sanitize();
   processResults("12", "Scan", minimizer);
@@ -82,6 +86,7 @@ Parameters MinuitDriver::runSimplex(const unsigned int stra)
 {
   MnSimplex minimizer(*mpFunc, mpFunc->getParameters(), stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
+  runHesse(stra);
 
   sanitize();
   processResults("13", "Simplex", minimizer);
@@ -127,8 +132,15 @@ MinuitDriver::runMinos(const FunctionMinimum& minimum,
 vector<MinosError>
 MinuitDriver::runMinos(const unsigned int stra)
 {
-  if (!mpMinimum) runMinimize();
+  if (!mpMinimum) runMinimize(stra);
   return runMinos(*mpMinimum, stra);
+}
+
+
+void MinuitDriver::runHesse(const unsigned int stra)
+{
+  MnHesse hesse(stra);
+  hesse(*mpFunc, *mpMinimum);
 }
 
 
@@ -136,7 +148,7 @@ void MinuitDriver::sanitize()
 {
   // Run chiSq with the minimal parameter values again so that cached
   // variables in *mpFunc correspond to the found minimum.
-  (*mpFunc)(mpMinimum->UserParameters());
+  mpFunc->chiSq(mpMinimum->UserParameters());
 }
 
 
