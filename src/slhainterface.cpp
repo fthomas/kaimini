@@ -355,24 +355,44 @@ void SLHAInterface::processMinimumImpl(const FunctionMinimum* minimum)
   Parameters params = minimum->UserParameters();
   processParameters(&params);
 
-  string block;
-
   if (minimum->HasCovariance() && minimum->HasValidCovariance())
   {
     const MnUserCovariance& covar = minimum->UserCovariance();
 
-    block = "KaiminiCovarianceMatrix";
-    mResult[block]["BLOCK"] = "BLOCK " + block;
+    string block_covar = "KaiminiCovarianceMatrix";
+    mResult[block_covar]["BLOCK"] = "BLOCK " + block_covar;
 
-    for (unsigned int row = 0; row < covar.Nrow(); ++row)
+    string block_corr  = "KaiminiCorrelationMatrix";
+    mResult[block_corr]["BLOCK"]  = "BLOCK " + block_corr;
+
+    const vector<MinuitParameter>& mps = params.getMinuitParameters();
+    vector<MinuitParameter>::const_iterator mp_row, mp_col;
+    unsigned int row = 0, col = 0;
+
+    for (mp_row = mps.begin(); mp_row != mps.end(); ++mp_row)
     {
-      for (unsigned int col = row; col < covar.Nrow(); ++col)
+      if (mp_row->IsFixed() || mp_row->IsConst()) continue;
+
+      col = row;
+      for (mp_col = mp_row; mp_col != mps.end(); ++mp_col)
       {
-        mResult[block][""] = str(format(" %1% %|4t|%2% %3$16.8E")
-          % (row+1)
-          % (col+1)
-          % covar(row, col));
+        if (mp_col->IsFixed() || mp_col->IsConst()) continue;
+
+        mResult[block_covar][""] = str(
+          format(" %1% %|4t|%2% %3$16.8E")
+            % (row+1)
+            % (col+1)
+            % covar(row, col));
+
+        mResult[block_corr][""] = str(
+          format(" %1% %|4t|%2% %3$16.8E")
+            % (row+1)
+            % (col+1)
+            % (covar(row, col) / (mp_row->Error() * mp_col->Error())));
+
+        ++col;
       }
+      ++row;
     }
   }
 }
