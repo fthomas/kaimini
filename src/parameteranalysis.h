@@ -29,7 +29,7 @@ std::vector<std::vector<Error> >
 bootstrap(Driver* driver, Driver::minimizer_t minFunc,
           const Parameters& minParams, unsigned int iterations);
 
-void jolt_parameters(ChiSqFunction* chiSqFunc);
+void jolt_parameters(ChiSqFunction* chiSqFunc, const Parameters& minParams);
 
 } // namespace Kaimini
 

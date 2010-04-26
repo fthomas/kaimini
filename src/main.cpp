@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
   if (input_slha.count("KaiminiControl") == 0)
   {
     min_params = mn_driver.runMinimize(2);
-    jolt_parameters(&fit);
+    jolt_parameters(&fit, min_params);
     fit.shutdown(output_file);
     return 0;
   }
@@ -164,7 +164,7 @@ int main(int argc, char* argv[])
     }
   }
 
-  jolt_parameters(&fit);
+  jolt_parameters(&fit, min_params);
   fit.shutdown(output_file);
 
   return 0;

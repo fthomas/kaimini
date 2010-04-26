@@ -160,18 +160,18 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
 }
 
 
-void jolt_parameters(ChiSqFunction* chiSqFunc)
+void jolt_parameters(ChiSqFunction* chiSqFunc, const Parameters& minParams)
 {
   const Parameters orig_params = chiSqFunc->getParameters();
-  Parameters jolted_params = orig_params;
+  Parameters jolted_params = minParams;
 
   map<int, double> chisq_total;
   map<int, map<int, double> > chisq_single;
 
   for (size_t i = 0; i < jolted_params.Params().size(); ++i)
   {
-    if (orig_params.Parameter(i).IsFixed() ||
-        orig_params.Parameter(i).IsConst()) continue;
+    if (minParams.Parameter(i).IsFixed() ||
+        minParams.Parameter(i).IsConst()) continue;
 
     const double orig_par = jolted_params.Value(i);
     const double orig_err = jolted_params.Error(i);
@@ -205,7 +205,7 @@ void jolt_parameters(ChiSqFunction* chiSqFunc)
   }
 
   chiSqFunc->setParameters(orig_params);
-  chiSqFunc->chiSq(orig_params);
+  chiSqFunc->chiSq(minParams);
 
   chiSqFunc->processChiSqContrib(&chisq_single, &chisq_total);
 }
