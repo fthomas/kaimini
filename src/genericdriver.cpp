@@ -24,7 +24,7 @@ using namespace std;
 
 namespace Kaimini {
 
-Parameters GenericDriver::runSimulatedAnnealing()
+Parameters GenericDriver::runSimulatedAnnealing(const Parameters& startParams)
 {
   Random::uniform_real_gen
     rnd(g_rnd.engine, Random::uniform_real_distribution(0., 1.));
@@ -33,10 +33,10 @@ Parameters GenericDriver::runSimulatedAnnealing()
   const double t_minimal = 1.0;
   const double mu_t      = 1.001;
 
-  Parameters curr_params = mpFunc->getParameters();
+  Parameters curr_params = startParams;
   Parameters best_params = curr_params;
   Parameters new_params  = curr_params;
-  double curr_chisq = mpFunc->chiSq(best_params);
+  double curr_chisq = mpFunc->chiSq(curr_params);
   double best_chisq = curr_chisq;
   double new_chisq  = curr_chisq;
 

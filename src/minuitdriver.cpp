@@ -40,9 +40,10 @@ using namespace ROOT::Minuit2;
 
 namespace Kaimini {
 
-Parameters MinuitDriver::runMigrad(const unsigned int stra)
+Parameters MinuitDriver::runMigrad(const Parameters& startParams,
+                                   const unsigned int stra)
 {
-  MnMigrad minimizer(*mpFunc, mpFunc->getParameters(), stra);
+  MnMigrad minimizer(*mpFunc, startParams, stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
   runHesse(stra);
 
@@ -54,9 +55,10 @@ Parameters MinuitDriver::runMigrad(const unsigned int stra)
 }
 
 
-Parameters MinuitDriver::runMinimize(const unsigned int stra)
+Parameters MinuitDriver::runMinimize(const Parameters& startParams,
+                                     const unsigned int stra)
 {
-  MnMinimize minimizer(*mpFunc, mpFunc->getParameters(), stra);
+  MnMinimize minimizer(*mpFunc, startParams, stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
   runHesse(stra);
 
@@ -68,9 +70,10 @@ Parameters MinuitDriver::runMinimize(const unsigned int stra)
 }
 
 
-Parameters MinuitDriver::runScan(const unsigned int stra)
+Parameters MinuitDriver::runScan(const Parameters& startParams,
+                                 const unsigned int stra)
 {
-  MnScan minimizer(*mpFunc, mpFunc->getParameters(), stra);
+  MnScan minimizer(*mpFunc, startParams, stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
   runHesse(stra);
 
@@ -82,9 +85,10 @@ Parameters MinuitDriver::runScan(const unsigned int stra)
 }
 
 
-Parameters MinuitDriver::runSimplex(const unsigned int stra)
+Parameters MinuitDriver::runSimplex(const Parameters& startParams,
+                                    const unsigned int stra)
 {
-  MnSimplex minimizer(*mpFunc, mpFunc->getParameters(), stra);
+  MnSimplex minimizer(*mpFunc, startParams, stra);
   mpMinimum.reset(new FunctionMinimum(minimizer()));
   runHesse(stra);
 

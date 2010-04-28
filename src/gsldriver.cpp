@@ -22,6 +22,7 @@
 #include "gslaux.h"
 #include "gsldriver.h"
 #include "kaimini.h"
+#include "parameters.h"
 #include "random.h"
 
 using namespace std;
@@ -43,8 +44,9 @@ double GSLDriver::chiSquare(const gsl_vector* v, void*)
 }
 
 
-Parameters GSLDriver::runSimplex()
+Parameters GSLDriver::runSimplex(const Parameters& startParams)
 {
+  msPar = startParams;
   gsl_multimin_function func;
   func.f = &GSLDriver::chiSquare;
   func.n = msPar.VariableParameters();
@@ -100,8 +102,9 @@ Parameters GSLDriver::runSimplex()
 }
 
 
-Parameters GSLDriver::runSimulatedAnnealing()
+Parameters GSLDriver::runSimulatedAnnealing(const Parameters& startParams)
 {
+  msPar = startParams;
   int n_tries       = 20;
   int iters_fixed_t = 10;
   double step_size  = 1.0e-4;

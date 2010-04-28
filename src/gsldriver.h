@@ -51,8 +51,17 @@ public:
     return chiSquare(static_cast<gsl_vector*>(v));
   }
 
-  Parameters runSimplex();
-  Parameters runSimulatedAnnealing();
+  Parameters runSimplex(const Parameters& startParams);
+  Parameters runSimplex()
+  {
+    return runSimplex(mspFunc->getParameters());
+  }
+
+  Parameters runSimulatedAnnealing(const Parameters& startParams);
+  Parameters runSimulatedAnnealing()
+  {
+    return runSimulatedAnnealing(mspFunc->getParameters());
+  }
 
 private:
   void sanitize(const gsl_vector* v);

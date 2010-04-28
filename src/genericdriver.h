@@ -34,7 +34,11 @@ public:
     return mpFunc;
   }
 
-  Parameters runSimulatedAnnealing();
+  Parameters runSimulatedAnnealing(const Parameters& startParams);
+  Parameters runSimulatedAnnealing()
+  {
+    return runSimulatedAnnealing(mpFunc->getParameters());
+  }
 
 private:
   ChiSqFunction* mpFunc;

@@ -53,25 +53,45 @@ public:
     return mpFunc;
   }
 
-  Parameters runMigrad(unsigned int stra);
+  Parameters runMigrad(const Parameters& startParams, unsigned int stra);
+  Parameters runMigrad(unsigned int stra)
+  {
+    return runMigrad(mpFunc->getParameters(), stra);
+  }
+
   Parameters runMigrad()
   {
     return runMigrad(1);
   }
 
-  Parameters runMinimize(unsigned int stra);
+  Parameters runMinimize(const Parameters& startParams, unsigned int stra);
+  Parameters runMinimize(unsigned int stra)
+  {
+    return runMinimize(mpFunc->getParameters(), stra);
+  }
+
   Parameters runMinimize()
   {
     return runMinimize(1);
   }
 
-  Parameters runScan(unsigned int stra);
+  Parameters runScan(const Parameters& startParams, unsigned int stra);
+  Parameters runScan(unsigned int stra)
+  {
+    return runScan(mpFunc->getParameters(), stra);
+  }
+
   Parameters runScan()
   {
     return runScan(1);
   }
 
-  Parameters runSimplex(unsigned int stra);
+  Parameters runSimplex(const Parameters& startParams, unsigned int stra);
+  Parameters runSimplex(unsigned int stra)
+  {
+    return runSimplex(mpFunc->getParameters(), stra);
+  }
+
   Parameters runSimplex()
   {
     return runSimplex(1);
