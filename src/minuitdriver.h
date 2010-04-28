@@ -40,12 +40,16 @@ public:
   {
     minimizer0Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
     minimizer1Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
+    minimizer2Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
     minimizer0Map["MinuitMinimize"] = &MinuitDriver::runMinimize;
     minimizer1Map["MinuitMinimize"] = &MinuitDriver::runMinimize;
+    minimizer2Map["MinuitMinimize"] = &MinuitDriver::runMinimize;
     minimizer0Map["MinuitScan"]     = &MinuitDriver::runScan;
     minimizer1Map["MinuitScan"]     = &MinuitDriver::runScan;
+    minimizer2Map["MinuitScan"]     = &MinuitDriver::runScan;
     minimizer0Map["MinuitSimplex"]  = &MinuitDriver::runSimplex;
     minimizer1Map["MinuitSimplex"]  = &MinuitDriver::runSimplex;
+    minimizer2Map["MinuitSimplex"]  = &MinuitDriver::runSimplex;
   }
 
   ChiSqFunction* getFunction() const
@@ -109,9 +113,12 @@ public:
 public:
   typedef Parameters (MinuitDriver::*minimizer0_t)();
   typedef Parameters (MinuitDriver::*minimizer1_t)(unsigned int);
+  typedef Parameters (MinuitDriver::*minimizer2_t)(const Parameters&,
+                                                   unsigned int);
 
   std::map<std::string, minimizer0_t, iless_than> minimizer0Map;
   std::map<std::string, minimizer1_t, iless_than> minimizer1Map;
+  std::map<std::string, minimizer2_t, iless_than> minimizer2Map;
 
 private:
   void runHesse(unsigned int stra);
