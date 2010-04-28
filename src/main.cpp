@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
   }
 
   ifstream input_fs(input_file.c_str());
-  SLHA input_slha(input_fs);
+  const SLHA input_slha(input_fs);
   input_fs.close();
 
   SLHAWorker fit(input_slha);
@@ -65,18 +65,17 @@ int main(int argc, char* argv[])
 
   if (input_slha.count("KaiminiControl") == 0)
   {
-    min_params = mn_driver.runMinimize(2);
-    jolt_parameters(&fit, min_params);
+    mn_driver.runMinimize(2);
     fit.shutdown(output_file);
     return 0;
   }
 
-  SLHABlock kaimini_control = input_slha.at("KaiminiControl");
+  const SLHABlock kaimini_control = input_slha.at("KaiminiControl");
 
   // Default number of iterations for bootstrapping.
   unsigned int bootstrap_iter = 1000;
 
-  for (SLHABlock::iterator line = kaimini_control.begin();
+  for (SLHABlock::const_iterator line = kaimini_control.begin();
        line != kaimini_control.end(); ++line)
   {
     if (line->data_size() < 2 || (*line)[0] != "0") continue;
@@ -102,7 +101,7 @@ int main(int argc, char* argv[])
     }
   }
 
-  for (SLHABlock::iterator line = kaimini_control.begin();
+  for (SLHABlock::const_iterator line = kaimini_control.begin();
        line != kaimini_control.end(); ++line)
   {
     if (line->data_size() < 2 || (*line)[0] != "1") continue;
@@ -110,18 +109,16 @@ int main(int argc, char* argv[])
     const size_t data_size = line->data_size();
     const string key = (*line)[1];
 
-    unsigned int mn_strategy = 1;
+    unsigned int mn_strategy = 2;
 
     try
     {
-      if (mn_driver.minimizer1Map.find(key) != mn_driver.minimizer1Map.end())
+      if (mn_driver.minimizer2Map.find(key) != mn_driver.minimizer2Map.end())
       {
         if (data_size > 2) mn_strategy = to_<unsigned int>((*line)[2]);
 
-        MinuitDriver::minimizer1_t min_func = mn_driver.minimizer1Map[key];
-        min_params = (mn_driver.*min_func)(mn_strategy);
-
-        fit.setParameters(min_params);
+        MinuitDriver::minimizer2_t min_func = mn_driver.minimizer2Map[key];
+        min_params = (mn_driver.*min_func)(min_params, mn_strategy);
       }
       else if (boost::iequals(key, "MinuitMinos"))
       {
@@ -130,18 +127,15 @@ int main(int argc, char* argv[])
       }
       else if (boost::iequals(key, "GSLSimplex"))
       {
-        min_params = gsl_driver.runSimplex();
-        fit.setParameters(min_params);
+        min_params = gsl_driver.runSimplex(min_params);
       }
       else if (boost::iequals(key, "GSLSimulatedAnnealing"))
       {
-        min_params = gsl_driver.runSimulatedAnnealing();
-        fit.setParameters(min_params);
+        min_params = gsl_driver.runSimulatedAnnealing(min_params);
       }
       else if (boost::iequals(key, "SimulatedAnnealing"))
       {
-        min_params = gen_driver.runSimulatedAnnealing();
-        fit.setParameters(min_params);
+        min_params = gen_driver.runSimulatedAnnealing(min_params);
       }
       else if (boost::iequals(key, "Bootstrap"))
       {
@@ -156,6 +150,10 @@ int main(int argc, char* argv[])
 
         bootstrap(&mn_driver, min_func, min_params, bootstrap_iter);
       }
+      else if (boost::iequals(key, "ChiSquareContrib"))
+      {
+        jolt_parameters(&fit, min_params);
+      }
       else warn_line_ignored(kaimini_control.name(), line->str());
     }
     catch (bad_lexical_cast&)
@@ -164,9 +162,7 @@ int main(int argc, char* argv[])
     }
   }
 
-  jolt_parameters(&fit, min_params);
   fit.shutdown(output_file);
-
   return 0;
 }
 
