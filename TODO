@@ -4,9 +4,10 @@ GSLDriver:
  - runSimulatedAnnealing:
    - make it work!
 
-SimpleSLHAFit:
+SLHAWorker:
  - selectCalculator:
    - sanitize user input (http://xkcd.com/327/)
+ - make chiSq() thread-safe
 
 general:
  - the SLHAWorker hierarchy feels very stateful; can this be improved?
@@ -15,3 +16,6 @@ general:
  - use a special signal to interrupt the driver and to shutdown SLHAWorker
  - write my own parameters class that handles change of basis and that has
    (a)symmetric errors
+ - let the user choose between different test functions
+ - unify the output to stdout and make it easier to parse
+ - add mechanism to store the calculations for intermediate parameter points
