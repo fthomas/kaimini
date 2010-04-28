@@ -13,3 +13,5 @@ general:
  - keep the test suite up-to-date
  - handle stalled calculators gracefully
  - use a special signal to interrupt the driver and to shutdown SLHAWorker
+ - write my own parameters class that handles change of basis and that has
+   (a)symmetric errors

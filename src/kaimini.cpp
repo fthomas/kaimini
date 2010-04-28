@@ -191,7 +191,9 @@ void parse_command_line(int argc, char** argv,
 double parse_error_string(const double value, string errorStr)
 {
   if (errorStr.empty())
-  { throw invalid_argument("parse_error_string(): errorStr is empty"); }
+  {
+    throw invalid_argument("parse_error_string(): errorStr is empty");
+  }
 
   bool normal  = false;
   bool uniform = false;
@@ -218,13 +220,16 @@ double parse_error_string(const double value, string errorStr)
 
   double error = boost::lexical_cast<double>(errorStr);
 
-  if (percentage)
-  { error *= 0.01 * value; }
+  if (percentage) error *= 0.01 * value;
 
   if (normal)
-  { error = std::abs(g_rnd.randNormal(error)); }
+  {
+    error = std::abs(g_rnd.randNormal(error));
+  }
   else if (uniform)
-  { error = g_rnd.randUniformReal(error); }
+  {
+    error = g_rnd.randUniformReal(error);
+  }
 
   return error;
 }

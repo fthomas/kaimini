@@ -2,7 +2,6 @@ kaimini:
 	$(MAKE) -C ..
 
 clean:
-	rm -f kaimini.out
 	rm -rf .kaimini-*
 
 cleanall: clean

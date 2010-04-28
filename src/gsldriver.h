@@ -37,9 +37,10 @@ public:
   }
 
   static double chiSquare(const gsl_vector* v, void* = 0);
-
   static double chiSquare(void* v)
-  { return chiSquare(static_cast<gsl_vector*>(v)); }
+  {
+    return chiSquare(static_cast<gsl_vector*>(v));
+  }
 
   Parameters runSimplex();
   Parameters runSimulatedAnnealing();
