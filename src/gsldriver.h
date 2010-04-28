@@ -28,8 +28,17 @@ namespace Kaimini {
 class GSLDriver : public Driver, private boost::noncopyable
 {
 public:
-  explicit GSLDriver(ChiSqFunction* func);
-  ~GSLDriver();
+  explicit GSLDriver(ChiSqFunction* func)
+  {
+    mspFunc = func;
+    msPar   = func->getParameters();
+  }
+
+  ~GSLDriver()
+  {
+    mspFunc = 0;
+    msPar   = Parameters();
+  }
 
   ChiSqFunction* getFunction() const
   {

@@ -35,21 +35,6 @@ ChiSqFunction* GSLDriver::mspFunc = 0;
 Parameters GSLDriver::msPar = Parameters();
 
 
-// explicit
-GSLDriver::GSLDriver(ChiSqFunction* func)
-{
-  mspFunc = func;
-  msPar   = func->getParameters();
-}
-
-
-GSLDriver::~GSLDriver()
-{
-  mspFunc = 0;
-  msPar   = Parameters();
-}
-
-
 // static
 double GSLDriver::chiSquare(const gsl_vector* v, void*)
 {
