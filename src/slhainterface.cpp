@@ -411,7 +411,7 @@ void SLHAInterface::processErrorsImpl(const vector<MinosError>* errors)
     MinuitParameter mp = mParams.Parameter(me->Parameter());
 
     mResult[block][""] = str(
-      format(" %1% %|4t|%2% %|15t|%3% %4$16.8E %5$16.8E")
+      format(" %1% %|4t|%2% %|16t|%3% %4$16.8E %5$16.8E")
         % (me->Parameter() + 1)
         %  mp.GetName()
         %  me->IsValid()
