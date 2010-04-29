@@ -53,12 +53,13 @@ Block KaiminiCalculator
 Block KaiminiControl
  0  MinuitErrorDef  1.0
  0  BootstrapIter   1000
-# 1  MinuitScan      0
-# 1  MinuitSimplex   1
-# 1  MinuitMigrad    2
- 1  MinuitMinimize  2
-# 1  MinuitMinos     2
-# 1  GSLSimplex
-# 1  GSLSimulatedAnnealing
-# 1  SimulatedAnnealing
-# 1  Bootstrap
+ 1  MinuitScan      off     0
+ 1  MinuitSimplex   off     1
+ 1  MinuitMigrad    off     2
+ 1  MinuitMinimize  on      2
+ 1  MinuitMinos     off     2
+ 1  GSLSimplex      off
+ 1  GSLSimulatedAnnealing   off
+ 1  SimulatedAnnealing      off
+ 1  Bootstrap           off
+ 1  ChiSquareContrib    on

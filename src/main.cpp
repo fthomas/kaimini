@@ -104,40 +104,49 @@ int main(int argc, char* argv[])
   for (SLHABlock::const_iterator line = kaimini_control.begin();
        line != kaimini_control.end(); ++line)
   {
-    if (line->data_size() < 2 || (*line)[0] != "1") continue;
-
     const size_t data_size = line->data_size();
-    const string key = (*line)[1];
+    if (data_size < 3 || (*line)[0] != "1") continue;
+
+    const string action = (*line)[1];
+    const string action_switch = boost::to_lower_copy((*line)[2]);
+
+    if ("off" == action_switch) continue;
+    else if ("on" != action_switch)
+    {
+      warn_unrecognized_switch(line->str(), action_switch);
+      continue;
+    }
 
     unsigned int mn_strategy = 2;
 
     try
     {
-      if (mn_driver.minimizer2Map.find(key) != mn_driver.minimizer2Map.end())
+      if (mn_driver.minimizer2Map.find(action)
+          != mn_driver.minimizer2Map.end())
       {
-        if (data_size > 2) mn_strategy = to_<unsigned int>((*line)[2]);
+        if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
 
-        MinuitDriver::minimizer2_t min_func = mn_driver.minimizer2Map[key];
+        MinuitDriver::minimizer2_t min_func = mn_driver.minimizer2Map[action];
         min_params = (mn_driver.*min_func)(min_params, mn_strategy);
       }
-      else if (boost::iequals(key, "MinuitMinos"))
+      else if (boost::iequals(action, "MinuitMinos"))
       {
-        if (data_size > 2) mn_strategy = to_<unsigned int>((*line)[2]);
+        if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
         mn_driver.runMinos(mn_strategy);
       }
-      else if (boost::iequals(key, "GSLSimplex"))
+      else if (boost::iequals(action, "GSLSimplex"))
       {
         min_params = gsl_driver.runSimplex(min_params);
       }
-      else if (boost::iequals(key, "GSLSimulatedAnnealing"))
+      else if (boost::iequals(action, "GSLSimulatedAnnealing"))
       {
         min_params = gsl_driver.runSimulatedAnnealing(min_params);
       }
-      else if (boost::iequals(key, "SimulatedAnnealing"))
+      else if (boost::iequals(action, "SimulatedAnnealing"))
       {
         min_params = gen_driver.runSimulatedAnnealing(min_params);
       }
-      else if (boost::iequals(key, "Bootstrap"))
+      else if (boost::iequals(action, "Bootstrap"))
       {
         // Cast &MinuitDriver::runMinimize to Driver::minimizer_t.
         // The cast to MinuitDriver::minimizer0_t is required because
@@ -150,7 +159,7 @@ int main(int argc, char* argv[])
 
         bootstrap(&mn_driver, min_func, min_params, bootstrap_iter);
       }
-      else if (boost::iequals(key, "ChiSquareContrib"))
+      else if (boost::iequals(action, "ChiSquareContrib"))
       {
         jolt_parameters(&fit, min_params);
       }

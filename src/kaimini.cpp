@@ -126,6 +126,13 @@ void warn_line_not_parsed(const string& block, const string& line)
 }
 
 
+void warn_unrecognized_switch(const string& line, const string& sw)
+{
+  cerr << "Warning: unrecognized switch ‘" << sw << "’ "
+       << "(should be either ‘on’ or ‘off’) in line: " << line << endl;
+}
+
+
 void parse_command_line(int argc, char** argv,
                         string* ifile, string* ofile)
 {

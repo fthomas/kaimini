@@ -59,6 +59,8 @@ void warn_line_ignored(const std::string& block, const std::string& line);
 
 void warn_line_not_parsed(const std::string& block, const std::string& line);
 
+void warn_unrecognized_switch(const std::string& line, const std::string& sw);
+
 // Miscellaneous auxiliary functions:
 void parse_command_line(int argc, char** argv,
                         std::string* ifile, std::string* ofile);

@@ -1,6 +1,6 @@
 BLOCK KaiminiInfo
- 1  0.1.0       # version number
- 2  16          # approx. wall clock time [s]
+ 1  0.1.1       # version number
+ 2  12          # approx. wall clock time [s]
  3  4.820       # approx. process time [s]
  11     MinuitMinimize
  11     - calls     66
@@ -53,7 +53,7 @@ BLOCK KaiminiChiSquareContribSingle
 # SPheno v3beta47
 # W. Porod, Comput. Phys. Commun. 153 (2003) 275-315, hep-ph/0301101
 # in case of problems send email to porod@physik.uni-wuerzburg.de
-# Created: 26.04.2010,  11:50
+# Created: 29.04.2010,  10:33
 Block SPINFO         # Program information
      1   SPheno      # spectrum calculator
      2   v3beta47    # version number
@@ -182,17 +182,17 @@ Block MASS  # Mass spectrum
    1000014     1.72313055E+02  # 3rd neutral scalar
    1000012     1.72320325E+02  # 4th neutral scalar
         35     4.24347815E+02  # 5th neutral scalar
-   2000014     1.70260892E+02  # leightest pseudoscalar
-   2000012     1.72313055E+02  # 2nd pseudoscalar
-        36     1.72320325E+02  # 3rd pseudoscalar
-         0     4.24205872E+02  # 4th pseudoscalar
-   2000013     1.07812967E+02  # leightest charged scalar
-   2000011     1.25200286E+02  # 2nd charged scalar
-   1000011     1.25264180E+02  # 3rd charged scalar
-   1000013     1.89664240E+02  # 4th charged scalar
-   2000015     1.89686649E+02  # 5th charged scalar
-        37     1.94754311E+02  # 6th charged scalar
-         0     4.32098160E+02  # 7th charged scalar
+   2000016     1.70260892E+02  # leightest pseudoscalar
+   2000014     1.72313055E+02  # 2nd pseudoscalar
+   2000012     1.72320325E+02  # 3rd pseudoscalar
+        36     4.24205872E+02  # 4th pseudoscalar
+   1000015     1.07812967E+02  # leightest charged scalar
+   2000013     1.25200286E+02  # 2nd charged scalar
+   2000011     1.25264180E+02  # 3rd charged scalar
+   1000011     1.89664240E+02  # 4th charged scalar
+   1000013     1.89686649E+02  # 5th charged scalar
+   2000015     1.94754311E+02  # 6th charged scalar
+        37     4.32098160E+02  # 7th charged scalar
    1000001     6.68402054E+02  # ~d_L
    2000001     6.49824229E+02  # ~d_R
    1000002     6.63990958E+02  # ~u_L
