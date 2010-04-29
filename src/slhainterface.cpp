@@ -541,6 +541,20 @@ void SLHAInterface::processRuntimeImpl(const double wallTime,
 }
 
 
+void SLHAInterface::clearResultsImpl()
+{
+  for (SLHA::iterator block = mResult.begin(); block != mResult.end(); )
+  {
+    if (!iequals(block->name(), "KaiminiInfo") &&
+        istarts_with(block->name(), "Kaimini"))
+    {
+      block = mResult.erase(block);
+    }
+    else ++block;
+  }
+}
+
+
 const SLHA& SLHAInterface::result()
 {
   return mResult;

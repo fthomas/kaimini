@@ -30,7 +30,7 @@ namespace Kaimini {
 class ResultProcessor
 {
 public:
-  ResultProcessor() : mProcess(true) {}
+  ResultProcessor() : mProcess(true), mOverwrite(true) {}
 
   virtual ~ResultProcessor() {}
 
@@ -47,6 +47,21 @@ public:
   void disableProcessing()
   {
     mProcess = false;
+  }
+
+  bool overwritingEnabled() const
+  {
+    return mOverwrite;
+  }
+
+  void enableOverwriting()
+  {
+    mOverwrite = true;
+  }
+
+  void disableOverwriting()
+  {
+    mOverwrite = false;
   }
 
   void processDataPoints()
@@ -92,6 +107,11 @@ public:
     if (mProcess) processRuntimeImpl(wallTime, procTime);
   }
 
+  void clearResults()
+  {
+    if (mProcess && mOverwrite) clearResultsImpl();
+  }
+
 protected:
   virtual void
   processDataPointsImpl() {}
@@ -119,8 +139,12 @@ protected:
   virtual void
   processRuntimeImpl(double, double) {}
 
+  virtual void
+  clearResultsImpl() {}
+
 private:
   bool mProcess;
+  bool mOverwrite;
 };
 
 } // namespace Kaimini

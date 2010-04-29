@@ -96,6 +96,7 @@ Parameters GSLDriver::runSimplex(const Parameters& startParams)
   gsl_vector_free(v);
   gsl_multimin_fminimizer_free(minimizer);
 
+  mspFunc->clearResults();
   mspFunc->processParameters(&msPar);
   mspFunc->processDataPoints();
   return msPar;
@@ -125,6 +126,7 @@ Parameters GSLDriver::runSimulatedAnnealing(const Parameters& startParams)
   sanitize(x_initial);
   gsl_vector_free(x_initial);
 
+  mspFunc->clearResults();
   mspFunc->processParameters(&msPar);
   mspFunc->processDataPoints();
   return msPar;

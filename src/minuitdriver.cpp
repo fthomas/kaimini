@@ -171,6 +171,7 @@ void MinuitDriver::processResults(const string& number, const string& name,
   infos["strategy"] = lexical_cast<string>(app.Strategy().Strategy());
   infos["valid_minimum"] = mpMinimum->IsValid() ? "true" : "false";
 
+  mpFunc->clearResults();
   mpFunc->processDriverInfo(&infos);
   mpFunc->processMinimum(mpMinimum.get());
   mpFunc->processDataPoints();

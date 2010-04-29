@@ -72,6 +72,7 @@ Parameters GenericDriver::runSimulatedAnnealing(const Parameters& startParams)
   }
 
   mpFunc->chiSq(best_params);
+  mpFunc->clearResults();
   mpFunc->processParameters(&best_params);
   mpFunc->processDataPoints();
   return best_params;

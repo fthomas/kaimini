@@ -66,6 +66,8 @@ protected:
 
   void processRuntimeImpl(double wallTime, double procTime);
 
+  void clearResultsImpl();
+
   const SLHAea::SLHA& result();
 
 private:
