@@ -164,15 +164,15 @@ void MinuitDriver::processResults(const string& number, const string& name,
 {
   if (!mpFunc->processingEnabled()) return;
 
-  map<string, string> infos;
-  infos["number"]   = number;
-  infos["name"]     = "Minuit" + name;
-  infos["calls"]    = lexical_cast<string>(app.NumOfCalls());
-  infos["strategy"] = lexical_cast<string>(app.Strategy().Strategy());
-  infos["valid_minimum"] = mpMinimum->IsValid() ? "true" : "false";
+  map<string, string> info;
+  info["number"]   = number;
+  info["name"]     = "Minuit" + name;
+  info["calls"]    = lexical_cast<string>(app.NumOfCalls());
+  info["strategy"] = lexical_cast<string>(app.Strategy().Strategy());
+  info["valid_minimum"] = mpMinimum->IsValid() ? "true" : "false";
 
   mpFunc->clearResults();
-  mpFunc->processDriverInfo(&infos);
+  mpFunc->processDriverInfo(&info);
   mpFunc->processMinimum(mpMinimum.get());
   mpFunc->processDataPoints();
 }

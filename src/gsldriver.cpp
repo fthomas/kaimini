@@ -15,7 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
+#include <map>
 #include <ostream>
+#include <string>
+#include <boost/lexical_cast.hpp>
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_siman.h>
 #include <gsl/gsl_vector.h>
@@ -97,7 +100,13 @@ Parameters GSLDriver::runSimplex(const Parameters& startParams)
   gsl_vector_free(v);
   gsl_multimin_fminimizer_free(minimizer);
 
+  map<string, string> info;
+  info["number"] = "20";
+  info["name"]   = "GSLSimplex";
+  info["calls"]  = boost::lexical_cast<string>(iter);
+
   mspFunc->clearResults();
+  mspFunc->processDriverInfo(&info);
   mspFunc->processParameters(&msPar);
   mspFunc->processDataPoints();
   return msPar;
