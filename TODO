@@ -1,6 +1,4 @@
 GSLDriver:
- - runSimplex:
-   - determine the parameter errors
  - runSimulatedAnnealing:
    - make it work!
 
