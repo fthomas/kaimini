@@ -25,7 +25,7 @@ SRCDIR   = src
 OBJDIR   = src/.obj
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(subst $(SRCDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
-KAIMINI  = input/kaimini
+KAIMINI  = sandbox/kaimini
 
 all: $(KAIMINI)
 
@@ -59,7 +59,7 @@ cleanall: clean
 	rm -f $(KAIMINI) $(KAIMINI_SO)
 	rm -rf doc/html/
 	$(MAKE) -C doc/manual/ clean
-	$(MAKE) -C input/ clean
+	$(MAKE) -C sandbox/ clean
 
 VERSION ?= $(shell git describe --tags | cut -b2-)
 set_version:
