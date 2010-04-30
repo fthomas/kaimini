@@ -19,12 +19,14 @@
 #include <stdexcept>
 #include <string>
 #include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
 #include "kaimini.h"
 #include "random.h"
 
 using namespace std;
+using namespace boost;
 namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
@@ -35,101 +37,109 @@ bool g_verbose_output = true;
 
 void exit_block_not_found(const string& block)
 {
-  cerr << "Error: could not find block ‘" << block
-       << "’ in SLHA structure" << endl;
+  cerr << format(
+    "# Error: Could not find block ‘%1%’ in SLHA structure.\n") % block;
   exit(EXIT_FAILURE);
 }
 
 
 void exit_field_not_found(const string& key)
 {
-  cerr << "Error: could not find field referenced by ‘" << key
-       << "’ in SLHA structure" << endl;
+  cerr << format(
+    "# Error: Could not find field referenced by ‘%1%’ in SLHA structure.\n")
+    % key;
+  exit(EXIT_FAILURE);
+}
+
+
+void exit_file_nonexistent(const string& filename)
+{
+  cerr << format(
+    "# Error: File ‘%1%’ does not exist.\n") % filename;
   exit(EXIT_FAILURE);
 }
 
 
 void exit_file_open_failed(const string& filename)
 {
-  cerr << "Error: failed to open file ‘" << filename << "’" << endl;
+  cerr << format(
+    "# Error: Failed to open file ‘%1%’.\n") % filename;
   exit(EXIT_FAILURE);
 }
 
 
 void exit_line_not_parsed(const string& block, const string& line)
 {
-  cerr << "Error: could not parse line in block ‘" << block << "’: "
-       << line << endl;
+  cerr << format(
+    "# Error: Could not parse line in block ‘%1%’: %2%\n") % block % line;
   exit(EXIT_FAILURE);
 }
 
 
 void exit_value_not_parsed(const string& key, const string& value)
 {
-  cerr << "Error: could not parse field referenced by ‘" << key << "’: "
-       << value << endl;
+  cerr << format(
+    "# Error: Could not parse field referenced by ‘%1%’: %2%\n") % key
+    % value;
   exit(EXIT_FAILURE);
 }
 
 
 void info_ignore_absent_field(const string& key)
 {
-  if (g_verbose_output)
-  {
-    cout << "Info: ignoring absent field referenced by ‘" << key << "’"
-         << endl;
-  }
+  if (!g_verbose_output) return;
+
+  cout << format(
+    "# Info: Ignoring absent field referenced by ‘%1%’.\n") % key;
 }
 
 
 void info_include_absent_field(const string& key)
 {
-  if (g_verbose_output)
-  {
-    cout << "Info: treating absent field referenced by ‘" << key
-         << "’ as zero" << endl;
-  }
+  if (!g_verbose_output) return;
+
+  cout << format(
+    "# Info: Treating absent field referenced by ‘%1%’ as zero.\n") % key;
 }
 
 
 void info_ignore_nan(const string& key)
 {
-  if (g_verbose_output)
-  {
-    cout << "Info: ignoring NaN in field referenced by ‘" << key << "’"
-         << endl;
-  }
+  if (!g_verbose_output) return;
+
+  cout << format(
+    "# Info: Ignoring NaN in field referenced by ‘%1%’.\n") % key;
 }
 
 
 void info_include_nan(const string& key)
 {
-  if (g_verbose_output)
-  {
-    cout << "Info: treating NaN in field referenced by ‘" << key
-         << "’ as zero" << endl;
-  }
+  if (!g_verbose_output) return;
+
+  cout << format(
+    "# Info: Treating NaN in field referenced by ‘%1%’ as zero.\n") % key;
 }
 
 
 void warn_line_ignored(const string& block, const string& line)
 {
-  cerr << "Warning: ignoring line in block ‘" << block << "’: "
-       << line << endl;
+  cerr << format(
+    "# Warning: Ignoring line in block ‘%1%’: %2%\n") % block % line;
 }
 
 
 void warn_line_not_parsed(const string& block, const string& line)
 {
-  cerr << "Warning: could not parse line in block ‘" << block << "’: "
-       << line << endl;
+  cerr << format(
+    "# Warning: Could not parse line in block ‘%1%’: %2%\n") % block % line;
 }
 
 
 void warn_unrecognized_switch(const string& line, const string& sw)
 {
-  cerr << "Warning: unrecognized switch ‘" << sw << "’ "
-       << "(should be either ‘on’ or ‘off’) in line: " << line << endl;
+  cerr << format(
+    "# Warning: Unrecognized switch ‘%1%’ (should be either ‘on’ or ‘off’) "
+    "in line: %2%\n") % sw % line;
 }
 
 
@@ -162,25 +172,27 @@ void parse_command_line(int argc, char** argv,
   }
   catch (po::invalid_command_line_syntax& ex)
   {
-    cerr << "Error: invalid command line syntax: " << ex.what() << endl;
+    cerr << format(
+      "# Error: Invalid command line syntax: %1%\n") % ex.what();
     exit(EXIT_FAILURE);
   }
   catch (po::multiple_occurrences&)
   {
-    cerr << "Error: several occurrences of an option that can be "
-         << "specified only once" << endl;
+    cerr << format(
+      "# Error: Several occurrences of an option that can be specified only "
+      "once.\n");
     exit(EXIT_FAILURE);
   }
   catch (po::too_many_positional_options_error&)
   {
-    cerr << "Error: too many command line arguments" << endl;
+    cerr << format(
+      "# Error: Too many command line arguments.\n");
     exit(EXIT_FAILURE);
   }
 
   if (vm.count("help"))
   {
-    cout << "Usage: kaimini [options] [input-file] [output-file]" << endl
-         << endl;
+    cout << "Usage: kaimini [options] [input-file] [output-file]\n\n";
     cout << cmdline_options;
     exit(EXIT_SUCCESS);
   }
@@ -225,7 +237,7 @@ double parse_error_string(const double value, string errorStr)
     percentage = true;
   }
 
-  double error = boost::lexical_cast<double>(errorStr);
+  double error = lexical_cast<double>(errorStr);
 
   if (percentage) error *= 0.01 * value;
 

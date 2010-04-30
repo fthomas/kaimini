@@ -44,12 +44,7 @@ int main(int argc, char* argv[])
   string output_file = "kaimini.out";
   parse_command_line(argc, argv, &input_file, &output_file);
 
-  if (!fs::exists(input_file))
-  {
-    cerr << "Error: input file ‘" << input_file << "’ does not exist"
-         << endl;
-    exit(EXIT_FAILURE);
-  }
+  if (!fs::exists(input_file)) exit_file_nonexistent(input_file);
 
   ifstream input_fs(input_file.c_str());
   const SLHA input_slha(input_fs);

@@ -41,6 +41,8 @@ void exit_block_not_found(const std::string& block);
 
 void exit_field_not_found(const std::string& key);
 
+void exit_file_nonexistent(const std::string& filename);
+
 void exit_file_open_failed(const std::string& filename);
 
 void exit_line_not_parsed(const std::string& block, const std::string& line);
