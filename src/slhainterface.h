@@ -71,7 +71,7 @@ protected:
   const SLHAea::SLHA& result();
 
 private:
-  std::vector<SLHAea::SLHAKey> mDataPointsKeys;
+  std::vector<std::vector<SLHAea::SLHAKey> > mDataPointsKeys;
   std::vector<SLHAea::SLHAKey> mParamsKeys;
   SLHAea::SLHA mResult;
 };

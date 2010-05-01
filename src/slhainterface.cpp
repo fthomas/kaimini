@@ -63,6 +63,14 @@ void SLHAInterface::setDataPoints(const SLHA& input)
        line != block->end(); ++line)
   {
     if (!line->is_data_line()) continue;
+    if (line->size() > 1 && "+" == (*line)[0])
+    {
+      if (mDataPointsKeys.end() != mDataPointsKeys.begin())
+      {
+        mDataPointsKeys.back().push_back(SLHAKey((*line)[1]));
+      }
+      continue;
+    }
     if (line->size() < 6)
     {
       warn_line_ignored(block->name(), line->str());
@@ -96,7 +104,7 @@ void SLHAInterface::setDataPoints(const SLHA& input)
     }
 
     mDataPoints.push_back(dp);
-    mDataPointsKeys.push_back(SLHAKey((*line)[2]));
+    mDataPointsKeys.push_back(vector<SLHAKey>(1, SLHAKey((*line)[2])));
   }
 }
 
@@ -182,50 +190,55 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
 {
   assert(mDataPoints.size() == mDataPointsKeys.size());
 
-  vector<DataPoint>::const_iterator dp     = mDataPoints.begin();
-  vector<SLHAKey>::const_iterator   dp_key = mDataPointsKeys.begin();
+  vector<DataPoint>::const_iterator dp = mDataPoints.begin();
+  vector<vector<SLHAKey> >::const_iterator dp_keys = mDataPointsKeys.begin();
 
-  for (; dp != mDataPoints.end() && dp_key != mDataPointsKeys.end();
-       ++dp, ++dp_key)
+  for (; dp != mDataPoints.end() && dp_keys != mDataPointsKeys.end();
+       ++dp, ++dp_keys)
   {
-    string value;
-    try
-    {
-      value = input.field(*dp_key);
-      dp->cachedValue(to_<double>(value));
-    }
-    catch (out_of_range&)
-    {
-      switch (dp->ifAbsent())
-      {
-      case 1: info_ignore_absent_field(dp_key->str());
-              continue;
+    string value_str;
+    double value = 0.;
 
-      case 2: info_include_absent_field(dp_key->str());
-              dp->cachedValue(0.);
-              continue;
+    for (vector<SLHAKey>::const_iterator key = dp_keys->begin();
+         key != dp_keys->end(); ++key)
+    {
+      try
+      {
+        value_str = input.field(*key);
+        value += to_<double>(value_str);
       }
-
-      exit_field_not_found(dp_key->str());
-    }
-    catch (bad_lexical_cast&)
-    {
-      if ("NaN" == value)
+      catch (out_of_range&)
       {
-        switch (dp->ifNaN())
+        switch (dp->ifAbsent())
         {
-        case 1: info_ignore_nan(dp_key->str());
+        case 0: exit_field_not_found(key->str());
+                break;
+
+        case 1: info_ignore_absent_field(key->str());
                 continue;
 
-        case 2: info_include_nan(dp_key->str());
-                dp->cachedValue(0.);
-                continue;
+        case 2: info_include_absent_field(key->str());
+                break;
         }
       }
+      catch (bad_lexical_cast&)
+      {
+        if ("NaN" == value_str)
+        {
+          switch (dp->ifNaN())
+          {
+          case 1: info_ignore_nan(key->str());
+                  continue;
 
-      exit_value_not_parsed(dp_key->str(), value);
-    }
-  }
+          case 2: info_include_nan(key->str());
+                  break;
+          }
+        }
+        exit_value_not_parsed(key->str(), value_str);
+      }
+      dp->cachedValue(value);
+    } // foreach key
+  } // foreach data point
 }
 
 
