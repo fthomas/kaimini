@@ -1,6 +1,8 @@
 GSLDriver:
  - runSimulatedAnnealing:
    - make it work!
+   - gsl_vector_dist needs to be replaced by a function that measures
+     distance as change in chi^2
 
 SLHAWorker:
  - selectCalculator:
@@ -17,3 +19,4 @@ general:
  - let the user choose between different test functions
  - unify the output to stdout and make it easier to parse
  - add mechanism to store the calculations for intermediate parameter points
+ - allow arbitrary combinations of data points, and not only sums
