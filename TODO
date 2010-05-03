@@ -20,3 +20,6 @@ general:
  - unify the output to stdout and make it easier to parse
  - add mechanism to store the calculations for intermediate parameter points
  - allow arbitrary combinations of data points, and not only sums
+ - use external interpreter for dynamic adaption of parameters and data
+   points. Possible tools could be CINT, Lua, Python, QtScript (insane!),
+   ChaiScript. maybe it would be easier to use my own control file instead
