@@ -26,8 +26,9 @@ OBJDIR   = src/.obj
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(subst $(SRCDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
 KAIMINI  = sandbox/kaimini
+POLLY    = sandbox/polly
 
-all: $(KAIMINI)
+all: $(KAIMINI) $(POLLY)
 
 
 ### Implicit rules:
@@ -46,6 +47,8 @@ gprof: CXXFLAGS += -pg
 gprof: LDFLAGS  += -pg
 gprof: $(KAIMINI)
 
+$(POLLY): tools/polly.cpp
+	$(CXX) $(CXXFLAGS) $(INCPATH) -Isrc -o "$@" "$<"
 
 doc:
 	doxygen doc/Doxyfile
@@ -56,7 +59,7 @@ clean:
 	-rmdir $(OBJDIR)
 
 cleanall: clean
-	rm -f $(KAIMINI) $(KAIMINI_SO)
+	rm -f $(KAIMINI) $(POLLY)
 	rm -rf doc/html/
 	$(MAKE) -C doc/manual/ clean
 	$(MAKE) -C sandbox/ clean

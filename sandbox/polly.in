@@ -1,0 +1,33 @@
+BLOCK Parameters
+ 1  0.030
+ 2  4.700
+ 3  -0.90
+ 4  -0.90
+ 11 6.900
+BLOCK KaiminiParameters
+ 1  p1  Parameters;1;1  1   10% :
+ 2  p2  Parameters;2;1  1   10% :
+ 3  p3  Parameters;3;1  1   10% :
+ 4  p4  Parameters;4;1  1   10% :
+ 5  p5  Parameters;11;1  1   10% :
+BLOCK KaiminiDataPoints
+ 1  y1  Values;1;1  1   3.00    1%
+ 2  y2  Values;2;1  1   4.00    1%
+ 3  y3  Values;3;1  1   20.0    1%
+ 4  y4  Values;4;1  1   10.0    1%
+ 5  y5  Values;5;1  1   11.0    1%
+BLOCK KaiminiCalculator
+ 0  Calculator  polly
+ 0  Path        /home/frank/susy/code/kaimini/trunk/sandbox/polly
+ 0  InputFile   polly.in
+ 0  OutputFile  polly.out
+ 0  CmdLine     polly.in > polly.out
+BLOCK KaiminiControl
+ 0  BootstrapIter       100
+ 1  GSLSimplex          off
+ 1  MinuitScan          off 2
+ 1  MinuitSimplex       on  2
+ 1  MinuitMinimize      on  2
+ 1  MinuitMinos         off 2
+ 1  ChiSquareContrib    off
+ 1  Bootstrap           off
