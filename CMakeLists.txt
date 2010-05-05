@@ -30,7 +30,7 @@ find_package(OpenMP)
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
-configure_file(input/kaimini.in . COPYONLY)
+configure_file(sandbox/kaimini.in . COPYONLY)
 
 if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
     add_subdirectory(test)
