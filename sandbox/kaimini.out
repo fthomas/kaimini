@@ -1,7 +1,7 @@
 BLOCK KaiminiInfo
- 1  0.1.1       # version number
- 2  12          # approx. wall clock time [s]
- 3  4.820       # approx. process time [s]
+ 1  0.1.2       # version number
+ 2  15          # approx. wall clock time [s]
+ 3  4.840       # approx. process time [s]
  11     MinuitMinimize
  11     - calls     66
  11     - strategy  2
@@ -53,7 +53,7 @@ BLOCK KaiminiChiSquareContribSingle
 # SPheno v3beta47
 # W. Porod, Comput. Phys. Commun. 153 (2003) 275-315, hep-ph/0301101
 # in case of problems send email to porod@physik.uni-wuerzburg.de
-# Created: 29.04.2010,  10:33
+# Created: 05.05.2010,  10:53
 Block SPINFO         # Program information
      1   SPheno      # spectrum calculator
      2   v3beta47    # version number
