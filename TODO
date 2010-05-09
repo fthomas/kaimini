@@ -23,3 +23,7 @@ general:
  - use external interpreter for dynamic adaption of parameters and data
    points. Possible tools could be CINT, Lua, Python, QtScript (insane!),
    ChaiScript. maybe it would be easier to use my own control file instead
+ - make Minuit and GSL optional dependencies
+ - add test tools for all possible interfaces (IPC mechanisms resp.) between
+   Kaimini and the calculators: shared memory, other popular HEP file format,
+   named pipes (?)
