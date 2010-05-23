@@ -249,6 +249,8 @@ public:
   typedef impl_type::const_iterator         const_iterator;
   typedef impl_type::reverse_iterator       reverse_iterator;
   typedef impl_type::const_reverse_iterator const_reverse_iterator;
+  typedef impl_type::pointer                pointer;
+  typedef impl_type::const_pointer          const_pointer;
   typedef impl_type::difference_type        difference_type;
   typedef impl_type::size_type              size_type;
 
@@ -344,7 +346,7 @@ public:
     int arg = 0, pos = 0;
     const_iterator it = begin();
 
-    if (boost::iequals("BLOCK", *it) || boost::iequals("DECAY", *it))
+    if (is_block_specifier(*it))
     {
       line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
       pos += it->length();
@@ -408,17 +410,7 @@ public:
 
     if (!data.empty()) impl_ = split_string(data);
     if (!comment.empty()) impl_.push_back(comment);
-
-    // Construct the format string for line.
-    std::stringstream line_fmt("");
-    int arg = 0, pos = 0;
-    for (const_iterator it = begin(); it != end(); ++it)
-    {
-      pos = line.find(*it, pos);
-      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
-      pos += it->length();
-    }
-    lineFormat_ = boost::trim_right_copy(line_fmt.str());
+    set_format(line);
 
     return *this;
   }
@@ -427,9 +419,10 @@ public:
   std::string
   str() const
   {
-    boost::format fmter(lineFormat_);
-    for (const_iterator it = begin(); it != end(); ++it) fmter % *it;
-    return fmter.str();
+    boost::format formatter(lineFormat_);
+    for (const_iterator field = begin(); field != end(); ++field)
+    { formatter % *field; }
+    return formatter.str();
   }
 
   // element access
@@ -624,21 +617,22 @@ public:
   // introspection
   /**
    * Returns true if the %SLHALine begins with \c "BLOCK" or
-   * \c "DECAY". Comparison is done case-insensitive.
+   * \c "DECAY" followed by a block name. Comparison is done
+   * case-insensitive.
    */
   bool
   is_block_def() const
   {
-    if (empty()) return false;
+    if (size() < 2) return false;
 
-    const value_type first = boost::to_upper_copy(front());
-    return ("BLOCK" == first) || ("DECAY" == first);
+    const_iterator field = begin();
+    return (is_block_specifier(*field) && ((*++field)[0] != '#'));
   }
 
   /** Returns true if the %SLHALine begins with \c "#". */
   bool
   is_comment_line() const
-  { return !empty() && ('#' == front()[0]); }
+  { return !empty() && (front()[0] == '#'); }
 
   /**
    * Returns true if the %SLHALine is not empty and if neither
@@ -661,9 +655,9 @@ public:
   size_type
   data_size() const
   {
-    size_type s = size();
-    if (s > 0 && '#' == back()[0]) --s;
-    return s;
+    size_type data_size = size();
+    if (data_size > 0 && '#' == back()[0]) --data_size;
+    return data_size;
   }
 
   /** Returns the size() of the largest possible %SLHALine. */
@@ -724,6 +718,29 @@ public:
   }
 
 private:
+  inline void
+  set_format(const std::string& line)
+  {
+    std::stringstream line_format("");
+    int argument = 0, column = 0;
+
+    for (const_iterator field = begin(); field != end(); ++field)
+    {
+      column = line.find(*field, column);
+      line_format << "%|" << column << "t|%" << ++argument << "% ";
+      column += field->length();
+    }
+    lineFormat_ = boost::trim_right_copy(line_format.str());
+  }
+
+  inline bool
+  is_block_specifier(const value_type& field) const
+  {
+    const value_type field_upper = boost::to_upper_copy(field);
+    return (field_upper == "BLOCK") || (field_upper == "DECAY");
+  }
+
+private:
   impl_type impl_;
   std::string lineFormat_;
 };
@@ -762,6 +779,8 @@ public:
   typedef impl_type::const_iterator         const_iterator;
   typedef impl_type::reverse_iterator       reverse_iterator;
   typedef impl_type::const_reverse_iterator const_reverse_iterator;
+  typedef impl_type::pointer                pointer;
+  typedef impl_type::const_pointer          const_pointer;
   typedef impl_type::difference_type        difference_type;
   typedef impl_type::size_type              size_type;
 
@@ -815,7 +834,7 @@ public:
       if (boost::all(line_str, boost::is_space())) continue;
 
       line = line_str;
-      if (nameless && line.is_block_def() && line.data_size() > 1)
+      if (nameless && line.is_block_def())
       {
         name(line[1]);
         nameless = false;
@@ -865,13 +884,13 @@ public:
   reference
   operator[](const key_type& keys)
   {
-    iterator it = find(keys);
-    if (end() == it)
+    iterator line = find(keys);
+    if (end() == line)
     {
       push_back(value_type());
       return back();
     }
-    return *it;
+    return *line;
   }
 
   /**
@@ -931,10 +950,10 @@ public:
   reference
   at(const key_type& keys)
   {
-    iterator it = find(keys);
-    if (end() == it)
+    iterator line = find(keys);
+    if (end() == line)
     { throw std::out_of_range("SLHABlock::at(\"" + join(keys) + "\")"); }
-    return *it;
+    return *line;
   }
 
   /**
@@ -951,10 +970,10 @@ public:
   const_reference
   at(const key_type& keys) const
   {
-    const_iterator it = find(keys);
-    if (end() == it)
+    const_iterator line = find(keys);
+    if (end() == line)
     { throw std::out_of_range("SLHABlock::at(\"" + join(keys) + "\")"); }
-    return *it;
+    return *line;
   }
 
   /**
@@ -1263,14 +1282,14 @@ public:
   {
     if (keys.empty()) return end();
 
-    iterator it = begin();
-    for (; it != end(); ++it)
+    iterator line = begin();
+    for (; line != end(); ++line)
     {
-      if (keys.size() > it->size()) continue;
-      if (std::equal(keys.begin(), keys.end(), it->begin(), index_iequal))
-      { return it; }
+      if (keys.size() > line->size()) continue;
+      if (std::equal(keys.begin(), keys.end(), line->begin(), index_iequal))
+      { return line; }
     }
-    return it;
+    return line;
   }
 
   /**
@@ -1290,14 +1309,14 @@ public:
   {
     if (keys.empty()) return end();
 
-    const_iterator it = begin();
-    for (; it != end(); ++it)
+    const_iterator line = begin();
+    for (; line != end(); ++line)
     {
-      if (keys.size() > it->size()) continue;
-      if (std::equal(keys.begin(), keys.end(), it->begin(), index_iequal))
-      { return it; }
+      if (keys.size() > line->size()) continue;
+      if (std::equal(keys.begin(), keys.end(), line->begin(), index_iequal))
+      { return line; }
     }
-    return it;
+    return line;
   }
 
   // introspection
@@ -1311,14 +1330,14 @@ public:
   {
     if (keys.empty()) return 0;
 
-    size_type matches = 0;
-    for (const_iterator it = begin(); it != end(); ++it)
+    size_type count = 0;
+    for (const_iterator line = begin(); line != end(); ++line)
     {
-      if (keys.size() > it->size()) continue;
-      if (std::equal(keys.begin(), keys.end(), it->begin(), index_iequal))
-      { ++matches; }
+      if (keys.size() > line->size()) continue;
+      if (std::equal(keys.begin(), keys.end(), line->begin(), index_iequal))
+      { ++count; }
     }
-    return matches;
+    return count;
   }
 
   // capacity
@@ -1499,6 +1518,8 @@ public:
   typedef impl_type::const_iterator         const_iterator;
   typedef impl_type::reverse_iterator       reverse_iterator;
   typedef impl_type::const_reverse_iterator const_reverse_iterator;
+  typedef impl_type::pointer                pointer;
+  typedef impl_type::const_pointer          const_pointer;
   typedef impl_type::difference_type        difference_type;
   typedef impl_type::size_type              size_type;
 
@@ -1563,7 +1584,7 @@ public:
       if (boost::all(line_str, boost::is_space())) continue;
 
       line = line_str;
-      if (line.is_block_def() && line.data_size() > 1) name = line[1];
+      if (line.is_block_def()) name = line[1];
       (*this)[name].push_back(line);
     }
     return *this;
