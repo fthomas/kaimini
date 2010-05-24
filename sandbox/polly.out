@@ -1,7 +1,7 @@
 BLOCK KaiminiInfo
  1  0.1.2       # version number
  2  3           # approx. wall clock time [s]
- 3  1.430       # approx. process time [s]
+ 3  1.350       # approx. process time [s]
  13     MinuitSimplex
  13     - calls     336
  13     - strategy  2

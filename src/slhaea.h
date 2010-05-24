@@ -400,18 +400,37 @@ public:
   {
     clear();
     const std::string
-      line_tr = boost::trim_copy(line.substr(0, line.find('\n')));
+      line_tr = boost::trim_right_copy(line.substr(0, line.find('\n')));
     if (line_tr.empty()) return *this;
 
-    const int comment_pos = std::min(line_tr.find('#'), line_tr.length());
-    const std::string
-      data    = boost::trim_copy(line_tr.substr(0, comment_pos)),
-      comment = boost::trim_copy(line_tr.substr(comment_pos));
+    const std::size_t
+      comment_pos = std::min(line_tr.find('#'), line_tr.length());
+    const std::string data    = line_tr.substr(0, comment_pos);
+    const std::string comment = line_tr.substr(comment_pos);
 
-    if (!data.empty()) impl_ = split_string(data);
-    if (!comment.empty()) impl_.push_back(comment);
-    set_format(line);
+    std::stringstream line_format("");
+    int argument = 0;
 
+    const std::string delimiters = " \t\v\f\r";
+    std::size_t pos1 = data.find_first_not_of(delimiters, 0);
+    std::size_t pos2 = data.find_first_of(delimiters, pos1);
+
+    while (pos1 != std::string::npos)
+    {
+      line_format << " %|" << pos1 << "t|%" << ++argument << "%";
+
+      impl_.push_back(data.substr(pos1, pos2 - pos1));
+      pos1 = data.find_first_not_of(delimiters, pos2);
+      pos2 = data.find_first_of(delimiters, pos1);
+    }
+
+    if (!comment.empty())
+    {
+      line_format << " %|" << comment_pos << "t|%" << ++argument << "%";
+      impl_.push_back(comment);
+    }
+
+    lineFormat_ = line_format.str().substr(1);
     return *this;
   }
 
@@ -656,7 +675,7 @@ public:
   data_size() const
   {
     size_type data_size = size();
-    if (data_size > 0 && '#' == back()[0]) --data_size;
+    if ((data_size > 0) && (back()[0] == '#')) --data_size;
     return data_size;
   }
 
@@ -710,7 +729,7 @@ public:
   uncomment()
   {
     if (empty()) return;
-    if ('#' == front()[0])
+    if (front()[0] == '#')
     {
       front().erase(0, 1);
       str(str());
@@ -718,21 +737,6 @@ public:
   }
 
 private:
-  inline void
-  set_format(const std::string& line)
-  {
-    std::stringstream line_format("");
-    int argument = 0, column = 0;
-
-    for (const_iterator field = begin(); field != end(); ++field)
-    {
-      column = line.find(*field, column);
-      line_format << "%|" << column << "t|%" << ++argument << "% ";
-      column += field->length();
-    }
-    lineFormat_ = boost::trim_right_copy(line_format.str());
-  }
-
   inline bool
   is_block_specifier(const value_type& field) const
   {
@@ -1578,9 +1582,7 @@ public:
   {
     std::string line_str;
     SLHALine line;
-
-    value_type nameless_block("");
-    pointer block = &nameless_block;
+    pointer block = &(*this)[""];
 
     while (std::getline(is, line_str))
     {
@@ -1591,7 +1593,7 @@ public:
       block->push_back(line);
     }
 
-    if (!nameless_block.empty()) insert(begin(), nameless_block);
+    erase_if_empty("");
     return *this;
   }
 
@@ -1650,10 +1652,10 @@ public:
   reference
   at(const key_type& blockName)
   {
-    iterator it = find(blockName);
-    if (end() == it)
+    iterator block = find(blockName);
+    if (block == end())
     { throw std::out_of_range("SLHA::at(\"" + blockName + "\")"); }
-    return *it;
+    return *block;
   }
 
   /**
@@ -1666,10 +1668,10 @@ public:
   const_reference
   at(const key_type& blockName) const
   {
-    const_iterator it = find(blockName);
-    if (end() == it)
+    const_iterator block = find(blockName);
+    if (block == end())
     { throw std::out_of_range("SLHA::at(\"" + blockName + "\")"); }
-    return *it;
+    return *block;
   }
 
   /**
@@ -1978,9 +1980,9 @@ public:
   iterator
   erase(const key_type& blockName)
   {
-    iterator it = find(blockName);
-    if (end() != it) it = erase(it);
-    return it;
+    iterator block = find(blockName);
+    if (block != end()) return erase(block);
+    return block;
   }
 
   /**
@@ -2009,6 +2011,14 @@ private:
   private:
     key_type name_;
   };
+
+  inline iterator
+  erase_if_empty(const key_type& blockName)
+  {
+    iterator block = find(blockName);
+    if (block != end() && block->empty()) return erase(block);
+    return block;
+  }
 
 private:
   impl_type impl_;
