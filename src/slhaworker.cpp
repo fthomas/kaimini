@@ -20,6 +20,7 @@
 #include <fstream>
 #include <iomanip>
 #include <ostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <unistd.h>
@@ -169,7 +170,47 @@ double SLHAWorker::chiSq(const vector<double>& params) const
     cout << setprecision(8) << setw(15) << chisq << endl << endl;
   }
 
+  if (mSaveAllPoints)
+  {
+    const_cast<SLHAWorker*>(this)->saveIntermediatePoint(params, chisq);
+  }
+
   return chisq;
+}
+
+
+void SLHAWorker::saveIntermediatePoint(const std::vector<double>& params,
+                                       const double& chiSquare)
+{
+  static int counter = 0;
+
+  Parameters curr_params = getParameters();
+  curr_params.setVarParams(params);
+
+  stringstream ss;
+  ss.precision(10);
+  ss.setf(ios_base::fixed);
+  ss << chiSquare << "_";
+  ss.fill('0');
+  ss.width(6);
+  ss << ++counter;
+
+  const string output_file = "../" + ss.str();
+
+  if (fs::exists(output_file)) return;
+
+  ofstream dest(output_file.c_str());
+  if (!dest) exit_file_open_failed(output_file);
+
+  clearResults();
+  processDataPoints();
+  processParameters(&curr_params);
+
+  dest << result().at("KaiminiChiSquare");
+  dest << result().at("KaiminiDataPointsOut");
+  dest << result().at("KaiminiParametersOut");
+  dest << result().at("KaiminiParameterDifferences");
+  dest.close();
 }
 
 

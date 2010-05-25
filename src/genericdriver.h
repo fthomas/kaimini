@@ -40,6 +40,12 @@ public:
     return runSimulatedAnnealing(mpFunc->getParameters());
   }
 
+  void runBoundedRandomWalk(const Parameters& startParams);
+  void runBoundedRandomWalk()
+  {
+    return runBoundedRandomWalk(mpFunc->getParameters());
+  }
+
 private:
   ChiSqFunction* mpFunc;
 };

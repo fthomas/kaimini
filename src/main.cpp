@@ -141,6 +141,11 @@ int main(int argc, char* argv[])
       {
         min_params = gen_driver.runSimulatedAnnealing(min_params);
       }
+      else if (boost::iequals(action, "BoundedRandomWalk"))
+      {
+        fit.enableSavingAllPoints();
+        gen_driver.runBoundedRandomWalk(min_params);
+      }
       else if (boost::iequals(action, "Bootstrap"))
       {
         // Cast &MinuitDriver::runMinimize to Driver::minimizer_t.

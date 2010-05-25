@@ -78,6 +78,38 @@ Parameters GenericDriver::runSimulatedAnnealing(const Parameters& startParams)
   return best_params;
 }
 
+
+void GenericDriver::runBoundedRandomWalk(const Parameters& startParams)
+{
+  Parameters curr_params = startParams;
+  Parameters best_params = curr_params;
+  double curr_chisq = mpFunc->chiSq(curr_params);
+  double best_chisq = curr_chisq;
+
+  for (int i = 0; i < 100000; ++i)
+  {
+    curr_params.stepRandom();
+    curr_chisq = mpFunc->chiSq(curr_params);
+
+    if (curr_chisq < best_chisq)
+    {
+      best_params = curr_params;
+      best_chisq  = curr_chisq;
+    }
+    else if (curr_chisq > 10.)
+    {
+      curr_params = best_params;
+      curr_chisq  = best_chisq;
+    }
+  }
+
+  //mpFunc->chiSq(best_params);
+  //mpFunc->clearResults();
+  //mpFunc->processParameters(&best_params);
+  //mpFunc->processDataPoints();
+  //return best_params;
+}
+
 } //namespace Kaimini
 
 // vim: sw=2 tw=78

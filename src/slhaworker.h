@@ -30,11 +30,13 @@ class SLHAWorker : public SLHAInterface
 {
 public:
   explicit SLHAWorker(const std::string& inputFile)
+    : mSaveAllPoints(false)
   {
     initialize(inputFile);
   }
 
   explicit SLHAWorker(const SLHAea::SLHA& input)
+    : mSaveAllPoints(false)
   {
     initialize(input);
   }
@@ -45,7 +47,25 @@ public:
 
   double chiSq(const std::vector<double>& params) const;
 
+  bool savingAllPointsEnabled() const
+  {
+    return mSaveAllPoints;
+  }
+
+  void enableSavingAllPoints()
+  {
+    mSaveAllPoints = true;
+  }
+
+  void disableSavingAllPoints()
+  {
+    mSaveAllPoints = false;
+  }
+
 private:
+  void saveIntermediatePoint(const std::vector<double>& params,
+                             const double& chiSquare);
+
   void selectSOFTSUSY();
   void selectSPheno();
   void selectSuSpect();
@@ -75,6 +95,8 @@ private:
   std::clock_t mProcTimeStop;
   std::time_t  mWallTimeStart;
   std::time_t  mWallTimeStop;
+
+  bool mSaveAllPoints;
 };
 
 } // namespace Kaimini

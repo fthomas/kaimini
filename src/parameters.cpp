@@ -130,7 +130,7 @@ Parameters& Parameters::stepRandom()
   {
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
     {
-      SetValue(i, g_rnd.randNormal(Value(i), abs(Error(i))));
+      SetValue(i, g_rnd.randNormal(Value(i), 0.1 * abs(Error(i))));
     }
   }
   return *this;
