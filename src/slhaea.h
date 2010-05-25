@@ -299,7 +299,7 @@ public:
    * \return Reference to \c *this.
    *
    * This function adds an element to the end of the %SLHALine. If the
-   * last element is a comment \p field is only appended to it and
+   * last element is a comment, \p field is only appended to it and
    * thus size() remains unchanged.
    */
   template<class T> SLHALine&
@@ -342,43 +342,43 @@ public:
   {
     if (empty()) return *this;
 
-    std::stringstream line_fmt("");
+    std::stringstream line_format("");
     int arg = 0, pos = 0;
-    const_iterator it = begin();
+    const_iterator field = begin();
 
-    if (is_block_specifier(*it))
+    if (is_block_specifier(*field))
     {
-      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
-      pos += it->length();
+      line_format << " %|" << pos << "t|%" << ++arg << "%";
+      pos += field->length();
 
-      if (it+1 != end())
+      if (field+1 != end())
       {
-        line_fmt << "%|" << ++pos << "t|%" << ++arg << "% ";
-        pos += (++it)->length();
+        line_format << " %|" << ++pos << "t|%" << ++arg << "%";
+        pos += (++field)->length();
       }
     }
-    else if ('#' == (*it)[0])
+    else if ((*field)[0] == '#')
     {
-      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
-      pos += it->length();
+      line_format << " %|" << pos << "t|%" << ++arg << "%";
+      pos += field->length();
     }
     else
     {
-      line_fmt << "%|" << ++pos << "t|%" << ++arg << "% ";
-      pos += it->length();
+      line_format << " %|" << ++pos << "t|%" << ++arg << "%";
+      pos += field->length();
     }
 
-    while (++it != end())
+    while (++field != end())
     {
       // Compute the number of spaces required for proper indentation.
       int dist = 3 - ((pos - 1) % 4);
       pos += dist > 1 ? dist : dist + 4;
 
-      line_fmt << "%|" << pos << "t|%" << ++arg << "% ";
-      pos += it->length();
+      line_format << " %|" << pos << "t|%" << ++arg << "%";
+      pos += field->length();
     }
 
-    lineFormat_ = boost::trim_right_copy(line_fmt.str());
+    lineFormat_ = line_format.str().substr(1);
     return *this;
   }
 
@@ -389,7 +389,7 @@ public:
    * \return Reference to \c *this.
    *
    * This function parses \p line and sets the found fields as content
-   * of the %SLHALine. If \p line contains newlines everything after
+   * of the %SLHALine. If \p line contains newlines, everything after
    * the first newline is ignored.
    *
    * The exact formatting of \p line is stored internally and can be
@@ -889,7 +889,7 @@ public:
   operator[](const key_type& keys)
   {
     iterator line = find(keys);
-    if (end() == line)
+    if (line == end())
     {
       push_back(value_type());
       return back();
@@ -955,7 +955,7 @@ public:
   at(const key_type& keys)
   {
     iterator line = find(keys);
-    if (end() == line)
+    if (line == end())
     { throw std::out_of_range("SLHABlock::at(\"" + join(keys) + "\")"); }
     return *line;
   }
@@ -975,7 +975,7 @@ public:
   at(const key_type& keys) const
   {
     const_iterator line = find(keys);
-    if (end() == line)
+    if (line == end())
     { throw std::out_of_range("SLHABlock::at(\"" + join(keys) + "\")"); }
     return *line;
   }
