@@ -403,15 +403,13 @@ public:
       line_tr = boost::trim_right_copy(line.substr(0, line.find('\n')));
     if (line_tr.empty()) return *this;
 
-    const std::size_t
-      comment_pos = std::min(line_tr.find('#'), line_tr.length());
-    const std::string data    = line_tr.substr(0, comment_pos);
-    const std::string comment = line_tr.substr(comment_pos);
+    const std::size_t comment_pos = line_tr.find('#');
+    const std::string data = line_tr.substr(0, comment_pos);
 
     std::stringstream line_format("");
     int argument = 0;
 
-    const std::string delimiters = " \t\v\f\r";
+    static const std::string delimiters = " \t\v\f\r";
     std::size_t pos1 = data.find_first_not_of(delimiters, 0);
     std::size_t pos2 = data.find_first_of(delimiters, pos1);
 
@@ -424,10 +422,10 @@ public:
       pos2 = data.find_first_of(delimiters, pos1);
     }
 
-    if (!comment.empty())
+    if (comment_pos != std::string::npos)
     {
       line_format << " %|" << comment_pos << "t|%" << ++argument << "%";
-      impl_.push_back(comment);
+      impl_.push_back(line_tr.substr(comment_pos));
     }
 
     lineFormat_ = line_format.str().substr(1);
@@ -654,12 +652,12 @@ public:
   { return !empty() && (front()[0] == '#'); }
 
   /**
-   * Returns true if the %SLHALine is not empty and if neither
-   * is_block_def() nor is_comment_line() returns true.
+   * Returns true if the %SLHALine is not empty and if it does not
+   * begin with \c "#", \c "BLOCK" or \c "DECAY".
    */
   bool
   is_data_line() const
-  { return !empty() && !is_block_def() && !is_comment_line(); }
+  { return !empty() && (front()[0] != '#') && !is_block_specifier(front()); }
 
   // capacity
   /** Returns the number of elements in the %SLHALine. */
@@ -740,6 +738,9 @@ private:
   inline bool
   is_block_specifier(const value_type& field) const
   {
+    // "BLOCK" and "DECAY" are both five characters long.
+    if (field.length() != 5) return false;
+
     const value_type field_upper = boost::to_upper_copy(field);
     return (field_upper == "BLOCK") || (field_upper == "DECAY");
   }
@@ -837,7 +838,7 @@ public:
     {
       if (boost::all(line_str, boost::is_space())) continue;
 
-      line = line_str;
+      line.str(line_str);
       if (nameless && line.is_block_def())
       {
         name(line[1]);
@@ -1588,7 +1589,7 @@ public:
     {
       if (boost::all(line_str, boost::is_space())) continue;
 
-      line = line_str;
+      line.str(line_str);
       if (line.is_block_def()) block = &(*this)[line[1]];
       block->push_back(line);
     }
