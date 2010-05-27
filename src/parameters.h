@@ -66,7 +66,7 @@ public:
   Parameters& setVarParams(const std::vector<double>& v);
   Parameters& setVarParams(const gsl_vector* v);
 
-  Parameters& stepRandom();
+  Parameters& stepRandom(double scale = 1.);
 };
 
 

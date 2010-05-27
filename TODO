@@ -27,3 +27,4 @@ general:
  - add test tools for all possible interfaces (IPC mechanisms resp.) between
    Kaimini and the calculators: shared memory, other popular HEP file format,
    named pipes (?)
+ - look into TBB; look for fitting tools at SF.net

@@ -34,16 +34,16 @@ public:
     return mpFunc;
   }
 
+  Parameters runMetropolis(const Parameters& startParams);
+  Parameters runMetropolis()
+  {
+    return runMetropolis(mpFunc->getParameters());
+  }
+
   Parameters runSimulatedAnnealing(const Parameters& startParams);
   Parameters runSimulatedAnnealing()
   {
     return runSimulatedAnnealing(mpFunc->getParameters());
-  }
-
-  void runBoundedRandomWalk(const Parameters& startParams);
-  void runBoundedRandomWalk()
-  {
-    return runBoundedRandomWalk(mpFunc->getParameters());
   }
 
 private:

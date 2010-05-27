@@ -27,6 +27,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/format.hpp>
 #include "kaimini.h"
 #include "slhaea.h"
 #include "slhaworker.h"
@@ -187,15 +188,9 @@ void SLHAWorker::saveIntermediatePoint(const std::vector<double>& params,
   Parameters curr_params = getParameters();
   curr_params.setVarParams(params);
 
-  stringstream ss;
-  ss.precision(10);
-  ss.setf(ios_base::fixed);
-  ss << chiSquare << "_";
-  ss.fill('0');
-  ss.width(6);
-  ss << ++counter;
-
-  const string output_file = "../" + ss.str();
+  const string output_file =
+      boost::str(boost::format("../%1$014.8f_%2$08d")
+                 % chiSquare % ++counter);
 
   if (fs::exists(output_file)) return;
 

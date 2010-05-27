@@ -139,12 +139,21 @@ int main(int argc, char* argv[])
       }
       else if (boost::iequals(action, "SimulatedAnnealing"))
       {
+        bool temp = fit.getSaveAllPoints();
+        fit.setSaveAllPoints(true);
+
         min_params = gen_driver.runSimulatedAnnealing(min_params);
+
+        fit.setSaveAllPoints(temp);
       }
-      else if (boost::iequals(action, "BoundedRandomWalk"))
+      else if (boost::iequals(action, "Metropolis"))
       {
-        fit.enableSavingAllPoints();
-        gen_driver.runBoundedRandomWalk(min_params);
+        bool temp = fit.getSaveAllPoints();
+        fit.setSaveAllPoints(true);
+
+        min_params = gen_driver.runMetropolis(min_params);
+
+        fit.setSaveAllPoints(temp);
       }
       else if (boost::iequals(action, "Bootstrap"))
       {

@@ -47,20 +47,16 @@ public:
 
   double chiSq(const std::vector<double>& params) const;
 
-  bool savingAllPointsEnabled() const
+  bool getSaveAllPoints() const
   {
     return mSaveAllPoints;
   }
 
-  void enableSavingAllPoints()
+  void setSaveAllPoints(bool saveAllPoints)
   {
-    mSaveAllPoints = true;
+    mSaveAllPoints = saveAllPoints;
   }
 
-  void disableSavingAllPoints()
-  {
-    mSaveAllPoints = false;
-  }
 
 private:
   void saveIntermediatePoint(const std::vector<double>& params,

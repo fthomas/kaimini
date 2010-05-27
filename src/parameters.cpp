@@ -124,13 +124,13 @@ Parameters& Parameters::setVarParams(const gsl_vector* v)
 }
 
 
-Parameters& Parameters::stepRandom()
+Parameters& Parameters::stepRandom(const double scale)
 {
   for (size_t i = 0; i < Params().size(); ++i)
   {
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
     {
-      SetValue(i, g_rnd.randNormal(Value(i), 0.1 * abs(Error(i))));
+      SetValue(i, g_rnd.randNormal(Value(i), scale * abs(Error(i))));
     }
   }
   return *this;
