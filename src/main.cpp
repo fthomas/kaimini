@@ -111,20 +111,21 @@ int main(int argc, char* argv[])
       continue;
     }
 
-    if (boost::iequals(action, "SaveAllPoints"))
-    {
-      if      (action_switch == "on")  fit.setSaveAllPoints(true);
-      else if (action_switch == "off") fit.setSaveAllPoints(false);
-    }
-
-    if (action_switch == "off") continue;
-
     unsigned int mn_strategy = 2;
 
     try
     {
-      if (mn_driver.minimizer2Map.find(action)
-          != mn_driver.minimizer2Map.end())
+      if (boost::iequals(action, "SaveAllPoints"))
+      {
+        if      (action_switch == "on")  fit.setSaveAllPoints(true);
+        else if (action_switch == "off") fit.setSaveAllPoints(false);
+      }
+      else if (action_switch == "off")
+      {
+        continue;
+      }
+      else if (mn_driver.minimizer2Map.find(action) !=
+               mn_driver.minimizer2Map.end())
       {
         if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
 

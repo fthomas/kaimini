@@ -53,6 +53,8 @@ Block KaiminiCalculator
 Block KaiminiControl
  0  MinuitErrorDef  1.0
  0  BootstrapIter   1000
+ 1  StepRandom      off
+ 1  SaveAllPoints   off
  1  MinuitScan      off     0
  1  MinuitSimplex   off     1
  1  MinuitMigrad    off     2
