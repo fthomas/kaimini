@@ -105,12 +105,19 @@ int main(int argc, char* argv[])
     const string action = (*line)[1];
     const string action_switch = boost::to_lower_copy((*line)[2]);
 
-    if ("off" == action_switch) continue;
-    else if ("on" != action_switch)
+    if (action_switch != "on" && action_switch != "off")
     {
       warn_unrecognized_switch(line->str(), action_switch);
       continue;
     }
+
+    if (boost::iequals(action, "SaveAllPoints"))
+    {
+      if      (action_switch == "on")  fit.setSaveAllPoints(true);
+      else if (action_switch == "off") fit.setSaveAllPoints(false);
+    }
+
+    if (action_switch == "off") continue;
 
     unsigned int mn_strategy = 2;
 
@@ -139,21 +146,11 @@ int main(int argc, char* argv[])
       }
       else if (boost::iequals(action, "SimulatedAnnealing"))
       {
-        bool temp = fit.getSaveAllPoints();
-        fit.setSaveAllPoints(true);
-
         min_params = gen_driver.runSimulatedAnnealing(min_params);
-
-        fit.setSaveAllPoints(temp);
       }
       else if (boost::iequals(action, "Metropolis"))
       {
-        bool temp = fit.getSaveAllPoints();
-        fit.setSaveAllPoints(true);
-
         min_params = gen_driver.runMetropolis(min_params);
-
-        fit.setSaveAllPoints(temp);
       }
       else if (boost::iequals(action, "Bootstrap"))
       {
@@ -171,6 +168,11 @@ int main(int argc, char* argv[])
       else if (boost::iequals(action, "ChiSquareContrib"))
       {
         jolt_parameters(&fit, min_params);
+      }
+      else if (boost::iequals(action, "StepRandom"))
+      {
+        min_params.stepRandom();
+        fit.setParameters(min_params);
       }
       else warn_line_ignored(kaimini_control.name(), line->str());
     }
