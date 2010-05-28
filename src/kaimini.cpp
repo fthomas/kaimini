@@ -240,7 +240,7 @@ double parse_error_string(const double value, string errorStr)
 
   double error = lexical_cast<double>(errorStr);
 
-  if (percentage) error *= 0.01 * value;
+  if (percentage) error *= 0.01 * std::abs(value);
 
   if (normal)
   {
