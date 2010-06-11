@@ -57,12 +57,11 @@ Parameters GenericDriver::runRandomWalk(const Parameters& startParams)
     else
     {
       new_params = best_params;
-      if (penalty >= 10)
+      if (++penalty > 10)
       {
         penalty = 0;
-        step_factor *= 0.8;
+        step_factor *= 0.7;
       }
-      else ++penalty;
     }
   }
 
