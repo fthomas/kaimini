@@ -149,6 +149,10 @@ int main(int argc, char* argv[])
       {
         min_params = gen_driver.runRandomWalk(min_params);
       }
+      else if (boost::iequals(action, "RandomHillClimbing"))
+      {
+        min_params = gen_driver.runRandomHillClimbing(min_params);
+      }
       else if (boost::iequals(action, "SimulatedAnnealing"))
       {
         min_params = gen_driver.runSimulatedAnnealing(min_params);
