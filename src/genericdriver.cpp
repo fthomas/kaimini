@@ -24,6 +24,56 @@ using namespace std;
 
 namespace Kaimini {
 
+Parameters GenericDriver::runRandomWalk(const Parameters& startParams)
+{
+  Parameters curr_params = startParams;
+  Parameters best_params = curr_params;
+  Parameters new_params  = curr_params;
+  double curr_chisq = mpFunc->chiSq(curr_params);
+  double best_chisq = curr_chisq;
+  double new_chisq  = curr_chisq;
+
+  const int iterations = 200;
+  const double limit = 10.;
+
+  int penalty = 0;
+  double step_factor = 1.;
+
+  for (int i = 0; i < iterations; ++i)
+  {
+    new_params.stepRandom(step_factor);
+    new_chisq = mpFunc->chiSq(new_params);
+
+    if (new_chisq <= best_chisq)
+    {
+      best_params = curr_params = new_params;
+      best_chisq  = curr_chisq  = new_chisq;
+    }
+    else if (new_chisq <= limit)
+    {
+      curr_params = new_params;
+      curr_chisq  = new_chisq;
+    }
+    else
+    {
+      new_params = best_params;
+      if (penalty >= 10)
+      {
+        penalty = 0;
+        step_factor *= 0.8;
+      }
+      else ++penalty;
+    }
+  }
+
+  mpFunc->chiSq(best_params);
+  mpFunc->clearResults();
+  mpFunc->processParameters(&best_params);
+  mpFunc->processDataPoints();
+  return best_params;
+}
+
+
 Parameters GenericDriver::runMetropolis(const Parameters& startParams)
 {
   Random::uniform_real_gen
@@ -72,6 +122,7 @@ Parameters GenericDriver::runMetropolis(const Parameters& startParams)
   mpFunc->processDataPoints();
   return best_params;
 }
+
 
 Parameters GenericDriver::runSimulatedAnnealing(const Parameters& startParams)
 {

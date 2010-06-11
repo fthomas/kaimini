@@ -34,6 +34,12 @@ public:
     return mpFunc;
   }
 
+  Parameters runRandomWalk(const Parameters& startParams);
+  Parameters runRandomWalk()
+  {
+    return runRandomWalk(mpFunc->getParameters());
+  }
+
   Parameters runMetropolis(const Parameters& startParams);
   Parameters runMetropolis()
   {

@@ -145,6 +145,10 @@ int main(int argc, char* argv[])
       {
         min_params = gsl_driver.runSimulatedAnnealing(min_params);
       }
+      else if (boost::iequals(action, "BoundedRandomWalk"))
+      {
+        min_params = gen_driver.runRandomWalk(min_params);
+      }
       else if (boost::iequals(action, "SimulatedAnnealing"))
       {
         min_params = gen_driver.runSimulatedAnnealing(min_params);
