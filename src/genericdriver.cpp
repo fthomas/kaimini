@@ -33,10 +33,12 @@ Parameters GenericDriver::runRandomWalk(const Parameters& startParams)
   double best_chisq = curr_chisq;
   double new_chisq  = curr_chisq;
 
-  const int iterations = 200;
+  const int iterations = 10000;
   const double limit = 10.;
 
-  int penalty = 0;
+  int count_in  = 0;
+  int count_out = 0;
+
   double step_factor = 1.;
 
   for (int i = 0; i < iterations; ++i)
@@ -44,23 +46,30 @@ Parameters GenericDriver::runRandomWalk(const Parameters& startParams)
     new_params.stepRandom(step_factor);
     new_chisq = mpFunc->chiSq(new_params);
 
-    if (new_chisq <= best_chisq)
+    if (new_chisq < best_chisq)
     {
       best_params = curr_params = new_params;
       best_chisq  = curr_chisq  = new_chisq;
     }
-    else if (new_chisq <= limit)
+    else if (new_chisq < limit)
     {
       curr_params = new_params;
       curr_chisq  = new_chisq;
+
+      if (++count_in > 50)
+      {
+        count_in = 0;
+        step_factor *= 1.1;
+      }
     }
     else
     {
-      new_params = best_params;
-      if (++penalty > 10)
+      new_params = curr_params;
+
+      if (++count_out > 10)
       {
-        penalty = 0;
-        step_factor *= 0.7;
+        count_out = 0;
+        step_factor *= 0.9;
       }
     }
   }
