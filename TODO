@@ -21,10 +21,14 @@ general:
  - add mechanism to store the calculations for intermediate parameter points
  - allow arbitrary combinations of data points, and not only sums
  - use external interpreter for dynamic adaption of parameters and data
-   points. Possible tools could be CINT, Lua, Python, QtScript (insane!),
+   points. Possible tools could be CINT, Lua, Python, Ruby, QtScript (insane!),
    ChaiScript. maybe it would be easier to use my own control file instead
  - make Minuit and GSL optional dependencies
  - add test tools for all possible interfaces (IPC mechanisms resp.) between
    Kaimini and the calculators: shared memory, other popular HEP file format,
    named pipes (?)
  - look into TBB; look for fitting tools at SF.net
+ - implement a swarm optimizer
+ - give the possibility to ignore peaks in the fitness function
+ - implement contours/scans
+ - more than one calculator
