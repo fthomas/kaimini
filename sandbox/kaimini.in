@@ -59,9 +59,11 @@ Block KaiminiControl
  1  MinuitSimplex   off     1
  1  MinuitMigrad    off     2
  1  MinuitMinimize  on      2
+ 1  MinuitContours  off     2
  1  MinuitMinos     off     2
  1  GSLSimplex      off
  1  GSLSimulatedAnnealing   off
  1  SimulatedAnnealing      off
+ 1  BoundedRandomWalk   off
  1  Bootstrap           off
- 1  ChiSquareContrib    on
+ 1  ChiSquareContrib    off

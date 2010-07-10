@@ -110,6 +110,10 @@ public:
   std::vector<ROOT::Minuit2::MinosError>
   runMinos(unsigned int stra = 1);
 
+  void runContours(const ROOT::Minuit2::FunctionMinimum& minimum,
+                   unsigned int stra = 1);
+  void runContours(unsigned int stra = 1);
+
 public:
   typedef Parameters (MinuitDriver::*minimizer0_t)();
   typedef Parameters (MinuitDriver::*minimizer1_t)(unsigned int);

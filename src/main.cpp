@@ -137,6 +137,11 @@ int main(int argc, char* argv[])
         if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
         mn_driver.runMinos(mn_strategy);
       }
+      else if (boost::iequals(action, "MinuitContours"))
+      {
+        if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
+        mn_driver.runContours(mn_strategy);
+      }
       else if (boost::iequals(action, "GSLSimplex"))
       {
         min_params = gsl_driver.runSimplex(min_params);

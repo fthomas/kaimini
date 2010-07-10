@@ -23,6 +23,7 @@
 #include <Minuit2/MinosError.h>
 #include <Minuit2/MinuitParameter.h>
 #include <Minuit2/MnApplication.h>
+#include <Minuit2/MnContours.h>
 #include <Minuit2/MnHesse.h>
 #include <Minuit2/MnMigrad.h>
 #include <Minuit2/MnMinimize.h>
@@ -138,6 +139,37 @@ MinuitDriver::runMinos(const unsigned int stra)
 {
   if (!mpMinimum) runMinimize(stra);
   return runMinos(*mpMinimum, stra);
+}
+
+
+void MinuitDriver::runContours(const FunctionMinimum& minimum,
+                               const unsigned int stra)
+{
+  MnContours contours(*mpFunc, minimum, stra);
+
+  const vector<MinuitParameter>& mps = minimum.UserParameters().Parameters();
+  vector<MinuitParameter>::const_iterator mp1, mp2;
+
+  for (mp1 = mps.begin(); mp1 != mps.end()-1; ++mp1)
+  {
+    for (mp2 = mp1+1; mp2 != mps.end(); ++mp2)
+    {
+      if (!mp1->IsFixed() && !mp1->IsConst() &&
+          !mp2->IsFixed() && !mp2->IsConst())
+      {
+        contours(mp1->Number(), mp2->Number(), 250);
+      }
+    }
+  }
+
+  sanitize();
+}
+
+
+void MinuitDriver::runContours(const unsigned int stra)
+{
+  if (!mpMinimum) runMinimize(stra);
+  return runContours(*mpMinimum, stra);
 }
 
 
