@@ -1,7 +1,7 @@
 BLOCK KaiminiInfo
  1  0.1.2       # version number
- 2  13          # approx. wall clock time [s]
- 3  3.560       # approx. process time [s]
+ 2  10          # approx. wall clock time [s]
+ 3  3.660       # approx. process time [s]
  11     MinuitMinimize
  11     - calls     58
  11     - strategy  2
@@ -41,19 +41,11 @@ BLOCK KaiminiChiSquare
  3  tan^2_atm   0   3.65965918E-04
  4  tan^2_sol   0   5.30219492E-01
  5  U_e3^2      0   4.38108908E-09
-BLOCK KaiminiChiSquareContrib
- 1      1.57736243E+00      # epsilon_1
- 2      1.16374162E+00      # epsilon_2
-BLOCK KaiminiChiSquareContribSingle
- 1  1   8.23004289E-01      # epsilon_1     m^2_atm
- 1  2   7.54358143E-01      # epsilon_1     m^2_sol
- 2  1   1.08628281E+00      # epsilon_2     m^2_atm
- 2  2   7.74588122E-02      # epsilon_2     m^2_sol
 # SUSY Les Houches Accord 2 - MSSM spectrum + Decays
 # SPheno v3beta50
 # W. Porod, Comput. Phys. Commun. 153 (2003) 275-315, hep-ph/0301101
 # in case of problems send email to porod@physik.uni-wuerzburg.de
-# Created: 15.06.2010,  14:54
+# Created: 10.07.2010,  16:58
 Block SPINFO         # Program information
      1   SPheno      # spectrum calculator
      2   v3beta50    # version number
