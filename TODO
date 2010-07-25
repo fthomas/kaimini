@@ -32,3 +32,7 @@ general:
  - give the possibility to ignore peaks in the fitness function
  - implement contours/scans
  - more than one calculator
+ - paramter limits are only handled by Minuit, other drivers ignore them
+ - smear datapoints within the input file
+ - more output formats, esp. LaTeX! use a template system!
+ - how to fit with asymmetric erros?
