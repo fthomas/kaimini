@@ -27,7 +27,7 @@ general:
  - add test tools for all possible interfaces (IPC mechanisms resp.) between
    Kaimini and the calculators: shared memory, other popular HEP file format,
    named pipes (?)
- - look into TBB; look for fitting tools at SF.net
+ - look into TBB; look for fitting tools at SF.net; Fityk
  - implement a swarm optimizer
  - give the possibility to ignore peaks in the fitness function
  - implement contours/scans
@@ -36,3 +36,5 @@ general:
  - smear datapoints within the input file
  - more output formats, esp. LaTeX! use a template system!
  - how to fit with asymmetric erros?
+ - write a program that mimics a known minimum to test methods for error
+   estimation
