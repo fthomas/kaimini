@@ -6,8 +6,7 @@ Introduction
 
 Documentation
 -------------
-  The API documentation can be found [here]
-    (http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/).
+  The API documentation can be found [here](http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/).
 
   And the (at the moment very incomplete) manual can be found [here](
     http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf).
