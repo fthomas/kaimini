@@ -30,19 +30,21 @@ installing these dependencies are available in the `Kaimini wiki`_.
 Installation
 ------------
 
-To compile Kaimini and to install the 'kaimini' executable (by default
-into /usr/local/bin on Unix), run these commands in Kaimini's source
-tree:
+To compile Kaimini and to install the ``kaimini`` executable (by
+default into /usr/local/bin on Unix), run these commands in Kaimini's
+source tree::
+
     mkdir build
     cd build
     cmake ..
     make
     sudo make install
 
-  If Minuit2 is not installed into standard directories (e.g. under
-  /usr/ or /usr/local/), CMake won't find it. In this case cmake must be
-  invoked with the full path to the Minuit2 installation or source
-  directory:
+If Minuit2 is not installed into standard directories (e.g. under /usr/
+or /usr/local/), CMake won't find it. In this case cmake must be
+invoked with the full path to the Minuit2 installation or source
+directory::
+
     cmake -D Minuit2_ROOT=/path/to/Minuit2/installation/dir ..
 
 Source code
@@ -68,11 +70,12 @@ Issues and feedback:
 License
 -------
 
-Kaimini is `free software`_ and licensed under the `GPLv3`_.
+Kaimini is `free software`_ and licensed under the `GPLv3`_. The full
+text of the GPLv3 can be found in the file ``COPYING`` in Kaimini's
+source tree.
 
 .. _free software: http://www.gnu.org/philosophy/free-sw.html
 .. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
-      or see the file COPYING in Kaimini's source tree
 
 Author
 ------
