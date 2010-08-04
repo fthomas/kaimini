@@ -7,10 +7,10 @@ Introduction
 Documentation
 -------------
 
-The API documentation can be found here::
+The API documentation can be found here:
   http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
 
-And the (at the moment very incomplete) manual can be found here::
+And the (at the moment very incomplete) manual can be found here:
   http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
 
 Dependencies
@@ -31,41 +31,44 @@ Installation
 ------------
 
 To compile Kaimini and to install the ``kaimini`` executable (by
-default into /usr/local/bin on Unix), run these commands in Kaimini's
-source tree::
+default into ``/usr/local/bin`` on Unix), run these commands in
+Kaimini's source tree::
 
-    mkdir build
-    cd build
-    cmake ..
-    make
-    sudo make install
+  mkdir build
+  cd build
+  cmake ..
+  make
+  sudo make install
 
-If Minuit2 is not installed into standard directories (e.g. under /usr/
-or /usr/local/), CMake won't find it. In this case cmake must be
-invoked with the full path to the Minuit2 installation or source
+If Minuit2 is not installed into standard directories (e.g. under
+``/usr/`` or ``/usr/local/``), CMake won't find it. In this case cmake
+must be invoked with the full path to the Minuit2 installation or source
 directory::
 
-    cmake -D Minuit2_ROOT=/path/to/Minuit2/installation/dir ..
+  cmake -D Minuit2_ROOT=/path/to/Minuit2/installation/dir ..
 
 Source code
 -----------
-  For Kaimini's development the Git version control system is used. The
-  Git repository can be inspected and browsed online at GitHub:
-    http://github.com/fthomas/kaimini
 
-  To clone the repository use this command:
-    git clone git://github.com/fthomas/kaimini.git
+For Kaimini's development the Git version control system is used. The
+Git repository can be inspected and browsed online at GitHub:
+  http://github.com/fthomas/kaimini
 
-  The latest source code is also available as tar and ZIP archive:
-    http://github.com/fthomas/kaimini/tarball/master (tar.gz)
-    http://github.com/fthomas/kaimini/zipball/master (zip)
+To clone the repository use this command:
+  git clone git://github.com/fthomas/kaimini.git
 
-Issues and feedback:
-  For bug reports, feature requests, or general feedback either use the
-  issue tracker[6] or write me an email[7].
+The latest source code is also available as tar and ZIP archive:
+  http://github.com/fthomas/kaimini/tarball/master (tar.gz)
+  http://github.com/fthomas/kaimini/zipball/master (zip)
 
-  [6] http://github.com/fthomas/kaimini/issues
-  [7] fthomas@physik.uni-wuerzburg.de
+Issues and feedback
+-------------------
+
+For bug reports, feature requests, or general feedback either use the
+`issue tracker`_ or `write me an email`_.
+
+.. _issue tracker: http://github.com/fthomas/kaimini/issues
+.. _write me an email: fthomas@physik.uni-wuerzburg.de
 
 License
 -------
