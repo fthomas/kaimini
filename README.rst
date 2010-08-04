@@ -6,22 +6,24 @@ Introduction
 
 Documentation
 -------------
-  The API documentation can be found here:
-    http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
 
-  And the (at the moment very incomplete) manual can be found here:
-    http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
+The API documentation can be found here:
+  http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
+
+And the (at the moment very incomplete) manual can be found here:
+  http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
 
 Dependencies
 ------------
-  Kaimini is written in C++. To build it, the C++ Standard Library, some
-  parts of the `Boost C++ Libraries`, Minuit2[2], the GNU Scientific
-  Library (GSL)[3], and CMake[4] are required. Instructions about
-  installing these dependencies are available in the Kaimini wiki[5].
 
-  .. _Boost C++ Libraries: http://www.boost.org/
-  [2] http://www.cern.ch/minuit
-  [3] http://www.gnu.org/software/gsl/
+Kaimini is written in C++. To build it, the C++ Standard Library, some
+parts of the `Boost C++ Libraries`_, `Minuit2`_, the `GNU Scientific
+Library (GSL)`_, and CMake[4] are required. Instructions about
+installing these dependencies are available in the Kaimini wiki[5].
+
+.. _Boost C++ Libraries: http://www.boost.org/
+.. _Minuit2: http://www.cern.ch/minuit
+.. _GNU Scientific Library (GSL): http://www.gnu.org/software/gsl/
   [4] http://www.cmake.org/
   [5] http://wiki.github.com/fthomas/kaimini/installing-dependencies
 
