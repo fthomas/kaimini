@@ -7,10 +7,12 @@ Introduction
 Documentation
 -------------
 
-The API documentation can be found here:
+The API documentation can be found here::
+
   http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
 
-And the (at the moment very incomplete) manual can be found here:
+And the (at the moment very incomplete) manual can be found here::
+
   http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
 
 Dependencies
@@ -52,14 +54,17 @@ Source code
 
 For Kaimini's development the Git version control system is used. The
 Git repository can be inspected and browsed online at GitHub:
+
   http://github.com/fthomas/kaimini
 
-To clone the repository use this command:
+To clone the repository use this command::
+
   git clone git://github.com/fthomas/kaimini.git
 
 The latest source code is also available as tar and ZIP archive:
-  http://github.com/fthomas/kaimini/tarball/master (tar.gz)
-  http://github.com/fthomas/kaimini/zipball/master (zip)
+
+- http://github.com/fthomas/kaimini/tarball/master (tar.gz)
+- http://github.com/fthomas/kaimini/zipball/master (zip)
 
 Issues and feedback
 -------------------
