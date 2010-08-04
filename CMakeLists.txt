@@ -5,8 +5,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 project(Kaimini)
 
 set(Kaimini_VERSION_MAJOR "0")
-set(Kaimini_VERSION_MINOR "1")
-set(Kaimini_VERSION_PATCH "3")
+set(Kaimini_VERSION_MINOR "2")
+set(Kaimini_VERSION_PATCH "0")
 set(Kaimini_VERSION "${Kaimini_VERSION_MAJOR}.${Kaimini_VERSION_MINOR}.${Kaimini_VERSION_PATCH}")
 
 # Enable more warnings if g++ or icpc is used.
