@@ -7,10 +7,10 @@ Introduction
 Documentation
 -------------
 
-The API documentation can be found here:
+The API documentation can be found here::
   http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
 
-And the (at the moment very incomplete) manual can be found here:
+And the (at the moment very incomplete) manual can be found here::
   http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
 
 Dependencies
@@ -18,20 +18,21 @@ Dependencies
 
 Kaimini is written in C++. To build it, the C++ Standard Library, some
 parts of the `Boost C++ Libraries`_, `Minuit2`_, the `GNU Scientific
-Library (GSL)`_, and CMake[4] are required. Instructions about
-installing these dependencies are available in the Kaimini wiki[5].
+Library (GSL)`_, and `CMake`_ are required. Instructions about
+installing these dependencies are available in the `Kaimini wiki`_.
 
 .. _Boost C++ Libraries: http://www.boost.org/
 .. _Minuit2: http://www.cern.ch/minuit
 .. _GNU Scientific Library (GSL): http://www.gnu.org/software/gsl/
-  [4] http://www.cmake.org/
-  [5] http://wiki.github.com/fthomas/kaimini/installing-dependencies
+.. _CMake: http://www.cmake.org/
+.. _Kaimini wiki: http://wiki.github.com/fthomas/kaimini/installing-dependencies
 
 Installation
 ------------
-  To compile Kaimini and to install the 'kaimini' executable (by default
-  into /usr/local/bin on Unix), run these commands in Kaimini's source
-  tree:
+
+To compile Kaimini and to install the 'kaimini' executable (by default
+into /usr/local/bin on Unix), run these commands in Kaimini's source
+tree:
     mkdir build
     cd build
     cmake ..
@@ -66,13 +67,14 @@ Issues and feedback:
 
 License
 -------
-  Kaimini is free software[8] and licensed under the GPLv3[9].
 
-  [8] http://www.gnu.org/philosophy/free-sw.html
-  [9] http://www.gnu.org/licenses/gpl-3.0.html
+Kaimini is `free software`_ and licensed under the `GPLv3`_.
+
+.. _free software: http://www.gnu.org/philosophy/free-sw.html
+.. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
       or see the file COPYING in Kaimini's source tree
 
 Author
 ------
-  Kaimini was written by
-  Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+
+Kaimini was written by Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>.
