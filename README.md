@@ -1,16 +1,19 @@
 Kaimini, a general purpose fitting frontend
 ===========================================
 
-Introduction:
+Introduction
+------------
 
-Documentation:
-  The API documentation can be found here:
-    http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
+Documentation
+-------------
+  The API documentation can be found [here]
+    (http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/).
 
-  And the (at the moment very incomplete) manual can be found here:
-    http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
+  And the (at the moment very incomplete) manual can be found [here](
+    http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf).
 
-Dependencies:
+Dependencies
+------------
   Kaimini is written in C++. To build it, the C++ Standard Library, some
   parts of the Boost C++ Libraries[1], Minuit2[2], the GNU Scientific
   Library (GSL)[3], and CMake[4] are required. Instructions about
@@ -22,7 +25,8 @@ Dependencies:
   [4] http://www.cmake.org/
   [5] http://wiki.github.com/fthomas/kaimini/installing-dependencies
 
-Installation:
+Installation
+------------
   To compile Kaimini and to install the 'kaimini' executable (by default
   into /usr/local/bin on Unix), run these commands in Kaimini's source
   tree:
@@ -38,7 +42,8 @@ Installation:
   directory:
     cmake -D Minuit2_ROOT=/path/to/Minuit2/installation/dir ..
 
-Source code:
+Source code
+-----------
   For Kaimini's development the Git version control system is used. The
   Git repository can be inspected and browsed online at GitHub:
     http://github.com/fthomas/kaimini
@@ -57,13 +62,15 @@ Issues and feedback:
   [6] http://github.com/fthomas/kaimini/issues
   [7] fthomas@physik.uni-wuerzburg.de
 
-License:
+License
+-------
   Kaimini is free software[8] and licensed under the GPLv3[9].
 
   [8] http://www.gnu.org/philosophy/free-sw.html
   [9] http://www.gnu.org/licenses/gpl-3.0.html
       or see the file COPYING in Kaimini's source tree
 
-Author:
+Author
+------
   Kaimini was written by
   Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
