@@ -7,13 +7,11 @@ Introduction
 Documentation
 -------------
 
-The API documentation can be found here::
+Currently there is only the `API documentation`_ and a very `incomplete
+manual`_.
 
-  http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
-
-And the (at the moment very incomplete) manual can be found here::
-
-  http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
+.. _API documentation: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
+.. _incomplete manual: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
 
 Dependencies
 ------------
@@ -53,18 +51,16 @@ Source code
 -----------
 
 For Kaimini's development the Git version control system is used. The
-Git repository can be inspected and browsed online at GitHub:
-
-  http://github.com/fthomas/kaimini
-
-To clone the repository use this command::
+`Git repository`_ can be inspected and browsed online at GitHub. To
+clone the repository use this command::
 
   git clone git://github.com/fthomas/kaimini.git
 
-The latest source code is also available as tar and ZIP archive:
+The latest source code is also available as `tar`_ and `ZIP`_ archive.
 
-- http://github.com/fthomas/kaimini/tarball/master (tar.gz)
-- http://github.com/fthomas/kaimini/zipball/master (zip)
+.. _Git repository: http://github.com/fthomas/kaimini
+.. _tar: http://github.com/fthomas/kaimini/tarball/master
+.. _ZIP: http://github.com/fthomas/kaimini/zipball/master
 
 Issues and feedback
 -------------------
@@ -88,4 +84,5 @@ source tree.
 Author
 ------
 
-Kaimini was written by Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>.
+Kaimini was written by
+Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>.
