@@ -1,4 +1,4 @@
-# Doxyfile 1.6.3
+# Doxyfile 1.7.1
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -89,9 +89,10 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 INPUT                  = src/
 INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.h *.hpp
+FILE_PATTERNS          = *.h \
+                         *.hpp
 RECURSIVE              = NO
-EXCLUDE                = src/minuitaddition.h src/slhaea.h \
+EXCLUDE                = src/slhaea.h \
                          src/uniform_in_sphere.hpp
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
@@ -129,12 +130,17 @@ HTML_FILE_EXTENSION    = .html
 HTML_HEADER            =
 HTML_FOOTER            =
 HTML_STYLESHEET        =
-HTML_TIMESTAMP         = NO
+HTML_COLORSTYLE_HUE    = 220
+HTML_COLORSTYLE_SAT    = 100
+HTML_COLORSTYLE_GAMMA  = 80
+HTML_TIMESTAMP         = YES
 HTML_ALIGN_MEMBERS     = YES
 HTML_DYNAMIC_SECTIONS  = YES
 GENERATE_DOCSET        = NO
 DOCSET_FEEDNAME        = "Doxygen generated docs"
 DOCSET_BUNDLE_ID       = org.doxygen.Project
+DOCSET_PUBLISHER_ID    = org.doxygen.Publisher
+DOCSET_PUBLISHER_NAME  = Publisher
 GENERATE_HTMLHELP      = NO
 CHM_FILE               =
 HHC_LOCATION           =
@@ -157,7 +163,9 @@ ENUM_VALUES_PER_LINE   = 4
 GENERATE_TREEVIEW      = NO
 USE_INLINE_TREES       = NO
 TREEVIEW_WIDTH         = 250
+EXT_LINKS_IN_WINDOW    = NO
 FORMULA_FONTSIZE       = 12
+FORMULA_TRANSPARENT    = YES
 SEARCHENGINE           = YES
 SERVER_BASED_SEARCH    = NO
 #---------------------------------------------------------------------------
@@ -238,6 +246,7 @@ CLASS_DIAGRAMS         = YES
 MSCGEN_PATH            =
 HIDE_UNDOC_RELATIONS   = YES
 HAVE_DOT               = YES
+DOT_NUM_THREADS        = 0
 DOT_FONTNAME           = DejaVuSans
 DOT_FONTSIZE           = 10
 DOT_FONTPATH           =
