@@ -46,7 +46,7 @@ Block KaiminiDataPoints
 # 6  DW_chi_10   1000022;DECAY;2 0   3.78657845E-13  1%
 Block KaiminiCalculator
  0  Calculator  SPheno
- 0  Path        /home/frank/susy/code/spheno/trunk/bin/SPheno
+ 0  Path        /home/frank/hep/code/spheno/trunk/bin/SPheno
  0  InputFile   LesHouches.in
  0  OutputFile  SPheno.spc
 # 0  CmdLine
