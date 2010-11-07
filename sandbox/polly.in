@@ -18,7 +18,7 @@ BLOCK KaiminiDataPoints
  5  y5  Values;5;1  1   11.0    1%
 BLOCK KaiminiCalculator
  0  Calculator  polly
- 0  Path        /home/frank/susy/code/kaimini/trunk/sandbox/polly
+ 0  Path        /home/frank/hep/code/kaimini/trunk/sandbox/polly
  0  InputFile   polly.in
  0  OutputFile  polly.out
  0  CmdLine     polly.in > polly.out
