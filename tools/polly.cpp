@@ -30,19 +30,19 @@ int main(int argc, char* argv[])
   }
 
   ifstream ifs(argv[1]);
-  const SLHA input(ifs);
+  const Coll input(ifs);
 
-  SLHABlock params_block = input.at("Parameters");
+  Block params_block = input.at("Parameters");
   map<int, double> params;
 
-  for (SLHABlock::const_iterator line = params_block.begin();
+  for (Block::const_iterator line = params_block.begin();
        line != params_block.end(); ++line)
   {
     if (!line->is_data_line()) continue;
-    params[to_<int>(line->at(0))] = to_<double>(line->at(1));
+    params[to<int>(line->at(0))] = to<double>(line->at(1));
   }
 
-  SLHA output;
+  Coll output;
   output.push_back(params_block);
   output["Values"][""] = "BLOCK Values";
 
