@@ -138,6 +138,7 @@ void SLHAWorker::shutdown(const string& outputFile)
 double SLHAWorker::chiSq(const vector<double>& params) const
 {
   double chisq = 0.;
+  size_t block_count = 0;
 
   #pragma omp critical
   {
@@ -155,6 +156,7 @@ double SLHAWorker::chiSq(const vector<double>& params) const
     const Coll slha_output(src);
     src.close();
 
+    block_count = slha_output.size();
     readDataPoints(slha_output);
 
     chisq = dps_add_residuals(mDataPoints);
@@ -171,7 +173,7 @@ double SLHAWorker::chiSq(const vector<double>& params) const
     cout << setprecision(8) << setw(15) << chisq << endl << endl;
   }
 
-  if (mSaveAllPoints)
+  if (mSaveAllPoints && block_count > 3)
   {
     const_cast<SLHAWorker*>(this)->saveIntermediatePoint(params, chisq);
   }
