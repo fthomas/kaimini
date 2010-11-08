@@ -38,12 +38,12 @@ public:
   using ChiSqFunction::setParameters;
 
 protected:
-  void setDataPoints(const SLHAea::SLHA& input);
-  void setParameters(const SLHAea::SLHA& input);
+  void setDataPoints(const SLHAea::Coll& input);
+  void setParameters(const SLHAea::Coll& input);
 
-  void readDataPoints(const SLHAea::SLHA& input) const;
+  void readDataPoints(const SLHAea::Coll& input) const;
   void writeParameters(const std::vector<double>& params,
-                       SLHAea::SLHA& output) const;
+                       SLHAea::Coll& output) const;
 
   void processDataPointsImpl();
 
@@ -68,12 +68,12 @@ protected:
 
   void clearResultsImpl();
 
-  const SLHAea::SLHA& result();
+  const SLHAea::Coll& result();
 
 private:
-  std::vector<std::vector<SLHAea::SLHAKey> > mDataPointsKeys;
-  std::vector<SLHAea::SLHAKey> mParamsKeys;
-  SLHAea::SLHA mResult;
+  std::vector<std::vector<SLHAea::Key> > mDataPointsKeys;
+  std::vector<SLHAea::Key> mParamsKeys;
+  SLHAea::Coll mResult;
 };
 
 } // namespace Kaimini

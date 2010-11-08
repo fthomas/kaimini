@@ -35,14 +35,14 @@ public:
     initialize(inputFile);
   }
 
-  explicit SLHAWorker(const SLHAea::SLHA& input)
+  explicit SLHAWorker(const SLHAea::Coll& input)
     : mSaveAllPoints(false)
   {
     initialize(input);
   }
 
   void initialize(const std::string& inputFile);
-  void initialize(const SLHAea::SLHA& input);
+  void initialize(const SLHAea::Coll& input);
   void shutdown(const std::string& outputFile);
 
   double chiSq(const std::vector<double>& params) const;
@@ -67,7 +67,7 @@ private:
   void selectSuSpect();
   void selectXSUSY();
 
-  void selectCalculator(const SLHAea::SLHABlock& block);
+  void selectCalculator(const SLHAea::Block& block);
 
 private:
   boost::filesystem::path mInitialDir;
@@ -85,7 +85,7 @@ private:
     std::string command;
   } mCalcInfo;
 
-  mutable SLHAea::SLHA mSLHAInput;
+  mutable SLHAea::Coll mSLHAInput;
 
   std::clock_t mProcTimeStart;
   std::clock_t mProcTimeStop;

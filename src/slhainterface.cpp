@@ -51,15 +51,15 @@ SLHAInterface::SLHAInterface()
 }
 
 
-void SLHAInterface::setDataPoints(const SLHA& input)
+void SLHAInterface::setDataPoints(const Coll& input)
 {
-  SLHA::const_iterator block = input.find("KaiminiDataPoints");
+  Coll::const_iterator block = input.find("KaiminiDataPoints");
   if (input.end() == block) exit_block_not_found("KaiminiDataPoints");
 
   mDataPoints.clear();
   mDataPointsKeys.clear();
 
-  for (SLHABlock::const_iterator line = block->begin();
+  for (Block::const_iterator line = block->begin();
        line != block->end(); ++line)
   {
     if (!line->is_data_line()) continue;
@@ -67,7 +67,7 @@ void SLHAInterface::setDataPoints(const SLHA& input)
     {
       if (mDataPointsKeys.end() != mDataPointsKeys.begin())
       {
-        mDataPointsKeys.back().push_back(SLHAKey((*line)[1]));
+        mDataPointsKeys.back().push_back(Key((*line)[1]));
       }
       continue;
     }
@@ -83,19 +83,19 @@ void SLHAInterface::setDataPoints(const SLHA& input)
     DataPoint dp;
     try
     {
-      dp.number(   to_<int>((*line)[0]) );
+      dp.number(   to<int>((*line)[0]) );
       dp.name(              (*line)[1]  );
-      dp.use(     to_<bool>(flags_str[0]) );
-      dp.value( to_<double>((*line)[4]) );
+      dp.use(     to<bool>(flags_str[0]) );
+      dp.value( to<double>((*line)[4]) );
       dp.error( parse_error_string(dp.value(), (*line)[5]) );
 
       if (flags_str.size() > 1 && !flags_str[1].empty())
       {
-        dp.ifAbsent(to_<int>(flags_str[1]));
+        dp.ifAbsent(to<int>(flags_str[1]));
       }
       if (flags_str.size() > 2 && !flags_str[2].empty())
       {
-        dp.ifNaN(to_<int>(flags_str[2]));
+        dp.ifNaN(to<int>(flags_str[2]));
       }
     }
     catch (bad_lexical_cast&)
@@ -104,20 +104,20 @@ void SLHAInterface::setDataPoints(const SLHA& input)
     }
 
     mDataPoints.push_back(dp);
-    mDataPointsKeys.push_back(vector<SLHAKey>(1, SLHAKey((*line)[2])));
+    mDataPointsKeys.push_back(vector<Key>(1, Key((*line)[2])));
   }
 }
 
 
-void SLHAInterface::setParameters(const SLHA& input)
+void SLHAInterface::setParameters(const Coll& input)
 {
-  SLHA::const_iterator block = input.find("KaiminiParameters");
+  Coll::const_iterator block = input.find("KaiminiParameters");
   if (input.end() == block) exit_block_not_found("KaiminiParameters");
 
   mParams = Parameters();
   mParamsKeys.clear();
 
-  for (SLHABlock::const_iterator line = block->begin();
+  for (Block::const_iterator line = block->begin();
        line != block->end(); ++line)
   {
     if (!line->is_data_line()) continue;
@@ -140,14 +140,14 @@ void SLHAInterface::setParameters(const SLHA& input)
     }
 
     const string name = (*line)[1];
-    const SLHAKey key((*line)[2]);
+    const Key key((*line)[2]);
 
     mParams.Add(name, 0., 0.);
     mParamsKeys.push_back(key);
 
     try
     {
-      mParams.SetValue(name, to_<double>(input.field(key)));
+      mParams.SetValue(name, to<double>(input.field(key)));
     }
     catch (out_of_range&)
     {
@@ -163,19 +163,19 @@ void SLHAInterface::setParameters(const SLHA& input)
       double error = parse_error_string(mParams.Value(name), (*line)[4]);
       mParams.SetError(name, error);
 
-      if (!to_<bool>((*line)[3])) mParams.Fix(name);
+      if (!to<bool>((*line)[3])) mParams.Fix(name);
 
       if (!lower.empty() && !upper.empty())
       {
-        mParams.SetLimits(name, to_<double>(lower), to_<double>(upper));
+        mParams.SetLimits(name, to<double>(lower), to<double>(upper));
       }
       else if (!lower.empty())
       {
-        mParams.SetLowerLimit(name, to_<double>(lower));
+        mParams.SetLowerLimit(name, to<double>(lower));
       }
       else if (!upper.empty())
       {
-        mParams.SetUpperLimit(name, to_<double>(upper));
+        mParams.SetUpperLimit(name, to<double>(upper));
       }
     }
     catch (bad_lexical_cast&)
@@ -186,12 +186,12 @@ void SLHAInterface::setParameters(const SLHA& input)
 }
 
 
-void SLHAInterface::readDataPoints(const SLHA& input) const
+void SLHAInterface::readDataPoints(const Coll& input) const
 {
   assert(mDataPoints.size() == mDataPointsKeys.size());
 
   vector<DataPoint>::const_iterator dp = mDataPoints.begin();
-  vector<vector<SLHAKey> >::const_iterator dp_keys = mDataPointsKeys.begin();
+  vector<vector<Key> >::const_iterator dp_keys = mDataPointsKeys.begin();
 
   for (; dp != mDataPoints.end() && dp_keys != mDataPointsKeys.end();
        ++dp, ++dp_keys)
@@ -199,13 +199,13 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
     string value_str;
     double value = 0.;
 
-    for (vector<SLHAKey>::const_iterator key = dp_keys->begin();
+    for (vector<Key>::const_iterator key = dp_keys->begin();
          key != dp_keys->end(); ++key)
     {
       try
       {
         value_str = input.field(*key);
-        value += to_<double>(value_str);
+        value += to<double>(value_str);
       }
       catch (out_of_range&)
       {
@@ -243,7 +243,7 @@ void SLHAInterface::readDataPoints(const SLHA& input) const
 
 
 void SLHAInterface::writeParameters(const vector<double>& params,
-                                    SLHA& output) const
+                                    Coll& output) const
 {
   assert(params.size() == mParamsKeys.size());
 
@@ -252,7 +252,7 @@ void SLHAInterface::writeParameters(const vector<double>& params,
   par_out.setf(ios_base::scientific);
 
   vector<double>::const_iterator  par     = params.begin();
-  vector<SLHAKey>::const_iterator par_key = mParamsKeys.begin();
+  vector<Key>::const_iterator par_key = mParamsKeys.begin();
 
   for (; par != params.end() && par_key != mParamsKeys.end();
        ++par, ++par_key)
@@ -536,16 +536,16 @@ void SLHAInterface::processRuntimeImpl(const double wallTime,
 
   vector<string> version_key;
   version_key.push_back("1");
-  SLHABlock::iterator after_version = mResult[block].find(version_key);
+  Block::iterator after_version = mResult[block].find(version_key);
   if (after_version != mResult[block].end()) after_version++;
 
-  vector<SLHALine> lines;
-  lines.push_back(SLHALine(str(
+  vector<Line> lines;
+  lines.push_back(Line(str(
     format(" 2 %|4t|%1% %|16t|%2%")
       % wallTime
       % "# approx. wall clock time [s]")));
 
-  lines.push_back(SLHALine(str(
+  lines.push_back(Line(str(
     format(" 3 %|4t|%1$.3f %|16t|%2%")
       % procTime
       % "# approx. process time [s]")));
@@ -556,7 +556,7 @@ void SLHAInterface::processRuntimeImpl(const double wallTime,
 
 void SLHAInterface::clearResultsImpl()
 {
-  for (SLHA::iterator block = mResult.begin(); block != mResult.end(); )
+  for (Coll::iterator block = mResult.begin(); block != mResult.end(); )
   {
     if (!iequals(block->name(), "KaiminiInfo") &&
         istarts_with(block->name(), "Kaimini"))
@@ -568,7 +568,7 @@ void SLHAInterface::clearResultsImpl()
 }
 
 
-const SLHA& SLHAInterface::result()
+const Coll& SLHAInterface::result()
 {
   return mResult;
 }

@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
   if (!fs::exists(input_file)) exit_file_nonexistent(input_file);
 
   ifstream input_fs(input_file.c_str());
-  const SLHA input_slha(input_fs);
+  const Coll input_slha(input_fs);
   input_fs.close();
 
   SLHAWorker fit(input_slha);
@@ -65,12 +65,12 @@ int main(int argc, char* argv[])
     return 0;
   }
 
-  const SLHABlock kaimini_control = input_slha.at("KaiminiControl");
+  const Block kaimini_control = input_slha.at("KaiminiControl");
 
   // Default number of iterations for bootstrapping.
   unsigned int bootstrap_iter = 1000;
 
-  for (SLHABlock::const_iterator line = kaimini_control.begin();
+  for (Block::const_iterator line = kaimini_control.begin();
        line != kaimini_control.end(); ++line)
   {
     if (line->data_size() < 2 || (*line)[0] != "0") continue;
@@ -82,11 +82,11 @@ int main(int argc, char* argv[])
     {
       if (boost::iequals(key, "MinuitErrorDef") && data_size > 2)
       {
-        fit.SetErrorDef(to_<double>((*line)[2]));
+        fit.SetErrorDef(to<double>((*line)[2]));
       }
       else if (boost::iequals(key, "BootstrapIter") && data_size > 2)
       {
-        bootstrap_iter = to_<unsigned int>((*line)[2]);
+        bootstrap_iter = to<unsigned int>((*line)[2]);
       }
       else warn_line_ignored(kaimini_control.name(), line->str());
     }
@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
     }
   }
 
-  for (SLHABlock::const_iterator line = kaimini_control.begin();
+  for (Block::const_iterator line = kaimini_control.begin();
        line != kaimini_control.end(); ++line)
   {
     const size_t data_size = line->data_size();
@@ -127,19 +127,19 @@ int main(int argc, char* argv[])
       else if (mn_driver.minimizer2Map.find(action) !=
                mn_driver.minimizer2Map.end())
       {
-        if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
+        if (data_size > 3) mn_strategy = to<unsigned int>((*line)[3]);
 
         MinuitDriver::minimizer2_t min_func = mn_driver.minimizer2Map[action];
         min_params = (mn_driver.*min_func)(min_params, mn_strategy);
       }
       else if (boost::iequals(action, "MinuitMinos"))
       {
-        if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
+        if (data_size > 3) mn_strategy = to<unsigned int>((*line)[3]);
         mn_driver.runMinos(mn_strategy);
       }
       else if (boost::iequals(action, "MinuitContours"))
       {
-        if (data_size > 3) mn_strategy = to_<unsigned int>((*line)[3]);
+        if (data_size > 3) mn_strategy = to<unsigned int>((*line)[3]);
         mn_driver.runContours(mn_strategy);
       }
       else if (boost::iequals(action, "GSLSimplex"))

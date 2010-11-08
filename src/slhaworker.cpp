@@ -51,7 +51,7 @@ void SLHAWorker::initialize(const string& inputFile)
 }
 
 
-void SLHAWorker::initialize(const SLHA& input)
+void SLHAWorker::initialize(const Coll& input)
 {
   mWallTimeStart = time(0);
   mProcTimeStart = clock();
@@ -152,7 +152,7 @@ double SLHAWorker::chiSq(const vector<double>& params) const
 
     fs::ifstream src(mTempOutputFile, ios_base::in);
     if (!src) exit_file_open_failed(mTempOutputFile.file_string());
-    const SLHA slha_output(src);
+    const Coll slha_output(src);
     src.close();
 
     readDataPoints(slha_output);
@@ -253,7 +253,7 @@ void SLHAWorker::selectXSUSY()
 }
 
 
-void SLHAWorker::selectCalculator(const SLHABlock& block)
+void SLHAWorker::selectCalculator(const Block& block)
 {
   mCalcInfo.workingDir = ".kaimini.";
   mCalcInfo.inputFile  = "slha.in";
@@ -262,7 +262,7 @@ void SLHAWorker::selectCalculator(const SLHABlock& block)
   mCalcInfo.cmdline    = "";
   mCalcInfo.command    = "";
 
-  for(SLHABlock::const_iterator line = block.begin();
+  for(Block::const_iterator line = block.begin();
       line != block.end(); ++line)
   {
     if (!line->is_data_line()) continue;
