@@ -28,6 +28,8 @@ find_package(Boost COMPONENTS unit_test_framework)
 find_package(Minuit2 REQUIRED)
 find_package(OpenMP)
 
+set(CMAKE_COPY ${CMAKE_COMMAND} -E copy)
+
 # Packages required for documentation:
 find_package(Doxygen)
 find_package(LATEX)
