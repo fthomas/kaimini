@@ -1,10 +1,21 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{a4wide}
 \usepackage{fancyvrb}
-\usepackage[colorlinks=true]{hyperref}
+\usepackage[
+  pdftex,
+  colorlinks=true,
+  bookmarksopen=true,
+  bookmarksopenlevel=1,
+  ]{hyperref}
+\usepackage[english]{babel}
+\usepackage[babel=true]{microtype}
+\usepackage{lmodern}
+\linespread{1.05}
 
+\newcommand{\KaiminiVersion}{@Kaimini_VERSION@}
 \newcommand{\ttt}[1]{\texttt{#1}}
 \newcommand{\mailto}[1]{\href{mailto:#1}{#1}}
 
