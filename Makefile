@@ -50,17 +50,12 @@ gprof: $(KAIMINI)
 $(POLLY): tools/polly.cpp
 	$(CXX) $(CXXFLAGS) $(INCPATH) -Isrc -o "$@" "$<"
 
-doc:
-	doxygen doc/Doxyfile
-	$(MAKE) -C doc/manual/
-
 clean:
 	rm -f $(OBJECTS)
 	-rmdir $(OBJDIR)
 
 cleanall: clean
 	rm -f $(KAIMINI) $(POLLY)
-	rm -rf doc/html/
 	$(MAKE) -C doc/manual/ clean
 	$(MAKE) -C sandbox/ clean
 
@@ -79,4 +74,4 @@ set_version:
 	    src/kaimini.h; \
 	fi
 
-.PHONY: all doc clean cleanall gprof set_version
+.PHONY: all clean cleanall gprof set_version
