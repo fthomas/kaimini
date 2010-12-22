@@ -32,11 +32,10 @@ find_package(OpenMP)
 find_package(Doxygen)
 find_package(LATEX)
 
+add_subdirectory(doc)
+
 enable_testing()
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
-
-add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
-configure_file(sandbox/kaimini.in . COPYONLY)
 
 if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
     add_subdirectory(test)

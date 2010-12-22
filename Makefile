@@ -75,7 +75,6 @@ set_version:
 	     s/^\(set(Kaimini_VERSION_MINOR \).*/\1\"$$V_MINOR\")/; \
 	     s/^\(set(Kaimini_VERSION_PATCH \).*/\1\"$$V_PATCH\")/" \
 	    CMakeLists.txt; \
-	  sed -i "s/^\(PROJECT_NUMBER.*= \).*/\1$(VERSION)/" doc/Doxyfile; \
 	  sed -i "s/\(g_kaimini_version = \)\".*\"/\1\"$(VERSION)\"/" \
 	    src/kaimini.h; \
 	fi
