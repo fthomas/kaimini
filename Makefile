@@ -56,7 +56,6 @@ clean:
 
 cleanall: clean
 	rm -f $(KAIMINI) $(POLLY)
-	$(MAKE) -C doc/manual/ clean
 	$(MAKE) -C sandbox/ clean
 
 VERSION ?= $(shell git describe --tags | cut -b2-)

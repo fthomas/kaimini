@@ -1,3 +1,5 @@
+add_subdirectory(manual)
+
 if(DOXYGEN_FOUND)
     configure_file(Doxyfile.in Doxyfile)
     add_custom_target(doxygen
