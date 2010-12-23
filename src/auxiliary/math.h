@@ -21,7 +21,7 @@
 #include <limits>
 
 namespace Kaimini {
-  namespace Math {
+namespace Math {
 
 const long double pi =
   3.1415926535897932384626433832795L;  // \pi
@@ -47,7 +47,7 @@ template<class FloatT> inline bool
 is_close_to_one(const FloatT& x, const FloatT& factor = 100.)
 { return is_close_to_zero(1. - x, factor); }
 
-  } // namespace Math
+} // namespace Math
 } // namespace Kaimini
 
 #endif // KAIMINI_AUXILIARY_MATH_H

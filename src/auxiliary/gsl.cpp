@@ -14,22 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cassert>
 #include <cmath>
 #include <cstddef>
-#include <boost/numeric/conversion/cast.hpp>
+#include <vector>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
-#include "gslaux.h"
-
-using namespace std;
+#include "gsl.h"
 
 namespace Kaimini {
+namespace GSL {
 
-vector<double> gsl_to_stl_vector(const gsl_vector* v)
+std::vector<double>
+gsl_to_stl_vector(const gsl_vector* v)
 {
-  vector<double> retval(v->size);
-  for (size_t i = 0; i < v->size; ++i)
+  std::vector<double> retval(v->size);
+  for (std::size_t i = 0; i < v->size; ++i)
   {
     retval[i] = gsl_vector_get(v, i);
   }
@@ -37,10 +38,11 @@ vector<double> gsl_to_stl_vector(const gsl_vector* v)
 }
 
 
-gsl_vector* stl_to_gsl_vector(const vector<double>& v)
+gsl_vector*
+stl_to_gsl_vector(const std::vector<double>& v)
 {
   gsl_vector* retval = gsl_vector_alloc(v.size());
-  for (size_t i = 0; i < v.size(); ++i)
+  for (std::size_t i = 0; i < v.size(); ++i)
   {
     gsl_vector_set(retval, i, v[i]);
   }
@@ -48,49 +50,53 @@ gsl_vector* stl_to_gsl_vector(const vector<double>& v)
 }
 
 
-double gsl_vector_minkowski_dist(const gsl_vector* v1,
-                                 const gsl_vector* v2, const double p)
+double
+gsl_vector_minkowski_dist(const gsl_vector* v1,
+                          const gsl_vector* v2, const double p)
 {
+  assert(p > 0.);
+
   gsl_vector* diff = gsl_vector_alloc(v1->size);
   gsl_vector_memcpy(diff, v1);
   gsl_vector_sub(diff, v2);
 
   double retval = 0.;
-  for (size_t i = 0; i < diff->size; ++i)
+  for (std::size_t i = 0; i < diff->size; ++i)
   {
-    retval += pow(abs(gsl_vector_get(diff, i)), p);
+    retval += std::pow(std::abs(gsl_vector_get(diff, i)), p);
   }
-  retval = pow(retval, 1./p);
+  retval = std::pow(retval, 1./p);
 
   gsl_vector_free(diff);
   return retval;
 }
 
 
-void gsl_vector_step_random(const gsl_rng* r, gsl_vector* v,
-                            const double step_size)
+void
+gsl_vector_step_random(const gsl_rng* r, gsl_vector* v,
+                       const double step_size)
 {
-  const size_t n = v->size;
-  gsl_vector* vp = gsl_vector_alloc(n);
+  const std::size_t n = v->size;
+  if (n == 0) return;
 
-  // Set normal distributed random numbers as elements of v_new and
-  // compute the euclidean norm of this vector.
+  gsl_vector* step_vector = gsl_vector_alloc(n);
   double length = 0.;
-  for (size_t i = 0; i < n; ++i)
+
+  for (std::size_t i = 0; i < n; ++i)
   {
-    double* vp_i = gsl_vector_ptr(vp, i);
-    *vp_i = gsl_ran_ugaussian(r);
-    length += pow(*vp_i, 2);
+    double* step_i = gsl_vector_ptr(step_vector, i);
+    *step_i = gsl_ran_ugaussian(r);
+    length += pow(*step_i, 2);
   }
   length = sqrt(length);
 
-  // Scale vp so that the elements of vp are uniformly distributed
-  // within an n-sphere of radius step_size.
-  const double scale = pow(pow(step_size, boost::numeric_cast<int>(n))
-    * gsl_rng_uniform_pos(r), 1.0/n) / length;
-  gsl_vector_scale(vp, scale);
+  const double scale = std::pow(std::pow(step_size, static_cast<int>(n))
+    * gsl_rng_uniform_pos(r), 1./n) / length;
+  gsl_vector_scale(step_vector, scale);
 
-  gsl_vector_add(v, vp);
+  gsl_vector_add(v, step_vector);
+  gsl_vector_free(step_vector);
 }
 
+} // namespace GSL
 } // namespace Kaimini

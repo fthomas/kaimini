@@ -21,7 +21,7 @@
 #include <boost/algorithm/string.hpp>
 
 namespace Kaimini {
-  namespace Functional {
+namespace Functional {
 
 template<class PairT>
 struct pair_select1st
@@ -54,7 +54,8 @@ struct pair_select2nd
 template<class SequenceT>
 struct iequal_to : public std::binary_function<SequenceT, SequenceT, bool>
 {
-  bool operator()(const SequenceT& a, const SequenceT& b) const
+  bool
+  operator()(const SequenceT& a, const SequenceT& b) const
   { return boost::iequals(a, b); }
 };
 
@@ -62,11 +63,12 @@ struct iequal_to : public std::binary_function<SequenceT, SequenceT, bool>
 template<class SequenceT>
 struct iless_than : public std::binary_function<SequenceT, SequenceT, bool>
 {
-  bool operator()(const SequenceT& a, const SequenceT& b) const
+  bool
+  operator()(const SequenceT& a, const SequenceT& b) const
   { return boost::to_lower_copy(a) < boost::to_lower_copy(b); }
 };
 
-  } // namespace Functional
+} // namespace Functional
 } // namespace Kaimini
 
 #endif // KAIMINI_AUXILIARY_FUNCTIONAL_H
