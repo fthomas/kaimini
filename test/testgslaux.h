@@ -19,11 +19,12 @@
 #include <functional>
 #include <vector>
 #include <gsl/gsl_vector.h>
-#include "gslaux.h"
+#include "auxiliary/GSL.h"
 #include "random.h"
 
 using namespace std;
 using namespace Kaimini;
+using namespace Kaimini::GSL;
 
 BOOST_AUTO_TEST_SUITE(TestGSLAux)
 

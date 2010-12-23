@@ -29,6 +29,8 @@
 #include "parameteranalysis.h"
 #include "parameters.h"
 #include "random.h"
+#include "auxiliary/Math.h"
+#include "auxiliary/Functional.h"
 
 using namespace std;
 using namespace ROOT::Minuit2;
@@ -76,7 +78,7 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
     // If sim_chisq is close to zero the actual minimal parameters
     // have been reproduced. These should not be taken into account
     // for estimation of the confidence intervalls.
-    if (close_to_zero(sim_chisq)) { --i; continue; }
+    if (Math::is_close_to_zero(sim_chisq)) { --i; continue; }
 
     sim_map.push_back(make_pair(sim_chisq, sim_params));
 
@@ -112,14 +114,14 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
   vector<Parameters> tmp_params;
   tmp_params.reserve(iterations);
   transform(sim_map.begin(), sim_map.end(), back_inserter(tmp_params),
-            pair_select2nd<pair<double, Parameters> >());
+            Functional::pair_select2nd<pair<double, Parameters> >());
 
   const vector<vector<MinuitParameter> > all_sim_par = transpose(tmp_params);
   vector<vector<Error> > retval;
 
-  const int limit[] = { int(iterations * g_normal_1sigma),
-                        int(iterations * g_normal_2sigma),
-                        int(iterations * g_normal_3sigma) };
+  const int limit[] = { int(iterations * Math::normal_1sigma),
+                        int(iterations * Math::normal_2sigma),
+                        int(iterations * Math::normal_3sigma) };
 
   for (size_t i = 0; i < all_sim_par.size(); ++i)
   {

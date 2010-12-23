@@ -1,5 +1,5 @@
-file(GLOB Kaimini_SOURCES *.cpp)
-file(GLOB Kaimini_HEADERS *.h)
+file(GLOB_RECURSE Kaimini_SOURCES *.cpp)
+file(GLOB_RECURSE Kaimini_HEADERS *.h)
 
 set(Kaimini_TARGET kaimini)
 set(Kaimini_LIBRARIES

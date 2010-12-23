@@ -23,7 +23,7 @@
 #include <gsl/gsl_siman.h>
 #include <gsl/gsl_vector.h>
 #include "chisqfunction.h"
-#include "gslaux.h"
+#include "auxiliary/GSL.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "parameters.h"
@@ -130,7 +130,7 @@ Parameters GSLDriver::runSimulatedAnnealing(const Parameters& startParams)
   gsl_vector* x_initial = msPar.getVarParamsGSLVec();
 
   gsl_siman_solve(g_rnd.gsl_engine, x_initial,
-    GSLDriver::chiSquare, gsl_vector_step_random, gsl_vector_dist,
+    GSLDriver::chiSquare, GSL::gsl_vector_step_random, GSL::gsl_vector_dist,
     NULL, NULL, NULL, NULL, sizeof(*x_initial), params);
 
   sanitize(x_initial);

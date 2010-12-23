@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
-project(Kaimini)
+project(Kaimini C CXX)
 string(TOLOWER ${CMAKE_PROJECT_NAME} PROJECT_NAME_LOWER)
 
 set(Kaimini_VERSION_MAJOR "0")
 set(Kaimini_VERSION_MINOR "2")
-set(Kaimini_VERSION_PATCH "0")
+set(Kaimini_VERSION_PATCH "1")
 set(Kaimini_VERSION "${Kaimini_VERSION_MAJOR}.${Kaimini_VERSION_MINOR}.${Kaimini_VERSION_PATCH}")
 
 # Enable more warnings if g++, clang or icpc is used.
@@ -18,30 +18,21 @@ elseif(CMAKE_CXX_COMPILER MATCHES icpc)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd383 -wd444 -wd981")
 endif()
 
-# Use 'RelWithDebInfo' as default CMAKE_BUILD_TYPE.
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE RelWithDebInfo)
-endif()
-
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 find_package(Boost COMPONENTS unit_test_framework)
 find_package(Minuit2 REQUIRED)
 find_package(OpenMP)
 
-set(CMAKE_COPY ${CMAKE_COMMAND} -E copy)
-
-# Packages required for documentation:
 find_package(Doxygen)
 find_package(LATEX)
 
-add_subdirectory(doc)
-
 enable_testing()
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
+set(CMAKE_COPY ${CMAKE_COMMAND} -E copy)
 
-if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
-    add_subdirectory(test)
-endif()
+add_subdirectory(doc)
+add_subdirectory(src)
+add_subdirectory(test)
 
 # CPack settings:
 set(CPACK_PACKAGE_VENDOR "Frank S. Thomas")
