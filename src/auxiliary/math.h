@@ -36,15 +36,15 @@ const long double normal_3sigma =
   0.99730020393673981094669637046481L; // erf(3/sqrt(2))
 
 
-template<class T> inline bool
-is_close_to_zero(const T& x, const T& factor = 100.)
+template<class FloatT> inline bool
+is_close_to_zero(const FloatT& x, const FloatT& factor = 100.)
 {
-  const T eps = std::numeric_limits<T>::epsilon() * factor;
+  const FloatT eps = std::numeric_limits<FloatT>::epsilon() * factor;
   return std::abs(x) <= eps;
 }
 
-template<class T> inline bool
-is_close_to_one(const T& x, const T& factor = 100.)
+template<class FloatT> inline bool
+is_close_to_one(const FloatT& x, const FloatT& factor = 100.)
 { return is_close_to_zero(1. - x, factor); }
 
   } // namespace Math
