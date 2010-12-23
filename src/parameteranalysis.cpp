@@ -211,5 +211,3 @@ void jolt_parameters(ChiSqFunction* chiSqFunc, const Parameters& minParams)
 }
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78

@@ -574,5 +574,3 @@ const Coll& SLHAInterface::result()
 }
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78

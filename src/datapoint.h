@@ -247,5 +247,3 @@ operator<<(std::ostream& os, const std::vector<DataPoint>& dps)
 } // namespace Kaimini
 
 #endif // KAIMINI_DATAPOINT_H
-
-// vim: sw=2 tw=78

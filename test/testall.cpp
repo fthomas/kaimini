@@ -24,5 +24,3 @@
 //#include "testkaimini.h"
 #include "testparameters.h"
 //#include "testslhafit.h"
-
-// vim: sw=2 tw=78

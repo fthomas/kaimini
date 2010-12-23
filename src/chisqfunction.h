@@ -93,5 +93,3 @@ private:
 } // namespace Kaimini
 
 #endif // KAIMINI_CHISQFUNCTION_H
-
-// vim: sw=2 tw=78

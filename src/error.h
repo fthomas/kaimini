@@ -145,5 +145,3 @@ operator<<(std::ostream& os, const std::vector<Error>& errors)
 } // namespace Kaimini
 
 #endif // KAIMINI_ERROR_H
-
-// vim: sw=2 tw=78

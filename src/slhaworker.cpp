@@ -332,5 +332,3 @@ void SLHAWorker::selectCalculator(const Block& block)
 }
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78

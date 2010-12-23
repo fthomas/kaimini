@@ -84,5 +84,3 @@ close_to_zero(RealType x)
 } // namespace Kaimini
 
 #endif // KAIMINI_KAIMINI_H
-
-// vim: sw=2 tw=78

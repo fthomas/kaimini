@@ -79,5 +79,3 @@ private:
 } // namespace Kaimini
 
 #endif // KAIMINI_SLHAINTERFACE_H
-
-// vim: sw=2 tw=78

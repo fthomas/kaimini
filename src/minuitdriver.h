@@ -143,5 +143,3 @@ operator<<(std::ostream& os,
 } // namespace Kaimini
 
 #endif // KAIMINI_MINUITDRIVER_H
-
-// vim: sw=2 tw=78

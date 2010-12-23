@@ -151,5 +151,3 @@ void GSLDriver::sanitize(const gsl_vector* v)
 }
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78

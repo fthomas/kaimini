@@ -150,5 +150,3 @@ private:
 } // namespace Kaimini
 
 #endif // KAIMINI_RESULTPROCESSOR_H
-
-// vim: sw=2 tw=78

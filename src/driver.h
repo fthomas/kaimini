@@ -33,5 +33,3 @@ public:
 } // namespace Kaimini
 
 #endif // KAIMINI_DRIVER_H
-
-// vim: sw=2 tw=78

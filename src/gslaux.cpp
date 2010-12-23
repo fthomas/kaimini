@@ -94,5 +94,3 @@ void gsl_vector_step_random(const gsl_rng* r, gsl_vector* v,
 }
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78

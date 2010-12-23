@@ -169,5 +169,3 @@ operator!=(const MnUserParameters& a, const MnUserParameters& b)
 /// \endcond
 
 #endif // KAIMINI_PARAMETERS_H
-
-// vim: sw=2 tw=78

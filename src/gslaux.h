@@ -64,5 +64,3 @@ gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
 } // namespace Kaimini
 
 #endif // KAIMINI_GSLAUX_H
-
-// vim: sw=2 tw=78

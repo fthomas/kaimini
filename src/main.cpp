@@ -199,5 +199,3 @@ int main(int argc, char* argv[])
   fit.shutdown(output_file);
   return 0;
 }
-
-// vim: sw=2 tw=78

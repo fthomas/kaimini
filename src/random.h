@@ -80,5 +80,3 @@ extern Random g_rnd;
 } // namespace Kaimini
 
 #endif // KAIMINI_RANDOM_H
-
-// vim: sw=2 tw=78

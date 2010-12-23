@@ -212,5 +212,3 @@ ostream& operator<<(ostream& os, const Parameters& par)
 }
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78

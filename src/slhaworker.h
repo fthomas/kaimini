@@ -98,5 +98,3 @@ private:
 } // namespace Kaimini
 
 #endif // KAIMINI_SLHAWORKER_H
-
-// vim: sw=2 tw=78

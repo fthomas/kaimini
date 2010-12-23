@@ -81,5 +81,3 @@ string Random::randString(const size_t length)
 Random g_rnd;
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78

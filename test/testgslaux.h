@@ -123,5 +123,3 @@ BOOST_AUTO_TEST_CASE(test_gsl_vector_step_random)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-
-// vim: sw=2 tw=78

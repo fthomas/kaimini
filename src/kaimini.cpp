@@ -288,5 +288,3 @@ fs::path create_temp_directory(const fs::path& dirTemplate)
 }
 
 } // namespace Kaimini
-
-// vim: sw=2 tw=78
