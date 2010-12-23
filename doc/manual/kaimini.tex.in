@@ -20,8 +20,7 @@
 \newcommand{\mailto}[1]{\href{mailto:#1}{#1}}
 
 
-\title{\textbf{Kaimini, a general purpose fitting frontend for programs
-  using the SLHA interface}}
+\title{\textbf{Kaimini, a general purpose fitting and analysis front end}}
 \author{%
   Frank S. Thomas\\
   \ttt{\mailto{fthomas@physik.uni-wuerzburg.de}}\\

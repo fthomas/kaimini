@@ -1,5 +1,5 @@
-Kaimini, a general purpose fitting frontend
-===========================================
+Kaimini, a general purpose fitting and analysis front end
+=========================================================
 
 Introduction
 ------------
