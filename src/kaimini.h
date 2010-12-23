@@ -27,13 +27,6 @@ const std::string g_kaimini_version = "0.2.0";
 
 extern bool g_verbose_output;
 
-// erf(1/sqrt(2)):
-const long double g_normal_1sigma = 0.68268949213708589717046509126407L;
-// erf(2/sqrt(2)):
-const long double g_normal_2sigma = 0.95449973610364158559943472566693L;
-// erf(3/sqrt(2)):
-const long double g_normal_3sigma = 0.99730020393673981094669637046481L;
-
 // Auxiliary functions/classes for error handling:
 void exit_block_not_found(const std::string& block);
 
@@ -72,14 +65,6 @@ temp_path(const boost::filesystem::path& pathTemplate);
 
 boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dirTemplate);
-
-
-template<typename RealType> inline bool
-close_to_zero(RealType x)
-{
-  const RealType eps = 100. * std::numeric_limits<RealType>::epsilon();
-  return -eps <= x && x <= eps;
-}
 
 } // namespace Kaimini
 

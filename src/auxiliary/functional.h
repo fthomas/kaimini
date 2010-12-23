@@ -21,8 +21,10 @@
 #include <boost/algorithm/string.hpp>
 
 namespace Kaimini {
+  namespace Functional {
 
-template<class PairT> struct pair_select1st
+template<class PairT>
+struct pair_select1st
   : public std::unary_function<PairT, typename PairT::first_type>
 {
   typename PairT::first_type&
@@ -35,7 +37,8 @@ template<class PairT> struct pair_select1st
 };
 
 
-template<class PairT> struct pair_select2nd
+template<class PairT>
+struct pair_select2nd
   : public std::unary_function<PairT, typename PairT::second_type>
 {
   typename PairT::second_type&
@@ -48,21 +51,22 @@ template<class PairT> struct pair_select2nd
 };
 
 
-template<class SequenceT> struct iequal_to
-  : public std::binary_function<SequenceT, SequenceT, bool>
+template<class SequenceT>
+struct iequal_to : public std::binary_function<SequenceT, SequenceT, bool>
 {
   bool operator()(const SequenceT& a, const SequenceT& b) const
   { return boost::iequals(a, b); }
 };
 
 
-template<class SequenceT> struct iless_than
-  : public std::binary_function<SequenceT, SequenceT, bool>
+template<class SequenceT>
+struct iless_than : public std::binary_function<SequenceT, SequenceT, bool>
 {
   bool operator()(const SequenceT& a, const SequenceT& b) const
   { return boost::to_lower_copy(a) < boost::to_lower_copy(b); }
 };
 
+  } // namespace Functional
 } // namespace Kaimini
 
 #endif // KAIMINI_AUXILIARY_FUNCTIONAL_H
