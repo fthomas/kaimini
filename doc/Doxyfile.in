@@ -92,11 +92,11 @@ INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.h \
                          *.hpp \
                          *.dox
-RECURSIVE              = NO
-EXCLUDE                = ../src/3rd-party/* \
-                         ../src/auxiliary/*
+RECURSIVE              = YES
+EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       =
+EXCLUDE_PATTERNS       = */src/3rd-party/* \
+                         */src/auxiliary/*
 EXCLUDE_SYMBOLS        =
 EXAMPLE_PATH           =
 EXAMPLE_PATTERNS       =
@@ -256,7 +256,7 @@ DOT_FONTPATH           =
 CLASS_GRAPH            = YES
 COLLABORATION_GRAPH    = YES
 GROUP_GRAPHS           = YES
-UML_LOOK               = NO
+UML_LOOK               = YES
 TEMPLATE_RELATIONS     = NO
 INCLUDE_GRAPH          = YES
 INCLUDED_BY_GRAPH      = YES
