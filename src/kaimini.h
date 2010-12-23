@@ -17,10 +17,8 @@
 #ifndef KAIMINI_KAIMINI_H
 #define KAIMINI_KAIMINI_H
 
-#include <functional>
 #include <limits>
 #include <string>
-#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
 namespace Kaimini {
@@ -82,50 +80,6 @@ close_to_zero(RealType x)
   const RealType eps = 100. * std::numeric_limits<RealType>::epsilon();
   return -eps <= x && x <= eps;
 }
-
-
-/// \cond SIMPLE_FUNCTION_OBJECTS
-template<typename Pair> struct pair_select1st
-  : public std::unary_function<Pair, typename Pair::first_type>
-{
-  typename Pair::first_type&
-  operator()(Pair& x) const
-  { return x.first; }
-
-  const typename Pair::first_type&
-  operator()(const Pair& x) const
-  { return x.first; }
-};
-
-
-template<typename Pair> struct pair_select2nd
-  : public std::unary_function<Pair, typename Pair::second_type>
-{
-  typename Pair::second_type&
-  operator()(Pair& x) const
-  { return x.second; }
-
-  const typename Pair::second_type&
-  operator()(const Pair& x) const
-  { return x.second; }
-};
-
-
-struct iequal_to
-  : public std::binary_function<std::string, std::string, bool>
-{
-  bool operator()(const std::string& a, const std::string& b) const
-  { return boost::iequals(a, b); }
-};
-
-
-struct iless_than
-  : public std::binary_function<std::string, std::string, bool>
-{
-  bool operator()(const std::string& a, const std::string& b) const
-  { return boost::to_lower_copy(a) < boost::to_lower_copy(b); }
-};
-/// \endcond
 
 } // namespace Kaimini
 
