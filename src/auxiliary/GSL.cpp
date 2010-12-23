@@ -21,7 +21,7 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
-#include "gsl.h"
+#include "GSL.h"
 
 namespace Kaimini {
 namespace GSL {
