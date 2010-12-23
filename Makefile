@@ -58,19 +58,4 @@ cleanall: clean
 	rm -f $(KAIMINI) $(POLLY)
 	$(MAKE) -C sandbox/ clean
 
-VERSION ?= $(shell git describe --tags | cut -b2-)
-set_version:
-	if [ -d '.git' ] && [ -x "`which git 2>/dev/null`" ]; then \
-	  V_MAJOR=`echo $(VERSION) | cut -d. -f1`; \
-	  V_MINOR=`echo $(VERSION) | cut -d. -f2`; \
-	  V_PATCH=`echo $(VERSION) | cut -d. -f3`; \
-	  sed -i \
-	    "s/^\(set(Kaimini_VERSION_MAJOR \).*/\1\"$$V_MAJOR\")/; \
-	     s/^\(set(Kaimini_VERSION_MINOR \).*/\1\"$$V_MINOR\")/; \
-	     s/^\(set(Kaimini_VERSION_PATCH \).*/\1\"$$V_PATCH\")/" \
-	    CMakeLists.txt; \
-	  sed -i "s/\(g_kaimini_version = \)\".*\"/\1\"$(VERSION)\"/" \
-	    src/kaimini.h; \
-	fi
-
-.PHONY: all clean cleanall gprof set_version
+.PHONY: all clean cleanall gprof
