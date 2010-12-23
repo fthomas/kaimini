@@ -10,8 +10,13 @@ Documentation
 Currently there is only the `API documentation`_ and a very `incomplete
 manual`_.
 
+
+
+Currently there is only the `API documentation`_ and a very `incomplete
+manual`_.
+
 .. _API documentation: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
-.. _incomplete manual: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
+.. _manual: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
 
 Dependencies
 ------------
@@ -47,20 +52,21 @@ directory::
 
   cmake -D Minuit2_ROOT=/path/to/Minuit2/installation/dir ..
 
-Source code
------------
+Download
+--------
 
-For Kaimini's development the Git version control system is used. The
-`Git repository`_ can be inspected and browsed online at GitHub. To
-clone the repository use this command::
+You can download Kaimini in either `tar.gz`_ or `zip`_ formats.
+
+.. _tar.gz: http://github.com/fthomas/kaimini/tarball/master
+.. _zip:    http://github.com/fthomas/kaimini/zipball/master
+
+The version control system used for development of Kaimini is Git. The
+`Git repository`_ can be inspected and browsed online at GitHub and it
+can be cloned by running::
 
   git clone git://github.com/fthomas/kaimini.git
 
-The latest source code is also available as `tar`_ and `ZIP`_ archive.
-
 .. _Git repository: http://github.com/fthomas/kaimini
-.. _tar: http://github.com/fthomas/kaimini/tarball/master
-.. _ZIP: http://github.com/fthomas/kaimini/zipball/master
 
 Issues and feedback
 -------------------
@@ -75,7 +81,7 @@ License
 -------
 
 Kaimini is `free software`_ and licensed under the `GPLv3`_. The full
-text of the GPLv3 can be found in the file ``COPYING`` in Kaimini's
+text of the license can be found in the file ``COPYING`` in Kaimini's
 source tree.
 
 .. _free software: http://www.gnu.org/philosophy/free-sw.html
