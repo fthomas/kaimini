@@ -27,7 +27,7 @@
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "parameters.h"
-#include "random.h"
+//#include "random.h"
 
 using namespace std;
 
@@ -129,9 +129,9 @@ Parameters GSLDriver::runSimulatedAnnealing(const Parameters& startParams)
 
   gsl_vector* x_initial = msPar.getVarParamsGSLVec();
 
-  gsl_siman_solve(g_rnd.gsl_engine, x_initial,
-    GSLDriver::chiSquare, GSL::gsl_vector_step_random, GSL::gsl_vector_dist,
-    NULL, NULL, NULL, NULL, sizeof(*x_initial), params);
+//  gsl_siman_solve(g_rnd.gsl_engine, x_initial,
+//    GSLDriver::chiSquare, GSL::gsl_vector_step_random, GSL::gsl_vector_dist,
+//    NULL, NULL, NULL, NULL, sizeof(*x_initial), params);
 
   sanitize(x_initial);
   gsl_vector_free(x_initial);

@@ -51,7 +51,7 @@ struct pair_select2nd
 };
 
 
-template<class SequenceT>
+template<class SequenceT = std::string>
 struct iequal_to : public std::binary_function<SequenceT, SequenceT, bool>
 {
   bool
@@ -60,7 +60,7 @@ struct iequal_to : public std::binary_function<SequenceT, SequenceT, bool>
 };
 
 
-template<class SequenceT>
+template<class SequenceT = std::string>
 struct iless_than : public std::binary_function<SequenceT, SequenceT, bool>
 {
   bool

@@ -22,7 +22,7 @@
 #include <gsl/gsl_vector.h>
 #include <Minuit2/MinuitParameter.h>
 #include "parameters.h"
-#include "random.h"
+//#include "random.h"
 
 using namespace std;
 using namespace ROOT::Minuit2;
@@ -130,7 +130,7 @@ Parameters& Parameters::stepRandom(const double scale)
   {
     if (!Parameter(i).IsFixed() && !Parameter(i).IsConst())
     {
-      SetValue(i, g_rnd.randNormal(Value(i), scale * abs(Error(i))));
+      //SetValue(i, g_rnd.randNormal(Value(i), scale * abs(Error(i))));
     }
   }
   return *this;

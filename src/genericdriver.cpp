@@ -18,7 +18,7 @@
 #include "genericdriver.h"
 #include "kaimini.h"
 #include "parameters.h"
-#include "random.h"
+//#include "random.h"
 
 using namespace std;
 
@@ -143,8 +143,8 @@ Parameters GenericDriver::runRandomHillClimbing(const Parameters& startParams)
 
 Parameters GenericDriver::runMetropolis(const Parameters& startParams)
 {
-  Random::uniform_real_gen
-    rand01(g_rnd.engine, Random::uniform_real_distribution(0., 1.));
+  //Random::uniform_real_gen
+  //  rand01(g_rnd.engine, Random::uniform_real_distribution(0., 1.));
 
   Parameters curr_params = startParams;
   Parameters best_params = curr_params;
@@ -175,7 +175,7 @@ Parameters GenericDriver::runMetropolis(const Parameters& startParams)
     }
 
     probability = exp(-(new_chisq - curr_chisq) / temp);
-    if (probability > rand01())
+    if (probability > 0.) // rand01())
     {
       curr_params = new_params;
       curr_chisq  = new_chisq;
@@ -193,8 +193,8 @@ Parameters GenericDriver::runMetropolis(const Parameters& startParams)
 
 Parameters GenericDriver::runSimulatedAnnealing(const Parameters& startParams)
 {
-  Random::uniform_real_gen
-    rand01(g_rnd.engine, Random::uniform_real_distribution(0., 1.));
+  //Random::uniform_real_gen
+  //  rand01(g_rnd.engine, Random::uniform_real_distribution(0., 1.));
 
   Parameters curr_params = startParams;
   Parameters best_params = curr_params;
@@ -226,7 +226,7 @@ Parameters GenericDriver::runSimulatedAnnealing(const Parameters& startParams)
     }
 
     probability = exp(-(new_chisq - curr_chisq) / t_curr);
-    if (probability > rand01())
+    if (probability > 0.) // rand01())
     {
       curr_params = new_params;
       curr_chisq  = new_chisq;

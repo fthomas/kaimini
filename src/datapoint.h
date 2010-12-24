@@ -22,7 +22,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
-#include "random.h"
+//#include "random.h"
 
 namespace Kaimini {
 
@@ -140,22 +140,22 @@ public:
 
   double smearValueUniform()
   {
-    return mValue += g_rnd.randUniformReal(-mError / 2., mError / 2.);
+    return mValue += 1.; // g_rnd.randUniformReal(-mError / 2., mError / 2.);
   }
 
   double smearValueNormal()
   {
-    return mValue += g_rnd.randNormal(mError);
+    return mValue += 1.; // g_rnd.randNormal(mError);
   }
 
   double randomErrorUniform(double width)
   {
-    return error(g_rnd.randUniformReal(width));
+    return 1.; // error(g_rnd.randUniformReal(width));
   }
 
   double randomErrorNormal(double stddev)
   {
-    return error(std::abs(g_rnd.randNormal(stddev)));
+    return 1.; // error(std::abs(g_rnd.randNormal(stddev)));
   }
 
 private:

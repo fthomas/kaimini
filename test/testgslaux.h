@@ -20,7 +20,7 @@
 #include <vector>
 #include <gsl/gsl_vector.h>
 #include "auxiliary/GSL.h"
-#include "random.h"
+//#include "random.h"
 
 using namespace std;
 using namespace Kaimini;
@@ -90,7 +90,7 @@ void test_gsl_vector_step_random_helper(int dim, double radius)
   for (int i = 0; i < n; ++i)
   {
     gsl_vector_set_zero(x);
-    gsl_vector_step_random(g_rnd.gsl_engine, x, radius);
+    //gsl_vector_step_random(g_rnd.gsl_engine, x, radius);
 
     for (int j = 0; j < bins; ++j)
     {

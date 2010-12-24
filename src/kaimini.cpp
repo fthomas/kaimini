@@ -24,7 +24,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
 #include "kaimini.h"
-#include "random.h"
+#include "kernel/RandomGenerator.h"
 
 using namespace std;
 using namespace boost;
@@ -244,11 +244,11 @@ double parse_error_string(const double value, string errorStr)
 
   if (normal)
   {
-    error = std::abs(g_rnd.randNormal(error));
+    //error = std::abs(g_rnd.randNormal(error));
   }
   else if (uniform)
   {
-    error = g_rnd.randUniformReal(error);
+    //error = g_rnd.randUniformReal(error);
   }
 
   return error;
@@ -269,7 +269,7 @@ fs::path temp_path(const fs::path& pathTemplate)
     name.resize(pos + 6, 'X');
     len = 6;
   }
-  name.replace(pos, len, g_rnd.randString(len));
+  //name.replace(pos, len, g_rnd.randString(len));
 
   fs::path temp_p = pathTemplate.branch_path() / name;
   return temp_p;
