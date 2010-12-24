@@ -29,7 +29,7 @@
 #include "parameteranalysis.h"
 #include "parameters.h"
 //#include "random.h"
-#include "auxiliary/Math.h"
+#include "auxiliary/math.h"
 #include "auxiliary/functional.h"
 
 using namespace std;
@@ -78,7 +78,7 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
     // If sim_chisq is close to zero the actual minimal parameters
     // have been reproduced. These should not be taken into account
     // for estimation of the confidence intervalls.
-    if (Math::is_close_to_zero(sim_chisq)) { --i; continue; }
+    if (math::close_to_zero(sim_chisq)) { --i; continue; }
 
     sim_map.push_back(make_pair(sim_chisq, sim_params));
 
@@ -119,9 +119,9 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
   const vector<vector<MinuitParameter> > all_sim_par = transpose(tmp_params);
   vector<vector<Error> > retval;
 
-  const int limit[] = { int(iterations * Math::normal_1sigma),
-                        int(iterations * Math::normal_2sigma),
-                        int(iterations * Math::normal_3sigma) };
+  const int limit[] = { int(iterations * math::normal_1sigma),
+                        int(iterations * math::normal_2sigma),
+                        int(iterations * math::normal_3sigma) };
 
   for (size_t i = 0; i < all_sim_par.size(); ++i)
   {

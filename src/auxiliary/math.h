@@ -21,7 +21,7 @@
 #include <limits>
 
 namespace Kaimini {
-namespace Math {
+namespace math {
 
 const long double pi =
   3.1415926535897932384626433832795L;  // pi
@@ -36,19 +36,19 @@ const long double normal_3sigma =
   0.99730020393673981094669637046481L; // erf(3/sqrt(2))
 
 
-template<class FloatT> inline bool
-is_close_to_zero(const FloatT& x, const FloatT& factor = 100.)
+template<class Float> inline bool
+close_to_zero(const Float& x, const Float& factor = 100.)
 {
-  const FloatT eps = std::numeric_limits<FloatT>::epsilon() * factor;
+  const Float eps = std::numeric_limits<Float>::epsilon() * factor;
   return std::abs(x) <= eps;
 }
 
 
-template<class FloatT> inline bool
-is_close_to_one(const FloatT& x, const FloatT& factor = 100.)
+template<class Float> inline bool
+close_to_one(const Float& x, const Float& factor = 100.)
 { return is_close_to_zero(1. - x, factor); }
 
-} // namespace Math
+} // namespace math
 } // namespace Kaimini
 
 #endif // KAIMINI_AUXILIARY_MATH_H
