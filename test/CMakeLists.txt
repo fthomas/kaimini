@@ -1,4 +1,4 @@
-file(GLOB Kaimini_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ../src/*.cpp)
+file(GLOB_RECURSE Kaimini_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ../src/*.cpp)
 list(REMOVE_ITEM Kaimini_SOURCES ../src/main.cpp)
 
 file(GLOB TEST_SOURCES *.cpp)
