@@ -30,7 +30,7 @@
 #include "driver.h"
 #include "kaimini.h"
 #include "parameters.h"
-#include "auxiliary/Functional.h"
+#include "auxiliary/functional.h"
 
 namespace Kaimini {
 
@@ -121,9 +121,9 @@ public:
   typedef Parameters (MinuitDriver::*minimizer2_t)(const Parameters&,
                                                    unsigned int);
 
-  std::map<std::string, minimizer0_t, Functional::iless_than<>> minimizer0Map;
-  std::map<std::string, minimizer1_t, Functional::iless_than<>> minimizer1Map;
-  std::map<std::string, minimizer2_t, Functional::iless_than<>> minimizer2Map;
+  std::map<std::string, minimizer0_t, functional::iless_than<>> minimizer0Map;
+  std::map<std::string, minimizer1_t, functional::iless_than<>> minimizer1Map;
+  std::map<std::string, minimizer2_t, functional::iless_than<>> minimizer2Map;
 
 private:
   void runHesse(unsigned int stra);
