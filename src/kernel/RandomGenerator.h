@@ -17,6 +17,7 @@
 #ifndef KAIMINI_KERNEL_RANDOMGENERATOR_H
 #define KAIMINI_KERNEL_RANDOMGENERATOR_H
 
+#include <algorithm>
 #include <cstddef>
 #include <string>
 #include <boost/random.hpp>
@@ -69,10 +70,36 @@ public:
   { return randNormal(0., stddev); }
 
   char
+  randDigitChar();
+
+  char
+  randAlphaChar();
+
+  char
   randAlnumChar();
+
+  char
+  randGraphChar();
+
+  template<class CharGenerator> std::string
+  randString(const std::size_t length, CharGenerator generator)
+  {
+    std::string retval(length, char());
+    std::generate(retval.begin(), retval.end(), generator);
+    return retval;
+  }
+
+  std::string
+  randDigitString(std::size_t length = 6);
+
+  std::string
+  randAlphaString(std::size_t length = 6);
 
   std::string
   randAlnumString(std::size_t length = 6);
+
+  std::string
+  randGraphString(std::size_t length = 6);
 
 private:
   unsigned int seed_;
@@ -80,10 +107,6 @@ private:
 public:
   engine_type engine;
   gsl_rng* gsl_engine;
-
-private:
-  static const std::string alnum_;
-  uniform_int_generator alnum_gen_;
 };
 
 } // namespace Kaimini
