@@ -22,54 +22,54 @@
 #include <boost/algorithm/string.hpp>
 
 namespace Kaimini {
-namespace Functional {
+namespace functional {
 
-template<class PairT>
+template<class Pair>
 struct pair_select1st
-  : public std::unary_function<PairT, typename PairT::first_type>
+  : public std::unary_function<Pair, typename Pair::first_type>
 {
-  typename PairT::first_type&
-  operator()(PairT& x) const
+  typename Pair::first_type&
+  operator()(Pair& x) const
   { return x.first; }
 
-  const typename PairT::first_type&
-  operator()(const PairT& x) const
+  const typename Pair::first_type&
+  operator()(const Pair& x) const
   { return x.first; }
 };
 
 
-template<class PairT>
+template<class Pair>
 struct pair_select2nd
-  : public std::unary_function<PairT, typename PairT::second_type>
+  : public std::unary_function<Pair, typename Pair::second_type>
 {
-  typename PairT::second_type&
-  operator()(PairT& x) const
+  typename Pair::second_type&
+  operator()(Pair& x) const
   { return x.second; }
 
-  const typename PairT::second_type&
-  operator()(const PairT& x) const
+  const typename Pair::second_type&
+  operator()(const Pair& x) const
   { return x.second; }
 };
 
 
-template<class SequenceT = std::string>
-struct iequal_to : public std::binary_function<SequenceT, SequenceT, bool>
+template<class Sequence = std::string>
+struct iequal_to : public std::binary_function<Sequence, Sequence, bool>
 {
   bool
-  operator()(const SequenceT& a, const SequenceT& b) const
+  operator()(const Sequence& a, const Sequence& b) const
   { return boost::iequals(a, b); }
 };
 
 
-template<class SequenceT = std::string>
-struct iless_than : public std::binary_function<SequenceT, SequenceT, bool>
+template<class Sequence = std::string>
+struct iless_than : public std::binary_function<Sequence, Sequence, bool>
 {
   bool
-  operator()(const SequenceT& a, const SequenceT& b) const
+  operator()(const Sequence& a, const Sequence& b) const
   { return boost::to_lower_copy(a) < boost::to_lower_copy(b); }
 };
 
-} // namespace Functional
+} // namespace functional
 } // namespace Kaimini
 
 #endif // KAIMINI_AUXILIARY_FUNCTIONAL_H
