@@ -18,6 +18,7 @@
 #define KAIMINI_AUXILIARY_FUNCTIONAL_H
 
 #include <functional>
+#include <string>
 #include <boost/algorithm/string.hpp>
 
 namespace Kaimini {
