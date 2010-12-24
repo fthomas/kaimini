@@ -27,7 +27,7 @@ typename std::iterator_traits<InputIterator>::difference_type
 count_while(InputIterator first, InputIterator last, Predicate pred)
 {
   typename std::iterator_traits<InputIterator>::difference_type n = 0;
-  for (; first != last && pred(first); ++first) ++n;
+  for (; first != last && pred(*first); ++first) ++n;
   return n;
 }
 
