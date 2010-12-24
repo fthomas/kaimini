@@ -38,21 +38,6 @@ namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[])
 {
-
-  RandomGenerator rg;
-  cout << rg.randUniformInt(10, 90)() << endl;
-
-  //RandomGenerator::uniform_real_generator
-auto rnd =  rg.randUniformReal(2.,3.);
-  cout << rnd() << endl;
-  cout << rnd() << endl;
-  cout << rg.randAlnumChar() << endl;
-  cout << rg.randAlnumChar() << endl;
-  cout << rg.randAlnumString() << endl;
-  cout << rg.randAlnumString() << endl;
-
-  return 0;
-
   cout.precision(8);
   cout.setf(ios_base::scientific);
 
