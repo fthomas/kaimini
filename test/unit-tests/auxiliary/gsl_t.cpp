@@ -22,6 +22,7 @@
 #include <boost/test/unit_test.hpp>
 #include "auxiliary/gsl.h"
 #include "auxiliary/math.h"
+#include "kernel/RandomGenerator.h"
 
 using namespace std;
 using namespace Kaimini;
@@ -103,6 +104,23 @@ BOOST_AUTO_TEST_CASE(test_gsl_vector_dist)
 
   gsl_vector_free(v1);
   gsl_vector_free(v2);
+}
+
+BOOST_AUTO_TEST_CASE(test_gsl_vector_step_random)
+{
+  RandomGenerator rg;
+  gsl_vector* v1 = gsl_vector_alloc(1);
+
+  for (int i = 0; i < 10; ++i)
+  {
+    gsl_vector_set_zero(v1);
+    gsl_vector_step_random(rg.gsl_engine, v1, 1.0);
+
+    BOOST_CHECK_EQUAL(gsl_vector_get(v1, 0) >= -1.0, true);
+    BOOST_CHECK_EQUAL(gsl_vector_get(v1, 0) <=  1.0, true);
+  }
+
+  gsl_vector_free(v1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
