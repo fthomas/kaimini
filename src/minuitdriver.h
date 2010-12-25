@@ -121,9 +121,9 @@ public:
   typedef Parameters (MinuitDriver::*minimizer2_t)(const Parameters&,
                                                    unsigned int);
 
-  std::map<std::string, minimizer0_t, functional::iless_than<>> minimizer0Map;
-  std::map<std::string, minimizer1_t, functional::iless_than<>> minimizer1Map;
-  std::map<std::string, minimizer2_t, functional::iless_than<>> minimizer2Map;
+  std::map<std::string, minimizer0_t, functional::iless<>> minimizer0Map;
+  std::map<std::string, minimizer1_t, functional::iless<>> minimizer1Map;
+  std::map<std::string, minimizer2_t, functional::iless<>> minimizer2Map;
 
 private:
   void runHesse(unsigned int stra);
