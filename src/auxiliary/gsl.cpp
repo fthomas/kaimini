@@ -76,9 +76,9 @@ void
 gsl_vector_step_random(const gsl_rng* r, gsl_vector* v,
                        const double step_size)
 {
-  const std::size_t n = v->size;
-  if (n == 0) return;
+  assert(step_size > 0.);
 
+  const std::size_t n = v->size;
   gsl_vector* step_vector = gsl_vector_alloc(n);
   double length = 0.;
 
