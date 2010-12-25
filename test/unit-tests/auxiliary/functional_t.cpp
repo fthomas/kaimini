@@ -16,6 +16,7 @@
 
 #include <functional>
 #include <string>
+#include <utility>
 #include <boost/test/unit_test.hpp>
 #include "auxiliary/functional.h"
 
@@ -23,6 +24,16 @@ using namespace std;
 using namespace Kaimini::functional;
 
 BOOST_AUTO_TEST_SUITE(test_auxiliary_functional)
+
+BOOST_AUTO_TEST_CASE(test_pair_select)
+{
+  BOOST_CHECK_EQUAL((pair_select1st<pair<int, int>>()(make_pair(1, 2))), 1);
+  BOOST_CHECK_EQUAL((pair_select2nd<pair<int, int>>()(make_pair(1, 2))), 2);
+
+  pair<int, int> p = make_pair(1, 2);
+  BOOST_CHECK_EQUAL((pair_select1st<pair<int, int>>()(p)), 1);
+  BOOST_CHECK_EQUAL((pair_select2nd<pair<int, int>>()(p)), 2);
+}
 
 BOOST_AUTO_TEST_CASE(test_iequal_to)
 {
