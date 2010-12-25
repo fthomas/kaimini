@@ -82,7 +82,7 @@ public:
   randGraphChar();
 
   template<class CharGenerator> std::string
-  randString(const std::size_t length, CharGenerator generator)
+  randString(std::size_t length, CharGenerator generator)
   {
     std::string retval(length, char());
     std::generate(retval.begin(), retval.end(), generator);
