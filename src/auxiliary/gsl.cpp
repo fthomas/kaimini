@@ -21,10 +21,10 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
-#include "GSL.h"
+#include "gsl.h"
 
 namespace Kaimini {
-namespace GSL {
+namespace gsl {
 
 std::vector<double>
 gsl_to_stl_vector(const gsl_vector* v)
@@ -98,5 +98,5 @@ gsl_vector_step_random(const gsl_rng* r, gsl_vector* v,
   gsl_vector_free(step_vector);
 }
 
-} // namespace GSL
+} // namespace gsl
 } // namespace Kaimini

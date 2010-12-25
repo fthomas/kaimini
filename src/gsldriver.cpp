@@ -23,7 +23,7 @@
 #include <gsl/gsl_siman.h>
 #include <gsl/gsl_vector.h>
 #include "chisqfunction.h"
-#include "auxiliary/GSL.h"
+#include "auxiliary/gsl.h"
 #include "gsldriver.h"
 #include "kaimini.h"
 #include "parameters.h"

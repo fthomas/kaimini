@@ -22,7 +22,7 @@
 #include <gsl/gsl_vector.h>
 
 namespace Kaimini {
-namespace GSL {
+namespace gsl {
 
 std::vector<double>
 gsl_to_stl_vector(const gsl_vector* v);
@@ -56,7 +56,7 @@ inline void
 gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
 { return gsl_vector_step_random(r, static_cast<gsl_vector*>(v), step_size); }
 
-} // namespace GSL
+} // namespace gsl
 } // namespace Kaimini
 
 #endif // KAIMINI_AUXILIARY_GSL_H
