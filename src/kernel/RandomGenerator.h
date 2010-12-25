@@ -23,6 +23,7 @@
 #include <boost/random.hpp>
 #include <boost/utility.hpp>
 #include <gsl/gsl_rng.h>
+#include "auxiliary/uniform_in_sphere.hpp"
 
 namespace Kaimini {
 
@@ -31,6 +32,7 @@ class RandomGenerator : private boost::noncopyable
 public:
   typedef boost::uniform_int<>          uniform_int_distribution;
   typedef boost::uniform_real<>         uniform_real_distribution;
+  typedef boost::uniform_in_sphere<>    uniform_in_sphere_distribution;
   typedef boost::normal_distribution<>  normal_distribution;
   typedef boost::mt19937                engine_type;
 
@@ -38,6 +40,8 @@ public:
                                         uniform_int_generator;
   typedef boost::variate_generator<engine_type&, uniform_real_distribution>
                                         uniform_real_generator;
+  typedef boost::variate_generator<engine_type&, uniform_in_sphere_distribution>
+                                        uniform_in_sphere_generator;
   typedef boost::variate_generator<engine_type&, normal_distribution>
                                         normal_generator;
 
@@ -61,6 +65,9 @@ public:
   uniform_real_generator
   randUniformReal(double max = 1.)
   { return randUniformReal(0., max); }
+
+  uniform_in_sphere_generator
+  randUniformInSphere(int dim, double radius);
 
   normal_generator
   randNormal(double mean, double stddev);

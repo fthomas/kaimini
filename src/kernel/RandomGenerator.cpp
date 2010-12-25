@@ -65,6 +65,14 @@ RandomGenerator::randUniformReal(const double min, const double max)
 }
 
 
+RandomGenerator::uniform_in_sphere_generator
+RandomGenerator::randUniformInSphere(const int dim, const double radius)
+{
+  return uniform_in_sphere_generator(engine,
+    uniform_in_sphere_distribution(dim, radius));
+}
+
+
 RandomGenerator::normal_generator
 RandomGenerator::randNormal(const double mean, const double stddev)
 {
