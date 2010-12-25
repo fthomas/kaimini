@@ -62,7 +62,7 @@ struct iequal_to : public std::binary_function<Sequence, Sequence, bool>
 
 
 template<class Sequence = std::string>
-struct iless_than : public std::binary_function<Sequence, Sequence, bool>
+struct iless : public std::binary_function<Sequence, Sequence, bool>
 {
   bool
   operator()(const Sequence& a, const Sequence& b) const
