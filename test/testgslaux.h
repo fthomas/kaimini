@@ -28,55 +28,6 @@ using namespace Kaimini::GSL;
 
 BOOST_AUTO_TEST_SUITE(TestGSLAux)
 
-BOOST_AUTO_TEST_CASE(test_gsl_vector_minkowski_dist)
-{
-  // Test with 1D vectors.
-  gsl_vector* d1x = gsl_vector_alloc(1);
-  gsl_vector* d1y = gsl_vector_alloc(1);
-
-  gsl_vector_set(d1x, 0, 1.);
-  gsl_vector_set(d1y, 0, 2.);
-  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y), 1., 1e-6);
-
-  gsl_vector_set(d1x, 0, -1*sqrt(2.));
-  gsl_vector_set(d1y, 0, sqrt(8.));
-  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y), 3*sqrt(2.), 1e-6);
-
-  gsl_vector_free(d1x);
-  gsl_vector_free(d1y);
-
-  // Test with 2D vectors.
-  gsl_vector* d2x = gsl_vector_alloc(2);
-  gsl_vector* d2y = gsl_vector_alloc(2);
-
-  gsl_vector_set(d2x, 0, 0.);
-  gsl_vector_set(d2x, 1, 0.);
-  gsl_vector_set(d2y, 0, 1.);
-  gsl_vector_set(d2y, 1, 1.);
-  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y), sqrt(2.), 1e-6);
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y, 3),
-    pow(2., 1./3.), 1e-6);
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y, 9),
-    pow(2., 1./9.), 1e-6);
-
-  gsl_vector_set(d2x, 0, 0.47);
-  gsl_vector_set(d2x, 1, -2.3);
-  gsl_vector_set(d2y, 0, 19.9);
-  gsl_vector_set(d2y, 1, 0.01);
-  BOOST_CHECK_CLOSE(gsl_vector_dist(d1x, d1y),
-    pow((pow(abs(0.47 - 19.9), 2.0) + pow(abs(-2.3 - 0.01), 2.0)),
-      1./2.0), 1e-6);
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y, 3.5),
-    pow((pow(abs(0.47 - 19.9), 3.5) + pow(abs(-2.3 - 0.01), 3.5)),
-      1./3.5), 1e-6);
-  BOOST_CHECK_CLOSE(gsl_vector_minkowski_dist(d1x, d1y, 90.),
-    pow((pow(abs(0.47 - 19.9), 90.) + pow(abs(-2.3 - 0.01), 90.)),
-      1./90.), 1e-6);
-
-  gsl_vector_free(d2x);
-  gsl_vector_free(d2y);
-}
-
 void test_gsl_vector_step_random_helper(int dim, double radius)
 {
   const int bins = 5;
