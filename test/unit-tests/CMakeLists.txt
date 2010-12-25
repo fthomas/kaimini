@@ -1,8 +1,21 @@
-include_directories(${CMAKE_SOURCE_DIR}/src ${Boost_INCLUDE_DIRS})
+get_target_property(kaimini_SOURCES      kaimini kaimini_SOURCES)
+get_target_property(kaimini_INCLUDE_DIRS kaimini kaimini_INCLUDE_DIRS)
+get_target_property(kaimini_LIBRARY_DIRS kaimini kaimini_LIBRARY_DIRS)
+get_target_property(kaimini_LIBRARIES    kaimini kaimini_LIBRARIES)
 
-file(GLOB_RECURSE UT_SOURCES *.cpp *.h)
-add_executable(ut ${UT_SOURCES})
-target_link_libraries(ut ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+list(REMOVE_ITEM kaimini_SOURCES
+  ${CMAKE_SOURCE_DIR}/src/main.cpp
+  ${CMAKE_SOURCE_DIR}/src/kernel/kaimini.cpp)
+
+include_directories(${CMAKE_SOURCE_DIR}/src ${Boost_INCLUDE_DIRS}
+  ${kaimini_INCLUDE_DIRS})
+
+link_directories(${kaimini_LIBRARY_DIRS})
+
+file(GLOB_RECURSE ut_SOURCES *.cpp *.h)
+add_executable(ut ${ut_SOURCES} ${kaimini_SOURCES})
+target_link_libraries(ut ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+  ${kaimini_LIBRARIES})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     set_target_properties(ut PROPERTIES

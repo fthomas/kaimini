@@ -113,8 +113,8 @@ bootstrap(Driver* driver, Driver::minimizer_t minFunc,
   // corresponding chi^2 values.
   vector<Parameters> tmp_params;
   tmp_params.reserve(iterations);
-  transform(sim_map.begin(), sim_map.end(), back_inserter(tmp_params),
-            functional::pair_select2nd<pair<double, Parameters> >());
+  //transform(sim_map.begin(), sim_map.end(), back_inserter(tmp_params),
+  //          functional::pair_select2nd<pair<double, Parameters> >());
 
   const vector<vector<MinuitParameter> > all_sim_par = transpose(tmp_params);
   vector<vector<Error> > retval;
