@@ -23,8 +23,6 @@
 
 namespace Kaimini {
 
-const std::string g_kaimini_version = "0.2.0";
-
 extern bool g_verbose_output;
 
 // Auxiliary functions/classes for error handling:

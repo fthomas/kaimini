@@ -33,6 +33,7 @@
 #include "parameters.h"
 #include "slhaea.h"
 #include "slhainterface.h"
+#include "kernel/Kaimini.h"
 
 using namespace std;
 using namespace boost;

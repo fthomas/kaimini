@@ -1,3 +1,5 @@
+add_subdirectory(kernel)
+
 file(GLOB_RECURSE Kaimini_SOURCES *.cpp)
 file(GLOB_RECURSE Kaimini_HEADERS *.h)
 

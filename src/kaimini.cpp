@@ -25,6 +25,7 @@
 #include <boost/program_options.hpp>
 #include "kaimini.h"
 #include "kernel/RandomGenerator.h"
+#include "kernel/Kaimini.h"
 
 using namespace std;
 using namespace boost;
