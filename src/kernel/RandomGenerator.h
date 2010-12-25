@@ -88,14 +88,6 @@ public:
   char
   randGraphChar();
 
-  template<class CharGenerator> std::string
-  randString(std::size_t length, CharGenerator generator)
-  {
-    std::string retval(length, char());
-    std::generate(retval.begin(), retval.end(), generator);
-    return retval;
-  }
-
   std::string
   randDigitString(std::size_t length = 6);
 

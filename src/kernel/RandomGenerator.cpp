@@ -20,6 +20,7 @@
 #include <string>
 #include <boost/bind.hpp>
 #include <gsl/gsl_rng.h>
+#include "auxiliary/str_tools.h"
 #include "RandomGenerator.h"
 
 namespace Kaimini {
@@ -135,7 +136,7 @@ RandomGenerator::randGraphChar()
 std::string
 RandomGenerator::randDigitString(const std::size_t length)
 {
-  return randString(length,
+  return str_tools::generate_string(length,
     boost::bind(&RandomGenerator::randDigitChar, this));
 }
 
@@ -143,7 +144,7 @@ RandomGenerator::randDigitString(const std::size_t length)
 std::string
 RandomGenerator::randAlphaString(const std::size_t length)
 {
-  return randString(length,
+  return str_tools::generate_string(length,
     boost::bind(&RandomGenerator::randAlphaChar, this));
 }
 
@@ -151,7 +152,7 @@ RandomGenerator::randAlphaString(const std::size_t length)
 std::string
 RandomGenerator::randAlnumString(const std::size_t length)
 {
-  return randString(length,
+  return str_tools::generate_string(length,
     boost::bind(&RandomGenerator::randAlnumChar, this));
 }
 
@@ -159,7 +160,7 @@ RandomGenerator::randAlnumString(const std::size_t length)
 std::string
 RandomGenerator::randGraphString(const std::size_t length)
 {
-  return randString(length,
+  return str_tools::generate_string(length,
     boost::bind(&RandomGenerator::randGraphChar, this));
 }
 
