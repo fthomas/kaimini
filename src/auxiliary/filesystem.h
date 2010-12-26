@@ -25,11 +25,11 @@ namespace filesystem {
 
 boost::filesystem::path
 temp_path(const boost::filesystem::path& path_templ,
-  RandomGenerator* const rg);
+  RandomGenerator& rg);
 
 boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dir_templ,
-  RandomGenerator* const rg);
+  RandomGenerator& rg);
 
 } // namespace filesystem
 } // namespace Kaimini

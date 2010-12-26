@@ -24,14 +24,14 @@ namespace filesystem {
 namespace fs = boost::filesystem;
 
 fs::path
-temp_path(const fs::path& path_templ, RandomGenerator* const rg)
+temp_path(const fs::path& path_templ, RandomGenerator& rg)
 {
-  return path_templ.branch_path() / rg->randAlnumString(path_templ.leaf());
+  return path_templ.branch_path() / rg.randAlnumString(path_templ.leaf());
 }
 
 
 fs::path
-create_temp_directory(const fs::path& dir_templ, RandomGenerator* const rg)
+create_temp_directory(const fs::path& dir_templ, RandomGenerator& rg)
 {
   fs::path temp_dir;
   do temp_dir = temp_path(dir_templ, rg);
