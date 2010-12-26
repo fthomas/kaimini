@@ -144,4 +144,28 @@ RandomGenerator::randAlnumString(const std::size_t length)
     boost::bind(&RandomGenerator::randAlnumChar, this));
 }
 
+
+std::string
+RandomGenerator::randDigitString(const std::string& templ)
+{
+  return str_tools::generate_string(templ,
+    boost::bind(&RandomGenerator::randDigitChar, this));
+}
+
+
+std::string
+RandomGenerator::randAlphaString(const std::string& templ)
+{
+  return str_tools::generate_string(templ,
+    boost::bind(&RandomGenerator::randAlphaChar, this));
+}
+
+
+std::string
+RandomGenerator::randAlnumString(const std::string& templ)
+{
+  return str_tools::generate_string(templ,
+    boost::bind(&RandomGenerator::randAlnumChar, this));
+}
+
 } // namespace Kaimini

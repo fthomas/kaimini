@@ -94,6 +94,15 @@ public:
   std::string
   randAlnumString(std::size_t length = 6);
 
+  std::string
+  randDigitString(const std::string& templ);
+
+  std::string
+  randAlphaString(const std::string& templ);
+
+  std::string
+  randAlnumString(const std::string& templ);
+
 private:
   unsigned int seed_;
 

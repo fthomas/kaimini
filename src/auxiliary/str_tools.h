@@ -32,6 +32,27 @@ generate_string(std::size_t length, CharGenerator generator)
   return retval;
 }
 
+
+template<class CharGenerator> std::string
+generate_string(const std::string& templ, CharGenerator generator,
+                char sub = 'X', std::size_t min_length = 6)
+{
+  std::string retval = templ;
+
+  std::size_t pos = retval.find_last_not_of(sub);
+  pos = (pos == std::string::npos) ? 0 : pos + 1;
+  std::size_t sub_count = retval.length() - pos;
+
+  if (sub_count < min_length)
+  {
+    sub_count = min_length;
+    retval.resize(pos + sub_count);
+  }
+
+  std::generate(retval.begin() + pos, retval.end(), generator);
+  return retval;
+}
+
 } // namespace str_tools
 } // namespace Kaimini
 
