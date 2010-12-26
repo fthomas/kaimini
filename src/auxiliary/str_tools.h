@@ -39,17 +39,17 @@ generate_string(const std::string& templ, CharGenerator generator,
 {
   std::string retval = templ;
 
-  std::size_t pos = retval.find_last_not_of(sub);
-  pos = (pos == std::string::npos) ? 0 : pos + 1;
-  std::size_t sub_count = retval.length() - pos;
+  std::size_t first_sub = retval.find_last_not_of(sub);
+  first_sub = (first_sub == std::string::npos) ? 0 : first_sub + 1;
+  std::size_t sub_count = retval.length() - first_sub;
 
   if (sub_count < min_length)
   {
     sub_count = min_length;
-    retval.resize(pos + sub_count);
+    retval.resize(first_sub + sub_count);
   }
 
-  std::generate(retval.begin() + pos, retval.end(), generator);
+  std::generate(retval.begin() + first_sub, retval.end(), generator);
   return retval;
 }
 

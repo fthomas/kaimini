@@ -39,6 +39,9 @@ BOOST_AUTO_TEST_CASE(test_generate_string_templ)
   BOOST_CHECK_EQUAL(generate_string(   "000", return_a), "000aaaaaa");
   BOOST_CHECK_EQUAL(generate_string("000XXX", return_a), "000aaaaaa");
 
+  BOOST_CHECK_EQUAL(generate_string("0X0XXX", return_a), "0X0aaaaaa");
+  BOOST_CHECK_EQUAL(generate_string("XX0XXX", return_a), "XX0aaaaaa");
+
   BOOST_CHECK_EQUAL(generate_string("00YY", return_a, 'Y', 0), "00aa");
   BOOST_CHECK_EQUAL(generate_string("00YY", return_a, 'Y', 1), "00aa");
   BOOST_CHECK_EQUAL(generate_string("00YY", return_a, 'Y', 2), "00aa");
