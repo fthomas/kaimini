@@ -3,9 +3,7 @@ get_target_property(kaimini_INCLUDE_DIRS kaimini kaimini_INCLUDE_DIRS)
 get_target_property(kaimini_LIBRARY_DIRS kaimini kaimini_LIBRARY_DIRS)
 get_target_property(kaimini_LIBRARIES    kaimini kaimini_LIBRARIES)
 
-list(REMOVE_ITEM kaimini_SOURCES
-  ${CMAKE_SOURCE_DIR}/src/main.cpp
-  ${CMAKE_SOURCE_DIR}/src/kernel/kaimini.cpp)
+list(REMOVE_ITEM kaimini_SOURCES ${CMAKE_SOURCE_DIR}/src/kernel/Kaimini.cpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${Boost_INCLUDE_DIRS}
   ${kaimini_INCLUDE_DIRS})
