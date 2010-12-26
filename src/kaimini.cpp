@@ -19,7 +19,6 @@
 #include <ostream>
 #include <stdexcept>
 #include <string>
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
@@ -29,7 +28,6 @@
 
 using namespace std;
 using namespace boost;
-namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
 namespace Kaimini {
@@ -253,39 +251,6 @@ double parse_error_string(const double value, string errorStr)
   }
 
   return error;
-}
-
-
-fs::path temp_path(const fs::path& pathTemplate)
-{
-  string name = pathTemplate.leaf();
-  size_t len = 0;
-
-  string::reverse_iterator it = name.rbegin();
-  while (it != name.rend() && 'X' == *it++) ++len;
-
-  size_t pos = name.length() - len;
-  if (len < 6)
-  {
-    name.resize(pos + 6, 'X');
-    len = 6;
-  }
-  //name.replace(pos, len, g_rnd.randString(len));
-
-  fs::path temp_p = pathTemplate.branch_path() / name;
-  return temp_p;
-}
-
-
-fs::path create_temp_directory(const fs::path& dirTemplate)
-{
-  fs::path temp_dir;
-
-  do temp_dir = temp_path(dirTemplate);
-  while (fs::exists(temp_dir));
-
-  fs::create_directory(temp_dir);
-  return temp_dir;
 }
 
 } // namespace Kaimini

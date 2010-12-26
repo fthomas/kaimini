@@ -78,7 +78,7 @@ void SLHAWorker::initialize(const Coll& input)
 
   try
   {
-    mWorkingDir     = create_temp_directory(mWorkingDir);
+//    mWorkingDir     = create_temp_directory(mWorkingDir);
     mTempInputFile  = mWorkingDir / mCalcInfo.inputFile;
     mTempOutputFile = mWorkingDir / mCalcInfo.outputFile;
 

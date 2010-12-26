@@ -11,6 +11,7 @@ set(Kaimini_RPATHS
     ${Minuit2_LIBRARY_DIRS})
 
 set(kaimini_INCLUDE_DIRS
+  ${CMAKE_CURRENT_SOURCE_DIR}
   ${Boost_INCLUDE_DIRS}
     ${Minuit2_INCLUDE_DIRS})
 include_directories( ${kaimini_INCLUDE_DIRS})

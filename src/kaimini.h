@@ -19,7 +19,6 @@
 
 #include <limits>
 #include <string>
-#include <boost/filesystem.hpp>
 
 namespace Kaimini {
 
@@ -57,12 +56,6 @@ void parse_command_line(int argc, char** argv,
                         std::string* ifile, std::string* ofile);
 
 double parse_error_string(double value, std::string errorStr);
-
-boost::filesystem::path
-temp_path(const boost::filesystem::path& pathTemplate);
-
-boost::filesystem::path
-create_temp_directory(const boost::filesystem::path& dirTemplate);
 
 } // namespace Kaimini
 
