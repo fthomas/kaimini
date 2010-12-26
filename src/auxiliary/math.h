@@ -37,7 +37,7 @@ const long double normal_3sigma =
 
 
 template<class Float> inline bool
-close_to_zero(const Float& x, const Float& factor = 100.)
+close_to_zero(const Float& x, double factor = 100.)
 {
   const Float eps = std::numeric_limits<Float>::epsilon() * factor;
   return std::abs(x) <= eps;
@@ -45,8 +45,8 @@ close_to_zero(const Float& x, const Float& factor = 100.)
 
 
 template<class Float> inline bool
-close_to_one(const Float& x, const Float& factor = 100.)
-{ return is_close_to_zero(1. - x, factor); }
+close_to_one(const Float& x, double factor = 100.)
+{ return close_to_zero(1. - x, factor); }
 
 } // namespace math
 } // namespace Kaimini
