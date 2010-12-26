@@ -117,4 +117,40 @@ BOOST_AUTO_TEST_CASE(test_randAlnumString)
   { BOOST_CHECK(isalnum(*it)); }
 }
 
+BOOST_AUTO_TEST_CASE(test_randDigitString_templ)
+{
+  RandomGenerator rg;
+  const string templ = "abcXXXXXX";
+
+  BOOST_CHECK_NE(rg.randDigitString(templ), templ);
+  BOOST_CHECK_NE(rg.randDigitString(templ), templ);
+
+  BOOST_CHECK_EQUAL(rg.randDigitString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.randDigitString(templ).substr(0, 3), templ.substr(0, 3));
+}
+
+BOOST_AUTO_TEST_CASE(test_randAlphaString_templ)
+{
+  RandomGenerator rg;
+  const string templ = "abcXXXXXX";
+
+  BOOST_CHECK_NE(rg.randAlphaString(templ), templ);
+  BOOST_CHECK_NE(rg.randAlphaString(templ), templ);
+
+  BOOST_CHECK_EQUAL(rg.randAlphaString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.randAlphaString(templ).substr(0, 3), templ.substr(0, 3));
+}
+
+BOOST_AUTO_TEST_CASE(test_randAlnumString_templ)
+{
+  RandomGenerator rg;
+  const string templ = "abcXXXXXX";
+
+  BOOST_CHECK_NE(rg.randAlnumString(templ), templ);
+  BOOST_CHECK_NE(rg.randAlnumString(templ), templ);
+
+  BOOST_CHECK_EQUAL(rg.randAlnumString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.randAlnumString(templ).substr(0, 3), templ.substr(0, 3));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
