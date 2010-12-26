@@ -85,9 +85,6 @@ public:
   char
   randAlnumChar();
 
-  char
-  randGraphChar();
-
   std::string
   randDigitString(std::size_t length = 6);
 
@@ -97,15 +94,17 @@ public:
   std::string
   randAlnumString(std::size_t length = 6);
 
-  std::string
-  randGraphString(std::size_t length = 6);
-
 private:
   unsigned int seed_;
 
 public:
   engine_type engine;
   gsl_rng* gsl_engine;
+
+private:
+  uniform_int_generator digit_gen_;
+  uniform_int_generator alpha_gen_;
+  uniform_int_generator alnum_gen_;
 };
 
 } // namespace Kaimini

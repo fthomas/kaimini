@@ -25,10 +25,18 @@
 
 namespace Kaimini {
 
+const int alpha_max = int('Z') + (int('z') - int('a') + 1);
+const int alnum_max = int('9') + (int('Z') - int('A') + 1)
+                               + (int('z') - int('a') + 1);
+
+
 RandomGenerator::RandomGenerator()
   : seed_(static_cast<unsigned int>(std::time(0)) +
           static_cast<unsigned int>(std::clock())),
-    engine(seed_)
+    engine(seed_),
+    digit_gen_(engine, uniform_int_distribution(int('0'), int('9'))),
+    alpha_gen_(engine, uniform_int_distribution(int('A'), alpha_max)),
+    alnum_gen_(engine, uniform_int_distribution(int('0'), alnum_max))
 {
   gsl_rng_default_seed = seed_;
   gsl_engine = gsl_rng_alloc(gsl_rng_mt19937);
@@ -84,9 +92,7 @@ RandomGenerator::randNormal(const double mean, const double stddev)
 char
 RandomGenerator::randDigitChar()
 {
-  static auto digit_gen = randUniformInt(int('0'), int('9'));
-
-  int retval = digit_gen();
+  int retval = digit_gen_();
   assert(std::isdigit(retval));
   return char(retval);
 }
@@ -95,10 +101,7 @@ RandomGenerator::randDigitChar()
 char
 RandomGenerator::randAlphaChar()
 {
-  static auto alpha_gen =
-    randUniformInt(int('A'), int('Z') + (int('z') - int('a') + 1));
-
-  int retval = alpha_gen();
+  int retval = alpha_gen_();
   if (retval > int('Z')) retval += -int('Z') + int('a') - 1;
 
   assert(std::isalpha(retval));
@@ -109,26 +112,11 @@ RandomGenerator::randAlphaChar()
 char
 RandomGenerator::randAlnumChar()
 {
-  static auto alnum_gen =
-    randUniformInt(int('0'), int('9') + (int('Z') - int('A') + 1)
-                                      + (int('z') - int('a') + 1));
-
-  int retval = alnum_gen();
+  int retval = alnum_gen_();
   if (retval > int('9')) retval += -int('9') + int('A') - 1;
   if (retval > int('Z')) retval += -int('Z') + int('a') - 1;
 
   assert(std::isalnum(retval));
-  return char(retval);
-}
-
-
-char
-RandomGenerator::randGraphChar()
-{
-  static auto graph_gen = randUniformInt(int('!'), int('~'));
-
-  int retval = graph_gen();
-  assert(std::isgraph(retval));
   return char(retval);
 }
 
@@ -154,14 +142,6 @@ RandomGenerator::randAlnumString(const std::size_t length)
 {
   return str_tools::generate_string(length,
     boost::bind(&RandomGenerator::randAlnumChar, this));
-}
-
-
-std::string
-RandomGenerator::randGraphString(const std::size_t length)
-{
-  return str_tools::generate_string(length,
-    boost::bind(&RandomGenerator::randGraphChar, this));
 }
 
 } // namespace Kaimini
