@@ -17,6 +17,7 @@
 #ifndef KAIMINI_KERNEL_CONTROLLER_H
 #define KAIMINI_KERNEL_CONTROLLER_H
 
+#include <boost/program_options.hpp>
 #include "kernel/RandomGenerator.h"
 
 namespace Kaimini {
@@ -27,7 +28,12 @@ public:
   Controller();
 
 private:
+  void
+  initializeCmdlineOptions();
+
+private:
   RandomGenerator rg_;
+  boost::program_options::options_description cmdline_options_;
 };
 
 } // namespace Kaimini
