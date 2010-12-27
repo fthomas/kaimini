@@ -18,6 +18,6 @@
 
 namespace Kaimini {
 
-Controller::Controller() : rg() {}
+Controller::Controller() : rg_() {}
 
 } // namespace Kaimini

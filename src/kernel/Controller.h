@@ -27,7 +27,7 @@ public:
   Controller();
 
 private:
-  RandomGenerator rg;
+  RandomGenerator rg_;
 };
 
 } // namespace Kaimini
