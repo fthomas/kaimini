@@ -1,4 +1,4 @@
-doc/html/
+doc/api-html/
 doc/manual/*.pdf
 src/kernel/Kaimini.h
-test/unit-tests/lcov-report/
+test/unit/lcov-report/
