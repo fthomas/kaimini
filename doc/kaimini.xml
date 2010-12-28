@@ -30,4 +30,16 @@
     <refname>kaimini</refname>
     <refpurpose>a general purpose fitting and analysis front end</refpurpose>
   </refnamediv>
+
+  <refsect1>
+    <title>DESCRIPTION</title>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+  </refsect1>
+
+  <refsect1>
+    <title>AUTHOR</title>
+  </refsect1>
 </refentry>
