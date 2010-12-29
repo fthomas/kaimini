@@ -7,7 +7,7 @@ string(TOLOWER ${CMAKE_PROJECT_NAME} PROJECT_NAME_LOWER)
 
 set(Kaimini_VERSION_MAJOR "0")
 set(Kaimini_VERSION_MINOR "2")
-set(Kaimini_VERSION_PATCH "2")
+set(Kaimini_VERSION_PATCH "3")
 set(Kaimini_VERSION "${Kaimini_VERSION_MAJOR}.${Kaimini_VERSION_MINOR}.${Kaimini_VERSION_PATCH}")
 
 # Enable more warnings if g++, clang or icpc is used.
@@ -23,6 +23,11 @@ execute_process(
   COMMAND head -n1
   COMMAND tr -d '\r\n'
   OUTPUT_VARIABLE CXX_COMPILER_ID)
+
+execute_process(
+  COMMAND date "+%s"
+  COMMAND tr -d '\r\n'
+  OUTPUT_VARIABLE BUILD_TIMESTAMP)
 
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 find_package(Boost COMPONENTS unit_test_framework)
