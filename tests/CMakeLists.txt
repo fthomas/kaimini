@@ -3,3 +3,4 @@ if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
 endif()
 
 add_subdirectory(profiling)
+add_subdirectory(regression)
