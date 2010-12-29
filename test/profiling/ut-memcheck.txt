@@ -1,15 +1,15 @@
 Memcheck, a memory error detector
 Copyright (C) 2002-2010, and GNU GPL'd, by Julian Seward et al.
 Using Valgrind-3.6.0.SVN-Debian and LibVEX; rerun with -h for copyright info
-Command: test/unit-tests/ut
+Command: test/unit/ut
 
-Running 21 test cases...
+Running 27 test cases...
 
 *** No errors detected
 
 HEAP SUMMARY:
 in use at exit: 0 bytes in 0 blocks
-total heap usage: 832 allocs, 832 frees, 130,863 bytes allocated
+total heap usage: 1,284 allocs, 1,284 frees, 177,749 bytes allocated
 
 All heap blocks were freed -- no leaks are possible
 

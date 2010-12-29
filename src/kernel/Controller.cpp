@@ -74,6 +74,9 @@ Controller::parseOptions(int argc, char* argv[]) const
   catch (po::invalid_command_line_syntax&)
   {
   }
+  catch (po::invalid_option_value&)
+  {
+  }
   catch (po::multiple_occurrences&)
   {
   }
