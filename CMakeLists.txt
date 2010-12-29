@@ -18,17 +18,6 @@ elseif(CMAKE_CXX_COMPILER MATCHES icpc)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd383 -wd444 -wd981")
 endif()
 
-execute_process(
-  COMMAND ${CMAKE_CXX_COMPILER} --version
-  COMMAND head -n1
-  COMMAND tr -d '\r\n'
-  OUTPUT_VARIABLE CXX_COMPILER_ID)
-
-execute_process(
-  COMMAND date "+%s"
-  COMMAND tr -d '\r\n'
-  OUTPUT_VARIABLE BUILD_TIMESTAMP)
-
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 find_package(Boost COMPONENTS unit_test_framework)
 find_package(Minuit2 REQUIRED)
