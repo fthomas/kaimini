@@ -17,7 +17,6 @@
 #ifndef KAIMINI_KERNEL_RANDOMGENERATOR_H
 #define KAIMINI_KERNEL_RANDOMGENERATOR_H
 
-#include <algorithm>
 #include <cstddef>
 #include <string>
 #include <boost/random.hpp>
