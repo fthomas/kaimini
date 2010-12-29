@@ -34,6 +34,7 @@ add_subdirectory(doc)
 add_subdirectory(l10n)
 add_subdirectory(src)
 add_subdirectory(tests)
+add_subdirectory(tools)
 
 # CPack settings:
 set(CPACK_PACKAGE_VENDOR "Frank S. Thomas")
