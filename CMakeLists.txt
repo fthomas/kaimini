@@ -42,6 +42,7 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(CMAKE_COPY ${CMAKE_COMMAND} -E copy)
 
 add_subdirectory(doc)
+add_subdirectory(l10n)
 add_subdirectory(src)
 add_subdirectory(test)
 

@@ -18,6 +18,9 @@
 #define KAIMINI_KERNEL_KAIMINI_H
 
 #include <string>
+#include <libintl.h>
+
+#define _(translatable_string) gettext(translatable_string)
 
 namespace Kaimini {
 

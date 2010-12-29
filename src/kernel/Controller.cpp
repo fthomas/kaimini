@@ -16,13 +16,14 @@
 
 #include <string>
 #include <boost/program_options.hpp>
+#include "kernel/Kaimini.h"
 #include "Controller.h"
 
 namespace po = boost::program_options;
 
 namespace Kaimini {
 
-Controller::Controller() : rg_(), cmdline_options_("Options")
+Controller::Controller() : rg_(), cmdline_options_(_("Options"))
 {
   initializeOptions();
 }
@@ -39,16 +40,16 @@ void
 Controller::initializeOptions()
 {
   cmdline_options_.add_options()
-    ("help,h",    "Show this help message and exit.")
-    ("version,V", "Show version number and exit.")
+    ("help,h",    _("Show this help message and exit."))
+    ("version,V", _("Show version number and exit."))
 
     ("input-file,i",  po::value<std::string>()->default_value("kaimini.in"),
-      "Read input from file <arg>.")
+      _("Read input from file <arg>."))
     ("output-file,o", po::value<std::string>()->default_value("kaimini.out"),
-      "Write results to file <arg>.")
+      _("Write results to file <arg>."))
 
     ("seed,s", po::value<unsigned int>(),
-      "Use <arg> as seed for the random number generator.");
+      _("Use <arg> as seed for the random number generator."));
 }
 
 

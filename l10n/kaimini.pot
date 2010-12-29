@@ -1,0 +1,42 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Kaimini 0.2.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-29 13:07+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/kernel/Controller.cpp:26
+msgid "Options"
+msgstr ""
+
+#: src/kernel/Controller.cpp:43
+msgid "Show this help message and exit."
+msgstr ""
+
+#: src/kernel/Controller.cpp:44
+msgid "Show version number and exit."
+msgstr ""
+
+#: src/kernel/Controller.cpp:47
+msgid "Read input from file <arg>."
+msgstr ""
+
+#: src/kernel/Controller.cpp:49
+msgid "Write results to file <arg>."
+msgstr ""
+
+#: src/kernel/Controller.cpp:52
+msgid "Use <arg> as seed for the random number generator."
+msgstr ""
