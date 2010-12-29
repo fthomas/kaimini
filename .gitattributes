@@ -2,3 +2,4 @@
 .gitignore      export-ignore
 .vimrc.local    export-ignore
 tests/profiling/ut-*.txt    export-ignore
+tests/static/sa-*.txt       export-ignore

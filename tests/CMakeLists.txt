@@ -4,3 +4,4 @@ endif()
 
 add_subdirectory(profiling)
 add_subdirectory(regression)
+add_subdirectory(static)

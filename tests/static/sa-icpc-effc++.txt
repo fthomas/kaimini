@@ -1,0 +1,342 @@
+src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
+  };
+   ^
+
+src/parameters.h(33): warning #2304: non-explicit constructor with single argument may cause implicit type conversion
+    Parameters(const ROOT::Minuit2::MnUserParameters& par)
+    ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mProcess" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mOverwrite" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mDataPoints" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mParams" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/slhainterface.cpp(45): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAInterface::mDataPointsKeys" not initialized (preferable to assignment in constructors)
+  SLHAInterface::SLHAInterface()
+                 ^
+
+src/slhainterface.cpp(45): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAInterface::mParamsKeys" not initialized (preferable to assignment in constructors)
+  SLHAInterface::SLHAInterface()
+                 ^
+
+src/slhainterface.cpp(45): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAInterface::mResult" not initialized (preferable to assignment in constructors)
+  SLHAInterface::SLHAInterface()
+                 ^
+
+src/parameters.h(33): warning #2304: non-explicit constructor with single argument may cause implicit type conversion
+    Parameters(const ROOT::Minuit2::MnUserParameters& par)
+    ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mProcess" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mOverwrite" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mDataPoints" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mParams" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/genericdriver.h(63): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for GenericDriver
+  };
+   ^
+
+src/parameters.h(33): warning #2304: non-explicit constructor with single argument may cause implicit type conversion
+    Parameters(const ROOT::Minuit2::MnUserParameters& par)
+    ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mProcess" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mOverwrite" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mDataPoints" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mParams" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/minuitdriver.h(124): error: expected a type specifier
+    std::map<std::string, minimizer0_t, functional::iless<>> minimizer0Map;
+                                                          ^
+
+src/minuitdriver.h(124): error: expected a ">"
+    std::map<std::string, minimizer0_t, functional::iless<>> minimizer0Map;
+                                                                          ^
+
+src/minuitdriver.h(124): error: expected a ">"
+    std::map<std::string, minimizer0_t, functional::iless<>> minimizer0Map;
+                                                                          ^
+
+src/minuitdriver.h(125): error: expected a type specifier
+    std::map<std::string, minimizer1_t, functional::iless<>> minimizer1Map;
+                                                          ^
+
+src/minuitdriver.h(125): error: expected a ">"
+    std::map<std::string, minimizer1_t, functional::iless<>> minimizer1Map;
+                                                                          ^
+
+src/minuitdriver.h(125): error: expected a ">"
+    std::map<std::string, minimizer1_t, functional::iless<>> minimizer1Map;
+                                                                          ^
+
+src/minuitdriver.h(126): error: expected a type specifier
+    std::map<std::string, minimizer2_t, functional::iless<>> minimizer2Map;
+                                                          ^
+
+src/minuitdriver.h(126): error: expected a ">"
+    std::map<std::string, minimizer2_t, functional::iless<>> minimizer2Map;
+                                                                          ^
+
+src/minuitdriver.h(126): error: expected a ">"
+    std::map<std::string, minimizer2_t, functional::iless<>> minimizer2Map;
+                                                                          ^
+
+src/minuitdriver.h(137): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for MinuitDriver
+  };
+   ^
+
+src/minuitdriver.h(41): warning #2022: Effective C++ Item 12 field member "Kaimini::MinuitDriver::mpMinimum" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/minuitdriver.h(42): error: identifier "minimizer0Map" is undefined
+      minimizer0Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
+      ^
+
+src/minuitdriver.h(43): error: identifier "minimizer1Map" is undefined
+      minimizer1Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
+      ^
+
+src/minuitdriver.h(44): error: identifier "minimizer2Map" is undefined
+      minimizer2Map["MinuitMigrad"]   = &MinuitDriver::runMigrad;
+      ^
+
+compilation aborted for src/minuitdriver.cpp (code 2)
+src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
+  };
+   ^
+
+src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
+  };
+   ^
+
+src/kernel/RandomGenerator.cpp(40): warning #2022: Effective C++ Item 12 field member "Kaimini::RandomGenerator::gsl_engine" not initialized (preferable to assignment in constructors)
+  {
+  ^
+
+src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::seed_" in destructor
+  }
+  ^
+
+src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::engine" in destructor
+  }
+  ^
+
+src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::gsl_engine" in destructor
+  }
+  ^
+
+src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::digit_gen_" in destructor
+  }
+  ^
+
+src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::alpha_gen_" in destructor
+  }
+  ^
+
+src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::alnum_gen_" in destructor
+  }
+  ^
+
+src/auxiliary/uniform_in_sphere.hpp(23): warning #2022: Effective C++ Item 12 field member "boost::uniform_in_sphere<RealType, Cont>::_normal" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
+  };
+   ^
+
+src/kernel/Controller.cpp(112): error #303: explicit type is missing ("int" assumed)
+      auto provided_seed = var_map["seed"].as<unsigned int>();
+           ^
+
+compilation aborted for src/kernel/Controller.cpp (code 2)
+src/parameters.h(33): warning #2304: non-explicit constructor with single argument may cause implicit type conversion
+    Parameters(const ROOT::Minuit2::MnUserParameters& par)
+    ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mProcess" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mOverwrite" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mDataPoints" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mParams" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/gsldriver.h(72): warning #2026: Effective C++ Item 14 Make sure base classes have virtual destructors
+  };
+   ^
+
+src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
+  };
+   ^
+
+src/parameters.h(33): warning #2304: non-explicit constructor with single argument may cause implicit type conversion
+    Parameters(const ROOT::Minuit2::MnUserParameters& par)
+    ^
+
+src/parameters.h(33): warning #2304: non-explicit constructor with single argument may cause implicit type conversion
+    Parameters(const ROOT::Minuit2::MnUserParameters& par)
+    ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mProcess" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mOverwrite" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mDataPoints" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mParams" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mInitialDir" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWorkingDir" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempInputFile" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempOutputFile" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mCalcInfo" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mSLHAInput" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStart" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStop" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStart" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStop" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mInitialDir" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWorkingDir" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempInputFile" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempOutputFile" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mCalcInfo" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mSLHAInput" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStart" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStop" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStart" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStop" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/slhaworker.cpp(143): warning #161: unrecognized #pragma
+    #pragma omp critical
+            ^
+
+src/parameters.h(33): warning #2304: non-explicit constructor with single argument may cause implicit type conversion
+    Parameters(const ROOT::Minuit2::MnUserParameters& par)
+    ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mProcess" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/resultprocessor.h(35): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::ResultProcessor::mOverwrite" in destructor
+    virtual ~ResultProcessor() {}
+                                ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mDataPoints" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
+src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaimini::ChiSqFunction::mParams" not initialized (preferable to assignment in constructors)
+    ChiSqFunction() : mErrorDef(1.) {}
+                                    ^
+
