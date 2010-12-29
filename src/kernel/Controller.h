@@ -27,9 +27,18 @@ class Controller
 public:
   Controller();
 
+  void
+  initializeKaimini(int argc, char* argv[]);
+
 private:
   void
-  initializeCmdlineOptions();
+  initializeOptions();
+
+  boost::program_options::variables_map
+  parseOptions(int argc, char* argv[]) const;
+
+  void
+  processOptions(const boost::program_options::variables_map& var_map);
 
 private:
   RandomGenerator rg_;

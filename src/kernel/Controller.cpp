@@ -24,12 +24,19 @@ namespace Kaimini {
 
 Controller::Controller() : rg_(), cmdline_options_("Options")
 {
-  initializeCmdlineOptions();
+  initializeOptions();
 }
 
 
 void
-Controller::initializeCmdlineOptions()
+Controller::initializeKaimini(int argc, char* argv[])
+{
+  processOptions(parseOptions(argc, argv));
+}
+
+
+void
+Controller::initializeOptions()
 {
   cmdline_options_.add_options()
     ("help,h",    "Show this help message and exit.")
@@ -42,6 +49,65 @@ Controller::initializeCmdlineOptions()
 
     ("seed,s", po::value<unsigned int>(),
       "Use <arg> as seed for the random number generator.");
+}
+
+
+po::variables_map
+Controller::parseOptions(int argc, char* argv[]) const
+{
+  po::positional_options_description pos_options;
+  pos_options.add("input-file",  1);
+  pos_options.add("output-file", 1);
+
+  po::variables_map var_map;
+
+  try
+  {
+    po::parsed_options parsed = po::command_line_parser(argc, argv)
+      .options(cmdline_options_)
+      .positional(pos_options)
+      .allow_unregistered()
+      .run();
+    po::store(parsed, var_map);
+    po::notify(var_map);
+  }
+  catch (po::invalid_command_line_syntax&)
+  {
+  }
+  catch (po::multiple_occurrences&)
+  {
+  }
+  catch (po::too_many_positional_options_error&)
+  {
+  }
+  return var_map;
+}
+
+
+void
+Controller::processOptions(const po::variables_map& var_map)
+{
+  if (var_map.count("help"))
+  {
+  }
+
+  if (var_map.count("version"))
+  {
+  }
+
+  if (var_map.count("input-file"))
+  {
+  }
+
+  if (var_map.count("output-file"))
+  {
+  }
+
+  if (var_map.count("seed"))
+  {
+    auto provided_seed = var_map["seed"].as<unsigned int>();
+    rg_.seed(provided_seed);
+  }
 }
 
 } // namespace Kaimini
