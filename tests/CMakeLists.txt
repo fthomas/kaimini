@@ -2,6 +2,6 @@ if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
     add_subdirectory(unit)
 endif()
 
+add_subdirectory(acceptance)
 add_subdirectory(profiling)
-add_subdirectory(regression)
 add_subdirectory(static)

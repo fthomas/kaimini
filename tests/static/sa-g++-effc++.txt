@@ -68,6 +68,12 @@ src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::minimizer0Map’ shoul
 src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::minimizer1Map’ should be initialized in the member initialization list
 src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::minimizer2Map’ should be initialized in the member initialization list
 src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::mpMinimum’ should be initialized in the member initialization list
+In file included from src/kernel/Controller.h:21,
+                 from src/kernel/Kaimini.cpp:17:
+src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
+src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
+src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
+src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
 In file included from src/kernel/RandomGenerator.cpp:24:
 src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
 src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
