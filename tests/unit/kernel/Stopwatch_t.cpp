@@ -30,20 +30,23 @@ BOOST_AUTO_TEST_CASE(test_normal_use)
   BOOST_CHECK_EQUAL(sw.user(),   0.);
   BOOST_CHECK_EQUAL(sw.system(), 0.);
   BOOST_CHECK_EQUAL(sw.real(),   0.);
+  BOOST_CHECK_EQUAL(sw.wall(),   0.);
 
   sw.start();
 
   BOOST_CHECK_EQUAL(sw.running(), true);
-  BOOST_CHECK_GT(sw.user(),   0.);
-  BOOST_CHECK_GT(sw.system(), 0.);
-  BOOST_CHECK_GT(sw.real(),   0.);
+  BOOST_CHECK_GE(sw.user(),   0.);
+  BOOST_CHECK_GE(sw.system(), 0.);
+  BOOST_CHECK_GE(sw.real(),   0.);
+  BOOST_CHECK_GE(sw.wall(),   0.);
 
   sw.stop();
 
   BOOST_CHECK_EQUAL(sw.running(), false);
-  BOOST_CHECK_GT(sw.user(),   0.);
-  BOOST_CHECK_GT(sw.system(), 0.);
-  BOOST_CHECK_GT(sw.real(),   0.);
+  BOOST_CHECK_GE(sw.user(),   0.);
+  BOOST_CHECK_GE(sw.system(), 0.);
+  BOOST_CHECK_GE(sw.real(),   0.);
+  BOOST_CHECK_GE(sw.wall(),   0.);
 
   sw.reset();
 
@@ -51,6 +54,7 @@ BOOST_AUTO_TEST_CASE(test_normal_use)
   BOOST_CHECK_EQUAL(sw.user(),   0.);
   BOOST_CHECK_EQUAL(sw.system(), 0.);
   BOOST_CHECK_EQUAL(sw.real(),   0.);
+  BOOST_CHECK_EQUAL(sw.wall(),   0.);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
