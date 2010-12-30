@@ -142,11 +142,4 @@ Stopwatch::updateTimesIfRunning()
   recordRef1();
 }
 
-
-void
-Stopwatch::resetTimes()
-{
-  user_ = sys_ = real_ = wall_ = 0.;
-}
-
 } // namespace Kaimini

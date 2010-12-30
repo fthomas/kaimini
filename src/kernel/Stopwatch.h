@@ -70,7 +70,8 @@ private:
   updateTimesIfRunning();
 
   void
-  resetTimes();
+  resetTimes()
+  { user_ = sys_ = real_ = wall_ = 0.; }
 
 private:
   bool running_;
