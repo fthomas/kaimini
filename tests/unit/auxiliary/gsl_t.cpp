@@ -118,6 +118,12 @@ BOOST_AUTO_TEST_CASE(test_gsl_vector_step_random)
 
     BOOST_CHECK_GE(gsl_vector_get(v1, 0), -1.0);
     BOOST_CHECK_LE(gsl_vector_get(v1, 0),  1.0);
+
+    gsl_vector_set_zero(v1);
+    gsl_vector_step_random(rg.gsl_engine, static_cast<void*>(v1), 1.0);
+
+    BOOST_CHECK_GE(gsl_vector_get(v1, 0), -1.0);
+    BOOST_CHECK_LE(gsl_vector_get(v1, 0),  1.0);
   }
 
   gsl_vector_free(v1);
