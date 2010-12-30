@@ -236,87 +236,55 @@ src/chisqfunction.h(31): warning #2022: Effective C++ Item 12 field member "Kaim
     ChiSqFunction() : mErrorDef(1.) {}
                                     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mInitialDir" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(33): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mInitialDir" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWorkingDir" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(33): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWorkingDir" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempInputFile" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(33): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempInputFile" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempOutputFile" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(33): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempOutputFile" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mCalcInfo" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(33): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mCalcInfo" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mSLHAInput" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(33): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mSLHAInput" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStart" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(39): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mInitialDir" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStop" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(39): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWorkingDir" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStart" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(39): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempInputFile" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(34): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStop" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(39): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempOutputFile" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mInitialDir" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(39): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mCalcInfo" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWorkingDir" not initialized (preferable to assignment in constructors)
+src/slhaworker.h(39): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mSLHAInput" not initialized (preferable to assignment in constructors)
     {
     ^
 
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempInputFile" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mTempOutputFile" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mCalcInfo" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mSLHAInput" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStart" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mProcTimeStop" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStart" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.h(40): warning #2022: Effective C++ Item 12 field member "Kaimini::SLHAWorker::mWallTimeStop" not initialized (preferable to assignment in constructors)
-    {
-    ^
-
-src/slhaworker.cpp(143): warning #161: unrecognized #pragma
+src/slhaworker.cpp(130): warning #161: unrecognized #pragma
     #pragma omp critical
             ^
 

@@ -85,13 +85,13 @@ public:
   randAlnumChar();
 
   std::string
-  randDigitString(std::size_t length = 6);
+  randDigitString(const std::size_t& length = 6);
 
   std::string
-  randAlphaString(std::size_t length = 6);
+  randAlphaString(const std::size_t& length = 6);
 
   std::string
-  randAlnumString(std::size_t length = 6);
+  randAlnumString(const std::size_t& length = 6);
 
   std::string
   randDigitString(const std::string& templ);

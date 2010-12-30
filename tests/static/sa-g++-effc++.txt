@@ -117,47 +117,39 @@ In file included from src/parameters.cpp:24:
 src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
 In file included from src/chisqfunction.h:23,
                  from src/slhainterface.h:25,
-                 from src/slhaworker.h:25,
-                 from src/slhaworker.cpp:33:
+                 from src/slhaworker.h:24,
+                 from src/slhaworker.cpp:32:
 src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
 In file included from src/slhainterface.h:25,
-                 from src/slhaworker.h:25,
-                 from src/slhaworker.cpp:33:
+                 from src/slhaworker.h:24,
+                 from src/slhaworker.cpp:32:
 src/chisqfunction.h: In constructor ‘Kaimini::ChiSqFunction::ChiSqFunction()’:
 src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mDataPoints’ should be initialized in the member initialization list
 src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mParams’ should be initialized in the member initialization list
-In file included from src/slhaworker.cpp:33:
+In file included from src/slhaworker.cpp:32:
 src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::SLHAWorker(const std::string&)’:
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mInitialDir’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mWorkingDir’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mTempInputFile’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mTempOutputFile’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mCalcInfo’ should be initialized in the member initialization list
+src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mInitialDir’ should be initialized in the member initialization list
+src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mWorkingDir’ should be initialized in the member initialization list
+src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mTempInputFile’ should be initialized in the member initialization list
+src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mTempOutputFile’ should be initialized in the member initialization list
+src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mCalcInfo’ should be initialized in the member initialization list
 src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::CalculatorInfo::CalculatorInfo()’:
-src/slhaworker.h:79: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::workingDir’ should be initialized in the member initialization list
-src/slhaworker.h:79: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::inputFile’ should be initialized in the member initialization list
-src/slhaworker.h:79: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::outputFile’ should be initialized in the member initialization list
-src/slhaworker.h:79: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::path’ should be initialized in the member initialization list
-src/slhaworker.h:79: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::cmdline’ should be initialized in the member initialization list
-src/slhaworker.h:79: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::command’ should be initialized in the member initialization list
+src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::workingDir’ should be initialized in the member initialization list
+src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::inputFile’ should be initialized in the member initialization list
+src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::outputFile’ should be initialized in the member initialization list
+src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::path’ should be initialized in the member initialization list
+src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::cmdline’ should be initialized in the member initialization list
+src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::command’ should be initialized in the member initialization list
 src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::SLHAWorker(const std::string&)’:
-src/slhaworker.h:33: note: synthesized method ‘Kaimini::SLHAWorker::CalculatorInfo::CalculatorInfo()’ first required here 
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mSLHAInput’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mProcTimeStart’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mProcTimeStop’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mWallTimeStart’ should be initialized in the member initialization list
-src/slhaworker.h:32: warning: ‘Kaimini::SLHAWorker::mWallTimeStop’ should be initialized in the member initialization list
+src/slhaworker.h:32: note: synthesized method ‘Kaimini::SLHAWorker::CalculatorInfo::CalculatorInfo()’ first required here 
+src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mSLHAInput’ should be initialized in the member initialization list
 src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::SLHAWorker(const SLHAea::Coll&)’:
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mInitialDir’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mWorkingDir’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mTempInputFile’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mTempOutputFile’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mCalcInfo’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mSLHAInput’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mProcTimeStart’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mProcTimeStop’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mWallTimeStart’ should be initialized in the member initialization list
-src/slhaworker.h:38: warning: ‘Kaimini::SLHAWorker::mWallTimeStop’ should be initialized in the member initialization list
+src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mInitialDir’ should be initialized in the member initialization list
+src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mWorkingDir’ should be initialized in the member initialization list
+src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mTempInputFile’ should be initialized in the member initialization list
+src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mTempOutputFile’ should be initialized in the member initialization list
+src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mCalcInfo’ should be initialized in the member initialization list
+src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mSLHAInput’ should be initialized in the member initialization list
 In file included from src/chisqfunction.h:23,
                  from src/parameteranalysis.cpp:24:
 src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor

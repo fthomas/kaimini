@@ -1,4 +1,4 @@
-src/slhaworker.cpp:152:  [4] (shell) system:
+src/slhaworker.cpp:139:  [4] (shell) system:
   This causes a new program to execute and is difficult to use safely.
   try using a library call that implements the same functionality if
   available. 

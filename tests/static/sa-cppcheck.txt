@@ -4,6 +4,3 @@
 [src/kernel/Controller.cpp:78]: (style) Empty catch block
 [src/kernel/Controller.cpp:81]: (style) Empty catch block
 [src/kernel/Controller.cpp:84]: (style) Empty catch block
-[src/kernel/RandomGenerator.cpp:125]: (style) Function parameter 'length' is passed by value. It could be passed by reference instead.
-[src/kernel/RandomGenerator.cpp:133]: (style) Function parameter 'length' is passed by value. It could be passed by reference instead.
-[src/kernel/RandomGenerator.cpp:141]: (style) Function parameter 'length' is passed by value. It could be passed by reference instead.

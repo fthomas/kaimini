@@ -28,9 +28,15 @@ const double Stopwatch::clock_ticks_per_sec_ =
 Stopwatch::Stopwatch()
   : running_(false),
     user_(0.),
-    system_(0.),
+    sys_(0.),
     real_(0.),
-    wall_(0.) {}
+    wall_(0.),
+    tms_r1_(),
+    tms_r2_(),
+    real_r1_(),
+    real_r2_(),
+    wall_r1_(),
+    wall_r2_() {}
 
 
 void
@@ -71,10 +77,10 @@ Stopwatch::user()
 
 
 double
-Stopwatch::system()
+Stopwatch::sys()
 {
   updateTimesIfRunning();
-  return system_;
+  return sys_;
 }
 
 
@@ -116,7 +122,7 @@ Stopwatch::updateTimes()
   user_ += static_cast<double>(tms_r2_.tms_utime - tms_r1_.tms_utime) /
     clock_ticks_per_sec_;
 
-  system_ += static_cast<double>(tms_r2_.tms_stime - tms_r1_.tms_stime) /
+  sys_  += static_cast<double>(tms_r2_.tms_stime - tms_r1_.tms_stime) /
     clock_ticks_per_sec_;
 
   real_ += static_cast<double>(real_r2_ - real_r1_) /
@@ -140,7 +146,7 @@ Stopwatch::updateTimesIfRunning()
 void
 Stopwatch::resetTimes()
 {
-  user_ = system_ = real_ = wall_ = 0.;
+  user_ = sys_ = real_ = wall_ = 0.;
 }
 
 } // namespace Kaimini

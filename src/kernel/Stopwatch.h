@@ -48,7 +48,7 @@ public:
   user();
 
   double
-  system();
+  sys();
 
   double
   real();
@@ -76,7 +76,7 @@ private:
   bool running_;
 
   double user_;
-  double system_;
+  double sys_;
   double real_;
   double wall_;
 
