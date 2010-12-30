@@ -17,7 +17,6 @@
 #ifndef KAIMINI_SLHAWORKER_H
 #define KAIMINI_SLHAWORKER_H
 
-#include <ctime>
 #include <vector>
 #include <string>
 #include <boost/filesystem.hpp>
@@ -86,11 +85,6 @@ private:
   } mCalcInfo;
 
   mutable SLHAea::Coll mSLHAInput;
-
-  std::clock_t mProcTimeStart;
-  std::clock_t mProcTimeStop;
-  std::time_t  mWallTimeStart;
-  std::time_t  mWallTimeStop;
 
   bool mSaveAllPoints;
 };

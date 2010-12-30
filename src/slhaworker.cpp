@@ -16,7 +16,6 @@
 
 #include <cstddef>
 #include <cstdlib>
-#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <ostream>
@@ -53,9 +52,6 @@ void SLHAWorker::initialize(const string& inputFile)
 
 void SLHAWorker::initialize(const Coll& input)
 {
-  mWallTimeStart = time(0);
-  mProcTimeStart = clock();
-
   // Avoid self-assignment if we are called by initialize(const string&).
   if (&mSLHAInput != &input) mSLHAInput = input;
 
@@ -100,15 +96,6 @@ void SLHAWorker::initialize(const Coll& input)
 void SLHAWorker::shutdown(const string& outputFile)
 {
   chdir(mInitialDir.file_string().c_str());
-
-  mWallTimeStop = time(0);
-  mProcTimeStop = clock();
-
-  const double wall_time = difftime(mWallTimeStop, mWallTimeStart);
-  const double proc_time =
-    static_cast<double>(mProcTimeStop - mProcTimeStart) / CLOCKS_PER_SEC;
-
-  processRuntime(wall_time, proc_time);
 
   ofstream dest(outputFile.c_str());
   if (!dest) exit_file_open_failed(outputFile);
