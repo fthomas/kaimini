@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #include <algorithm>
 #include <iterator>
 #include <map>
@@ -213,3 +213,4 @@ void jolt_parameters(ChiSqFunction* chiSqFunc, const Parameters& minParams)
 }
 
 } // namespace Kaimini
+*/

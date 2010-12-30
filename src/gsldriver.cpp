@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #include <cstddef>
 #include <map>
 #include <ostream>
@@ -151,3 +151,4 @@ void GSLDriver::sanitize(const gsl_vector* v)
 }
 
 } // namespace Kaimini
+*/

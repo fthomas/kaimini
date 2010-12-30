@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #ifndef KAIMINI_KAIMINI_H
 #define KAIMINI_KAIMINI_H
 
@@ -60,3 +60,4 @@ double parse_error_string(double value, std::string errorStr);
 } // namespace Kaimini
 
 #endif // KAIMINI_KAIMINI_H
+*/

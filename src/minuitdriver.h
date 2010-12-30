@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #ifndef KAIMINI_MINUITDRIVER_H
 #define KAIMINI_MINUITDRIVER_H
 
@@ -144,3 +144,4 @@ operator<<(std::ostream& os,
 } // namespace Kaimini
 
 #endif // KAIMINI_MINUITDRIVER_H
+*/

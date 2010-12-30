@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #ifndef KAIMINI_CHISQFUNCTION_H
 #define KAIMINI_CHISQFUNCTION_H
 
@@ -93,3 +93,4 @@ private:
 } // namespace Kaimini
 
 #endif // KAIMINI_CHISQFUNCTION_H
+*/

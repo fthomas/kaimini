@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #ifndef KAIMINI_GENERICDRIVER_H
 #define KAIMINI_GENERICDRIVER_H
 
@@ -65,3 +65,4 @@ private:
 } // namespace Kaimini
 
 #endif // KAIMINI_GENERICDRIVER_H
+*/

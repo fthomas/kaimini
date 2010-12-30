@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #ifndef KAIMINI_PARAMETERS_H
 #define KAIMINI_PARAMETERS_H
 
@@ -169,3 +169,4 @@ operator!=(const MnUserParameters& a, const MnUserParameters& b)
 /// \endcond
 
 #endif // KAIMINI_PARAMETERS_H
+*/

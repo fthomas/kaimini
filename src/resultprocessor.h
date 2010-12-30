@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #ifndef KAIMINI_RESULTPROCESSOR_H
 #define KAIMINI_RESULTPROCESSOR_H
 
@@ -150,3 +150,4 @@ private:
 } // namespace Kaimini
 
 #endif // KAIMINI_RESULTPROCESSOR_H
+*/

@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+/*
 #ifndef KAIMINI_DATAPOINT_H
 #define KAIMINI_DATAPOINT_H
 
@@ -247,3 +247,4 @@ operator<<(std::ostream& os, const std::vector<DataPoint>& dps)
 } // namespace Kaimini
 
 #endif // KAIMINI_DATAPOINT_H
+*/
