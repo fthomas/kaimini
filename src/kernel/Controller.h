@@ -30,6 +30,9 @@ public:
   void
   initializeKaimini(int argc, char* argv[]);
 
+  int
+  terminateKaimini();
+
 private:
   void
   initializeOptions();

@@ -19,5 +19,6 @@
 int main(int argc, char* argv[])
 {
   Kaimini::Controller controller;
-  return 0;
+  controller.initializeKaimini(argc, argv);
+  return controller.terminateKaimini();
 }
