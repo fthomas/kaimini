@@ -47,6 +47,7 @@ BOOST_AUTO_TEST_CASE(test_no_options)
 
   Controller controller;
   controller.initializeKaimini(argc, argv);
+  controller.terminateKaimini();
 }
 
 BOOST_AUTO_TEST_CASE(test_option_seed)
@@ -67,6 +68,7 @@ BOOST_AUTO_TEST_CASE(test_option_seed)
   strcpy(argv[2], "fortytwo");
 
   //controller.initializeKaimini(argc, argv);
+  controller.terminateKaimini();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

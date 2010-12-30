@@ -16,6 +16,7 @@
 
 #include <cctype>
 #include <string>
+#include <boost/math/special_functions/fpclassify.hpp>
 #include <boost/test/unit_test.hpp>
 #include "kernel/RandomGenerator.h"
 
@@ -43,6 +44,19 @@ BOOST_AUTO_TEST_CASE(test_seed)
   BOOST_CHECK_EQUAL(rstr2, rg.randAlnumString());
 }
 
+BOOST_AUTO_TEST_CASE(test_randUniformInt)
+{
+  RandomGenerator rg;
+  auto gen09 = rg.randUniformInt();
+
+  BOOST_CHECK_GE(gen09(), 0);
+  BOOST_CHECK_GE(gen09(), 0);
+  BOOST_CHECK_GE(gen09(), 0);
+  BOOST_CHECK_LE(gen09(), 9);
+  BOOST_CHECK_LE(gen09(), 9);
+  BOOST_CHECK_LE(gen09(), 9);
+}
+
 BOOST_AUTO_TEST_CASE(test_randUniformReal)
 {
   RandomGenerator rg;
@@ -54,6 +68,14 @@ BOOST_AUTO_TEST_CASE(test_randUniformReal)
   BOOST_CHECK_LT(gen(), 2.);
   BOOST_CHECK_LT(gen(), 2.);
   BOOST_CHECK_LT(gen(), 2.);
+
+  auto gen01 = rg.randUniformReal();
+  BOOST_CHECK_GE(gen01(), 0.);
+  BOOST_CHECK_GE(gen01(), 0.);
+  BOOST_CHECK_GE(gen01(), 0.);
+  BOOST_CHECK_LT(gen01(), 1.);
+  BOOST_CHECK_LT(gen01(), 1.);
+  BOOST_CHECK_LT(gen01(), 1.);
 }
 
 BOOST_AUTO_TEST_CASE(test_randUniformInSphere)
@@ -67,6 +89,20 @@ BOOST_AUTO_TEST_CASE(test_randUniformInSphere)
   BOOST_CHECK_LE(gen().at(0),  1.);
   BOOST_CHECK_LE(gen().at(0),  1.);
   BOOST_CHECK_LE(gen().at(0),  1.);
+}
+
+BOOST_AUTO_TEST_CASE(test_randNormal)
+{
+  RandomGenerator rg;
+  auto normal = rg.randNormal();
+
+  BOOST_CHECK((boost::math::isfinite)(normal()));
+  BOOST_CHECK((boost::math::isfinite)(normal()));
+  BOOST_CHECK((boost::math::isfinite)(normal()));
+
+  BOOST_CHECK((boost::math::isfinite)(rg.randNormal(-1.e6, 1.e6)()));
+  BOOST_CHECK((boost::math::isfinite)(rg.randNormal(1.e6, 1.e6)()));
+  BOOST_CHECK((boost::math::isfinite)(rg.randNormal(0., 1.e-6)()));
 }
 
 BOOST_AUTO_TEST_CASE(test_randDigitChar)

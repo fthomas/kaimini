@@ -57,4 +57,51 @@ BOOST_AUTO_TEST_CASE(test_normal_use)
   BOOST_CHECK_EQUAL(sw.wall(), 0.);
 }
 
+BOOST_AUTO_TEST_CASE(test_abnormal_use)
+{
+  Stopwatch sw;
+
+  BOOST_CHECK_EQUAL(sw.running(), false);
+  BOOST_CHECK_EQUAL(sw.user(), 0.);
+  BOOST_CHECK_EQUAL(sw.sys(),  0.);
+  BOOST_CHECK_EQUAL(sw.real(), 0.);
+  BOOST_CHECK_EQUAL(sw.wall(), 0.);
+
+  sw.start();
+  sw.start();
+
+  sw.reset();
+  sw.start();
+
+  BOOST_CHECK_EQUAL(sw.running(), true);
+  BOOST_CHECK_GE(sw.user(), 0.);
+  BOOST_CHECK_GE(sw.sys(),  0.);
+  BOOST_CHECK_GE(sw.real(), 0.);
+  BOOST_CHECK_GE(sw.wall(), 0.);
+
+  sw.stop();
+  sw.stop();
+
+  BOOST_CHECK_EQUAL(sw.running(), false);
+  BOOST_CHECK_GE(sw.user(), 0.);
+  BOOST_CHECK_GE(sw.sys(),  0.);
+  BOOST_CHECK_GE(sw.real(), 0.);
+  BOOST_CHECK_GE(sw.wall(), 0.);
+
+  sw.reset();
+  sw.reset();
+  sw.stop();
+
+  BOOST_CHECK_EQUAL(sw.running(), false);
+  BOOST_CHECK_EQUAL(sw.user(), 0.);
+  BOOST_CHECK_EQUAL(sw.sys(),  0.);
+  BOOST_CHECK_EQUAL(sw.real(), 0.);
+  BOOST_CHECK_EQUAL(sw.wall(), 0.);
+}
+
+BOOST_AUTO_TEST_CASE(test_resolution)
+{
+  BOOST_CHECK_GT(Stopwatch::resolution(), 0.);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
