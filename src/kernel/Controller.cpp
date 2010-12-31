@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdlib>
+#include <sstream>
 #include <string>
 #include <boost/program_options.hpp>
 #include "kernel/Kaimini.h"
@@ -120,6 +121,25 @@ Controller::processOptions(const po::variables_map& var_map)
     auto provided_seed = var_map["seed"].as<unsigned int>();
     rg_.seed(provided_seed);
   }
+}
+
+
+std::string
+Controller::createHelpMessage() const
+{
+  std::ostringstream out;
+  out << _("Usage: kaimini [options] [input-file] [output-file]") << "\n";
+  out << cmdline_options_;
+  return out.str();
+}
+
+
+std::string
+Controller::createVersionMessage() const
+{
+  std::ostringstream out;
+  out << "Kaimini " << g_kaimini_version << "\n";
+  return out.str();
 }
 
 } // namespace Kaimini

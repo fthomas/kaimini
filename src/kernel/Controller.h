@@ -17,6 +17,7 @@
 #ifndef KAIMINI_KERNEL_CONTROLLER_H
 #define KAIMINI_KERNEL_CONTROLLER_H
 
+#include <string>
 #include <boost/program_options.hpp>
 #include "kernel/RandomGenerator.h"
 
@@ -42,6 +43,12 @@ private:
 
   void
   processOptions(const boost::program_options::variables_map& var_map);
+
+  std::string
+  createHelpMessage() const;
+
+  std::string
+  createVersionMessage() const;
 
 private:
   RandomGenerator rg_;
