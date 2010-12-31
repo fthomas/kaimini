@@ -12,7 +12,9 @@ if(XGETTEXT)
       COMMAND ${XGETTEXT} --directory=${CMAKE_SOURCE_DIR}/ --output=kaimini.pot
         --c++ --from-code=utf-8 --keyword=_ --boost
         --package-name=${CMAKE_PROJECT_NAME}
-        --package-version=${Kaimini_VERSION} ${kaimini_SOURCES_REL}
+        --package-version=${Kaimini_VERSION}
+        --msgid-bugs-address=fthomas@physik.uni-wuerzburg.de
+        ${kaimini_SOURCES_REL}
       COMMAND ${CMAKE_COPY} kaimini.pot ${CMAKE_CURRENT_SOURCE_DIR}/
       DEPENDS ${kaimini_SOURCES})
 
