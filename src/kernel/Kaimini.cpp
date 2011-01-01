@@ -14,12 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <clocale>
 #include <cstdlib>
+#include <libintl.h>
 #include "kernel/Controller.h"
 #include "utility/exit_exception.h"
 
 int main(int argc, char* argv[])
 {
+  std::setlocale(LC_MESSAGES, "");
+  bindtextdomain("kaimini", ".");
+  textdomain("kaimini");
+
   try
   {
     Kaimini::Controller controller;
