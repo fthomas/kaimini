@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_AUXILIARY_FILESYSTEM_H
-#define KAIMINI_AUXILIARY_FILESYSTEM_H
+#ifndef KAIMINI_UTILITY_FILESYSTEM_H
+#define KAIMINI_UTILITY_FILESYSTEM_H
 
 #include <boost/filesystem.hpp>
 #include "kernel/RandomGenerator.h"
 
 namespace Kaimini {
-namespace filesystem {
+namespace utility {
 
 boost::filesystem::path
 temp_path(const boost::filesystem::path& path_templ,
@@ -31,7 +31,7 @@ boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dir_templ,
   RandomGenerator& rg);
 
-} // namespace filesystem
+} // namespace utility
 } // namespace Kaimini
 
-#endif // KAIMINI_AUXILIARY_FILESYSTEM_H
+#endif // KAIMINI_UTILITY_FILESYSTEM_H

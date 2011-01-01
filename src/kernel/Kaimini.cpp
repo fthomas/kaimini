@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdlib>
-#include "auxiliary/exit_exception.h"
 #include "kernel/Controller.h"
+#include "utility/exit_exception.h"
 
 int main(int argc, char* argv[])
 {
@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     controller.initializeKaimini(argc, argv);
     controller.terminateKaimini();
   }
-  catch (Kaimini::exit_exception& ex)
+  catch (Kaimini::utility::exit_exception& ex)
   {
     std::exit(ex.status);
   }

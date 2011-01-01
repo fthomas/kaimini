@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_AUXILIARY_GSL_H
-#define KAIMINI_AUXILIARY_GSL_H
+#ifndef KAIMINI_UTILITY_GSL_H
+#define KAIMINI_UTILITY_GSL_H
 
 #include <vector>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
 
 namespace Kaimini {
-namespace gsl {
+namespace utility {
 
 std::vector<double>
 gsl_to_stl_vector(const gsl_vector* v);
@@ -56,7 +56,7 @@ inline void
 gsl_vector_step_random(const gsl_rng* r, void* v, double step_size)
 { return gsl_vector_step_random(r, static_cast<gsl_vector*>(v), step_size); }
 
-} // namespace gsl
+} // namespace utility
 } // namespace Kaimini
 
-#endif // KAIMINI_AUXILIARY_GSL_H
+#endif // KAIMINI_UTILITY_GSL_H

@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_AUXILIARY_FUNCTIONAL_H
-#define KAIMINI_AUXILIARY_FUNCTIONAL_H
+#ifndef KAIMINI_UTILITY_FUNCTIONAL_H
+#define KAIMINI_UTILITY_FUNCTIONAL_H
 
 #include <functional>
 #include <string>
 #include <boost/algorithm/string.hpp>
 
 namespace Kaimini {
-namespace functional {
+namespace utility {
 
 template<class Pair>
 struct pair_select1st
@@ -69,7 +69,7 @@ struct iless : public std::binary_function<Sequence, Sequence, bool>
   { return boost::to_lower_copy(a) < boost::to_lower_copy(b); }
 };
 
-} // namespace functional
+} // namespace utility
 } // namespace Kaimini
 
-#endif // KAIMINI_AUXILIARY_FUNCTIONAL_H
+#endif // KAIMINI_UTILITY_FUNCTIONAL_H

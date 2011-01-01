@@ -14,28 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cmath>
-#include <boost/math/special_functions/erf.hpp>
-#include <boost/test/unit_test.hpp>
-#include "auxiliary/math.h"
+#ifndef KAIMINI_UTILITY_ALGORITHM_H
+#define KAIMINI_UTILITY_ALGORITHM_H
 
-using namespace std;
-using namespace boost::math;
-using namespace Kaimini::math;
+#include <iterator>
 
-BOOST_AUTO_TEST_SUITE(test_auxiliary_math)
+namespace Kaimini {
+namespace utility {
 
-BOOST_AUTO_TEST_CASE(test_close_to_zero)
+template<class InputIterator, class Predicate>
+typename std::iterator_traits<InputIterator>::difference_type
+count_while(InputIterator first, InputIterator last, Predicate pred)
 {
-  BOOST_CHECK(close_to_zero(sqrt(2.) - double(sqrt2)));
-  BOOST_CHECK(close_to_zero(acos(-1.) - double(pi)));
+  typename std::iterator_traits<InputIterator>::difference_type n = 0;
+  for (; first != last && pred(*first); ++first) ++n;
+  return n;
 }
 
-BOOST_AUTO_TEST_CASE(test_close_to_one)
-{
-  BOOST_CHECK(close_to_one(erf(1/sqrt(2.)) / double(normal_1sigma)));
-  BOOST_CHECK(close_to_one(erf(2/sqrt(2.)) / double(normal_2sigma)));
-  BOOST_CHECK(close_to_one(erf(3/sqrt(2.)) / double(normal_3sigma)));
-}
+} // namespace utility
+} // namespace Kaimini
 
-BOOST_AUTO_TEST_SUITE_END()
+#endif // KAIMINI_UTILITY_ALGORITHM_H

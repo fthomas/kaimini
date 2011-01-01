@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_AUXILIARY_MATH_H
-#define KAIMINI_AUXILIARY_MATH_H
+#ifndef KAIMINI_UTILITY_MATH_H
+#define KAIMINI_UTILITY_MATH_H
 
 #include <cmath>
 #include <limits>
 
 namespace Kaimini {
-namespace math {
+namespace utility {
 
 const long double pi =
   3.1415926535897932384626433832795L;  // pi
@@ -48,7 +48,7 @@ template<class Float> inline bool
 close_to_one(const Float& x, double factor = 100.)
 { return close_to_zero(1. - x, factor); }
 
-} // namespace math
+} // namespace utility
 } // namespace Kaimini
 
-#endif // KAIMINI_AUXILIARY_MATH_H
+#endif // KAIMINI_UTILITY_MATH_H

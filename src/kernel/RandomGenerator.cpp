@@ -20,7 +20,7 @@
 #include <string>
 #include <boost/bind.hpp>
 #include <gsl/gsl_rng.h>
-#include "auxiliary/str_tools.h"
+#include "utility/str_tools.h"
 #include "RandomGenerator.h"
 
 namespace Kaimini {
@@ -124,7 +124,7 @@ RandomGenerator::randAlnumChar()
 std::string
 RandomGenerator::randDigitString(const std::size_t& length)
 {
-  return str_tools::generate_string(length,
+  return utility::generate_string(length,
     boost::bind(&RandomGenerator::randDigitChar, this));
 }
 
@@ -132,7 +132,7 @@ RandomGenerator::randDigitString(const std::size_t& length)
 std::string
 RandomGenerator::randAlphaString(const std::size_t& length)
 {
-  return str_tools::generate_string(length,
+  return utility::generate_string(length,
     boost::bind(&RandomGenerator::randAlphaChar, this));
 }
 
@@ -140,7 +140,7 @@ RandomGenerator::randAlphaString(const std::size_t& length)
 std::string
 RandomGenerator::randAlnumString(const std::size_t& length)
 {
-  return str_tools::generate_string(length,
+  return utility::generate_string(length,
     boost::bind(&RandomGenerator::randAlnumChar, this));
 }
 
@@ -148,7 +148,7 @@ RandomGenerator::randAlnumString(const std::size_t& length)
 std::string
 RandomGenerator::randDigitString(const std::string& templ)
 {
-  return str_tools::generate_string(templ,
+  return utility::generate_string(templ,
     boost::bind(&RandomGenerator::randDigitChar, this));
 }
 
@@ -156,7 +156,7 @@ RandomGenerator::randDigitString(const std::string& templ)
 std::string
 RandomGenerator::randAlphaString(const std::string& templ)
 {
-  return str_tools::generate_string(templ,
+  return utility::generate_string(templ,
     boost::bind(&RandomGenerator::randAlphaChar, this));
 }
 
@@ -164,7 +164,7 @@ RandomGenerator::randAlphaString(const std::string& templ)
 std::string
 RandomGenerator::randAlnumString(const std::string& templ)
 {
-  return str_tools::generate_string(templ,
+  return utility::generate_string(templ,
     boost::bind(&RandomGenerator::randAlnumChar, this));
 }
 

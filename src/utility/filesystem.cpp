@@ -19,7 +19,7 @@
 #include "filesystem.h"
 
 namespace Kaimini {
-namespace filesystem {
+namespace utility {
 
 namespace fs = boost::filesystem;
 
@@ -41,5 +41,5 @@ create_temp_directory(const fs::path& dir_templ, RandomGenerator& rg)
   return temp_dir;
 }
 
-} // namespace filesystem
+} // namespace utility
 } // namespace Kaimini

@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_AUXILIARY_STR_TOOLS_H
-#define KAIMINI_AUXILIARY_STR_TOOLS_H
+#ifndef KAIMINI_UTILITY_STR_TOOLS_H
+#define KAIMINI_UTILITY_STR_TOOLS_H
 
 #include <algorithm>
 #include <cstddef>
 #include <string>
 
 namespace Kaimini {
-namespace str_tools {
+namespace utility {
 
 template<class CharGenerator> std::string
 generate_string(std::size_t length, CharGenerator generator)
@@ -53,7 +53,7 @@ generate_string(const std::string& templ, CharGenerator generator,
   return retval;
 }
 
-} // namespace str_tools
+} // namespace utility
 } // namespace Kaimini
 
-#endif // KAIMINI_AUXILIARY_STR_TOOLS_H
+#endif // KAIMINI_UTILITY_STR_TOOLS_H

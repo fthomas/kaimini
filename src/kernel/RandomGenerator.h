@@ -22,7 +22,7 @@
 #include <boost/random.hpp>
 #include <boost/utility.hpp>
 #include <gsl/gsl_rng.h>
-#include "auxiliary/uniform_in_sphere.hpp"
+#include "utility/uniform_in_sphere.hpp"
 
 namespace Kaimini {
 

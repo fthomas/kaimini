@@ -16,14 +16,14 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
-#include "auxiliary/filesystem.h"
 #include "kernel/RandomGenerator.h"
+#include "utility/filesystem.h"
 
 using namespace boost::filesystem;
 using namespace Kaimini;
-using namespace Kaimini::filesystem;
+using namespace Kaimini::utility;
 
-BOOST_AUTO_TEST_SUITE(test_auxiliary_filesystem)
+BOOST_AUTO_TEST_SUITE(test_utility_filesystem)
 
 BOOST_AUTO_TEST_CASE(test_create_temp_directory)
 {

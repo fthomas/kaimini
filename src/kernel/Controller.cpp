@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2009-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 #include <sstream>
 #include <string>
 #include <boost/program_options.hpp>
-#include "auxiliary/exit_exception.h"
 #include "kernel/Kaimini.h"
+#include "utility/exit_exception.h"
 #include "Controller.h"
 
 namespace po = boost::program_options;
@@ -41,7 +41,7 @@ Controller::initializeKaimini(int argc, char* argv[])
 void
 Controller::terminateKaimini(int status)
 {
-  throw exit_exception(status);
+  throw utility::exit_exception(status);
 }
 
 

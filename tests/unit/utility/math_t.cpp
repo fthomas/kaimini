@@ -14,19 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_AUXILIARY_EXIT_EXCEPTION_H
-#define KAIMINI_AUXILIARY_EXIT_EXCEPTION_H
+#include <cmath>
+#include <boost/math/special_functions/erf.hpp>
+#include <boost/test/unit_test.hpp>
+#include "utility/math.h"
 
-namespace Kaimini {
+using namespace std;
+using namespace boost::math;
+using namespace Kaimini::utility;
 
-struct exit_exception
+BOOST_AUTO_TEST_SUITE(test_utility_math)
+
+BOOST_AUTO_TEST_CASE(test_close_to_zero)
 {
-  explicit
-  exit_exception(int exit_status) : status(exit_status) {}
+  BOOST_CHECK(close_to_zero(sqrt(2.) - double(sqrt2)));
+  BOOST_CHECK(close_to_zero(acos(-1.) - double(pi)));
+}
 
-  int status;
-};
+BOOST_AUTO_TEST_CASE(test_close_to_one)
+{
+  BOOST_CHECK(close_to_one(erf(1/sqrt(2.)) / double(normal_1sigma)));
+  BOOST_CHECK(close_to_one(erf(2/sqrt(2.)) / double(normal_2sigma)));
+  BOOST_CHECK(close_to_one(erf(3/sqrt(2.)) / double(normal_3sigma)));
+}
 
-} // namespace Kaimini
-
-#endif // KAIMINI_AUXILIARY_EXIT_EXCEPTION_H
+BOOST_AUTO_TEST_SUITE_END()

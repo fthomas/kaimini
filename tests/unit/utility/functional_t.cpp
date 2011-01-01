@@ -18,12 +18,12 @@
 #include <string>
 #include <utility>
 #include <boost/test/unit_test.hpp>
-#include "auxiliary/functional.h"
+#include "utility/functional.h"
 
 using namespace std;
-using namespace Kaimini::functional;
+using namespace Kaimini::utility;
 
-BOOST_AUTO_TEST_SUITE(test_auxiliary_functional)
+BOOST_AUTO_TEST_SUITE(test_utility_functional)
 
 BOOST_AUTO_TEST_CASE(test_pair_select)
 {

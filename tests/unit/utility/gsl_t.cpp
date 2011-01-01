@@ -20,15 +20,15 @@
 #include <gsl/gsl_vector.h>
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/unit_test.hpp>
-#include "auxiliary/gsl.h"
-#include "auxiliary/math.h"
 #include "kernel/RandomGenerator.h"
+#include "utility/gsl.h"
+#include "utility/math.h"
 
 using namespace std;
 using namespace Kaimini;
-using namespace Kaimini::gsl;
+using namespace Kaimini::utility;
 
-BOOST_AUTO_TEST_SUITE(test_auxiliary_gsl)
+BOOST_AUTO_TEST_SUITE(test_utility_gsl)
 
 BOOST_AUTO_TEST_CASE(test_gsl_to_stl_vector)
 {
@@ -79,9 +79,9 @@ BOOST_AUTO_TEST_CASE(test_gsl_vector_dist)
   gsl_vector_set(v2, 0, 1.0);
   gsl_vector_set(v2, 1, 1.0);
 
-  BOOST_CHECK_CLOSE(gsl_vector_dist(v1, v2), math::sqrt2, 1.e-3);
+  BOOST_CHECK_CLOSE(gsl_vector_dist(v1, v2), sqrt2, 1.e-3);
   BOOST_CHECK_CLOSE(gsl_vector_dist(static_cast<void*>(v1),
-    static_cast<void*>(v2)), math::sqrt2, 1.e-3);
+    static_cast<void*>(v2)), sqrt2, 1.e-3);
 
   gsl_vector_free(v1);
   gsl_vector_free(v2);

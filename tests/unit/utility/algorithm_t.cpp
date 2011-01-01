@@ -18,12 +18,12 @@
 #include <functional>
 #include <vector>
 #include <boost/test/unit_test.hpp>
-#include "auxiliary/algorithm.h"
+#include "utility/algorithm.h"
 
 using namespace std;
-using namespace Kaimini::algorithm;
+using namespace Kaimini::utility;
 
-BOOST_AUTO_TEST_SUITE(test_auxiliary_algorithm)
+BOOST_AUTO_TEST_SUITE(test_utility_algorithm)
 
 BOOST_AUTO_TEST_CASE(test_count_while)
 {

@@ -15,12 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <boost/test/unit_test.hpp>
-#include "auxiliary/str_tools.h"
+#include "utility/str_tools.h"
 
 using namespace std;
-using namespace Kaimini::str_tools;
+using namespace Kaimini::utility;
 
-BOOST_AUTO_TEST_SUITE(test_auxiliary_str_tools)
+BOOST_AUTO_TEST_SUITE(test_utility_str_tools)
 
 char return_a() { return 'a'; }
 

@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,24 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef KAIMINI_AUXILIARY_ALGORITHM_H
-#define KAIMINI_AUXILIARY_ALGORITHM_H
-
-#include <iterator>
+#ifndef KAIMINI_UTILITY_EXIT_EXCEPTION_H
+#define KAIMINI_UTILITY_EXIT_EXCEPTION_H
 
 namespace Kaimini {
-namespace algorithm {
+namespace utility {
 
-template<class InputIterator, class Predicate>
-typename std::iterator_traits<InputIterator>::difference_type
-count_while(InputIterator first, InputIterator last, Predicate pred)
+struct exit_exception
 {
-  typename std::iterator_traits<InputIterator>::difference_type n = 0;
-  for (; first != last && pred(*first); ++first) ++n;
-  return n;
-}
+  explicit
+  exit_exception(int exit_status) : status(exit_status) {}
 
-} // namespace algorithm
+  int status;
+};
+
+} // namespace utility
 } // namespace Kaimini
 
-#endif // KAIMINI_AUXILIARY_ALGORITHM_H
+#endif // KAIMINI_UTILITY_EXIT_EXCEPTION_H
