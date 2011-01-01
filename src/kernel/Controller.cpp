@@ -26,7 +26,7 @@ namespace po = boost::program_options;
 
 namespace Kaimini {
 
-Controller::Controller() : rg_(), cmdline_options_(_("Options"))
+Controller::Controller() : logger_(), rg_(), cmdline_options_(_("Options"))
 {
   initializeOptions();
 }
@@ -69,7 +69,7 @@ Controller::initializeOptions()
 
 
 po::variables_map
-Controller::parseOptions(int argc, char* argv[]) const
+Controller::parseOptions(int argc, char* argv[])
 {
   po::positional_options_description pos_options;
   pos_options.add("input-file",  1);
@@ -89,18 +89,22 @@ Controller::parseOptions(int argc, char* argv[]) const
   }
   catch (po::invalid_command_line_syntax&)
   {
+    logger().logMessage(_(""));
     terminateKaimini(EXIT_FAILURE);
   }
   catch (po::invalid_option_value&)
   {
+    logger().logMessage(_(""));
     terminateKaimini(EXIT_FAILURE);
   }
   catch (po::multiple_occurrences&)
   {
+    logger().logMessage(_(""));
     terminateKaimini(EXIT_FAILURE);
   }
   catch (po::too_many_positional_options_error&)
   {
+    logger().logMessage(_(""));
     terminateKaimini(EXIT_FAILURE);
   }
   return var_map;
@@ -112,11 +116,13 @@ Controller::processOptions(const po::variables_map& var_map)
 {
   if (var_map.count("help"))
   {
+    logger().logMessage(createHelpMessage());
     terminateKaimini();
   }
 
   if (var_map.count("version"))
   {
+    logger().logMessage(createVersionMessage());
     terminateKaimini();
   }
 
@@ -136,10 +142,13 @@ Controller::processOptions(const po::variables_map& var_map)
 
   if (var_map.count("quiet"))
   {
+    logger().verbosityLevel(0);
   }
 
   if (var_map.count("verbose"))
   {
+    int verbosity_level = var_map["verbose"].as<int>();
+    logger().verbosityLevel(verbosity_level);
   }
 }
 

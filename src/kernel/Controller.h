@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <string>
 #include <boost/program_options.hpp>
+#include "kernel/Logger.h"
 #include "kernel/RandomGenerator.h"
 
 namespace Kaimini {
@@ -35,12 +36,20 @@ public:
   void
   terminateKaimini(int status = EXIT_SUCCESS);
 
+  Logger&
+  logger()
+  { return logger_; }
+
+  RandomGenerator&
+  randomGenerator()
+  { return rg_; }
+
 private:
   void
   initializeOptions();
 
   boost::program_options::variables_map
-  parseOptions(int argc, char* argv[]) const;
+  parseOptions(int argc, char* argv[]);
 
   void
   processOptions(const boost::program_options::variables_map& var_map);
@@ -52,7 +61,9 @@ private:
   createVersionMessage() const;
 
 private:
+  Logger logger_;
   RandomGenerator rg_;
+
   boost::program_options::options_description cmdline_options_;
 };
 
