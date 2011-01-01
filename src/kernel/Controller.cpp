@@ -58,7 +58,12 @@ Controller::initializeOptions()
       _("Write results to file <arg>."))
 
     ("seed,s", po::value<unsigned int>(),
-      _("Use <arg> as seed for the random number generator."));
+      _("Use <arg> as seed for the random number generator."))
+
+    ("quiet,q",
+      _("Suppress all messages to standard output."))
+    ("verbose,v", po::value<int>()->implicit_value(1),
+      _("Show additional informational/debug messages."));
 }
 
 
@@ -122,6 +127,14 @@ Controller::processOptions(const po::variables_map& var_map)
   {
     auto provided_seed = var_map["seed"].as<unsigned int>();
     rg_.seed(provided_seed);
+  }
+
+  if (var_map.count("quiet"))
+  {
+  }
+
+  if (var_map.count("verbose"))
+  {
   }
 }
 

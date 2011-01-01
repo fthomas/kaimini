@@ -148,13 +148,10 @@ void parse_command_line(int argc, char** argv,
 {
   po::options_description cmdline_options("Options");
   cmdline_options.add_options()
-    ("help,h",    "show this help message and exit")
-    ("version,V", "show version number and exit")
     ("input-file,i",  po::value<string>(ifile)->
       default_value(*ifile), "read input from file <arg>")
     ("output-file,o", po::value<string>(ofile)->
       default_value(*ofile), "write result to file <arg>")
-    ("quiet,q", "be quiet (no output to stdout)");
 
   po::positional_options_description pos_options;
   pos_options.add("input-file", 1);
@@ -188,19 +185,6 @@ void parse_command_line(int argc, char** argv,
     cerr << format(
       "# Error: Too many command line arguments.\n");
     exit(EXIT_FAILURE);
-  }
-
-  if (vm.count("help"))
-  {
-    cout << "Usage: kaimini [options] [input-file] [output-file]\n\n";
-    cout << cmdline_options;
-    exit(EXIT_SUCCESS);
-  }
-
-  if (vm.count("version"))
-  {
-    cout << "kaimini " << g_kaimini_version << endl;
-    exit(EXIT_SUCCESS);
   }
 
   if (vm.count("quiet")) g_verbose_output = false;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kaimini 0.2.4\n"
 "Report-Msgid-Bugs-To: fthomas@physik.uni-wuerzburg.de\n"
-"POT-Creation-Date: 2011-01-01 16:57+0100\n"
+"POT-Creation-Date: 2011-01-01 20:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,14 @@ msgstr ""
 msgid "Use <arg> as seed for the random number generator."
 msgstr ""
 
-#: src/kernel/Controller.cpp:133
+#: src/kernel/Controller.cpp:64
+msgid "Suppress all messages to standard output."
+msgstr ""
+
+#: src/kernel/Controller.cpp:66
+msgid "Show additional informational/debug messages."
+msgstr ""
+
+#: src/kernel/Controller.cpp:146
 msgid "Usage: kaimini [options] [input-file] [output-file]"
 msgstr ""
