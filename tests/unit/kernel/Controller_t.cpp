@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,9 +17,11 @@
 #include <cstring>
 #include <boost/test/unit_test.hpp>
 #include "kernel/Controller.h"
+#include "utility/exit_exception.h"
 
 using namespace std;
 using namespace Kaimini;
+using namespace Kaimini::utility;
 
 struct F
 {
@@ -47,7 +49,7 @@ BOOST_AUTO_TEST_CASE(test_no_options)
 
   Controller controller;
   controller.initializeKaimini(argc, argv);
-  controller.terminateKaimini();
+  BOOST_CHECK_THROW(controller.terminateKaimini(), exit_exception);
 }
 
 BOOST_AUTO_TEST_CASE(test_option_seed)
@@ -68,7 +70,7 @@ BOOST_AUTO_TEST_CASE(test_option_seed)
   strcpy(argv[2], "fortytwo");
 
   //controller.initializeKaimini(argc, argv);
-  controller.terminateKaimini();
+  BOOST_CHECK_THROW(controller.terminateKaimini(), exit_exception);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

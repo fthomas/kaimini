@@ -1,6 +1,4 @@
-[src/datapoint.h:151]: (style) The function 'DataPoint::randomErrorUniform' can be const
-[src/datapoint.h:156]: (style) The function 'DataPoint::randomErrorNormal' can be const
-[src/kernel/Controller.cpp:75]: (style) Empty catch block
-[src/kernel/Controller.cpp:78]: (style) Empty catch block
-[src/kernel/Controller.cpp:81]: (style) Empty catch block
 [src/kernel/Controller.cpp:84]: (style) Empty catch block
+[src/kernel/Controller.cpp:87]: (style) Empty catch block
+[src/kernel/Controller.cpp:90]: (style) Empty catch block
+[src/kernel/Controller.cpp:93]: (style) Empty catch block

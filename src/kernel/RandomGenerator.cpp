@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@ RandomGenerator::RandomGenerator()
   : seed_(static_cast<unsigned int>(std::time(0)) +
           static_cast<unsigned int>(std::clock())),
     engine(seed_),
+    gsl_engine(gsl_rng_alloc(gsl_rng_mt19937)),
     digit_gen_(engine, uniform_int_distribution(int('0'), int('9'))),
     alpha_gen_(engine, uniform_int_distribution(int('A'), alpha_max)),
     alnum_gen_(engine, uniform_int_distribution(int('0'), alnum_max))
 {
-  gsl_rng_default_seed = seed_;
-  gsl_engine = gsl_rng_alloc(gsl_rng_mt19937);
+  gsl_rng_set(gsl_engine, seed_);
 }
 
 
@@ -54,8 +54,6 @@ RandomGenerator::seed(const unsigned int new_seed)
 {
   seed_ = new_seed;
   engine.seed(seed_);
-
-  gsl_rng_default_seed = seed_;
   gsl_rng_set(gsl_engine, seed_);
 }
 

@@ -1,75 +1,5 @@
-In file included from src/kaimini.cpp:26:
-src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
-src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
-src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
-In file included from src/slhainterface.cpp:33:
-src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
-In file included from src/slhainterface.h:25,
-                 from src/slhainterface.cpp:35:
-src/chisqfunction.h: In constructor ‘Kaimini::ChiSqFunction::ChiSqFunction()’:
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mDataPoints’ should be initialized in the member initialization list
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mParams’ should be initialized in the member initialization list
-src/slhainterface.cpp: In constructor ‘Kaimini::SLHAInterface::SLHAInterface()’:
-src/slhainterface.cpp:45: warning: ‘Kaimini::SLHAInterface::mDataPointsKeys’ should be initialized in the member initialization list
-src/slhainterface.cpp:45: warning: ‘Kaimini::SLHAInterface::mParamsKeys’ should be initialized in the member initialization list
-src/slhainterface.cpp:45: warning: ‘Kaimini::SLHAInterface::mResult’ should be initialized in the member initialization list
-In file included from src/chisqfunction.h:23,
-                 from src/genericdriver.h:21,
-                 from src/genericdriver.cpp:18:
-src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
-In file included from src/genericdriver.h:21,
-                 from src/genericdriver.cpp:18:
-src/chisqfunction.h: In constructor ‘Kaimini::ChiSqFunction::ChiSqFunction()’:
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mDataPoints’ should be initialized in the member initialization list
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mParams’ should be initialized in the member initialization list
-In file included from src/genericdriver.h:22,
-                 from src/genericdriver.cpp:18:
-src/driver.h: At global scope:
-src/driver.h:26: warning: ‘class Kaimini::Driver’ has virtual functions and accessible non-virtual destructor
-In file included from src/genericdriver.cpp:18:
-src/genericdriver.h:28: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/genericdriver.h:28: warning: ‘class Kaimini::GenericDriver’ has pointer data members
-src/genericdriver.h:28: warning:   but does not override ‘Kaimini::GenericDriver(const Kaimini::GenericDriver&)’
-src/genericdriver.h:28: warning:   or ‘operator=(const Kaimini::GenericDriver&)’
-src/genericdriver.h:28: warning: ‘class Kaimini::GenericDriver’ has virtual functions and accessible non-virtual destructor
-In file included from src/chisqfunction.h:23,
-                 from src/minuitdriver.h:29,
-                 from src/minuitdriver.cpp:35:
-src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
-In file included from src/minuitdriver.h:29,
-                 from src/minuitdriver.cpp:35:
-src/chisqfunction.h: In constructor ‘Kaimini::ChiSqFunction::ChiSqFunction()’:
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mDataPoints’ should be initialized in the member initialization list
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mParams’ should be initialized in the member initialization list
-In file included from src/minuitdriver.h:30,
-                 from src/minuitdriver.cpp:35:
-src/driver.h: At global scope:
-src/driver.h:26: warning: ‘class Kaimini::Driver’ has virtual functions and accessible non-virtual destructor
-In file included from src/minuitdriver.cpp:35:
-src/minuitdriver.h:124: error: ‘>>’ should be ‘> >’ within a nested template argument list
-In file included from src/minuitdriver.h:33,
-                 from src/minuitdriver.cpp:35:
-src/auxiliary/functional.h: In instantiation of ‘Kaimini::functional::iless<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >’:
-/usr/include/c++/4.4/bits/stl_tree.h:453:   instantiated from ‘std::_Rb_tree<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Kaimini::Parameters (Kaimini::MinuitDriver::*)()>, std::_Select1st<std::pair<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Kaimini::Parameters (Kaimini::MinuitDriver::*)()> >, Kaimini::functional::iless<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Kaimini::Parameters (Kaimini::MinuitDriver::*)()> > >’
-/usr/include/c++/4.4/bits/stl_map.h:128:   instantiated from ‘std::map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Kaimini::Parameters (Kaimini::MinuitDriver::*)(), Kaimini::functional::iless<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >, Kaimini::Parameters (Kaimini::MinuitDriver::*)()> > >’
-src/minuitdriver.h:124:   instantiated from here
-src/auxiliary/functional.h:66: warning: base class ‘struct std::binary_function<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool>’ has a non-virtual destructor
-In file included from src/minuitdriver.cpp:35:
-src/minuitdriver.h:125: error: ‘>>’ should be ‘> >’ within a nested template argument list
-src/minuitdriver.h:126: error: ‘>>’ should be ‘> >’ within a nested template argument list
-src/minuitdriver.h:38: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/minuitdriver.h:38: warning: ‘class Kaimini::MinuitDriver’ has pointer data members
-src/minuitdriver.h:38: warning:   but does not override ‘Kaimini::MinuitDriver(const Kaimini::MinuitDriver&)’
-src/minuitdriver.h:38: warning:   or ‘operator=(const Kaimini::MinuitDriver&)’
-src/minuitdriver.h:38: warning: ‘class Kaimini::MinuitDriver’ has virtual functions and accessible non-virtual destructor
-src/minuitdriver.h: In constructor ‘Kaimini::MinuitDriver::MinuitDriver(Kaimini::ChiSqFunction*)’:
-src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::minimizer0Map’ should be initialized in the member initialization list
-src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::minimizer1Map’ should be initialized in the member initialization list
-src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::minimizer2Map’ should be initialized in the member initialization list
-src/minuitdriver.h:40: warning: ‘Kaimini::MinuitDriver::mpMinimum’ should be initialized in the member initialization list
-In file included from src/kernel/Controller.h:21,
-                 from src/kernel/Kaimini.cpp:17:
+In file included from src/kernel/Controller.h:24,
+                 from src/kernel/Kaimini.cpp:18:
 src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
 src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
 src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
@@ -79,84 +9,21 @@ src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable
 src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
 src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
 src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
-src/kernel/RandomGenerator.cpp: In constructor ‘Kaimini::RandomGenerator::RandomGenerator()’:
-src/kernel/RandomGenerator.cpp:33: warning: ‘Kaimini::RandomGenerator::gsl_engine’ should be initialized in the member initialization list
 In file included from src/kernel/RandomGenerator.h:25,
                  from src/kernel/RandomGenerator.cpp:24:
-src/auxiliary/uniform_in_sphere.hpp: In constructor ‘boost::uniform_in_sphere<RealType, Cont>::uniform_in_sphere(int, RealType) [with RealType = double, Cont = std::vector<double, std::allocator<double> >]’:
-src/kernel/RandomGenerator.cpp:81:   instantiated from here
-src/auxiliary/uniform_in_sphere.hpp:21: warning: ‘boost::uniform_in_sphere<double, std::vector<double, std::allocator<double> > >::_normal’ should be initialized in the member initialization list
-In file included from src/kernel/Controller.h:21,
-                 from src/kernel/Controller.cpp:20:
+src/utility/uniform_in_sphere.hpp: In constructor ‘boost::uniform_in_sphere<RealType, Cont>::uniform_in_sphere(int, RealType) [with RealType = double, Cont = std::vector<double, std::allocator<double> >]’:
+src/kernel/RandomGenerator.cpp:79:   instantiated from here
+src/utility/uniform_in_sphere.hpp:21: warning: ‘boost::uniform_in_sphere<double, std::vector<double, std::allocator<double> > >::_normal’ should be initialized in the member initialization list
+In file included from src/kernel/Controller.h:24,
+                 from src/kernel/Controller.cpp:22:
 src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
 src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
 src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
 src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
 src/kernel/Controller.cpp: In member function ‘void Kaimini::Controller::processOptions(const boost::program_options::variables_map&)’:
-src/kernel/Controller.cpp:112: error: ISO C++ forbids declaration of ‘provided_seed’ with no type
-In file included from src/chisqfunction.h:23,
-                 from src/gsldriver.cpp:25:
-src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
-In file included from src/gsldriver.cpp:25:
-src/chisqfunction.h: In constructor ‘Kaimini::ChiSqFunction::ChiSqFunction()’:
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mDataPoints’ should be initialized in the member initialization list
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mParams’ should be initialized in the member initialization list
-In file included from src/gsldriver.h:23,
-                 from src/gsldriver.cpp:27:
-src/driver.h: At global scope:
-src/driver.h:26: warning: ‘class Kaimini::Driver’ has virtual functions and accessible non-virtual destructor
-In file included from src/gsldriver.cpp:27:
-src/gsldriver.h:29: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/gsldriver.h:29: warning: ‘class Kaimini::GSLDriver’ has virtual functions and accessible non-virtual destructor
-In file included from src/auxiliary/filesystem.cpp:18:
+src/kernel/Controller.cpp:123: error: ISO C++ forbids declaration of ‘provided_seed’ with no type
+In file included from src/utility/filesystem.cpp:18:
 src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
 src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
 src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
 src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
-In file included from src/parameters.cpp:24:
-src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
-In file included from src/chisqfunction.h:23,
-                 from src/slhainterface.h:25,
-                 from src/slhaworker.h:24,
-                 from src/slhaworker.cpp:32:
-src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
-In file included from src/slhainterface.h:25,
-                 from src/slhaworker.h:24,
-                 from src/slhaworker.cpp:32:
-src/chisqfunction.h: In constructor ‘Kaimini::ChiSqFunction::ChiSqFunction()’:
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mDataPoints’ should be initialized in the member initialization list
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mParams’ should be initialized in the member initialization list
-In file included from src/slhaworker.cpp:32:
-src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::SLHAWorker(const std::string&)’:
-src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mInitialDir’ should be initialized in the member initialization list
-src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mWorkingDir’ should be initialized in the member initialization list
-src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mTempInputFile’ should be initialized in the member initialization list
-src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mTempOutputFile’ should be initialized in the member initialization list
-src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mCalcInfo’ should be initialized in the member initialization list
-src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::CalculatorInfo::CalculatorInfo()’:
-src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::workingDir’ should be initialized in the member initialization list
-src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::inputFile’ should be initialized in the member initialization list
-src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::outputFile’ should be initialized in the member initialization list
-src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::path’ should be initialized in the member initialization list
-src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::cmdline’ should be initialized in the member initialization list
-src/slhaworker.h:78: warning: ‘Kaimini::SLHAWorker::CalculatorInfo::command’ should be initialized in the member initialization list
-src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::SLHAWorker(const std::string&)’:
-src/slhaworker.h:32: note: synthesized method ‘Kaimini::SLHAWorker::CalculatorInfo::CalculatorInfo()’ first required here 
-src/slhaworker.h:31: warning: ‘Kaimini::SLHAWorker::mSLHAInput’ should be initialized in the member initialization list
-src/slhaworker.h: In constructor ‘Kaimini::SLHAWorker::SLHAWorker(const SLHAea::Coll&)’:
-src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mInitialDir’ should be initialized in the member initialization list
-src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mWorkingDir’ should be initialized in the member initialization list
-src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mTempInputFile’ should be initialized in the member initialization list
-src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mTempOutputFile’ should be initialized in the member initialization list
-src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mCalcInfo’ should be initialized in the member initialization list
-src/slhaworker.h:37: warning: ‘Kaimini::SLHAWorker::mSLHAInput’ should be initialized in the member initialization list
-In file included from src/chisqfunction.h:23,
-                 from src/parameteranalysis.cpp:24:
-src/parameters.h:29: warning: base class ‘class ROOT::Minuit2::MnUserParameters’ has a non-virtual destructor
-In file included from src/parameteranalysis.cpp:24:
-src/chisqfunction.h: In constructor ‘Kaimini::ChiSqFunction::ChiSqFunction()’:
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mDataPoints’ should be initialized in the member initialization list
-src/chisqfunction.h:31: warning: ‘Kaimini::ChiSqFunction::mParams’ should be initialized in the member initialization list
-In file included from src/parameteranalysis.cpp:26:
-src/driver.h: At global scope:
-src/driver.h:26: warning: ‘class Kaimini::Driver’ has virtual functions and accessible non-virtual destructor
