@@ -57,6 +57,8 @@ Controller::initializeOptions()
       _("Read input from file <arg>."))
     ("output-file,o", po::value<std::string>()->default_value("kaimini.out"),
       _("Write results to file <arg>."))
+    ("log-file,l",    po::value<std::string>(),
+      _("Write log messages to file <arg>."))
 
     ("seed,s", po::value<unsigned int>(),
       _("Use <arg> as seed for the random number generator."))
@@ -82,7 +84,6 @@ Controller::parseOptions(int argc, char* argv[])
     po::parsed_options parsed = po::command_line_parser(argc, argv)
       .options(cmdline_options_)
       .positional(pos_options)
-      .allow_unregistered()
       .run();
     po::store(parsed, var_map);
     po::notify(var_map);
@@ -136,7 +137,7 @@ Controller::processOptions(const po::variables_map& var_map)
 
   if (var_map.count("seed"))
   {
-    auto provided_seed = var_map["seed"].as<unsigned int>();
+    const unsigned int provided_seed = var_map["seed"].as<unsigned int>();
     rg_.seed(provided_seed);
   }
 
@@ -147,7 +148,7 @@ Controller::processOptions(const po::variables_map& var_map)
 
   if (var_map.count("verbose"))
   {
-    int verbosity_level = var_map["verbose"].as<int>();
+    const int verbosity_level = var_map["verbose"].as<int>();
     logger().verbosityLevel(verbosity_level);
   }
 }
