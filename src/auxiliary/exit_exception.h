@@ -14,20 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstdlib>
-#include "auxiliary/exit_exception.h"
-#include "kernel/Controller.h"
+#ifndef KAIMINI_AUXILIARY_EXIT_EXCEPTION_H
+#define KAIMINI_AUXILIARY_EXIT_EXCEPTION_H
 
-int main(int argc, char* argv[])
+namespace Kaimini {
+
+struct exit_exception
 {
-  try
-  {
-    Kaimini::Controller controller;
-    controller.initializeKaimini(argc, argv);
-    controller.terminateKaimini();
-  }
-  catch (Kaimini::exit_exception& ex)
-  {
-    std::exit(ex.status);
-  }
-}
+  explicit
+  exit_exception(int exit_status) : status(exit_status) {}
+
+  int status;
+};
+
+} // namespace Kaimini
+
+#endif // KAIMINI_AUXILIARY_EXIT_EXCEPTION_H

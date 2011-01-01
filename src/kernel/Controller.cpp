@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstdlib>
 #include <sstream>
 #include <string>
 #include <boost/program_options.hpp>
+#include "auxiliary/exit_exception.h"
 #include "kernel/Kaimini.h"
 #include "Controller.h"
 
@@ -38,10 +38,10 @@ Controller::initializeKaimini(int argc, char* argv[])
 }
 
 
-int
-Controller::terminateKaimini()
+void
+Controller::terminateKaimini(int status)
 {
-  return EXIT_SUCCESS;
+  throw exit_exception(status);
 }
 
 
@@ -102,10 +102,12 @@ Controller::processOptions(const po::variables_map& var_map)
 {
   if (var_map.count("help"))
   {
+    terminateKaimini();
   }
 
   if (var_map.count("version"))
   {
+    terminateKaimini();
   }
 
   if (var_map.count("input-file"))

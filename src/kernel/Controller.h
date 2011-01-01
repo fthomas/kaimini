@@ -17,6 +17,7 @@
 #ifndef KAIMINI_KERNEL_CONTROLLER_H
 #define KAIMINI_KERNEL_CONTROLLER_H
 
+#include <cstdlib>
 #include <string>
 #include <boost/program_options.hpp>
 #include "kernel/RandomGenerator.h"
@@ -31,8 +32,8 @@ public:
   void
   initializeKaimini(int argc, char* argv[]);
 
-  int
-  terminateKaimini();
+  void
+  terminateKaimini(int status = EXIT_SUCCESS);
 
 private:
   void
