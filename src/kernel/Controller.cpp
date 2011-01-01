@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdlib>
 #include <sstream>
 #include <string>
 #include <boost/program_options.hpp>
@@ -88,15 +89,19 @@ Controller::parseOptions(int argc, char* argv[]) const
   }
   catch (po::invalid_command_line_syntax&)
   {
+    terminateKaimini(EXIT_FAILURE);
   }
   catch (po::invalid_option_value&)
   {
+    terminateKaimini(EXIT_FAILURE);
   }
   catch (po::multiple_occurrences&)
   {
+    terminateKaimini(EXIT_FAILURE);
   }
   catch (po::too_many_positional_options_error&)
   {
+    terminateKaimini(EXIT_FAILURE);
   }
   return var_map;
 }
