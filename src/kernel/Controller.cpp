@@ -26,7 +26,7 @@ namespace po = boost::program_options;
 
 namespace Kaimini {
 
-Controller::Controller() : logger_(), rg_(), cmdline_options_(_("Options"))
+Controller::Controller() : logger_(), rg_(), cmdline_options_()
 {
   initializeOptions();
 }
@@ -49,7 +49,8 @@ Controller::terminateKaimini(int status)
 void
 Controller::initializeOptions()
 {
-  cmdline_options_.add_options()
+  po::options_description general_options(_("General options"));
+  general_options.add_options()
     ("help,h",    _("Show this help message and exit."))
     ("version,V", _("Show version number and exit."))
 
@@ -57,16 +58,23 @@ Controller::initializeOptions()
       _("Read input from file <arg>."))
     ("output-file,o", po::value<std::string>()->default_value("kaimini.out"),
       _("Write results to file <arg>."))
-    ("log-file,l",    po::value<std::string>(),
-      _("Write log messages to file <arg>."))
-
     ("seed,s", po::value<unsigned int>(),
-      _("Use <arg> as seed for the random number generator."))
+      _("Use <arg> as seed for the random number generator."));
 
+  po::options_description logging_options(_("Message and logging options"));
+  logging_options.add_options()
     ("quiet,q",
       _("Suppress all messages to standard output."))
-    ("verbose,v", po::value<int>()->implicit_value(1),
-      _("Show additional informational/debug messages."));
+    ("verbose,v",   po::value<int>()->implicit_value(2),
+      _("Show additional informational/debug messages."))
+    ("log-file,L",  po::value<std::string>(),
+      _("Log messages to file <arg>."))
+    ("log-level,l", po::value<int>()->implicit_value(2),
+      _("Set verbosity level for file logging."));
+
+  cmdline_options_
+    .add(general_options)
+    .add(logging_options);
 }
 
 

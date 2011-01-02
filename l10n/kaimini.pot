@@ -3,12 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/kernel/Controller.cpp:107 src/kernel/Controller.cpp:113
+#: src/kernel/Controller.cpp:119
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Kaimini 0.2.4\n"
 "Report-Msgid-Bugs-To: fthomas@physik.uni-wuerzburg.de\n"
-"POT-Creation-Date: 2011-01-01 20:11+0100\n"
+"POT-Creation-Date: 2011-01-02 12:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,38 +19,50 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/kernel/Controller.cpp:28
-msgid "Options"
+#: src/kernel/Controller.cpp:52
+msgid "General options"
 msgstr ""
 
-#: src/kernel/Controller.cpp:52
+#: src/kernel/Controller.cpp:54
 msgid "Show this help message and exit."
 msgstr ""
 
-#: src/kernel/Controller.cpp:53
+#: src/kernel/Controller.cpp:55
 msgid "Show version number and exit."
 msgstr ""
 
-#: src/kernel/Controller.cpp:56
+#: src/kernel/Controller.cpp:58
 msgid "Read input from file <arg>."
 msgstr ""
 
-#: src/kernel/Controller.cpp:58
+#: src/kernel/Controller.cpp:60
 msgid "Write results to file <arg>."
 msgstr ""
 
-#: src/kernel/Controller.cpp:61
+#: src/kernel/Controller.cpp:62
 msgid "Use <arg> as seed for the random number generator."
 msgstr ""
 
 #: src/kernel/Controller.cpp:64
+msgid "Message and logging options"
+msgstr ""
+
+#: src/kernel/Controller.cpp:67
 msgid "Suppress all messages to standard output."
 msgstr ""
 
-#: src/kernel/Controller.cpp:66
+#: src/kernel/Controller.cpp:69
 msgid "Show additional informational/debug messages."
 msgstr ""
 
-#: src/kernel/Controller.cpp:146
+#: src/kernel/Controller.cpp:71
+msgid "Log messages to file <arg>."
+msgstr ""
+
+#: src/kernel/Controller.cpp:73
+msgid "Set verbosity level for file logging."
+msgstr ""
+
+#: src/kernel/Controller.cpp:173
 msgid "Usage: kaimini [options] [input-file] [output-file]"
 msgstr ""
