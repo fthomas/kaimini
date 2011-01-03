@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2009-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,16 +24,16 @@ namespace Kaimini {
 namespace utility {
 
 const long double pi =
-  3.1415926535897932384626433832795L;  // pi
+  3.141592653589793238462643383279502884197169399375L;  // pi
 const long double sqrt2 =
-  1.4142135623730950488016887242097L;  // sqrt(2)
+  1.414213562373095048801688724209698078569671875377L;  // sqrt(2)
 
 const long double normal_1sigma =
-  0.68268949213708589717046509126408L; // erf(1/sqrt(2))
+  0.6826894921370858971704650912640758449558259334532L; // erf(1/sqrt(2))
 const long double normal_2sigma =
-  0.95449973610364158559943472566693L; // erf(2/sqrt(2))
+  0.9544997361036415855994347256669331250564475525966L; // erf(2/sqrt(2))
 const long double normal_3sigma =
-  0.99730020393673981094669637046481L; // erf(3/sqrt(2))
+  0.9973002039367398109466963704648100452443412636832L; // erf(3/sqrt(2))
 
 
 template<class Float> inline bool
