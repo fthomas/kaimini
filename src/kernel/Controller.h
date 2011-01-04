@@ -31,6 +31,9 @@ public:
   Controller();
 
   void
+  initializeKaimini();
+
+  void
   initializeKaimini(int argc, char* argv[]);
 
   void

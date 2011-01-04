@@ -43,7 +43,14 @@ struct F
 
 BOOST_FIXTURE_TEST_SUITE(test_kernel_Controller, F)
 
-BOOST_AUTO_TEST_CASE(test_no_options)
+BOOST_AUTO_TEST_CASE(test_no_options1)
+{
+  Controller controller;
+  controller.initializeKaimini();
+  BOOST_CHECK_THROW(controller.terminateKaimini(), exit_exception);
+}
+
+BOOST_AUTO_TEST_CASE(test_no_options2)
 {
   int argc = 1;
 
