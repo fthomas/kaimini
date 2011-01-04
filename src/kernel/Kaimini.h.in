@@ -26,7 +26,7 @@ namespace Kaimini {
 
 const std::string g_kaimini_version = "@Kaimini_VERSION@";
 const std::string g_cxx_compiler_id = "@CXX_COMPILER_ID@";
-const long unsigned g_build_timestamp = @BUILD_TIMESTAMP@;
+const unsigned long g_build_timestamp = @BUILD_TIMESTAMP@;
 
 } // namespace Kaimini
 
