@@ -15,11 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdlib>
-#include <cstring>
 #include <sstream>
 #include <string>
 #include <boost/program_options.hpp>
-#include <boost/scoped_array.hpp>
 #include "kernel/Kaimini.h"
 #include "utility/exit_exception.h"
 #include "Controller.h"
@@ -37,11 +35,9 @@ Controller::Controller() : logger_(), rg_(), cmdline_options_()
 void
 Controller::initializeKaimini()
 {
-  boost::scoped_array<char> smart_arg1(new char[sizeof("kaimini")]);
-  std::strcpy(smart_arg1.get(), "kaimini");
-
   const int argc = 1;
-  char* argv[argc] = { smart_arg1.get() };
+  char arg1[] = "kaimini";
+  char* argv[] = { arg1 };
 
   initializeKaimini(argc, argv);
 }
