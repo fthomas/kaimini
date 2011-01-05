@@ -120,7 +120,7 @@ RandomGenerator::randAlnumChar()
 
 
 std::string
-RandomGenerator::randDigitString(const std::size_t& length)
+RandomGenerator::randDigitString(const std::size_t length)
 {
   return utility::generate_string(length,
     boost::bind(&RandomGenerator::randDigitChar, this));
@@ -128,7 +128,7 @@ RandomGenerator::randDigitString(const std::size_t& length)
 
 
 std::string
-RandomGenerator::randAlphaString(const std::size_t& length)
+RandomGenerator::randAlphaString(const std::size_t length)
 {
   return utility::generate_string(length,
     boost::bind(&RandomGenerator::randAlphaChar, this));
@@ -136,7 +136,7 @@ RandomGenerator::randAlphaString(const std::size_t& length)
 
 
 std::string
-RandomGenerator::randAlnumString(const std::size_t& length)
+RandomGenerator::randAlnumString(const std::size_t length)
 {
   return utility::generate_string(length,
     boost::bind(&RandomGenerator::randAlnumChar, this));
