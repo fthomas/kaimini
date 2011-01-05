@@ -37,13 +37,13 @@ Controller::Controller() : logger_(), rg_(), cmdline_options_()
 void
 Controller::initializeKaimini()
 {
-  const int argc = 1;
-  boost::scoped_array<boost::scoped_array<char>>
-    argv(new boost::scoped_array<char>[argc]);
-  argv[0].reset(new char[sizeof("kaimini")]);
-  std::strcpy(argv[0].get(), "kaimini");
+  boost::scoped_array<char> smart_arg1(new char[sizeof("kaimini")]);
+  std::strcpy(smart_arg1.get(), "kaimini");
 
-  initializeKaimini(argc, reinterpret_cast<char**>(argv.get()));
+  const int argc = 1;
+  char* argv[argc] = { smart_arg1.get() };
+
+  initializeKaimini(argc, argv);
 }
 
 
