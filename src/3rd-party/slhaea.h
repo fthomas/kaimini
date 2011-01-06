@@ -1,5 +1,5 @@
 // SLHAea - containers for SUSY Les Houches Accord input/output
-// Copyright © 2009-2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2009-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
@@ -67,7 +67,7 @@ to_string(const Source& arg)
 template<class Source> inline std::string
 to_string(const Source& arg, int precision)
 {
-  std::ostringstream output("");
+  std::ostringstream output;
   output << std::setprecision(precision) << std::scientific << arg;
   return output.str();
 }
@@ -275,7 +275,7 @@ public:
   {
     if (empty()) return "";
 
-    std::ostringstream output("");
+    std::ostringstream output;
     int length = 0, spaces = 0;
 
     const_iterator field = begin();
@@ -837,7 +837,7 @@ public:
   std::string
   str() const
   {
-    std::ostringstream output("");
+    std::ostringstream output;
     output << *this;
     return output.str();
   }
@@ -1650,7 +1650,7 @@ public:
   std::string
   str() const
   {
-    std::ostringstream output("");
+    std::ostringstream output;
     output << *this;
     return output.str();
   }
@@ -2415,7 +2415,7 @@ public:
   std::string
   str() const
   {
-    std::ostringstream output("");
+    std::ostringstream output;
     output << block << ";" << boost::join(line, ",") << ";" << field;
     return output.str();
   }
