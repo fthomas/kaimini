@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     controller.initializeKaimini(argc, argv);
     controller.terminateKaimini();
   }
-  catch (Kaimini::utility::exit_exception& ex)
+  catch (const Kaimini::utility::exit_exception& ex)
   {
     std::exit(ex.status);
   }
