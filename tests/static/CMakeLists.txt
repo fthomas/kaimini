@@ -31,11 +31,11 @@ set(flawfinder_ARGS --dataonly --quiet --minlevel=0
   ${kaimini_SOURCES} ${kaimini_HEADERS})
 run_static_analyzer(flawfinder "${flawfinder_ARGS}" sa-flawfinder.txt)
 
-set(g++_ARGS -Weffc++ -I${CMAKE_SOURCE_DIR}/src/
+set(g++_ARGS -S -Weffc++ -I${CMAKE_SOURCE_DIR}/src/
   ${kaimini_SOURCES})
 run_static_analyzer(g++ "${g++_ARGS}" sa-g++-effc++.txt)
 
-set(icpc_ARGS -Weffc++ -wd2012 -wd2015 -I${CMAKE_SOURCE_DIR}/src/
+set(icpc_ARGS -S -Weffc++ -wd2012 -wd2015 -I${CMAKE_SOURCE_DIR}/src/
   ${kaimini_SOURCES})
 run_static_analyzer(icpc "${icpc_ARGS}" sa-icpc-effc++.txt)
 

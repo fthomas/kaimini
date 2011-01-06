@@ -1,29 +1,5 @@
-In file included from src/kernel/Controller.h:24,
-                 from src/kernel/Kaimini.cpp:18:
-src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
-src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
-src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
-In file included from src/kernel/RandomGenerator.cpp:24:
-src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
-src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
-src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
-In file included from src/kernel/RandomGenerator.h:25,
+In file included from src/kernel/RandomGenerator.h:24,
                  from src/kernel/RandomGenerator.cpp:24:
 src/utility/uniform_in_sphere.hpp: In constructor ‘boost::uniform_in_sphere<RealType, Cont>::uniform_in_sphere(int, RealType) [with RealType = double, Cont = std::vector<double, std::allocator<double> >]’:
-src/kernel/RandomGenerator.cpp:79:   instantiated from here
+src/kernel/RandomGenerator.cpp:102:   instantiated from here
 src/utility/uniform_in_sphere.hpp:21: warning: ‘boost::uniform_in_sphere<double, std::vector<double, std::allocator<double> > >::_normal’ should be initialized in the member initialization list
-In file included from src/kernel/Controller.h:24,
-                 from src/kernel/Controller.cpp:22:
-src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
-src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
-src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’
-src/kernel/Controller.cpp: In member function ‘void Kaimini::Controller::processOptions(const boost::program_options::variables_map&)’:
-src/kernel/Controller.cpp:123: error: ISO C++ forbids declaration of ‘provided_seed’ with no type
-In file included from src/utility/filesystem.cpp:18:
-src/kernel/RandomGenerator.h:30: warning: base class ‘class boost::noncopyable_::noncopyable’ has a non-virtual destructor
-src/kernel/RandomGenerator.h:30: warning: ‘class Kaimini::RandomGenerator’ has pointer data members
-src/kernel/RandomGenerator.h:30: warning:   but does not override ‘Kaimini::RandomGenerator(const Kaimini::RandomGenerator&)’
-src/kernel/RandomGenerator.h:30: warning:   or ‘operator=(const Kaimini::RandomGenerator&)’

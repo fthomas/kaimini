@@ -1,4 +1,0 @@
-src/kernel/Controller.cpp:123:10: error: C++ requires a type specifier for all declarations
-    auto provided_seed = var_map["seed"].as<unsigned int>();
-    ~~~~ ^
-1 diagnostic generated.

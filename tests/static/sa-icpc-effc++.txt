@@ -1,49 +1,28 @@
-src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
-  };
-   ^
-
-src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
-  };
-   ^
-
-src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::seed_" in destructor
+src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::seed_" in destructor
   }
   ^
 
-src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::engine" in destructor
+src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::engine" in destructor
   }
   ^
 
-src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::gsl_engine" in destructor
+src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::gsl_engine" in destructor
   }
   ^
 
-src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::digit_gen_" in destructor
+src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::digit_gen_" in destructor
   }
   ^
 
-src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::alpha_gen_" in destructor
+src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::alpha_gen_" in destructor
   }
   ^
 
-src/kernel/RandomGenerator.cpp(49): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::alnum_gen_" in destructor
+src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::alnum_gen_" in destructor
   }
   ^
 
 src/utility/uniform_in_sphere.hpp(23): warning #2022: Effective C++ Item 12 field member "boost::uniform_in_sphere<RealType, Cont>::_normal" not initialized (preferable to assignment in constructors)
     {
     ^
-
-src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
-  };
-   ^
-
-src/kernel/Controller.cpp(123): error #303: explicit type is missing ("int" assumed)
-      auto provided_seed = var_map["seed"].as<unsigned int>();
-           ^
-
-compilation aborted for src/kernel/Controller.cpp (code 2)
-src/kernel/RandomGenerator.h(116): warning #2021: Effective C++ Item 11 declare a copy constructor and assignment operator for RandomGenerator
-  };
-   ^
 
