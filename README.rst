@@ -10,13 +10,8 @@ Documentation
 Currently there is only the `API documentation`_ and a very `incomplete
 manual`_.
 
-
-
-Currently there is only the `API documentation`_ and a very `incomplete
-manual`_.
-
 .. _API documentation: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/doc/
-.. _manual: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
+.. _incomplete manual: http://www.physik.uni-wuerzburg.de/~fthomas/kaimini/kaimini.pdf
 
 Dependencies
 ------------
