@@ -17,6 +17,7 @@
 #ifndef KAIMINI_UTILITY_MATH_H
 #define KAIMINI_UTILITY_MATH_H
 
+#include <cassert>
 #include <cmath>
 #include <limits>
 
@@ -47,6 +48,24 @@ close_to_zero(const Float& x, double factor = 100.)
 template<class Float> inline bool
 close_to_one(const Float& x, double factor = 100.)
 { return close_to_zero(1. - x, factor); }
+
+
+template<class InputIterator> inline double
+p_norm(InputIterator first, InputIterator last, double p)
+{
+  assert(p >= 1.);
+  double retval = 0.;
+  for (; first != last; ++first)
+  {
+    retval += std::pow(std::abs(*first), p);
+  }
+  return std::pow(retval, 1./p);
+}
+
+
+template<class InputIterator> inline double
+euclidean_norm(InputIterator first, InputIterator last)
+{ return p_norm(first, last, 2.); }
 
 } // namespace utility
 } // namespace Kaimini

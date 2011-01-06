@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 namespace Kaimini {
 namespace utility {
 
-template<class CharGenerator> std::string
+template<class CharGenerator> inline std::string
 generate_string(std::size_t length, CharGenerator generator)
 {
   std::string retval(length, char());
@@ -33,7 +33,7 @@ generate_string(std::size_t length, CharGenerator generator)
 }
 
 
-template<class CharGenerator> std::string
+template<class CharGenerator> inline std::string
 generate_string(const std::string& templ, CharGenerator generator,
                 char sub = 'X', std::size_t min_length = 6)
 {

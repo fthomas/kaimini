@@ -71,6 +71,10 @@ public:
   uniform_in_sphere_generator
   randUniformInSphere(int dim, double radius);
 
+  uniform_in_sphere_generator
+  randUniformInSphere(double radius = 1.)
+  { return randUniformInSphere(3, radius); }
+
   normal_generator
   randNormal(double mean, double stddev);
 

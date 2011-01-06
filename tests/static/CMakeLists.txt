@@ -36,7 +36,7 @@ set(g++_ARGS -S -std=c++0x -pedantic -Wall -Wextra -Weffc++
 run_static_analyzer(g++ "${g++_ARGS}" sa-g++-effc++.txt)
 
 set(icpc_ARGS -S -strict-ansi -Wall -Wcheck -Weffc++
-  -wd383 -wd444 -wd981 -wd1418 -wd2012 -wd2015
+  -wd383 -wd444 -wd981 -wd2012 -wd2015
   -I${CMAKE_SOURCE_DIR}/src/ ${kaimini_SOURCES})
 run_static_analyzer(icpc "${icpc_ARGS}" sa-icpc-effc++.txt)
 

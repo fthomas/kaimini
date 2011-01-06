@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,12 +16,15 @@
 
 #include <cctype>
 #include <string>
+#include <vector>
 #include <boost/math/special_functions/fpclassify.hpp>
 #include <boost/test/unit_test.hpp>
 #include "kernel/RandomGenerator.h"
+#include "utility/math.h"
 
 using namespace std;
 using namespace Kaimini;
+using namespace Kaimini::utility;
 
 BOOST_AUTO_TEST_SUITE(test_kernel_RandomGenerator)
 
@@ -125,6 +128,27 @@ BOOST_AUTO_TEST_CASE(test_randUniformInSphere)
   BOOST_CHECK_LE(gen().at(0),  1.);
   BOOST_CHECK_LE(gen().at(0),  1.);
   BOOST_CHECK_LE(gen().at(0),  1.);
+
+  auto gen3 = rg.randUniformInSphere();
+  vector<double> v3;
+
+  v3 = gen3();
+  BOOST_CHECK_LE(euclidean_norm(v3.begin(), v3.end()), 1.);
+  v3 = gen3();
+  BOOST_CHECK_LE(euclidean_norm(v3.begin(), v3.end()), 1.);
+  v3 = gen3();
+  BOOST_CHECK_LE(euclidean_norm(v3.begin(), v3.end()), 1.);
+
+  auto gen256 = rg.randUniformInSphere(256, 10.);
+  vector<double> v256;
+
+  v256 = gen256();
+  BOOST_CHECK_LE(euclidean_norm(v256.begin(), v256.end()), 10.);
+  v256 = gen256();
+  BOOST_CHECK_LE(euclidean_norm(v256.begin(), v256.end()), 10.);
+  v256 = gen256();
+  BOOST_CHECK_LE(euclidean_norm(v256.begin(), v256.end()), 10.);
+
 }
 
 BOOST_AUTO_TEST_CASE(test_randNormal)
