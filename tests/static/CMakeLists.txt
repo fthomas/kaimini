@@ -19,8 +19,8 @@ function(run_static_analyzer CMD ARGS OUTFILE)
     endif()
 endfunction()
 
-set(clang_ARGS --analyze -x c++ -I${CMAKE_SOURCE_DIR}/src/
-  ${kaimini_SOURCES})
+set(clang_ARGS --analyze -x c++ -pedantic -Wall -Wextra
+  -I${CMAKE_SOURCE_DIR}/src/ ${kaimini_SOURCES})
 run_static_analyzer(clang "${clang_ARGS}" sa-clang.txt)
 
 set(cppcheck_ARGS --quiet --enable=all -I${CMAKE_SOURCE_DIR}/src/
@@ -31,12 +31,13 @@ set(flawfinder_ARGS --dataonly --quiet --minlevel=0
   ${kaimini_SOURCES} ${kaimini_HEADERS})
 run_static_analyzer(flawfinder "${flawfinder_ARGS}" sa-flawfinder.txt)
 
-set(g++_ARGS -S -Weffc++ -I${CMAKE_SOURCE_DIR}/src/
-  ${kaimini_SOURCES})
+set(g++_ARGS -S -std=c++0x -pedantic -Wall -Wextra -Weffc++
+  -I${CMAKE_SOURCE_DIR}/src/ ${kaimini_SOURCES})
 run_static_analyzer(g++ "${g++_ARGS}" sa-g++-effc++.txt)
 
-set(icpc_ARGS -S -Weffc++ -wd2012 -wd2015 -I${CMAKE_SOURCE_DIR}/src/
-  ${kaimini_SOURCES})
+set(icpc_ARGS -S -strict-ansi -Wall -Wcheck -Weffc++
+  -wd383 -wd444 -wd981 -wd1418 -wd2012 -wd2015
+  -I${CMAKE_SOURCE_DIR}/src/ ${kaimini_SOURCES})
 run_static_analyzer(icpc "${icpc_ARGS}" sa-icpc-effc++.txt)
 
 

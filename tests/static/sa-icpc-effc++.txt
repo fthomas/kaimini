@@ -1,3 +1,11 @@
+src/utility/uniform_in_sphere.hpp(23): warning #2022: Effective C++ Item 12 field member "boost::uniform_in_sphere<RealType, Cont>::_normal" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
+src/utility/uniform_in_sphere.hpp(23): warning #2022: Effective C++ Item 12 field member "boost::uniform_in_sphere<RealType, Cont>::_normal" not initialized (preferable to assignment in constructors)
+    {
+    ^
+
 src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::seed_" in destructor
   }
   ^
@@ -21,6 +29,26 @@ src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing 
 src/kernel/RandomGenerator.cpp(58): warning #2017: Effective C++ Item 6 missing delete of member pointer member "Kaimini::RandomGenerator::alnum_gen_" in destructor
   }
   ^
+
+src/kernel/Stopwatch.cpp(25): remark #2259: non-pointer conversion from "long" to "double" may lose significant bits
+    static_cast<double>(sysconf(_SC_CLK_TCK));
+    ^
+
+src/kernel/Stopwatch.cpp(122): remark #2259: non-pointer conversion from "long" to "double" may lose significant bits
+    user_ += static_cast<double>(tms_r2_.tms_utime - tms_r1_.tms_utime) /
+             ^
+
+src/kernel/Stopwatch.cpp(125): remark #2259: non-pointer conversion from "long" to "double" may lose significant bits
+    sys_  += static_cast<double>(tms_r2_.tms_stime - tms_r1_.tms_stime) /
+             ^
+
+src/kernel/Stopwatch.cpp(128): remark #2259: non-pointer conversion from "long" to "double" may lose significant bits
+    real_ += static_cast<double>(real_r2_ - real_r1_) /
+             ^
+
+src/utility/uniform_in_sphere.hpp(23): warning #2022: Effective C++ Item 12 field member "boost::uniform_in_sphere<RealType, Cont>::_normal" not initialized (preferable to assignment in constructors)
+    {
+    ^
 
 src/utility/uniform_in_sphere.hpp(23): warning #2022: Effective C++ Item 12 field member "boost::uniform_in_sphere<RealType, Cont>::_normal" not initialized (preferable to assignment in constructors)
     {
