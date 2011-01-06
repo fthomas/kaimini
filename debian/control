@@ -1,0 +1,12 @@
+Source: kaimini
+Section:
+Priority: optional
+Maintainer: Frank S. Thomas <fst@debian.org>
+Build-Depends:
+Standards-Version:
+Homepage: http://fthomas.github.com/kaimini/
+
+Package: kaimini
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description:
