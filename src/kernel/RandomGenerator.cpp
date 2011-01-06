@@ -43,9 +43,32 @@ RandomGenerator::RandomGenerator()
 }
 
 
+RandomGenerator::RandomGenerator(const RandomGenerator& rg)
+  : seed_(rg.seed_),
+    engine(rg.engine),
+    gsl_engine(gsl_rng_clone(rg.gsl_engine)),
+    digit_gen_(engine, uniform_int_distribution(int('0'), int('9'))),
+    alpha_gen_(engine, uniform_int_distribution(int('A'), alpha_max)),
+    alnum_gen_(engine, uniform_int_distribution(int('0'), alnum_max)) {}
+
+
 RandomGenerator::~RandomGenerator()
 {
   gsl_rng_free(gsl_engine);
+}
+
+
+RandomGenerator&
+RandomGenerator::operator=(const RandomGenerator& rg)
+{
+  seed_ = rg.seed_;
+  engine = rg.engine;
+  gsl_rng_memcpy(gsl_engine, rg.gsl_engine);
+
+  digit_gen_.engine() = rg.digit_gen_.engine();
+  alpha_gen_.engine() = rg.alpha_gen_.engine();
+  alnum_gen_.engine() = rg.alnum_gen_.engine();
+  return *this;
 }
 
 

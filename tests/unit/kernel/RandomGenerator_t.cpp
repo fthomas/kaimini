@@ -25,6 +25,42 @@ using namespace Kaimini;
 
 BOOST_AUTO_TEST_SUITE(test_kernel_RandomGenerator)
 
+BOOST_AUTO_TEST_CASE(test_copying)
+{
+  RandomGenerator rg1;
+  RandomGenerator rg2(rg1);
+
+  BOOST_CHECK_EQUAL(rg1.randUniformInt()(),  rg2.randUniformInt()());
+  BOOST_CHECK_EQUAL(rg1.randUniformReal()(), rg2.randUniformReal()());
+  BOOST_CHECK_EQUAL(rg1.randNormal()(),      rg2.randNormal()());
+  BOOST_CHECK_EQUAL(rg1.randAlnumChar(),     rg2.randAlnumChar());
+  BOOST_CHECK_EQUAL(rg1.randAlnumString(),   rg2.randAlnumString());
+  BOOST_CHECK_EQUAL(gsl_rng_uniform(rg1.gsl_engine),
+                    gsl_rng_uniform(rg2.gsl_engine));
+
+  RandomGenerator rg3;
+  rg3 = rg1;
+
+  BOOST_CHECK_EQUAL(rg1.randUniformInt()(),  rg3.randUniformInt()());
+  BOOST_CHECK_EQUAL(rg1.randUniformReal()(), rg3.randUniformReal()());
+  BOOST_CHECK_EQUAL(rg1.randNormal()(),      rg3.randNormal()());
+  BOOST_CHECK_EQUAL(rg1.randAlnumChar(),     rg3.randAlnumChar());
+  BOOST_CHECK_EQUAL(rg1.randAlnumString(),   rg3.randAlnumString());
+  BOOST_CHECK_EQUAL(gsl_rng_uniform(rg1.gsl_engine),
+                    gsl_rng_uniform(rg3.gsl_engine));
+
+  RandomGenerator rg4 = rg1;
+
+  BOOST_CHECK_EQUAL(rg1.randUniformInt()(),  rg4.randUniformInt()());
+  BOOST_CHECK_EQUAL(rg1.randUniformReal()(), rg4.randUniformReal()());
+  BOOST_CHECK_EQUAL(rg1.randNormal()(),      rg4.randNormal()());
+  BOOST_CHECK_EQUAL(rg1.randAlnumChar(),     rg4.randAlnumChar());
+  BOOST_CHECK_EQUAL(rg1.randAlnumString(),   rg4.randAlnumString());
+  BOOST_CHECK_EQUAL(gsl_rng_uniform(rg1.gsl_engine),
+                    gsl_rng_uniform(rg4.gsl_engine));
+
+}
+
 BOOST_AUTO_TEST_CASE(test_seed)
 {
   RandomGenerator rg;

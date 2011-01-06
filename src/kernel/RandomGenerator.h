@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,13 +20,12 @@
 #include <cstddef>
 #include <string>
 #include <boost/random.hpp>
-#include <boost/utility.hpp>
 #include <gsl/gsl_rng.h>
 #include "utility/uniform_in_sphere.hpp"
 
 namespace Kaimini {
 
-class RandomGenerator : private boost::noncopyable
+class RandomGenerator
 {
 public:
   typedef boost::uniform_int<>          uniform_int_distribution;
@@ -46,7 +45,11 @@ public:
 
 public:
   RandomGenerator();
+  RandomGenerator(const RandomGenerator& rg);
   ~RandomGenerator();
+
+  RandomGenerator&
+  operator=(const RandomGenerator& rg);
 
   void
   seed(unsigned int new_seed);
