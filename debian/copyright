@@ -1,0 +1,12 @@
+Format:
+Upstream-Name: Kaimini
+Upstream-Contact: Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+Source: https://github.com/fthomas/kaimini
+
+Files: *
+Copyright:
+License: GPL-3+
+
+Files: src/3rd-party/slhaea.h
+Copyright:
+License:
