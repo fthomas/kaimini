@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "Controller.h"
 #include <cstdlib>
 #include <sstream>
 #include <string>
 #include <boost/program_options.hpp>
 #include "kernel/Kaimini.h"
 #include "utility/exit_exception.h"
-#include "Controller.h"
 
 namespace po = boost::program_options;
 

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "RandomGenerator.h"
 #include <cctype>
 #include <cstddef>
 #include <ctime>
@@ -21,7 +22,6 @@
 #include <boost/bind.hpp>
 #include <gsl/gsl_rng.h>
 #include "utility/str_tools.h"
-#include "RandomGenerator.h"
 
 namespace Kaimini {
 
