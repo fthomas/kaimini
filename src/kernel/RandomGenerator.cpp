@@ -64,10 +64,6 @@ RandomGenerator::operator=(const RandomGenerator& rg)
   seed_ = rg.seed_;
   engine = rg.engine;
   gsl_rng_memcpy(gsl_engine, rg.gsl_engine);
-
-  digit_gen_.engine() = rg.digit_gen_.engine();
-  alpha_gen_.engine() = rg.alpha_gen_.engine();
-  alnum_gen_.engine() = rg.alnum_gen_.engine();
   return *this;
 }
 
