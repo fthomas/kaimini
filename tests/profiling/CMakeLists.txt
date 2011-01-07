@@ -20,6 +20,7 @@ function(run_valgrind TOOL BINARY OUTFILE)
 endfunction()
 
 run_valgrind(callgrind ut ut-callgrind.txt)
+run_valgrind(massif    ut ut-massif.txt)
 run_valgrind(memcheck  ut ut-memcheck.txt)
 
 add_custom_target(profiles DEPENDS ${VALG_RESULTS})

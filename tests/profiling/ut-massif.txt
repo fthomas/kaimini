@@ -1,0 +1,9 @@
+Massif, a heap profiler
+Copyright (C) 2003-2010, and GNU GPL'd, by Nicholas Nethercote
+Using Valgrind-3.6.0.SVN-Debian and LibVEX; rerun with -h for copyright info
+Command: tests/unit/ut
+
+Running 34 test cases...
+
+*** No errors detected
+
