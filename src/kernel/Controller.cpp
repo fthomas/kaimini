@@ -26,7 +26,7 @@ namespace po = boost::program_options;
 
 namespace Kaimini {
 
-Controller::Controller() : logger_(), rg_(), cmdline_options_()
+Controller::Controller() : logger_(), rand_gen_(), cmdline_options_()
 {
   initializeOptions();
 }
@@ -157,7 +157,7 @@ Controller::processOptions(const po::variables_map& var_map)
   if (var_map.count("seed"))
   {
     const unsigned int provided_seed = var_map["seed"].as<unsigned int>();
-    rg_.seed(provided_seed);
+    rand_gen_.seed(provided_seed);
   }
 
   if (var_map.count("quiet"))

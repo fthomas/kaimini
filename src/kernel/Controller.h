@@ -45,7 +45,7 @@ public:
 
   RandomGenerator&
   randomGenerator()
-  { return rg_; }
+  { return rand_gen_; }
 
 private:
   void
@@ -65,7 +65,7 @@ private:
 
 private:
   Logger logger_;
-  RandomGenerator rg_;
+  RandomGenerator rand_gen_;
 
   boost::program_options::options_description cmdline_options_;
 };

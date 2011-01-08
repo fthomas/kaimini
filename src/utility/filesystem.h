@@ -25,11 +25,11 @@ namespace utility {
 
 boost::filesystem::path
 temp_path(const boost::filesystem::path& path_templ,
-  RandomGenerator& rg);
+  RandomGenerator& rand_gen);
 
 boost::filesystem::path
 create_temp_directory(const boost::filesystem::path& dir_templ,
-  RandomGenerator& rg);
+  RandomGenerator& rand_gen);
 
 } // namespace utility
 } // namespace Kaimini

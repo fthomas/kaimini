@@ -43,10 +43,10 @@ RandomGenerator::RandomGenerator()
 }
 
 
-RandomGenerator::RandomGenerator(const RandomGenerator& rg)
-  : seed_(rg.seed_),
-    engine(rg.engine),
-    gsl_engine(gsl_rng_clone(rg.gsl_engine)),
+RandomGenerator::RandomGenerator(const RandomGenerator& rand_gen)
+  : seed_(rand_gen.seed_),
+    engine(rand_gen.engine),
+    gsl_engine(gsl_rng_clone(rand_gen.gsl_engine)),
     digit_gen_(engine, uniform_int_distribution(int('0'), int('9'))),
     alpha_gen_(engine, uniform_int_distribution(int('A'), alpha_max)),
     alnum_gen_(engine, uniform_int_distribution(int('0'), alnum_max)) {}
@@ -59,11 +59,11 @@ RandomGenerator::~RandomGenerator()
 
 
 RandomGenerator&
-RandomGenerator::operator=(const RandomGenerator& rg)
+RandomGenerator::operator=(const RandomGenerator& rand_gen)
 {
-  seed_ = rg.seed_;
-  engine = rg.engine;
-  gsl_rng_memcpy(gsl_engine, rg.gsl_engine);
+  seed_ = rand_gen.seed_;
+  engine = rand_gen.engine;
+  gsl_rng_memcpy(gsl_engine, rand_gen.gsl_engine);
   return *this;
 }
 
@@ -78,21 +78,21 @@ RandomGenerator::seed(const unsigned int new_seed)
 
 
 RandomGenerator::uniform_int_generator
-RandomGenerator::randUniformInt(const int min, const int max)
+RandomGenerator::uniformIntGen(const int min, const int max)
 {
   return uniform_int_generator(engine, uniform_int_distribution(min, max));
 }
 
 
 RandomGenerator::uniform_real_generator
-RandomGenerator::randUniformReal(const double min, const double max)
+RandomGenerator::uniformRealGen(const double min, const double max)
 {
   return uniform_real_generator(engine, uniform_real_distribution(min, max));
 }
 
 
 RandomGenerator::uniform_in_sphere_generator
-RandomGenerator::randUniformInSphere(const int dim, const double radius)
+RandomGenerator::uniformInSphereGen(const int dim, const double radius)
 {
   return uniform_in_sphere_generator(engine,
     uniform_in_sphere_distribution(dim, radius));
@@ -100,14 +100,14 @@ RandomGenerator::randUniformInSphere(const int dim, const double radius)
 
 
 RandomGenerator::normal_generator
-RandomGenerator::randNormal(const double mean, const double stddev)
+RandomGenerator::normalGen(const double mean, const double stddev)
 {
   return normal_generator(engine, normal_distribution(mean, stddev));
 }
 
 
 char
-RandomGenerator::randDigitChar()
+RandomGenerator::digitChar()
 {
   int retval = digit_gen_();
   assert(std::isdigit(retval));
@@ -116,7 +116,7 @@ RandomGenerator::randDigitChar()
 
 
 char
-RandomGenerator::randAlphaChar()
+RandomGenerator::alphaChar()
 {
   int retval = alpha_gen_();
   if (retval > int('Z')) retval += -int('Z') + int('a') - 1;
@@ -127,7 +127,7 @@ RandomGenerator::randAlphaChar()
 
 
 char
-RandomGenerator::randAlnumChar()
+RandomGenerator::alnumChar()
 {
   int retval = alnum_gen_();
   if (retval > int('9')) retval += -int('9') + int('A') - 1;
@@ -139,50 +139,50 @@ RandomGenerator::randAlnumChar()
 
 
 std::string
-RandomGenerator::randDigitString(const std::size_t length)
+RandomGenerator::digitString(const std::size_t length)
 {
   return utility::generate_string(length,
-    boost::bind(&RandomGenerator::randDigitChar, this));
+    boost::bind(&RandomGenerator::digitChar, this));
 }
 
 
 std::string
-RandomGenerator::randAlphaString(const std::size_t length)
+RandomGenerator::alphaString(const std::size_t length)
 {
   return utility::generate_string(length,
-    boost::bind(&RandomGenerator::randAlphaChar, this));
+    boost::bind(&RandomGenerator::alphaChar, this));
 }
 
 
 std::string
-RandomGenerator::randAlnumString(const std::size_t length)
+RandomGenerator::alnumString(const std::size_t length)
 {
   return utility::generate_string(length,
-    boost::bind(&RandomGenerator::randAlnumChar, this));
+    boost::bind(&RandomGenerator::alnumChar, this));
 }
 
 
 std::string
-RandomGenerator::randDigitString(const std::string& templ)
+RandomGenerator::digitString(const std::string& templ)
 {
   return utility::generate_string(templ,
-    boost::bind(&RandomGenerator::randDigitChar, this));
+    boost::bind(&RandomGenerator::digitChar, this));
 }
 
 
 std::string
-RandomGenerator::randAlphaString(const std::string& templ)
+RandomGenerator::alphaString(const std::string& templ)
 {
   return utility::generate_string(templ,
-    boost::bind(&RandomGenerator::randAlphaChar, this));
+    boost::bind(&RandomGenerator::alphaChar, this));
 }
 
 
 std::string
-RandomGenerator::randAlnumString(const std::string& templ)
+RandomGenerator::alnumString(const std::string& templ)
 {
   return utility::generate_string(templ,
-    boost::bind(&RandomGenerator::randAlnumChar, this));
+    boost::bind(&RandomGenerator::alnumChar, this));
 }
 
 } // namespace Kaimini

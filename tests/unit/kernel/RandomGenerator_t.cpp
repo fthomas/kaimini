@@ -33,32 +33,32 @@ BOOST_AUTO_TEST_CASE(test_copying)
   RandomGenerator rg1;
   RandomGenerator rg2(rg1);
 
-  BOOST_CHECK_EQUAL(rg1.randUniformInt()(),  rg2.randUniformInt()());
-  BOOST_CHECK_EQUAL(rg1.randUniformReal()(), rg2.randUniformReal()());
-  BOOST_CHECK_EQUAL(rg1.randNormal()(),      rg2.randNormal()());
-  BOOST_CHECK_EQUAL(rg1.randAlnumChar(),     rg2.randAlnumChar());
-  BOOST_CHECK_EQUAL(rg1.randAlnumString(),   rg2.randAlnumString());
+  BOOST_CHECK_EQUAL(rg1.uniformIntGen()(),  rg2.uniformIntGen()());
+  BOOST_CHECK_EQUAL(rg1.uniformRealGen()(), rg2.uniformRealGen()());
+  BOOST_CHECK_EQUAL(rg1.normalGen()(),      rg2.normalGen()());
+  BOOST_CHECK_EQUAL(rg1.alnumChar(),        rg2.alnumChar());
+  BOOST_CHECK_EQUAL(rg1.alnumString(),      rg2.alnumString());
   BOOST_CHECK_EQUAL(gsl_rng_uniform(rg1.gsl_engine),
                     gsl_rng_uniform(rg2.gsl_engine));
 
   RandomGenerator rg3;
   rg3 = rg1;
 
-  BOOST_CHECK_EQUAL(rg1.randUniformInt()(),  rg3.randUniformInt()());
-  BOOST_CHECK_EQUAL(rg1.randUniformReal()(), rg3.randUniformReal()());
-  BOOST_CHECK_EQUAL(rg1.randNormal()(),      rg3.randNormal()());
-  BOOST_CHECK_EQUAL(rg1.randAlnumChar(),     rg3.randAlnumChar());
-  BOOST_CHECK_EQUAL(rg1.randAlnumString(),   rg3.randAlnumString());
+  BOOST_CHECK_EQUAL(rg1.uniformIntGen()(),  rg3.uniformIntGen()());
+  BOOST_CHECK_EQUAL(rg1.uniformRealGen()(), rg3.uniformRealGen()());
+  BOOST_CHECK_EQUAL(rg1.normalGen()(),      rg3.normalGen()());
+  BOOST_CHECK_EQUAL(rg1.alnumChar(),        rg3.alnumChar());
+  BOOST_CHECK_EQUAL(rg1.alnumString(),      rg3.alnumString());
   BOOST_CHECK_EQUAL(gsl_rng_uniform(rg1.gsl_engine),
                     gsl_rng_uniform(rg3.gsl_engine));
 
   RandomGenerator rg4 = rg1;
 
-  BOOST_CHECK_EQUAL(rg1.randUniformInt()(),  rg4.randUniformInt()());
-  BOOST_CHECK_EQUAL(rg1.randUniformReal()(), rg4.randUniformReal()());
-  BOOST_CHECK_EQUAL(rg1.randNormal()(),      rg4.randNormal()());
-  BOOST_CHECK_EQUAL(rg1.randAlnumChar(),     rg4.randAlnumChar());
-  BOOST_CHECK_EQUAL(rg1.randAlnumString(),   rg4.randAlnumString());
+  BOOST_CHECK_EQUAL(rg1.uniformIntGen()(),  rg4.uniformIntGen()());
+  BOOST_CHECK_EQUAL(rg1.uniformRealGen()(), rg4.uniformRealGen()());
+  BOOST_CHECK_EQUAL(rg1.normalGen()(),      rg4.normalGen()());
+  BOOST_CHECK_EQUAL(rg1.alnumChar(),        rg4.alnumChar());
+  BOOST_CHECK_EQUAL(rg1.alnumString(),      rg4.alnumString());
   BOOST_CHECK_EQUAL(gsl_rng_uniform(rg1.gsl_engine),
                     gsl_rng_uniform(rg4.gsl_engine));
 
@@ -69,24 +69,24 @@ BOOST_AUTO_TEST_CASE(test_seed)
   RandomGenerator rg;
   rg.seed(42);
 
-  auto rint_gen = rg.randUniformInt(0, 99);
+  auto rint_gen = rg.uniformIntGen(0, 99);
   int rint1 = rint_gen();
   int rint2 = rint_gen();
-  string rstr1 = rg.randAlnumString();
-  string rstr2 = rg.randAlnumString();
+  string rstr1 = rg.alnumString();
+  string rstr2 = rg.alnumString();
 
   rg.seed(42);
 
   BOOST_CHECK_EQUAL(rint1, rint_gen());
   BOOST_CHECK_EQUAL(rint2, rint_gen());
-  BOOST_CHECK_EQUAL(rstr1, rg.randAlnumString());
-  BOOST_CHECK_EQUAL(rstr2, rg.randAlnumString());
+  BOOST_CHECK_EQUAL(rstr1, rg.alnumString());
+  BOOST_CHECK_EQUAL(rstr2, rg.alnumString());
 }
 
-BOOST_AUTO_TEST_CASE(test_randUniformInt)
+BOOST_AUTO_TEST_CASE(test_uniformIntGen)
 {
   RandomGenerator rg;
-  auto gen09 = rg.randUniformInt();
+  auto gen09 = rg.uniformIntGen();
 
   BOOST_CHECK_GE(gen09(), 0);
   BOOST_CHECK_GE(gen09(), 0);
@@ -96,10 +96,10 @@ BOOST_AUTO_TEST_CASE(test_randUniformInt)
   BOOST_CHECK_LE(gen09(), 9);
 }
 
-BOOST_AUTO_TEST_CASE(test_randUniformReal)
+BOOST_AUTO_TEST_CASE(test_uniformRealGen)
 {
   RandomGenerator rg;
-  auto gen = rg.randUniformReal(1., 2.);
+  auto gen = rg.uniformRealGen(1., 2.);
 
   BOOST_CHECK_GE(gen(), 1.);
   BOOST_CHECK_GE(gen(), 1.);
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE(test_randUniformReal)
   BOOST_CHECK_LT(gen(), 2.);
   BOOST_CHECK_LT(gen(), 2.);
 
-  auto gen01 = rg.randUniformReal();
+  auto gen01 = rg.uniformRealGen();
   BOOST_CHECK_GE(gen01(), 0.);
   BOOST_CHECK_GE(gen01(), 0.);
   BOOST_CHECK_GE(gen01(), 0.);
@@ -117,10 +117,10 @@ BOOST_AUTO_TEST_CASE(test_randUniformReal)
   BOOST_CHECK_LT(gen01(), 1.);
 }
 
-BOOST_AUTO_TEST_CASE(test_randUniformInSphere)
+BOOST_AUTO_TEST_CASE(test_uniformInSphereGen)
 {
   RandomGenerator rg;
-  auto gen = rg.randUniformInSphere(1, 1.);
+  auto gen = rg.uniformInSphereGen(1, 1.);
 
   BOOST_CHECK_GE(gen().at(0), -1.);
   BOOST_CHECK_GE(gen().at(0), -1.);
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(test_randUniformInSphere)
   BOOST_CHECK_LE(gen().at(0),  1.);
   BOOST_CHECK_LE(gen().at(0),  1.);
 
-  auto gen3 = rg.randUniformInSphere();
+  auto gen3 = rg.uniformInSphereGen();
   vector<double> v3;
 
   v3 = gen3();
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(test_randUniformInSphere)
   v3 = gen3();
   BOOST_CHECK_LE(euclidean_norm(v3.begin(), v3.end()), 1.);
 
-  auto gen256 = rg.randUniformInSphere(256, 10.);
+  auto gen256 = rg.uniformInSphereGen(256, 10.);
   vector<double> v256;
 
   v256 = gen256();
@@ -151,102 +151,102 @@ BOOST_AUTO_TEST_CASE(test_randUniformInSphere)
 
 }
 
-BOOST_AUTO_TEST_CASE(test_randNormal)
+BOOST_AUTO_TEST_CASE(test_normalGen)
 {
   RandomGenerator rg;
-  auto normal = rg.randNormal();
+  auto normal = rg.normalGen();
 
   BOOST_CHECK((boost::math::isfinite)(normal()));
   BOOST_CHECK((boost::math::isfinite)(normal()));
   BOOST_CHECK((boost::math::isfinite)(normal()));
 
-  BOOST_CHECK((boost::math::isfinite)(rg.randNormal(-1.e6, 1.e6)()));
-  BOOST_CHECK((boost::math::isfinite)(rg.randNormal(1.e6, 1.e6)()));
-  BOOST_CHECK((boost::math::isfinite)(rg.randNormal(0., 1.e-6)()));
+  BOOST_CHECK((boost::math::isfinite)(rg.normalGen(-1.e6, 1.e6)()));
+  BOOST_CHECK((boost::math::isfinite)(rg.normalGen(1.e6, 1.e6)()));
+  BOOST_CHECK((boost::math::isfinite)(rg.normalGen(0., 1.e-6)()));
 }
 
-BOOST_AUTO_TEST_CASE(test_randDigitChar)
+BOOST_AUTO_TEST_CASE(test_digitChar)
 {
   RandomGenerator rg;
-  BOOST_CHECK(isdigit(rg.randDigitChar()));
-  BOOST_CHECK(isdigit(rg.randDigitChar()));
+  BOOST_CHECK(isdigit(rg.digitChar()));
+  BOOST_CHECK(isdigit(rg.digitChar()));
 }
 
-BOOST_AUTO_TEST_CASE(test_randAlphaChar)
+BOOST_AUTO_TEST_CASE(test_alphaChar)
 {
   RandomGenerator rg;
-  BOOST_CHECK(isalpha(rg.randAlphaChar()));
-  BOOST_CHECK(isalpha(rg.randAlphaChar()));
+  BOOST_CHECK(isalpha(rg.alphaChar()));
+  BOOST_CHECK(isalpha(rg.alphaChar()));
 }
 
-BOOST_AUTO_TEST_CASE(test_randAlnumChar)
+BOOST_AUTO_TEST_CASE(test_alnumChar)
 {
   RandomGenerator rg;
-  BOOST_CHECK(isalnum(rg.randAlnumChar()));
-  BOOST_CHECK(isalnum(rg.randAlnumChar()));
+  BOOST_CHECK(isalnum(rg.alnumChar()));
+  BOOST_CHECK(isalnum(rg.alnumChar()));
 }
 
-BOOST_AUTO_TEST_CASE(test_randDigitString)
+BOOST_AUTO_TEST_CASE(test_digitString)
 {
   RandomGenerator rg;
-  const string rstr = rg.randDigitString();
+  const string rstr = rg.digitString();
 
   for (auto it = rstr.begin(); it != rstr.end(); ++it)
   { BOOST_CHECK(isdigit(*it)); }
 }
 
-BOOST_AUTO_TEST_CASE(test_randAlphaString)
+BOOST_AUTO_TEST_CASE(test_alphaString)
 {
   RandomGenerator rg;
-  const string rstr = rg.randAlphaString();
+  const string rstr = rg.alphaString();
 
   for (auto it = rstr.begin(); it != rstr.end(); ++it)
   { BOOST_CHECK(isalpha(*it)); }
 }
 
-BOOST_AUTO_TEST_CASE(test_randAlnumString)
+BOOST_AUTO_TEST_CASE(test_alnumString)
 {
   RandomGenerator rg;
-  const string rstr = rg.randAlnumString();
+  const string rstr = rg.alnumString();
 
   for (auto it = rstr.begin(); it != rstr.end(); ++it)
   { BOOST_CHECK(isalnum(*it)); }
 }
 
-BOOST_AUTO_TEST_CASE(test_randDigitString_templ)
+BOOST_AUTO_TEST_CASE(test_digitString_templ)
 {
   RandomGenerator rg;
   const string templ = "abcXXXXXX";
 
-  BOOST_CHECK_NE(rg.randDigitString(templ), templ);
-  BOOST_CHECK_NE(rg.randDigitString(templ), templ);
+  BOOST_CHECK_NE(rg.digitString(templ), templ);
+  BOOST_CHECK_NE(rg.digitString(templ), templ);
 
-  BOOST_CHECK_EQUAL(rg.randDigitString(templ).substr(0, 3), templ.substr(0, 3));
-  BOOST_CHECK_EQUAL(rg.randDigitString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.digitString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.digitString(templ).substr(0, 3), templ.substr(0, 3));
 }
 
-BOOST_AUTO_TEST_CASE(test_randAlphaString_templ)
+BOOST_AUTO_TEST_CASE(test_alphaString_templ)
 {
   RandomGenerator rg;
   const string templ = "abcXXXXXX";
 
-  BOOST_CHECK_NE(rg.randAlphaString(templ), templ);
-  BOOST_CHECK_NE(rg.randAlphaString(templ), templ);
+  BOOST_CHECK_NE(rg.alphaString(templ), templ);
+  BOOST_CHECK_NE(rg.alphaString(templ), templ);
 
-  BOOST_CHECK_EQUAL(rg.randAlphaString(templ).substr(0, 3), templ.substr(0, 3));
-  BOOST_CHECK_EQUAL(rg.randAlphaString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.alphaString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.alphaString(templ).substr(0, 3), templ.substr(0, 3));
 }
 
-BOOST_AUTO_TEST_CASE(test_randAlnumString_templ)
+BOOST_AUTO_TEST_CASE(test_alnumString_templ)
 {
   RandomGenerator rg;
   const string templ = "abcXXXXXX";
 
-  BOOST_CHECK_NE(rg.randAlnumString(templ), templ);
-  BOOST_CHECK_NE(rg.randAlnumString(templ), templ);
+  BOOST_CHECK_NE(rg.alnumString(templ), templ);
+  BOOST_CHECK_NE(rg.alnumString(templ), templ);
 
-  BOOST_CHECK_EQUAL(rg.randAlnumString(templ).substr(0, 3), templ.substr(0, 3));
-  BOOST_CHECK_EQUAL(rg.randAlnumString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.alnumString(templ).substr(0, 3), templ.substr(0, 3));
+  BOOST_CHECK_EQUAL(rg.alnumString(templ).substr(0, 3), templ.substr(0, 3));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

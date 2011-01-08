@@ -45,69 +45,69 @@ public:
 
 public:
   RandomGenerator();
-  RandomGenerator(const RandomGenerator& rg);
+  RandomGenerator(const RandomGenerator& rand_gen);
   ~RandomGenerator();
 
   RandomGenerator&
-  operator=(const RandomGenerator& rg);
+  operator=(const RandomGenerator& rand_gen);
 
   void
   seed(unsigned int new_seed);
 
   uniform_int_generator
-  randUniformInt(int min, int max);
+  uniformIntGen(int min, int max);
 
   uniform_int_generator
-  randUniformInt(int max = 9)
-  { return randUniformInt(0, max); }
+  uniformIntGen(int max = 9)
+  { return uniformIntGen(0, max); }
 
   uniform_real_generator
-  randUniformReal(double min, double max);
+  uniformRealGen(double min, double max);
 
   uniform_real_generator
-  randUniformReal(double max = 1.)
-  { return randUniformReal(0., max); }
+  uniformRealGen(double max = 1.)
+  { return uniformRealGen(0., max); }
 
   uniform_in_sphere_generator
-  randUniformInSphere(int dim, double radius);
+  uniformInSphereGen(int dim, double radius);
 
   uniform_in_sphere_generator
-  randUniformInSphere(double radius = 1.)
-  { return randUniformInSphere(3, radius); }
+  uniformInSphereGen(double radius = 1.)
+  { return uniformInSphereGen(3, radius); }
 
   normal_generator
-  randNormal(double mean, double stddev);
+  normalGen(double mean, double stddev);
 
   normal_generator
-  randNormal(double stddev = 1.)
-  { return randNormal(0., stddev); }
+  normalGen(double stddev = 1.)
+  { return normalGen(0., stddev); }
 
   char
-  randDigitChar();
+  digitChar();
 
   char
-  randAlphaChar();
+  alphaChar();
 
   char
-  randAlnumChar();
+  alnumChar();
 
   std::string
-  randDigitString(std::size_t length = 6);
+  digitString(std::size_t length = 6);
 
   std::string
-  randAlphaString(std::size_t length = 6);
+  alphaString(std::size_t length = 6);
 
   std::string
-  randAlnumString(std::size_t length = 6);
+  alnumString(std::size_t length = 6);
 
   std::string
-  randDigitString(const std::string& templ);
+  digitString(const std::string& templ);
 
   std::string
-  randAlphaString(const std::string& templ);
+  alphaString(const std::string& templ);
 
   std::string
-  randAlnumString(const std::string& templ);
+  alnumString(const std::string& templ);
 
 private:
   unsigned int seed_;

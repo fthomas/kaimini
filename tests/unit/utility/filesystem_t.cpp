@@ -29,8 +29,11 @@ BOOST_AUTO_TEST_CASE(test_create_temp_directory)
 {
   RandomGenerator rg;
 
+  rg.seed(42);
   path test_path1 = create_temp_directory("testXXX", rg);
+  rg.seed(42);
   path test_path2 = create_temp_directory("testXXX", rg);
+  rg.seed(42);
   path test_path3 = create_temp_directory("testXXX", rg);
 
   BOOST_CHECK(exists(test_path1));
@@ -38,6 +41,7 @@ BOOST_AUTO_TEST_CASE(test_create_temp_directory)
   BOOST_CHECK(exists(test_path3));
   BOOST_CHECK(test_path1 != test_path2);
   BOOST_CHECK(test_path1 != test_path3);
+  BOOST_CHECK(test_path2 != test_path3);
 
   remove(test_path1);
   remove(test_path2);
