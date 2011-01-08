@@ -3,7 +3,8 @@ Section: science
 Priority: optional
 Maintainer: Frank S. Thomas <fst@debian.org>
 Build-Depends: debhelper (>= 8), cmake (>= 2.6), libboost-dev,
- libboost-filesystem-dev, libboost-program-options-dev, docbook2x, docbook-xml
+ libboost-filesystem-dev, libboost-program-options-dev, libgsl0-dev, docbook2x,
+ docbook-xml
 Standards-Version: 3.9.1
 Vcs-Git: git://github.com/fthomas/kaimini.git
 Vcs-Browser: https://github.com/fthomas/kaimini
