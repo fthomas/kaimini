@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -79,9 +79,9 @@ BOOST_AUTO_TEST_CASE(test_gsl_vector_dist)
   gsl_vector_set(v2, 0, 1.0);
   gsl_vector_set(v2, 1, 1.0);
 
-  BOOST_CHECK_CLOSE(gsl_vector_dist(v1, v2), sqrt2, 1.e-3);
+  BOOST_CHECK_CLOSE(gsl_vector_dist(v1, v2), kSqrt2, 1.e-3);
   BOOST_CHECK_CLOSE(gsl_vector_dist(static_cast<void*>(v1),
-    static_cast<void*>(v2)), sqrt2, 1.e-3);
+    static_cast<void*>(v2)), kSqrt2, 1.e-3);
 
   gsl_vector_free(v1);
   gsl_vector_free(v2);

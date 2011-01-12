@@ -187,7 +187,7 @@ std::string
 Controller::createVersionMessage() const
 {
   std::ostringstream out;
-  out << "Kaimini " << g_kaimini_version << "\n";
+  out << "Kaimini " << kKaiminiVersion << "\n";
   return out.str();
 }
 

@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ public:
 
   static double
   resolution()
-  { return 1. / clock_ticks_per_sec_; }
+  { return 1. / kClockTicksPerSec_; }
 
   double
   user();
@@ -85,7 +85,7 @@ private:
   std::clock_t real_r1_, real_r2_;
   std::time_t  wall_r1_, wall_r2_;
 
-  static const double clock_ticks_per_sec_;
+  static const double kClockTicksPerSec_;
 };
 
 } // namespace Kaimini

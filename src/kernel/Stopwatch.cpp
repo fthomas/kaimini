@@ -21,7 +21,7 @@
 
 namespace Kaimini {
 
-const double Stopwatch::clock_ticks_per_sec_ =
+const double Stopwatch::kClockTicksPerSec_ =
   static_cast<double>(sysconf(_SC_CLK_TCK));
 
 
@@ -120,13 +120,13 @@ void
 Stopwatch::updateTimes()
 {
   user_ += static_cast<double>(tms_r2_.tms_utime - tms_r1_.tms_utime) /
-    clock_ticks_per_sec_;
+    kClockTicksPerSec_;
 
   sys_  += static_cast<double>(tms_r2_.tms_stime - tms_r1_.tms_stime) /
-    clock_ticks_per_sec_;
+    kClockTicksPerSec_;
 
   real_ += static_cast<double>(real_r2_ - real_r1_) /
-    clock_ticks_per_sec_;
+    kClockTicksPerSec_;
 
   wall_ += std::difftime(wall_r2_, wall_r1_);
 }

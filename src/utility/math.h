@@ -24,16 +24,16 @@
 namespace Kaimini {
 namespace utility {
 
-const long double pi =
+const long double kPi =
   3.141592653589793238462643383279502884197169399375L;  // pi
-const long double sqrt2 =
+const long double kSqrt2 =
   1.414213562373095048801688724209698078569671875377L;  // sqrt(2)
 
-const long double normal_1sigma =
+const long double kNormal1Sigma =
   0.6826894921370858971704650912640758449558259334532L; // erf(1/sqrt(2))
-const long double normal_2sigma =
+const long double kNormal2Sigma =
   0.9544997361036415855994347256669331250564475525966L; // erf(2/sqrt(2))
-const long double normal_3sigma =
+const long double kNormal3Sigma =
   0.9973002039367398109466963704648100452443412636832L; // erf(3/sqrt(2))
 
 

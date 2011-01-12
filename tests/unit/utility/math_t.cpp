@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting and analysis front end
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,15 +29,15 @@ BOOST_AUTO_TEST_SUITE(test_utility_math)
 
 BOOST_AUTO_TEST_CASE(test_close_to_zero)
 {
-  BOOST_CHECK(close_to_zero(sqrt(2.) - double(sqrt2)));
-  BOOST_CHECK(close_to_zero(acos(-1.) - double(pi)));
+  BOOST_CHECK(close_to_zero(sqrt(2.) - double(kSqrt2)));
+  BOOST_CHECK(close_to_zero(acos(-1.) - double(kPi)));
 }
 
 BOOST_AUTO_TEST_CASE(test_close_to_one)
 {
-  BOOST_CHECK(close_to_one(erf(1/sqrt(2.)) / double(normal_1sigma)));
-  BOOST_CHECK(close_to_one(erf(2/sqrt(2.)) / double(normal_2sigma)));
-  BOOST_CHECK(close_to_one(erf(3/sqrt(2.)) / double(normal_3sigma)));
+  BOOST_CHECK(close_to_one(erf(1/sqrt(2.)) / double(kNormal1Sigma)));
+  BOOST_CHECK(close_to_one(erf(2/sqrt(2.)) / double(kNormal2Sigma)));
+  BOOST_CHECK(close_to_one(erf(3/sqrt(2.)) / double(kNormal3Sigma)));
 }
 
 BOOST_AUTO_TEST_CASE(test_p_norm)
@@ -58,8 +58,8 @@ BOOST_AUTO_TEST_CASE(test_p_norm)
   vi.at(0) = 1;
   vi.at(1) = 1;
 
-  BOOST_CHECK_CLOSE(p_norm(vi.begin(), vi.end(), 2.),     sqrt2, 1E-4);
-  BOOST_CHECK_CLOSE(euclidean_norm(vi.begin(), vi.end()), sqrt2, 1E-4);
+  BOOST_CHECK_CLOSE(p_norm(vi.begin(), vi.end(), 2.),     kSqrt2, 1E-4);
+  BOOST_CHECK_CLOSE(euclidean_norm(vi.begin(), vi.end()), kSqrt2, 1E-4);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
