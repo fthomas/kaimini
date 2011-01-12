@@ -29,6 +29,7 @@ find_package(Minuit2 REQUIRED)
 find_package(OpenMP)
 
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
+set(CMAKE_COPY ${CMAKE_COMMAND} -E copy)
 
 #add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
 configure_file(sandbox/kaimini.in . COPYONLY)
@@ -50,9 +51,13 @@ set(CPACK_SOURCE_GENERATOR TGZ ZIP)
 include(CPack)
 
 set(ARCHIVE_FILE_NAME ${CPACK_SOURCE_PACKAGE_FILE_NAME})
+set(DEBIAN_ORIG_ARCHIVE "${PROJECT_NAME_LOWER}_${Kaimini_VERSION}.orig")
 add_custom_target(dist
   COMMAND git archive --format=tar --prefix=${ARCHIVE_FILE_NAME}/ HEAD |
     gzip -9 > ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
   COMMAND git archive --format=zip --prefix=${ARCHIVE_FILE_NAME}/
     -9 -o ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.zip HEAD
+  COMMAND ${CMAKE_COPY}
+    ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
+    ${CMAKE_BINARY_DIR}/${DEBIAN_ORIG_ARCHIVE}.tar.gz
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
