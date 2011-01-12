@@ -15,7 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cmath>
+#include <vector>
 #include <boost/math/special_functions/erf.hpp>
+#include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/unit_test.hpp>
 #include "utility/math.h"
 
@@ -36,6 +38,28 @@ BOOST_AUTO_TEST_CASE(test_close_to_one)
   BOOST_CHECK(close_to_one(erf(1/sqrt(2.)) / double(normal_1sigma)));
   BOOST_CHECK(close_to_one(erf(2/sqrt(2.)) / double(normal_2sigma)));
   BOOST_CHECK(close_to_one(erf(3/sqrt(2.)) / double(normal_3sigma)));
+}
+
+BOOST_AUTO_TEST_CASE(test_p_norm)
+{
+  vector<int> vi;
+
+  BOOST_CHECK_CLOSE(p_norm(vi.begin(), vi.end(), 1.),     0., 1E-4);
+  BOOST_CHECK_CLOSE(p_norm(vi.begin(), vi.end(), 2.),     0., 1E-4);
+  BOOST_CHECK_CLOSE(euclidean_norm(vi.begin(), vi.end()), 0., 1E-4);
+
+  vi.push_back(3);
+  vi.push_back(4);
+
+  BOOST_CHECK_CLOSE(p_norm(vi.begin(), vi.end(), 1.),     7., 1E-4);
+  BOOST_CHECK_CLOSE(p_norm(vi.begin(), vi.end(), 2.),     5., 1E-4);
+  BOOST_CHECK_CLOSE(euclidean_norm(vi.begin(), vi.end()), 5., 1E-4);
+
+  vi.at(0) = 1;
+  vi.at(1) = 1;
+
+  BOOST_CHECK_CLOSE(p_norm(vi.begin(), vi.end(), 2.),     sqrt2, 1E-4);
+  BOOST_CHECK_CLOSE(euclidean_norm(vi.begin(), vi.end()), sqrt2, 1E-4);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
