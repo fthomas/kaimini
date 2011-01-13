@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 project(Kaimini)
+string(TOLOWER ${CMAKE_PROJECT_NAME} PROJECT_NAME_LOWER)
 
 set(Kaimini_VERSION_MAJOR "0")
 set(Kaimini_VERSION_MINOR "1")
@@ -28,10 +29,35 @@ find_package(Minuit2 REQUIRED)
 find_package(OpenMP)
 
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
+set(CMAKE_COPY ${CMAKE_COMMAND} -E copy)
 
-add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
+#add_subdirectory(src ${CMAKE_BUILD_DIR}/..)
 configure_file(sandbox/kaimini.in . COPYONLY)
 
 if(Boost_UNIT_TEST_FRAMEWORK_FOUND)
     add_subdirectory(test)
 endif()
+
+# CPack settings:
+set(CPACK_PACKAGE_VENDOR "Frank S. Thomas")
+set(CPACK_PACKAGE_VERSION_MAJOR ${Kaimini_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${Kaimini_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${Kaimini_VERSION_PATCH})
+set(CPACK_PACKAGE_VERSION       ${Kaimini_VERSION})
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
+set(CPACK_RESOURCE_FILE_README  ${CMAKE_SOURCE_DIR}/README)
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "${PROJECT_NAME_LOWER}-${Kaimini_VERSION}")
+set(CPACK_SOURCE_GENERATOR TGZ ZIP)
+include(CPack)
+
+set(ARCHIVE_FILE_NAME ${CPACK_SOURCE_PACKAGE_FILE_NAME})
+set(DEBIAN_ORIG_ARCHIVE "${PROJECT_NAME_LOWER}_${Kaimini_VERSION}.orig")
+add_custom_target(dist
+  COMMAND git archive --format=tar --prefix=${ARCHIVE_FILE_NAME}/ HEAD |
+    gzip -9 > ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
+  COMMAND git archive --format=zip --prefix=${ARCHIVE_FILE_NAME}/
+    -9 -o ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.zip HEAD
+  COMMAND ${CMAKE_COPY}
+    ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
+    ${CMAKE_BINARY_DIR}/${DEBIAN_ORIG_ARCHIVE}.tar.gz
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
