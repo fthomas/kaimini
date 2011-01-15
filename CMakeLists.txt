@@ -7,7 +7,7 @@ string(TOLOWER ${CMAKE_PROJECT_NAME} PROJECT_NAME_LOWER)
 
 set(Kaimini_VERSION_MAJOR "0")
 set(Kaimini_VERSION_MINOR "2")
-set(Kaimini_VERSION_PATCH "5")
+set(Kaimini_VERSION_PATCH "6")
 set(Kaimini_VERSION "${Kaimini_VERSION_MAJOR}.${Kaimini_VERSION_MINOR}.${Kaimini_VERSION_PATCH}")
 
 # Enable more warnings if g++, clang or icpc is used.
@@ -24,6 +24,7 @@ find_package(Minuit2 REQUIRED)
 find_package(OpenMP)
 
 find_package(Doxygen)
+find_package(Git)
 find_package(LATEX)
 
 enable_testing()
@@ -50,12 +51,16 @@ include(CPack)
 
 set(ARCHIVE_FILE_NAME ${CPACK_SOURCE_PACKAGE_FILE_NAME})
 set(DEBIAN_ORIG_ARCHIVE "${PROJECT_NAME_LOWER}_${Kaimini_VERSION}.orig")
-add_custom_target(dist
-  COMMAND git archive --format=tar --prefix=${ARCHIVE_FILE_NAME}/ HEAD |
-    gzip -9 > ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
-  COMMAND git archive --format=zip --prefix=${ARCHIVE_FILE_NAME}/
-    -9 -o ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.zip HEAD
-  COMMAND ${CMAKE_COPY}
-    ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
-    ${CMAKE_BINARY_DIR}/${DEBIAN_ORIG_ARCHIVE}.tar.gz
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+if(GIT_FOUND)
+    add_custom_target(dist
+      COMMAND ${GIT_EXECUTABLE} archive
+        --format=tar --prefix=${ARCHIVE_FILE_NAME}/ HEAD |
+        gzip -9 > ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
+      COMMAND ${GIT_EXECUTABLE} archive
+        --format=zip --prefix=${ARCHIVE_FILE_NAME}/
+        -9 -o ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.zip HEAD
+      COMMAND ${CMAKE_COPY}
+        ${CMAKE_BINARY_DIR}/${ARCHIVE_FILE_NAME}.tar.gz
+        ${CMAKE_BINARY_DIR}/${DEBIAN_ORIG_ARCHIVE}.tar.gz
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+endif()
