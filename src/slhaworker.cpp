@@ -1,5 +1,5 @@
 // Kaimini, a general purpose fitting frontend
-// Copyright © 2010 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
+// Copyright © 2010-2011 Frank S. Thomas <fthomas@physik.uni-wuerzburg.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -190,11 +190,12 @@ void SLHAWorker::saveIntermediatePoint(const std::vector<double>& params,
   Parameters curr_params = getParameters();
   curr_params.setVarParams(params);
 
-  const string output_file =
-      boost::str(boost::format("../%1$014.8f_%2$08d")
-                 % chiSquare % ++counter);
-
-  if (fs::exists(output_file)) return;
+  string output_file;
+  do
+  {
+    output_file = boost::str(
+      boost::format("../%1$014.8f_%2$08d") % chiSquare % ++counter);
+  } while (fs::exists(output_file));
 
   ofstream dest(output_file.c_str());
   if (!dest) exit_file_open_failed(output_file);
