@@ -138,10 +138,11 @@ void SLHAWorker::shutdown(const string& outputFile)
 double SLHAWorker::chiSq(const vector<double>& params) const
 {
   double chisq = 0.;
-  size_t block_count = 0;
 
   #pragma omp critical
   {
+    size_t block_count = 0;
+
     writeParameters(params, mSLHAInput);
 
     fs::ofstream dest(mTempInputFile, ios_base::out | ios_base::trunc);
@@ -160,24 +161,23 @@ double SLHAWorker::chiSq(const vector<double>& params) const
     readDataPoints(slha_output);
 
     chisq = dps_add_residuals(mDataPoints);
-  }
 
-  if (g_verbose_output)
-  {
-    for (size_t i = 0; i < params.size(); ++i)
+    if (g_verbose_output)
     {
-      cout << "par_" << i << " : ";
-      cout << setprecision(8) << setw(15) << params[i] << endl;
+      for (size_t i = 0; i < params.size(); ++i)
+      {
+        cout << "par_" << i << " : ";
+        cout << setprecision(8) << setw(15) << params[i] << endl;
+      }
+      cout << "chi^2 : ";
+      cout << setprecision(8) << setw(15) << chisq << endl << endl;
     }
-    cout << "chi^2 : ";
-    cout << setprecision(8) << setw(15) << chisq << endl << endl;
-  }
 
-  if (mSaveAllPoints && block_count > 3)
-  {
-    const_cast<SLHAWorker*>(this)->saveIntermediatePoint(params, chisq);
-  }
-
+    if (mSaveAllPoints && block_count > 3)
+    {
+      const_cast<SLHAWorker*>(this)->saveIntermediatePoint(params, chisq);
+    }
+  } // pragma omp critical
   return chisq;
 }
 
